@@ -5,4 +5,9 @@ const withNextra = nextra({
   themeConfig: './theme.config.jsx',
 })
 
-module.exports = withNextra()
+module.exports = withNextra({
+  reactStrictMode: true,
+  experimental: {
+    runtime: 'edge',
+  }
+})
