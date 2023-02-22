@@ -1,0 +1,55 @@
+# Web Socket API
+
+## Connect
+
+All Daemon API methods are available to send through webscoket.  
+Connect with suffix `/ws`.
+
+```js
+const ws = new WebSocket('wss://node.xelis.io/ws')
+
+const message = {
+  jsonrpc: '2.0',
+  method: 'get_info',
+  id: 1
+}
+
+ws.send(JSON.stringify(message))
+```
+
+You can also register to special events that happens on the daemon.
+Check documentation below to subscribe and see available events.
+
+## `NewBlock`
+
+> When a new block is accepted by chain
+
+Request
+
+```json
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "subscribe",
+    "params": {
+        "notify": "NewBlock"
+    }
+}
+```
+
+Response
+
+```json
+```
+
+## `TransactionExecuted`
+
+> When a transaction has been included in a valid block & executed on chain
+
+## `TransactionSCResult`
+
+> When a valid TX SC Call hash has been executed by chain
+
+## `NewAsset`
+
+> When a new asset has been registered
