@@ -3,5 +3,5 @@ export default {
   project: {
     link: 'https://github.com/xelis-project'
   },
-  docsRepositoryBase: 'https://github.com/xelis-project/xelis-docs/blob/core/docs/pages'
+  docsRepositoryBase: 'https://github.com/xelis-project/xelis-docs/blob/master'
 }
