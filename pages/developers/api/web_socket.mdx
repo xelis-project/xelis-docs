@@ -2,7 +2,7 @@
 
 ## Connect
 
-All Daemon API methods are available to send through webscoket.  
+All Daemon API methods are available to send through websocket.  
 Connect with suffix `/ws`.
 
 ```js
@@ -18,7 +18,7 @@ ws.send(JSON.stringify(message))
 ```
 
 You can also register to special events that happens on the daemon.
-Check documentation below to subscribe and see available events.
+Check documentation below to subscribe at available events.
 
 ## `NewBlock`
 
@@ -56,9 +56,7 @@ Response
         "reward": 868763,
         "supply": 18071559927,
         "timestamp": 1677081254817,
-        "tips": [
-            "1faac9784c07b41d6e8740f15b23c163966aecebc1b7cac77aca74946a25625d"
-        ],
+        "tips": ["1faac9784c07b41d6e8740f15b23c163966aecebc1b7cac77aca74946a25625d"],
         "topoheight": 20698,
         "total_fees": 0,
         "total_size_in_bytes": 131,
@@ -67,9 +65,96 @@ Response
 }
 ```
 
+## `TransactionAddedInMempool`
+
+> When a new valid transaction is added in mempool
+
+Request
+
+```json
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "subscribe",
+    "params": {
+        "notify": "TransactionAddedInMempool"
+    }
+}
+```
+
+Response
+
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "data": {
+            "Transfer": [{
+                "amount": 1,
+                "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+                "extra_data": null,
+                "to": "xel1qqqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680gtl9ky3"
+            }]
+        },
+        "event": "TransactionAddedInMempool",
+        "fee": 1000,
+        "hash": "43e10cf783e6596efdfdd1fe9480be7221e5bfb36c817a299a9fc95b98624e80",
+        "nonce": 17,
+        "owner": "xel1qqqtgm427maw6mjnnl26kvfpapwc82esqsd2ryzwk5hrckt77kjld7qx6dnxc",
+        "signature": "1b479bc06963657d4f5d26b9f14fe8361a9eec7ef1e85e6f3c89fd5fec705fb0b2a04a98f7883f060245794f6f66c9de08c1a86dab5deb2dc544f6cda4b47a0a"
+    }
+}
+```
+
 ## `TransactionExecuted`
 
 > When a transaction has been included in a valid block & executed on chain
+
+Request
+
+```json
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "subscribe",
+    "params": {
+        "notify": "TransactionExecuted"
+    }
+}
+```
+
+Response
+
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "block_hash": "cdae731b35c7bef7bfa4678fb97618d13957e99009e1aa952b5b5598f717c49e",
+        "event": "TransactionExecuted",
+        "topoheight": 6472,
+        "tx_hash": "43e10cf783e6596efdfdd1fe9480be7221e5bfb36c817a299a9fc95b98624e80"
+    }
+}
+```
+
+## `BlockOrdered`
+
+> When a block is ordered for the first time or reordered to a new topoheight
+
+Request
+
+```json
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "subscribe",
+    "params": {
+        "notify": "BlockOrdered"
+    }
+}
+```
 
 ## `TransactionSCResult`
 
