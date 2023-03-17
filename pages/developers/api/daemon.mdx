@@ -24,6 +24,28 @@ fetch('https://node.xelis.io/json_rpc', {
 })
 ```
 
+## `get_version
+
+> Retrieve current daemon version
+
+Request
+```json
+{
+	"jsonrpc": "2.0",
+	"method": "get_version",
+	"id": 1
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": "1.2.0"
+}
+```
+
 ## `get_info`
 
 > Retrieve current info from chain
@@ -196,25 +218,24 @@ Response
     "id": 1,
     "jsonrpc": "2.0",
     "result": {
-        "block_type": "Normal",
-        "cumulative_difficulty": 16050593,
-        "supply": 1790008,
-        "difficulty": 234800,
-        "reward": 877380,
-        "hash": "0000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d692",
-        "height": 23,
-        "miner_tx": {
-            "owner": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
-            "signature": null,
-            "variant": "Coinbase"
-        },
-        "nonce": 1370526,
-        "tips": [
-            "000002144bb86d9fcbe223aff1f6c2526d0c47eef0b8f7433b3abec22685fb31"
-        ],
-        "topoheight": 23,
-        "transactions": [],
-        "txs_hashes": []
+		"block_type": "Normal",
+		"cumulative_difficulty": 76173573,
+		"difficulty": 7902701,
+		"extra_nonce": "cac46116afea8a00d2d9f9ea10d20a3a5bc9c2ae7f47201f24450e3e3fe5ec09",
+		"hash": "0000019fab49717777dba2ee23f46f9f27706a9c5103a5550cf429f9c786b1e4",
+		"height": 23,
+		"miner": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
+		"nonce": 183776,
+		"reward": 877360,
+		"supply": 42113762,
+		"timestamp": 1674226439134,
+		"tips": [
+			"000001aa69c15167a192de809eeed112f50ec91e513cfbf7b1674523583acbf9"
+		],
+		"topoheight": 23,
+		"total_fees": 0,
+		"total_size_in_bytes": 131,
+		"txs_hashes": []
     }
 }
 ```
@@ -250,23 +271,22 @@ Response
     "jsonrpc": "2.0",
     "result": [{
         "block_type": "Normal",
-        "cumulative_difficulty": 16050593,
-        "supply": 1790008,
-        "difficulty": 234800,
-        "reward": 877380,
-        "hash": "0000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d692",
+        "cumulative_difficulty": 76173573,
+        "difficulty": 7902701,
+        "extra_nonce": "cac46116afea8a00d2d9f9ea10d20a3a5bc9c2ae7f47201f24450e3e3fe5ec09",
+        "hash": "0000019fab49717777dba2ee23f46f9f27706a9c5103a5550cf429f9c786b1e4",
         "height": 23,
-        "miner_tx": {
-            "owner": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
-            "signature": null,
-            "variant": "Coinbase"
-        },
-        "nonce": 1370526,
+        "miner": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
+        "nonce": 183776,
+        "reward": 877360,
+        "supply": 42113762,
+        "timestamp": 1674226439134,
         "tips": [
-            "000002144bb86d9fcbe223aff1f6c2526d0c47eef0b8f7433b3abec22685fb31"
+            "000001aa69c15167a192de809eeed112f50ec91e513cfbf7b1674523583acbf9"
         ],
         "topoheight": 23,
-        "transactions": [],
+        "total_fees": 0,
+        "total_size_in_bytes": 131,
         "txs_hashes": []
     }]
 }
@@ -302,24 +322,24 @@ Response
     "id": 1,
     "jsonrpc": "2.0",
     "result": {
-        "block_type": "Normal",
-        "cumulative_difficulty": 14125125,
-        "supply": 1790008,
-        "difficulty": 234800,
-        "reward": 877380,
-        "hash": "000002144bb86d9fcbe223aff1f6c2526d0c47eef0b8f7433b3abec22685fb31",
-        "height": 22,
-        "miner_tx": {
-            "owner": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
-            "signature": null,
-            "variant": "Coinbase"
-        },
-        "nonce": 1940650,
-        "tips": [
-            "000007691f86da1d48f67d56c5a8ea4410ba37628702c629618e2ac7f5234cba"
-        ],
-        "topoheight": 22,
-        "txs_hashes": []
+		"block_type": "Normal",
+		"cumulative_difficulty": 76173573,
+		"difficulty": 7902701,
+		"extra_nonce": "cac46116afea8a00d2d9f9ea10d20a3a5bc9c2ae7f47201f24450e3e3fe5ec09",
+		"hash": "0000019fab49717777dba2ee23f46f9f27706a9c5103a5550cf429f9c786b1e4",
+		"height": 23,
+		"miner": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
+		"nonce": 183776,
+		"reward": 877360,
+		"supply": 42113762,
+		"timestamp": 1674226439134,
+		"tips": [
+			"000001aa69c15167a192de809eeed112f50ec91e513cfbf7b1674523583acbf9"
+		],
+		"topoheight": 23,
+		"total_fees": 0,
+		"total_size_in_bytes": 131,
+		"txs_hashes": []
     }
 }
 ```
@@ -345,25 +365,24 @@ Response
     "id": 1,
     "jsonrpc": "2.0",
     "result": {
-        "block_type": "Normal",
-        "cumulative_difficulty": 16050593,
-        "supply": 1790008,
-        "difficulty": 234800,
-        "reward": 877380,
-        "hash": "0000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d692",
-        "height": 23,
-        "miner_tx": {
-            "owner": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
-            "signature": null,
-            "variant": "Coinbase"
-        },
-        "nonce": 1370526,
-        "tips": [
-            "000002144bb86d9fcbe223aff1f6c2526d0c47eef0b8f7433b3abec22685fb31"
-        ],
-        "topoheight": 23,
-        "transactions": [],
-        "txs_hashes": []
+		"block_type": "Normal",
+		"cumulative_difficulty": 76173573,
+		"difficulty": 7902701,
+		"extra_nonce": "cac46116afea8a00d2d9f9ea10d20a3a5bc9c2ae7f47201f24450e3e3fe5ec09",
+		"hash": "0000019fab49717777dba2ee23f46f9f27706a9c5103a5550cf429f9c786b1e4",
+		"height": 23,
+		"miner": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
+		"nonce": 183776,
+		"reward": 877360,
+		"supply": 42113762,
+		"timestamp": 1674226439134,
+		"tips": [
+			"000001aa69c15167a192de809eeed112f50ec91e513cfbf7b1674523583acbf9"
+		],
+		"topoheight": 23,
+		"total_fees": 0,
+		"total_size_in_bytes": 131,
+		"txs_hashes": []
     }
 }
 ```
@@ -644,6 +663,71 @@ Response
         "00002d138fbab2bc14958061edbc4a0c272d1ac27d60ef4a72e2f5ac9d1a2b0a",
         ...
     ]
+}
+```
+
+## `submit_block`
+
+> Submit a block to the daemon
+
+Parameters
+
+|      Name      |  Type  | Required |         Note        |
+|:--------------:|:------:|:--------:|:-------------------:|
+| block_template | String | Required | Block in hex format |
+
+Request
+
+```json
+{
+	"jsonrpc": "2.0",
+	"id": 0,
+	"method": "submit_block",
+	"params": {
+		"block_template": "0000000000000be0000000000000000000000186c0d2dac5000000000003e33798b264214181b57720a6e6cdf87cd9bcd80391dde6780223f87176aff03b45080100000040453896c70b2be2d7088860f179a9e9fc3d03941170d6bf8c2dc6d3e60000d549622a55c88b5c14c263ec0db5f5ffae249c7288f68b0c1333cb105df89450"
+	}
+}
+```
+
+Response
+
+```json
+{
+    "id": 0,
+    "jsonrpc": "2.0",
+    "result": true
+}
+```
+
+## `submit_transaction`
+
+> Submit a transaction in HEX format to the daemon mempool
+
+Parameters
+
+| Name |  Type  | Required |            Note           |
+|:----:|:------:|:--------:|:-------------------------:|
+|  hex | String | Required | Transaction in HEX format |
+
+Request
+
+```json
+{
+	"jsonrpc": "2.0",
+	"id": 0,
+	"method": "submit_transaction",
+	"params": {
+		"data": "a15637c25cefd438998a2a043867ef8df905542078a8724ada1aabce003df3cc010100000000000000000000000000000000000000000000000000000000000000000000000000003a986c24cdc1c8ee8f028b8cafe7b79a66a0902f26d89dd54eeff80abcf251a9a3bd0000000000000003e80000000000000002d297ef720d388ff2aaedf6755a1f93b4ac1b55c987da5dc53c19350d8a779d970c7f4cfcc25d2f4ce3f4ef3a77d0f31d15635d221d5a72ef6651dbb7f1810301"
+	}
+}
+
+Response
+
+```json
+{
+	"id": 0,
+	"jsonrpc": "2.0",
+	"result": true
 }
 ```
 
