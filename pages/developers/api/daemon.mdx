@@ -882,7 +882,7 @@ Response
 }
 ```
 
-## `get_blocks`
+## `get_blocks_range_by_topoheight`
 
 > Get blocks between range of topoheight. Max of 20 blocks and if no params returns recent blocks.
 
@@ -898,11 +898,63 @@ Request
 ```json
 {
     "jsonrpc": "2.0",
-    "id": 0,
-    "method": "get_blocks",
+    "id": 1,
+    "method": "get_blocks_range_by_topoheight",
     "params": {
         "start_topoheight": 0,
         "end_topoheight": 19
+    }
+}
+```
+
+Response
+
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": [{
+        "block_type": "Sync",
+        "cumulative_difficulty": 1,
+        "difficulty": 1,
+        "extra_nonce": "0000000000000000000000000000000000000000000000000000000000000000",
+        "hash": "007957a0f04d08ff6f75a99ae37a25e43c640be68bd223c6af86c7f572352d73",
+        "height": 0,
+        "miner": "xel1qqqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680gtl9ky3",
+        "nonce": 0,
+        "reward": 877380,
+        "supply": 877380,
+        "timestamp": 1676493715082,
+        "tips": [],
+        "topoheight": 0,
+        "total_fees": 0,
+        "total_size_in_bytes": 99,
+        "txs_hashes": []
+    }]
+}
+```
+
+## `get_blocks_range_by_height`
+
+> Get blocks between range of height. Max of 20 blocks and if no params returns recent blocks.
+
+Parameters
+
+|       Name       |   Type  | Required |                      Note                     |
+|:----------------:|:-------:|:--------:|:---------------------------------------------:|
+| start_height | Integer | Optional |        0 or under height                  |
+|  end_height  | Integer | Optional |        Must be under current height       |
+
+Request
+
+```json
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "get_blocks_range_by_height",
+    "params": {
+        "start_height": 0,
+        "end_height": 19
     }
 }
 ```
