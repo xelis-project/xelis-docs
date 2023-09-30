@@ -1,0 +1,44 @@
+# Run XELIS
+
+To use XELIS, you have two choices: build from source or download the executable.
+
+## Build from source
+
+Go to [Build page](/build).
+
+## Download latest binary
+
+https://github.com/xelis-project/xelis-blockchain/releases  
+Choose one available for your operating system.
+
+## Start your Node
+
+Open your operating system's command-line interface (CLI) in the folder where the executable is located.
+
+Run `./xelis_daemon`.  
+
+For testnet, use `./xelis_daemon --network testnet`.  
+Apply fast network synchronization, use `./xelis_daemon --allow-fast-sync`.  
+For more commands, use `--help`.  
+
+## Open your Wallet
+
+Open your operating system's command-line interface (CLI) in the folder where the executable is located.
+
+Run `./xelis_wallet --name {wallet_name}`.  
+
+Set specific node, use `./xelis_wallet --daemon-address https://node.xelis.io`.  
+For testnet, use `./xelis_wallet --network testnet`.  
+
+For more commands, use `--help`.  
+
+## Fire up your Miner
+
+Open your operating system's command-line interface (CLI) in the folder where the executable is located.
+
+Run `./xelis_miner --miner-address {wallet_address}`.  
+
+Set specific node, use `./xelis_miner --daemon-address https://node.xelis.io`.  
+Set max threads, use `./xelis_miner --num-threads 6`.  
+
+For more commands, use `--help`.  

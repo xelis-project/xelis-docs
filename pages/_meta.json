@@ -2,8 +2,7 @@
   "index": "Home",
   "project": "What is XELIS?",
   "links": "Links",
-  "wallets": "Wallets",
-  "node": "Node",
-  "developers": "Developers",
-  "mining": "Mining"
+  "run": "Run",
+  "build": "Build",
+  "developers": "Developers"
 }
