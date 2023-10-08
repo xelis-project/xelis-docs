@@ -1,10 +1,14 @@
-# Web Socket API
-
-All JSON-RPC methods are available through WebSocket.
+# WebSocket API
 
 ## Connect
 
 Connect with suffix `/ws`.
+
+```js
+const ws = new WebSocket('wss://node.xelis.io/ws')
+```
+
+## Call RPC method
 
 ```js
 const ws = new WebSocket('wss://node.xelis.io/ws')
@@ -17,6 +21,9 @@ const message = {
 
 ws.send(JSON.stringify(message))
 ```
+
+All JSON-RPC methods are available through WebSocket.  
+Check the [Daemon](/developers/api/daemon) page for extensive list.
 
 You can also register to special events that happens on the daemon.
 Check documentation below to subscribe at available events.

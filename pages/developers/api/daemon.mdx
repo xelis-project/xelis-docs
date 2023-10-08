@@ -1,6 +1,6 @@
 # Daemon API
 
-## JSON-RPC
+## Fetch RPC method
 
 Send a POST request to `/json_rpc`
 
@@ -26,7 +26,7 @@ fetch('https://node.xelis.io/json_rpc', {
 
 ## `get_version`
 
-> Retrieve current daemon version
+> Retrieve current daemon version.
 
 Request
 ```json
@@ -48,7 +48,7 @@ Response
 
 ## `get_info`
 
-> Retrieve current info from chain
+> Retrieve current info from chain.
 
 Request
 
@@ -67,22 +67,26 @@ Response
     "id": 1,
     "jsonrpc": "2.0",
     "result": {
+        "average_block_time": 11812,
+        "block_reward": 865869,
         "block_time_target": 15000,
-        "difficulty": 310532,
-        "height": 9,
+        "difficulty": 35533666,
+        "height": 27552,
         "mempool_size": 0,
-        "native_supply": 8773780,
-        "stableheight": 1,
-        "top_hash": "00000d5f00dc3cf5873f9bd09963a011a2c007b4d1a987b93f5d3bed3d050ef0",
-        "topoheight": 9,
-        "version": "alpha-0.0.1"
+        "native_supply": 24141030101,
+        "network": "Testnet",
+        "pruned_topoheight": null,
+        "stableheight": 27544,
+        "top_hash": "00000014adb905b46053363e264975dd32cd0020eaf474fe08c5f492110aa95c",
+        "topoheight": 28032,
+        "version": "1.4.0"
     }
 }
 ```
 
 ## `get_height`
 
-> Retrieve current height of the chain
+> Retrieve current height of the chain.
 
 Request
 
@@ -106,7 +110,7 @@ Response
 
 ## `get_topoheight`
 
-> Retrieve current topological height of the chain
+> Retrieve current topological height of the chain.
 
 Request
 
@@ -130,7 +134,7 @@ Response
 
 ## `get_stableheight`
 
-> Retrieve current stable height of the chain
+> Retrieve current stable height of the chain.
 
 Request
 
@@ -154,7 +158,7 @@ Response
 
 ## `get_block_template`
 
-> Retrieve the block template for PoW work
+> Retrieve the block template for PoW work.
 
 Parameters
 
@@ -182,21 +186,23 @@ Response
     "id": 1,
     "jsonrpc": "2.0",
     "result": {
-    "difficulty": 1699032,
-    "template":    "00000000000000180000000000000000000001845c7a6e000000000000000000eed448813c9c2028d21e029ada21b5a82840b195e70fff8ce7be256afe35d2dc010000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d69200006c24cdc1c8ee8f028b8cafe7b79a66a0902f26d89dd54eeff80abcf251a9a3bd02"
+		"difficulty": 1699032,
+		"height": 113,
+		"template": "00000000000000180000000000000000000001845c7a6e000000000000000000eed448813c9c2028d21e029ada21b5a82840b195e70fff8ce7be256afe35d2dc010000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d69200006c24cdc1c8ee8f028b8cafe7b79a66a0902f26d89dd54eeff80abcf251a9a3bd02"
     }
 }
 ```
 
 ## `get_block_at_topoheight`
 
-> Retrieve a block at a specific topo height
+> Retrieve a block at a specific topo height.
 
 Parameters
 
-|    Name    |   Type  | Required |                           Note                           |
-|:----------:|:-------:|:--------:|:--------------------------------------------------------:|
-| topoheight | Integer | Required | Topoheight must be equal or less than current topoheight |
+|    Name     |   Type  | Required |                           Note                           |
+|:-----------:|:-------:|:--------:|:--------------------------------------------------------:|
+| topoheight  | Integer | Required | Topoheight must be equal or less than current topoheight |
+| include_txs | Boolean | Optional | Include txs serialized                                   |
 
 Request
 
@@ -233,22 +239,24 @@ Response
 			"000001aa69c15167a192de809eeed112f50ec91e513cfbf7b1674523583acbf9"
 		],
 		"topoheight": 23,
-		"total_fees": 0,
+		"total_fees": null,
 		"total_size_in_bytes": 131,
-		"txs_hashes": []
+		"txs_hashes": [],
+		"version": 0
     }
 }
 ```
 
 ## `get_blocks_at_height`
 
-> Retrieve all blocks at a specific height
+> Retrieve all blocks at a specific height.
 
 Parameters
 
-|  Name  |   Type  | Required |                       Note                       |
-|:------:|:-------:|:--------:|:------------------------------------------------:|
-| height | Integer | Required | Height must be equal or less than current height |
+|  Name       |   Type  | Required |                       Note                       |
+|:-----------:|:-------:|:--------:|:------------------------------------------------:|
+| height      | Integer | Required | Height must be equal or less than current height |
+| include_txs | Boolean | Optional | Include txs serialized                           |
 
 Request
 
@@ -285,22 +293,24 @@ Response
             "000001aa69c15167a192de809eeed112f50ec91e513cfbf7b1674523583acbf9"
         ],
         "topoheight": 23,
-        "total_fees": 0,
+        "total_fees": null,
         "total_size_in_bytes": 131,
-        "txs_hashes": []
+        "txs_hashes": [],
+        "version": 0
     }]
 }
 ```
 
 ## `get_block_by_hash`
 
-> Retrieve a block by its hash
+> Retrieve a block by its hash.
 
 Parameters
 
-| Name | Type | Required |                  Note                 |
-|:----:|:----:|:--------:|:-------------------------------------:|
-| hash | Hash | Required | Valid block Hash present in the chain |
+| Name        | Type     | Required |                  Note                 |
+|:-----------:|:--------:|:--------:|:-------------------------------------:|
+| hash        | Hash     | Required | Valid block Hash present in the chain |
+| include_txs | Boolean  | Optional | Included txs serialized               |
 
 Request
 
@@ -337,16 +347,17 @@ Response
 			"000001aa69c15167a192de809eeed112f50ec91e513cfbf7b1674523583acbf9"
 		],
 		"topoheight": 23,
-		"total_fees": 0,
+		"total_fees": null,
 		"total_size_in_bytes": 131,
-		"txs_hashes": []
+		"txs_hashes": [],
+		"version": 0
     }
 }
 ```
 
 ## `get_top_block`
 
-> Retrieve the highest block based on the topological height
+> Retrieve the highest block based on the topological height.
 
 Request
 
@@ -380,9 +391,10 @@ Response
 			"000001aa69c15167a192de809eeed112f50ec91e513cfbf7b1674523583acbf9"
 		],
 		"topoheight": 23,
-		"total_fees": 0,
+		"total_fees": null,
 		"total_size_in_bytes": 131,
-		"txs_hashes": []
+		"txs_hashes": [],
+		"version": 0
     }
 }
 ```
@@ -427,7 +439,7 @@ Response
 
 ## `get_last_balance`
 
-> Get up-to-date asset's balance for a specific address
+> Get up-to-date asset's balance for a specific address.
 
 ```txt
 Balance is returned in atomic units
@@ -472,7 +484,7 @@ Response
 
 ## `get_balance_at_topoheight`
 
-> Get asset's balance from address at exact topoheight
+> Get asset's balance from address at exact topoheight.
 
 ```txt
 Balance is returned in atomic units
@@ -516,7 +528,7 @@ Response
 
 ## `get_assets`
 
-> Get all assets available on network
+> Get all assets available on network.
 
 Request
 
@@ -540,9 +552,33 @@ Response
 }
 ```
 
+## `count_assets`
+
+> Counts the number of assets saved on disk.
+
+Request
+
+```json
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "count_assets"
+}
+```
+
+Response
+
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": 1
+}
+```
+
 ## `count_transactions`
 
-> Counts the number of transactions saved on disk
+> Counts the number of transactions saved on disk.
 
 Request
 
@@ -566,7 +602,7 @@ Response
 
 ## `get_tips`
 
-> Retrieve Tips (highest blocks from blockDAG) from chain
+> Retrieve Tips (highest blocks from blockDAG) from chain.
 
 Request
 
@@ -592,7 +628,7 @@ Response
 
 ## `p2p_status`
 
-> Retrieve some informations about P2p
+> Retrieve some informations about P2p.
 
 Request
 
@@ -623,7 +659,7 @@ Response
 
 ## `get_dag_order`
 
-> Retrieve the whole DAG order (all blocks hash ordered by topoheight)
+> Retrieve the whole DAG order (all blocks hash ordered by topoheight).
 
 ```txt
 If no parameters are set, it will retrieve the last 64 blocks hash ordered descending.
@@ -668,7 +704,7 @@ Response
 
 ## `submit_block`
 
-> Submit a block to the daemon
+> Submit a block to the daemon.
 
 Parameters
 
@@ -701,7 +737,7 @@ Response
 
 ## `submit_transaction`
 
-> Submit a transaction in HEX format to the daemon mempool
+> Submit a transaction in HEX format to the daemon mempool.
 
 Parameters
 
@@ -733,7 +769,7 @@ Response
 
 ## `get_mempool`
 
-> Fetch all transactions presents in the mempool
+> Fetch all transactions presents in the mempool.
 
 Request
 
@@ -753,33 +789,31 @@ Response
     "jsonrpc": "2.0",
     "result": [{
         "hash": "136e9c19f8e9afd814e1e5f819914dca8fc0df01b68c5744bcfba0ab224dc0c2",
-        "blocks": [
-            "0000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d692"
-        ],
+        "blocks": null,
+        "executed_in_block": null,
         "data": {
-            "Transfer": [{
-                "amount": 1500,
-                "asset": "0000000000000000000000000000000000000000000000000000000000000000",
-                "extra_data": null,
-                "to": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
-            }]
+            "transfers": [
+                {
+                    "amount": 1500,
+                    "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "extra_data": null,
+                    "to": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
+                }
+            ]
         },
+        "version": 0,
         "fee": 1000,
-        "hash": "d189cc7275e48fa84132579f80b6131aaf46d40ff97a08c2a7633d785b0664ab",
+        "in_mempool": true,
         "nonce": 3,
         "owner": "xel1qyq2z43hcfwwl4pcnx9z5ppcvlhcm7g92ss832rjftdp427wqq7l8nqp5khq3",
-        "signature": "9e9fcd6be9b2e968b7d44ae15909e406b827b87f3108e08646b1d5e45754ffe3e166c4eaf26a63b8ddc0ac0668a893c339ed313fb522b46a4e95b8706a2ba005",
-        "first_seen": 1696080037,
-        "executed_in_block": "2ab430ceff1d181fc8c93ea9db1a7c03267177153783662eaf639f99abcccfab",
-        "version": 0,
-        "in_mempool": true
+        "signature": "9e9fcd6be9b2e968b7d44ae15909e406b827b87f3108e08646b1d5e45754ffe3e166c4eaf26a63b8ddc0ac0668a893c339ed313fb522b46a4e95b8706a2ba005"
     }]
 }
 ```
 
 ## `get_transaction`
 
-> Fetch a transaction by its hash from daemon
+> Fetch a transaction by its hash from daemon.
 
 ```txt
 Result returned in `data` field can changes based on the TransactionType (transfer, burn, Smart Contract call, Deploy Code..)
@@ -811,33 +845,34 @@ Response
     "id": 0,
     "jsonrpc": "2.0",
     "result": {
-        "blocks": [
-            "0000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d692"
-        ],
-        "hash": "136e9c19f8e9afd814e1e5f819914dca8fc0df01b68c5744bcfba0ab224dc0c2",
-        "data": {
-            "Transfer": [{
-                "amount": 15000,
-                "asset": "0000000000000000000000000000000000000000000000000000000000000000",
-                "extra_data": null,
-                "to": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
-            }]
-        },
-        "fee": 1000,
-        "nonce": 2,
-        "owner": "xel1qyq2z43hcfwwl4pcnx9z5ppcvlhcm7g92ss832rjftdp427wqq7l8nqp5khq3",
-        "signature": "d297ef720d388ff2aaedf6755a1f93b4ac1b55c987da5dc53c19350d8a779d970c7f4cfcc25d2f4ce3f4ef3a77d0f31d15635d221d5a72ef6651dbb7f1810301",
-        "first_seen": 1696080037,
-        "executed_in_block": "2ab430ceff1d181fc8c93ea9db1a7c03267177153783662eaf639f99abcccfab",
-        "version": 0,
-        "in_mempool": false
-    }
+		"hash": "136e9c19f8e9afd814e1e5f819914dca8fc0df01b68c5744bcfba0ab224dc0c2",
+		"blocks": [
+			"0000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d692"
+		],
+		"executed_in_block": "0000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d692",
+		"data": {
+			"transfers": [
+				{
+					"amount": 15000,
+					"asset": "0000000000000000000000000000000000000000000000000000000000000000",
+					"extra_data": null,
+					"to": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
+				}
+			]
+		},
+		"version": 0,
+		"fee": 1000,
+		"in_mempool": false,
+		"nonce": 2,
+		"owner": "xel1qyq2z43hcfwwl4pcnx9z5ppcvlhcm7g92ss832rjftdp427wqq7l8nqp5khq3",
+		"signature": "d297ef720d388ff2aaedf6755a1f93b4ac1b55c987da5dc53c19350d8a779d970c7f4cfcc25d2f4ce3f4ef3a77d0f31d15635d221d5a72ef6651dbb7f1810301"
+	}
 }
 ```
 
 ## `get_transactions`
 
-> Fetch transactions by theirs hashes from daemon and keep the same order in response
+> Fetch transactions by theirs hashes from daemon and keep the same order in response.
 
 Parameters
 
@@ -930,18 +965,19 @@ Response
         "cumulative_difficulty": 1,
         "difficulty": 1,
         "extra_nonce": "0000000000000000000000000000000000000000000000000000000000000000",
-        "hash": "007957a0f04d08ff6f75a99ae37a25e43c640be68bd223c6af86c7f572352d73",
+        "hash": "55a162b8e0e137bb6a8de9f4c4b214fb60bcd2df15ec32fdd8f06759b863f06e",
         "height": 0,
         "miner": "xel1qqqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680gtl9ky3",
         "nonce": 0,
         "reward": 877380,
         "supply": 877380,
-        "timestamp": 1676493715082,
+        "timestamp": 1678215431432,
         "tips": [],
         "topoheight": 0,
-        "total_fees": 0,
+        "total_fees": null,
         "total_size_in_bytes": 99,
-        "txs_hashes": []
+        "txs_hashes": [],
+        "version": 0
     }]
 }
 ```
@@ -954,8 +990,8 @@ Parameters
 
 |       Name       |   Type  | Required |                      Note                     |
 |:----------------:|:-------:|:--------:|:---------------------------------------------:|
-| start_height | Integer | Optional |        0 or under height                  |
-|  end_height  | Integer | Optional |        Must be under current height       |
+| start_height     | Integer | Optional | 0 or under height                             |
+|  end_height      | Integer | Optional | Must be under current height                  |
 
 Request
 
@@ -982,18 +1018,60 @@ Response
         "cumulative_difficulty": 1,
         "difficulty": 1,
         "extra_nonce": "0000000000000000000000000000000000000000000000000000000000000000",
-        "hash": "007957a0f04d08ff6f75a99ae37a25e43c640be68bd223c6af86c7f572352d73",
+        "hash": "55a162b8e0e137bb6a8de9f4c4b214fb60bcd2df15ec32fdd8f06759b863f06e",
         "height": 0,
         "miner": "xel1qqqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680gtl9ky3",
         "nonce": 0,
         "reward": 877380,
         "supply": 877380,
-        "timestamp": 1676493715082,
+        "timestamp": 1678215431432,
         "tips": [],
         "topoheight": 0,
-        "total_fees": 0,
+        "total_fees": null,
         "total_size_in_bytes": 99,
-        "txs_hashes": []
+        "txs_hashes": [],
+        "version": 0
     }]
+}
+```
+
+## `get_accounts`
+
+> Retrieve a list of available accounts (each account must have one on-chain interaction).
+
+Parameters
+
+|       Name          |   Type  | Required |                      Note                          |
+|:-------------------:|:-------:|:--------:|:--------------------------------------------------:|
+|  skip               | Integer | Optional | How many accounts to skip                          |
+|  maximum            | Integer | Optional | Maximum accounts to fetch (limited to 100)         |
+|  minimum_topoheight | Integer | Optional | Minimum topoheight for first on-chain interaction  |
+|  maximum_topoheight | Integer | Optional | Maximum topoheight for first on-chain interaction  |
+
+Request
+
+```json
+{
+	"jsonrpc": "2.0",
+	"id": 1,
+	"method": "get_accounts",
+	"params": {}
+}
+```
+
+Response
+
+```json
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": [
+		"xet1qqq9rrdy6s2zy4yavp59094jzlm66n33vy0datvv900yls8pugvyvmqn46pvl",
+		"xet1qqqgpk6n5klceg9gg9tcw0xa8r3e7zd3gc5mzv2v4m48knxd0y9wadg3mdp9t",
+		"xet1qqqvpwf9qprl6hzysg0zycm3y56ygys32wukxnl7yezqc7ydudy3azcxq6nwv",
+		"xet1qqqvltq9dsmvdsvapr6y0742sv477766g9vpvp2expe5v7x7fadvftc9h2vyw",
+		"xet1qqqd9ur03xahtts6q00t8z8ya2gxm39qx43ljz32vmv8p7j9ccxn6zccrfnxp",
+		"xet1qqqd2jtz9f2u3z6uznpx8mqdkh6llt3yn3eg3a5tpsfn8jcsthufg5qmwwl2j"
+	]
 }
 ```
