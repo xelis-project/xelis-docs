@@ -1,0 +1,105 @@
+import { Callout } from 'nextra/components'
+
+# Wallet API
+
+## Fetch RPC method
+
+Send a POST request to `/json_rpc`.
+
+<Callout type="warning">
+  Connect to the wallet endpoint instead of the node.
+</Callout>
+
+<Callout type="info">
+  Open your `xelis_wallet` and start the rpc server.    
+  Command: `start_rpc_server {bind_address} {username} {password}`.
+</Callout>
+
+The authentication scheme is using [rfc7617](https://datatracker.ietf.org/doc/html/rfc7617).  
+More info here https://en.wikipedia.org/wiki/Basic_access_authentication.   
+
+For the example below:
+
+  - The `{bind_address}` is `127.0.0.1:8787`
+  - The `{username}` is `Aladdin`:
+ -  The `{password}` is `open sesame`
+
+  Concatening both username and password with `:` gives
+  `QWxhZGRpbjpvcGVuIHNlc2FtZQ==` in base64.
+
+```js
+fetch('https://127.0.0.1:8787/json_rpc', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=='
+  },
+  body: JSON.stringify({
+    jsonrpc: '2.0',
+    method: 'get_network',
+    id: 1
+  })
+})
+```
+
+## version
+
+> Retrieve current wallet version.
+
+Request
+```json
+{
+	"jsonrpc": "2.0",
+	"method": "version",
+	"id": 1
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": "1.2.0"
+}
+```
+
+## get_network
+
+> Retrieve wallet network.
+
+Request
+```json
+{
+	"jsonrpc": "2.0",
+	"method": "get_network",
+	"id": 1
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": "Testnet"
+}
+```
+
+## get_nonce
+
+## get_topoheight
+
+## get_address
+
+## get_balance
+
+## get_tracked_assets
+
+## get_transaction
+
+## build_transaction
+
+## list_transactions
+
+## make_integrated_address
