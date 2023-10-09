@@ -202,7 +202,7 @@ Parameters
 |    Name     |   Type  | Required |                           Note                           |
 |:-----------:|:-------:|:--------:|:--------------------------------------------------------:|
 | topoheight  | Integer | Required | Topoheight must be equal or less than current topoheight |
-| include_txs | Boolean | Optional | Include txs serialized                                   |
+| include_txs | Boolean | Optional | Include serialized txs                                   |
 
 Request
 
@@ -256,7 +256,7 @@ Parameters
 |  Name       |   Type  | Required |                       Note                       |
 |:-----------:|:-------:|:--------:|:------------------------------------------------:|
 | height      | Integer | Required | Height must be equal or less than current height |
-| include_txs | Boolean | Optional | Include txs serialized                           |
+| include_txs | Boolean | Optional | Include serialized txs                           |
 
 Request
 
@@ -310,7 +310,7 @@ Parameters
 | Name        | Type     | Required |                  Note                 |
 |:-----------:|:--------:|:--------:|:-------------------------------------:|
 | hash        | Hash     | Required | Valid block Hash present in the chain |
-| include_txs | Boolean  | Optional | Included txs serialized               |
+| include_txs | Boolean  | Optional | Include serialized txs                |
 
 Request
 
@@ -358,6 +358,12 @@ Response
 ## `get_top_block`
 
 > Retrieve the highest block based on the topological height.
+
+Parameters
+
+| Name        | Type     | Required |                  Note                 |
+|:-----------:|:--------:|:--------:|:-------------------------------------:|
+| include_txs | Boolean  | Optional | Include serialized txs                |
 
 Request
 
