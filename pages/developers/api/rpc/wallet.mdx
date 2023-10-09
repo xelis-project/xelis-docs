@@ -42,7 +42,7 @@ fetch('https://127.0.0.1:8787/json_rpc', {
 })
 ```
 
-## version
+## get_version
 
 > Retrieve current wallet version.
 
@@ -50,7 +50,7 @@ Request
 ```json
 {
 	"jsonrpc": "2.0",
-	"method": "version",
+	"method": "get_version",
 	"id": 1
 }
 ```
@@ -88,18 +88,257 @@ Response
 
 ## get_nonce
 
+> Get wallet nonce. The nonce changes every time the balance is updated.
+
+Request
+```json
+{
+	"jsonrpc": "2.0",
+	"method": "get_nonce",
+	"id": 1
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": 1
+}
+```
+
 ## get_topoheight
+
+> Retrieve network current topoheight.
+
+Request
+```json
+{
+	"jsonrpc": "2.0",
+	"method": "get_topoheight",
+	"id": 1
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": 60
+}
+```
 
 ## get_address
 
+> Retrieve wallet address.
+
+Parameters
+
+|   Name             |   Type  | Required |                Note               |
+|:------------------:|:-------:|:--------:|:---------------------------------:|
+| integrated_data    | String  | Optional | Store data in the address         |
+
+Request
+```json
+{
+	"jsonrpc": "2.0",
+	"method": "get_address",
+	"id": 1,
+  "params": {
+    "integated_data": "hello"
+  }
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": "xet1qqqsqqgpq45x2mrvdahgv5cmqnkk4ke9hyhllyn8m0dcscmfg7jghazf87cqqa3r37jv2ykk8np"
+}
+```
+
+## split_address
+
+> Split integrated data from an address.
+
+Request
+```json
+{
+	"jsonrpc": "2.0",
+	"method": "split_address",
+	"id": 1,
+  "params: {
+    "address": "xet1qqqxapjnrvzw66kmykujllujvldahzrrd9r6fzl5fylmqqrkyw86f3gztlvhu",
+    "integrated_data": "hello"
+  }
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": "xet1qqqxapjnrvzw66kmykujllujvldahzrrd9r6fzl5fylmqqrkyw86f3gztlvhu"
+}
+```
+
 ## get_balance
+
+> Get wallet current balance.
+
+Parameters
+
+|   Name  |   Type  | Required |                Note               |
+|:-------:|:-------:|:--------:|:---------------------------------:|
+|  asset  |   Hash  | Optional |    Asset ID registered on chain   |
+
+Request
+```json
+{
+	"jsonrpc": "2.0",
+	"method": "get_balance",
+	"id": 1,
+  "params: {}
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": 10000
+}
+```
 
 ## get_tracked_assets
 
+> Get assets tracked by the wallet.
+
+Request
+```json
+{
+	"jsonrpc": "2.0",
+	"method": "get_tracked_assets`",
+	"id": 1
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": ["0000000000000000000000000000000000000000000000000000000000000000"]
+}
+```
+
 ## get_transaction
+
+> Get wallet transaction.
+
+Parameters
+
+|   Name  |   Type  | Required |                Note               |
+|:-------:|:-------:|:--------:|:---------------------------------:|
+|  hash   |   Hash  | Optional |    Transaction hash to fetch      |
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "get_transaction",
+    "id": 1,
+    "params": {}
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {}
+}
+```
 
 ## build_transaction
 
+> Create a new transaction and broadcast to the network.
+
+Parameters
+
+|   Name     |   Type     | Required |                Note            |
+|:----------:|:----------:|:--------:|:------------------------------:|
+|  tx_type   |   Object   | Required |    Transaction hash to fetch   |
+|  broadcast |   Boolean  | Required |    Send to the network or not  |
+|  fee       |   Integer  | Optional |    Custom fee if provided      |
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "build_transaction",
+    "id": 1,
+    "params": {
+        "tx_type": {
+            "transfers": [{
+              "amount": 1000,
+              "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+              "to": "xet1qqqxapjnrvzw66kmykujllujvldahzrrd9r6fzl5fylmqqrkyw86f3gztlvhu"
+            }]
+        },
+        "broadcast": true
+    }
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {}
+}
+```
+
 ## list_transactions
 
-## make_integrated_address
+
+> Create a new transaction and broadcast to the network.
+
+Parameters
+
+|   Name            |   Type     | Required |                Note                       |
+|:-----------------:|:----------:|:--------:|:-----------------------------------------:|
+|  min_topoheight   |   Integer  | Optional |    Start from specific topo               |
+|  max_topoheight   |   Integer  | Optional |    End at specific topo                   |
+|  address          |   String   | Optional |    Filter with address                    |
+|  accept_incoming  |   Boolean  | Optional |    Filter incoming                        |
+|  accept_outgoing  |   Boolean  | Optional |    Filter outgoing                        |
+|  accept_coinbase  |   Boolean  | Optional |    Filter coinbase (from smart contract)  |
+|  accept_burn      |   Boolean  | Optional |    Filter burn                            |
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "list_transactions",
+    "id": 1,
+    "params": {}
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": []
+}
+```
