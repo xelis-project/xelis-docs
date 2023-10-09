@@ -172,8 +172,7 @@ Request
 	"method": "split_address",
 	"id": 1,
   "params": {
-    "address": "xet1qqqxapjnrvzw66kmykujllujvldahzrrd9r6fzl5fylmqqrkyw86f3gztlvhu",
-    "integrated_data": "hello"
+      "address": "xet1qqqsqqgpq45x2mrvdahgv5cmqnkk4ke9hyhllyn8m0dcscmfg7jghazf87cqqa3r37jv2ykk8np"
   }
 }
 ```
@@ -183,7 +182,10 @@ Response
 {
     "id": 1,
     "jsonrpc": "2.0",
-    "result": "xet1qqqxapjnrvzw66kmykujllujvldahzrrd9r6fzl5fylmqqrkyw86f3gztlvhu"
+    "result": {
+        "address": "xet1qqqxapjnrvzw66kmykujllujvldahzrrd9r6fzl5fylmqqrkyw86f3gztlvhu",
+        "integrated_data": "hello"
+    }
 }
 ```
 
@@ -246,7 +248,7 @@ Parameters
 
 |   Name  |   Type  | Required |                Note               |
 |:-------:|:-------:|:--------:|:---------------------------------:|
-|  hash   |   Hash  | Optional |    Transaction hash to fetch      |
+|  hash   |   Hash  | Required |    Transaction hash to fetch      |
 
 Request
 ```json
