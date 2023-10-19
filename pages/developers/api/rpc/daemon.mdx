@@ -642,6 +642,31 @@ Response
 }
 ```
 
+
+## `count_accounts`
+
+> Counts the number of accounts saved on disk.
+
+Request
+
+```json
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "count_accounts"
+}
+```
+
+Response
+
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": 1
+}
+```
+
 ## `get_tips`
 
 > Retrieve Tips (highest blocks from blockDAG) from chain.
@@ -1117,3 +1142,114 @@ Response
 	]
 }
 ```
+
+## `get_account_history`
+
+> List mined blocks, incoming and outgoing transactions.
+
+Parameters
+
+|       Name          |   Type  | Required |                      Note                          |
+|:-------------------:|:-------:|:--------:|:--------------------------------------------------:|
+|  address            | Address | Required | Account address                                    |
+
+Request
+
+```json
+{
+	"jsonrpc": "2.0",
+	"id": 1,
+	"method": "get_account_history",
+    "params": {
+        "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
+    }
+}
+```
+
+Response
+
+```json
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": [{
+        "block_timestamp": 1697749965331,
+        "hash": "00000030bd46c7d790693fad42c9096744c343c75b9d45704ae182611e51dc82",
+        "mining": {
+            "reward": 116937
+        },
+        "topoheight": 499058
+    }]
+}
+```
+
+## `get_account_assets`
+
+> List of assets within a specific address.
+
+Parameters
+
+|       Name          |   Type  | Required |                      Note                          |
+|:-------------------:|:-------:|:--------:|:--------------------------------------------------:|
+|  address            | Address | Required | Account address                                    |
+
+Request
+
+```json
+{
+	"jsonrpc": "2.0",
+	"id": 1,
+	"method": "get_account_assets",
+	"params": {
+        "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
+    }
+}
+```
+
+Response
+
+```json
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": [
+		"0000000000000000000000000000000000000000000000000000000000000000",
+	]
+}
+```
+
+## `get_peers`
+
+> Get list of connected peers.
+
+Request
+
+```json
+{
+	"jsonrpc": "2.0",
+	"id": 1,
+	"method": "get_peers"
+}
+```
+
+Response
+
+```json
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": [{
+        "addr": "95.214.55.65:2125",
+        "cumulative_difficulty": 16248916130966,
+        "height": 498023,
+        "id": 2491091954271682000,
+        "last_ping": 1697749917,
+        "pruned_topoheight": 498960,
+        "tag": null,
+        "top_block_hash": "000000175bc2aadcddefc4faafb62aefb21da802d16115767e1b8e87245efcb4",
+        "topoheight": 499055,
+        "version": "1.5.0"
+    }]
+}
+```
+
