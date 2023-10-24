@@ -1,4 +1,4 @@
 {
-  "rpc": "RPC",
-  "websocket": "WebSocket"
+  "daemon": "Daemon",
+  "wallet": "Wallet"
 }

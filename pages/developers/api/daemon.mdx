@@ -1,30 +1,53 @@
+import { Tabs } from 'nextra/components'
+
 # Daemon API
 
-## Fetch RPC method
+## Fetch
 
-Send a POST request to `/json_rpc`.
+<Tabs items={['HTTP', 'Websocket']}>
+  <Tabs.Tab>
+    Send a POST request to `/json_rpc`.
 
-```cmd
-curl -X POST -H "Content-Type: application/json" \
-    -d '{"jsonrpc": "2.0", "method": "get_info", "id": 1}' \
-    https://node.xelis.io/json_rpc
-```
+    ```cmd
+    curl -X POST -H "Content-Type: application/json" \
+        -d '{"jsonrpc": "2.0", "method": "get_info", "id": 1}' \
+        https://node.xelis.io/json_rpc
+    ```
 
-```js
-fetch('https://node.xelis.io/json_rpc', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    jsonrpc: '2.0',
-    method: 'get_info',
-    id: 1
-  })
-})
-```
+    ```js
+    fetch('https://node.xelis.io/json_rpc', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            jsonrpc: '2.0',
+            method: 'get_info',
+            id: 1
+        })
+    })
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    Connect with suffix `/ws`.
 
-## `get_version`
+    ```js
+    const ws = new WebSocket('wss://node.xelis.io/ws')
+
+    const message = {
+        id: 1,
+        jsonrpc: '2.0',
+        method: 'get_info'
+    }
+
+    ws.send(JSON.stringify(message))
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+## Methods
+
+### `get_version`
 
 > Retrieve current daemon version.
 
@@ -46,7 +69,7 @@ Response
 }
 ```
 
-## `get_info`
+### `get_info`
 
 > Retrieve current info from chain.
 
@@ -84,7 +107,7 @@ Response
 }
 ```
 
-## `get_height`
+### `get_height`
 
 > Retrieve current height of the chain.
 
@@ -108,7 +131,7 @@ Response
 }
 ```
 
-## `get_topoheight`
+### `get_topoheight`
 
 > Retrieve current topological height of the chain.
 
@@ -132,7 +155,7 @@ Response
 }
 ```
 
-## `get_stableheight`
+### `get_stableheight`
 
 > Retrieve current stable height of the chain.
 
@@ -156,7 +179,7 @@ Response
 }
 ```
 
-## `get_block_template`
+### `get_block_template`
 
 > Retrieve the block template for PoW work.
 
@@ -193,7 +216,7 @@ Response
 }
 ```
 
-## `get_block_at_topoheight`
+### `get_block_at_topoheight`
 
 > Retrieve a block at a specific topo height.
 
@@ -247,7 +270,7 @@ Response
 }
 ```
 
-## `get_blocks_at_height`
+### `get_blocks_at_height`
 
 > Retrieve all blocks at a specific height.
 
@@ -301,7 +324,7 @@ Response
 }
 ```
 
-## `get_block_by_hash`
+### `get_block_by_hash`
 
 > Retrieve a block by its hash.
 
@@ -355,7 +378,7 @@ Response
 }
 ```
 
-## `get_top_block`
+### `get_top_block`
 
 > Retrieve the highest block based on the topological height.
 
@@ -405,7 +428,7 @@ Response
 }
 ```
 
-## `get_nonce`
+### `get_nonce`
 
 > Retrieve the nonce for address in request params.
 
@@ -443,7 +466,7 @@ Response
 }
 ```
 
-## `has_nonce`
+### `has_nonce`
 
 > Verify if the address has a registered nonce.
 
@@ -479,7 +502,7 @@ Response
 }
 ```
 
-## `get_last_balance`
+### `get_last_balance`
 
 > Get up-to-date asset's balance for a specific address.
 
@@ -524,7 +547,7 @@ Response
 }
 ```
 
-## `get_balance_at_topoheight`
+### `get_balance_at_topoheight`
 
 > Get asset's balance from address at exact topoheight.
 
@@ -568,7 +591,7 @@ Response
 }
 ```
 
-## `get_assets`
+### `get_assets`
 
 > Get all assets available on network.
 
@@ -594,7 +617,7 @@ Response
 }
 ```
 
-## `count_assets`
+### `count_assets`
 
 > Counts the number of assets saved on disk.
 
@@ -618,7 +641,7 @@ Response
 }
 ```
 
-## `count_transactions`
+### `count_transactions`
 
 > Counts the number of transactions saved on disk.
 
@@ -643,7 +666,7 @@ Response
 ```
 
 
-## `count_accounts`
+### `count_accounts`
 
 > Counts the number of accounts saved on disk.
 
@@ -667,7 +690,7 @@ Response
 }
 ```
 
-## `get_tips`
+### `get_tips`
 
 > Retrieve Tips (highest blocks from blockDAG) from chain.
 
@@ -693,7 +716,7 @@ Response
 }
 ```
 
-## `p2p_status`
+### `p2p_status`
 
 > Retrieve some informations about P2p.
 
@@ -724,7 +747,7 @@ Response
 }
 ```
 
-## `get_dag_order`
+### `get_dag_order`
 
 > Retrieve the whole DAG order (all blocks hash ordered by topoheight).
 
@@ -769,7 +792,7 @@ Response
 }
 ```
 
-## `submit_block`
+### `submit_block`
 
 > Submit a block to the daemon.
 
@@ -802,7 +825,7 @@ Response
 }
 ```
 
-## `submit_transaction`
+### `submit_transaction`
 
 > Submit a transaction in HEX format to the daemon mempool.
 
@@ -834,7 +857,7 @@ Response
 }
 ```
 
-## `get_mempool`
+### `get_mempool`
 
 > Fetch all transactions presents in the mempool.
 
@@ -878,7 +901,7 @@ Response
 }
 ```
 
-## `get_transaction`
+### `get_transaction`
 
 > Fetch a transaction by its hash from daemon.
 
@@ -937,7 +960,7 @@ Response
 }
 ```
 
-## `get_transactions`
+### `get_transactions`
 
 > Fetch transactions by theirs hashes from daemon and keep the same order in response.
 
@@ -996,7 +1019,7 @@ Response
 }
 ```
 
-## `get_blocks_range_by_topoheight`
+### `get_blocks_range_by_topoheight`
 
 > Get blocks between range of topoheight. Max of 20 blocks and if no params returns recent blocks.
 
@@ -1049,7 +1072,7 @@ Response
 }
 ```
 
-## `get_blocks_range_by_height`
+### `get_blocks_range_by_height`
 
 > Get blocks between range of height. Max of 20 blocks and if no params returns recent blocks.
 
@@ -1102,7 +1125,7 @@ Response
 }
 ```
 
-## `get_accounts`
+### `get_accounts`
 
 > Retrieve a list of available accounts (each account must have one on-chain interaction).
 
@@ -1143,7 +1166,7 @@ Response
 }
 ```
 
-## `get_account_history`
+### `get_account_history`
 
 > List mined blocks, incoming and outgoing transactions.
 
@@ -1183,7 +1206,7 @@ Response
 }
 ```
 
-## `get_account_assets`
+### `get_account_assets`
 
 > List of assets within a specific address.
 
@@ -1218,7 +1241,7 @@ Response
 }
 ```
 
-## `get_peers`
+### `get_peers`
 
 > Get list of connected peers.
 
@@ -1253,3 +1276,132 @@ Response
 }
 ```
 
+## Events
+
+Events are only available through Websocket protocol.   
+Before listening to an event you must `subcribe` with an available method. 
+
+For example: 
+
+```js
+const ws = new WebSocket('wss://node.xelis.io/ws')
+ 
+const message = {
+    id: 1,
+    jsonrpc: '2.0',
+    method: 'subscribe',
+    params: {
+        notify: 'NewBlock'
+    }
+}
+ 
+ws.send(JSON.stringify(message))
+```
+
+### `NewBlock`
+
+> When a new block is accepted by chain
+
+On Response
+
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "block_type": "Normal",
+        "cumulative_difficulty": 95411226796,
+        "difficulty": 3291268,
+        "event": "NewBlock",
+        "extra_nonce": "2365cfaac7652364a8fc9cfeadcbb16a0e29ae8c3aa48f099449ac92d161f91e",
+        "hash": "ad4c28c060f8bcc6fd7ccf955eeaebcd5611d69fc22a17b8ec6961a995b2c6be",
+        "height": 20698,
+        "miner": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
+        "nonce": 0,
+        "reward": 868763,
+        "supply": 18071559927,
+        "timestamp": 1677081254817,
+        "tips": ["1faac9784c07b41d6e8740f15b23c163966aecebc1b7cac77aca74946a25625d"],
+        "topoheight": 20698,
+        "total_fees": 0,
+        "total_size_in_bytes": 131,
+        "txs_hashes": []
+    }
+}
+```
+
+### `TransactionAddedInMempool`
+
+> When a new valid transaction is added in mempool
+
+On Response
+
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "data": {
+            "Transfer": [{
+                "amount": 1,
+                "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+                "extra_data": null,
+                "to": "xel1qqqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680gtl9ky3"
+            }]
+        },
+        "event": "TransactionAddedInMempool",
+        "fee": 1000,
+        "hash": "43e10cf783e6596efdfdd1fe9480be7221e5bfb36c817a299a9fc95b98624e80",
+        "nonce": 17,
+        "owner": "xel1qqqtgm427maw6mjnnl26kvfpapwc82esqsd2ryzwk5hrckt77kjld7qx6dnxc",
+        "signature": "1b479bc06963657d4f5d26b9f14fe8361a9eec7ef1e85e6f3c89fd5fec705fb0b2a04a98f7883f060245794f6f66c9de08c1a86dab5deb2dc544f6cda4b47a0a"
+    }
+}
+```
+
+### `TransactionExecuted`
+
+> When a transaction has been included in a valid block & executed on chain
+
+On Response
+
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "block_hash": "cdae731b35c7bef7bfa4678fb97618d13957e99009e1aa952b5b5598f717c49e",
+        "event": "TransactionExecuted",
+        "topoheight": 6472,
+        "tx_hash": "43e10cf783e6596efdfdd1fe9480be7221e5bfb36c817a299a9fc95b98624e80"
+    }
+}
+```
+
+### `BlockOrdered`
+
+> When a block is ordered for the first time or reordered to a new topoheight
+
+### `TransactionSCResult`
+
+> When a valid TX SC Call hash has been executed by chain
+
+### `NewAsset`
+
+> When a new asset has been registered
+
+### `PeerConnected`
+
+> When a peer connected with the node.
+
+### `PeerDisconnected`
+
+> When a peer disconnected from the node.
+
+### `PeerPeerListUpdated`
+
+> When a peer list of a peer has been updated.
+
+### `PeerPeerDisconnected`
+
+> When a peer from the peer list disconnected.

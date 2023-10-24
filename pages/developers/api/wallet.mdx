@@ -1,10 +1,9 @@
 import { Callout } from 'nextra/components'
+import { Tabs } from 'nextra/components'
 
 # Wallet API
 
-## Fetch RPC method
-
-Send a POST request to `/json_rpc`.
+## Fetch
 
 <Callout type="warning">
   Connect to the wallet endpoint instead of the node.
@@ -15,34 +14,59 @@ Send a POST request to `/json_rpc`.
   Command: `start_rpc_server {bind_address} {username} {password}`.
 </Callout>
 
-The authentication scheme is using [rfc7617](https://datatracker.ietf.org/doc/html/rfc7617).  
-More info here https://en.wikipedia.org/wiki/Basic_access_authentication.   
-
 For the example below:
 
   - The `{bind_address}` is `127.0.0.1:8787`
   - The `{username}` is `Aladdin`:
  -  The `{password}` is `open sesame`
 
-  Concatening both username and password with `:` gives
-  `QWxhZGRpbjpvcGVuIHNlc2FtZQ==` in base64.
+The authentication scheme is using [rfc7617](https://datatracker.ietf.org/doc/html/rfc7617).  
+More info here https://en.wikipedia.org/wiki/Basic_access_authentication.  
+Concatening both username and password with `:` gives `QWxhZGRpbjpvcGVuIHNlc2FtZQ==` in base64.  
 
-```js
-fetch('https://127.0.0.1:8787/json_rpc', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': 'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=='
-  },
-  body: JSON.stringify({
-    jsonrpc: '2.0',
-    method: 'get_network',
-    id: 1
-  })
-})
-```
+<Tabs items={['HTTP', 'Websocket']}>
+  <Tabs.Tab>
+    Send a POST request to `/json_rpc`.
 
-## get_version
+    ```js
+    fetch('https://127.0.0.1:8787/json_rpc', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=='
+      },
+      body: JSON.stringify({
+        id: 1,
+        jsonrpc: '2.0',
+        method: 'get_network'
+      })
+    })
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    Connect with suffix `/ws`.
+
+    ```js
+    const ws = new WebSocket('https://127.0.0.1:8787/ws', {
+      headers: {
+        'Authorization': 'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=='
+      }
+    })
+
+    const message = {
+      id: 1,
+      jsonrpc: '2.0',
+      method: 'get_network',
+    }
+
+    ws.send(JSON.stringify(message))
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+## Methods
+
+### `get_version`
 
 > Retrieve current wallet version.
 
@@ -64,7 +88,7 @@ Response
 }
 ```
 
-## get_network
+### `get_network`
 
 > Retrieve wallet network.
 
@@ -86,7 +110,7 @@ Response
 }
 ```
 
-## get_nonce
+### `get_nonce`
 
 > Get wallet nonce. The nonce changes every time the balance is updated.
 
@@ -108,7 +132,7 @@ Response
 }
 ```
 
-## get_topoheight
+### `get_topoheight`
 
 > Retrieve network current topoheight.
 
@@ -130,7 +154,7 @@ Response
 }
 ```
 
-## get_address
+### `get_address`
 
 > Retrieve wallet address.
 
@@ -161,7 +185,7 @@ Response
 }
 ```
 
-## split_address
+### `split_address`
 
 > Split integrated data from an address.
 
@@ -189,7 +213,7 @@ Response
 }
 ```
 
-## get_balance
+### `get_balance`
 
 > Get wallet current balance.
 
@@ -218,7 +242,7 @@ Response
 }
 ```
 
-## get_tracked_assets
+### `get_tracked_assets`
 
 > Get assets tracked by the wallet.
 
@@ -240,7 +264,7 @@ Response
 }
 ```
 
-## get_transaction
+### `get_transaction`
 
 > Get wallet transaction.
 
@@ -269,7 +293,7 @@ Response
 }
 ```
 
-## build_transaction
+### `build_transaction`
 
 > Create a new transaction and broadcast to the network.
 
@@ -309,7 +333,7 @@ Response
 }
 ```
 
-## list_transactions
+### `list_transactions`
 
 
 > Create a new transaction and broadcast to the network.
