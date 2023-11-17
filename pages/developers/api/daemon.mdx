@@ -1314,6 +1314,33 @@ Response
 }
 ```
 
+### `get_size_on_disk`
+
+> Get the actual disk size of the blockchain.
+
+Request
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "get_size_on_disk",
+    "id": 1
+}
+```
+
+Response
+
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "size_bytes": 94896128,
+        "size_formatted": "90.5 MiB"
+    }
+}
+```
+
 ## Events
 
 Events are only available through Websocket protocol.   
