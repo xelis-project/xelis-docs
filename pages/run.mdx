@@ -15,10 +15,11 @@ Choose one available for your operating system.
 
 Open your operating system's command-line interface (CLI) in the folder where the executable is located.
 
-Run `./xelis_daemon`.  
+Run `./xelis_daemon`
 
-For testnet, use `./xelis_daemon --network testnet`.  
-Apply fast network synchronization, use `./xelis_daemon --allow-fast-sync`.  
+For testnet, use `./xelis_daemon --network testnet`.
+In case you want to have a light node, you can use fast synchronization feature using`--allow-fast-sync` option at command launch.
+
 For more commands, use `--help`.  
 
 ## Open your Wallet
@@ -38,7 +39,8 @@ Open your operating system's command-line interface (CLI) in the folder where th
 
 Run `./xelis_miner --miner-address {wallet_address}`.  
 
-Set specific node, use `./xelis_miner --daemon-address https://node.xelis.io`.  
-Set max threads, use `./xelis_miner --num-threads 6`.  
+### Main Options
+- To connect to another node than the local one, use `./xelis_miner --daemon-address https://node.xelis.io`.  
+- To set max threads, use `./xelis_miner --num-threads N` where N is your number of threads.  
 
 For more commands, use `--help`.  

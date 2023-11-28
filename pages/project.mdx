@@ -1,24 +1,40 @@
 # XELIS Blockchain
 
-XELIS is a blockchain made in Rust and powered by Tokio, using account model.
-It allows deploy custom assets working exactly like the native coin in transactions and wallet.
+A from scratch blockchain made in Rust and powered by Tokio, using account model.
+XELIS is based on an event-driven system combined with the native async/await and works with a unique and from scratch p2p system.
+This allow to be notified on any events happening on the network and to be able to react to them instead of checking periodically for updates.
 
-This project is based on an event-driven system combined with the native async/await and works with a unique and from scratch p2p system.
+BlockDAG is enabled to improve the scalability and the security of the network.
+Homomorphic Encryption using ElGamal is used to provide privacy on transactions (transfered amounts) and balances.
+
+ElGamal cryptosystem was choosen because it's a well known and studied encryption algorithm which has homomorphism features.
+ElGamal is fast and is used in combination with Ristretto255 curve to provide a good level of security (~128 bits of security).
+Homomorphic operations available using ElGamal are addition/subtraction between ciphertexts and/or plaintext and multiplication against plaintext value.
+
+Account Model allows to have a more flexible system than UTXO model and to have a better privacy because there is no need to link inputs and outputs, which provide real fungibility.
+It allows also the fast-sync feature to only download the last state of the blockchain instead of downloading all the history.
+
+Pruning system is also available to reduce the size of the blockchain by removing old blocks and transactions.
+
+We also aims to enabled Smart Contracts support in the future.
+
+We provide different in-built networks:
+- Mainnet: Not released yet
+- Testnet: Running
+- Devnet: this network is used for local development purpose where you want to create your own local chain. It has no peers
 
 ## Network
 
-- Expected Block Time is ~`15` seconds
-- BlockDAG enabled
-- Address prefix is `xel` on mainnet and `xet` for testnet
-- Transaction fee is `0.01000` XEL per KB
-- Full coin can be divided up to `5` decimals
-- Maximum supply is set at `18.4` millions
-- Maximum block size is set at `1.25` MB
+- Target Block Time is `15` seconds.
+- Address prefix is `xel` on mainnet and `xet` for testnet.
+- Transaction fee is `0.01000` XEL per KB but can be changed in future.
+- Full coin can be divided up to `8` decimals.
+- Maximum supply is set at `18.4` millions.
+- Maximum block size is set at `1.25` MB.
 
 ## Objectives
 
 The main objectives of XELIS are:
-
 - Provide privacy on transactions / balances.
 - Provide Smart Contracts support.
 - Secure and fast.
@@ -30,10 +46,15 @@ Others objectives in mind are:
 - Simple to use.
 - Community driven decisions.
 
-## Mini Roadmap
+## Funding
 
-- Create a functional wallet (WIP)
-- Include extra fees when sending coins to a not-yet registered address
-- CLI Wallet
-- Support of Smart Contracts (xelis-vm)
-- Privacy (through Homomorphic Encryption)
+XELIS is a community driven project and is not funded by any company or organization.
+But to helps the development, the success and provide a better support of XELIS, we set a dev fee curve of `15%` on each block reward.
+
+Current dev fee curve is as following:
+- `15%` from block 0 to 1 250 000 (expected time is ~6 months with blockDAG)
+- `10%` from block 1 250 001 to 3 000 000 (expected time is another ~6 months with blockDAG and network growing)
+- `5%` from 3 000 001 until the project being developed and stable enough to reduce it.
+
+**NOTE**: The dev fee will be redirected to a Smart Contracts once they are available.
+We also have in mind to create a DAO to manage the dev fee and the project after few years.
