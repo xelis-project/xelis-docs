@@ -2,12 +2,12 @@
 
 A from scratch blockchain made in Rust and powered by Tokio, using account model.
 XELIS is based on an event-driven system combined with the native async/await and works with a unique and from scratch p2p system.
-This allow to be notified on any events happening on the network and to be able to react to them instead of checking periodically for updates.
+This allows to be notified on any events happening on the network and to be able to react to them instead of checking periodically for updates.
 
 BlockDAG is enabled to improve the scalability and the security of the network.
-Homomorphic Encryption using ElGamal is used to provide privacy on transactions (transfered amounts) and balances.
+Homomorphic Encryption using ElGamal is used to provide privacy on transactions (transferred amounts) and balances.
 
-ElGamal cryptosystem was choosen because it's a well known and studied encryption algorithm which has homomorphism features.
+ElGamal cryptosystem was chosen because it's a well known and studied encryption algorithm which has homomorphism features.
 ElGamal is fast and is used in combination with Ristretto255 curve to provide a good level of security (~128 bits of security).
 Homomorphic operations available using ElGamal are addition/subtraction between ciphertexts and/or plaintext and multiplication against plaintext value.
 
@@ -16,7 +16,7 @@ It allows also the fast-sync feature to only download the last state of the bloc
 
 Pruning system is also available to reduce the size of the blockchain by removing old blocks and transactions.
 
-We also aims to enabled Smart Contracts support in the future.
+We also aims to enable Smart Contract support in the future.
 
 We provide differents built-in networks:
 - Mainnet: Not released yet
