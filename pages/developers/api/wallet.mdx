@@ -44,10 +44,10 @@ Concatening both username and password with `:` gives `QWxhZGRpbjpvcGVuIHNlc2FtZ
     ```
   </Tabs.Tab>
   <Tabs.Tab>
-    Connect with suffix `/ws`.
+    Connect with prefix `wss://` if you have a SSL/TLS certificate, otherwise use `ws://`.
 
     ```js
-    const ws = new WebSocket('https://127.0.0.1:8787/ws', {
+    const ws = new WebSocket('https://127.0.0.1:8787/json_rpc', {
       headers: {
         'Authorization': 'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=='
       }
