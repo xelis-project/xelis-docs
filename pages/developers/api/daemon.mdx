@@ -503,7 +503,7 @@ Response
 }
 ```
 
-### `get_last_balance`
+### `get_balance`
 
 > Get up-to-date asset's balance for a specific address.
 
@@ -524,7 +524,7 @@ Request
 {
     "jsonrpc": "2.0",
     "id": 1,
-    "method": "get_last_balance",
+    "method": "get_balance",
     "result": {
         "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
         "asset": "0000000000000000000000000000000000000000000000000000000000000000"
@@ -539,7 +539,7 @@ Response
     "id": 1,
     "jsonrpc": "2.0",
     "result": {
-        "balance": {
+        "version": {
             "balance": 37726957,
             "previous_topoheight": 41
         },
