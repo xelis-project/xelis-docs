@@ -5,5 +5,25 @@
   "run": "Run",
   "build": "Build",
   "developers": "Developers",
-  "team": "Team"
+  "team": "Team",
+  "xelis": {
+    "title": "Website",
+    "href": "https://xelis.io",
+    "type": "page"
+  },
+  "wallet": {
+    "title": "Wallet",
+    "href": "https://wallet.xelis.io",
+    "type": "page"
+  },
+  "explorer": {
+    "title": "Explorer",
+    "href": "https://explorer.xelis.io",
+    "type": "page"
+  },
+  "stats": {
+    "title": "Statistics",
+    "href": "https://stats.xelis.io",
+    "type": "page"
+  }
 }
