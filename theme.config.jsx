@@ -1,7 +1,9 @@
 import { useConfig } from 'nextra-theme-docs'
 
 export default {
-  logo: <span>XELIS Blockchain</span>,
+  logo: <div className="nx-flex nx-items-center">
+    <img alt="XELIS Logo" src="/green_background_black_logo.png" style={{ borderRadius: `2em`, width: `6em` }} />
+  </div>,
   project: {
     link: 'https://github.com/xelis-project'
   },
