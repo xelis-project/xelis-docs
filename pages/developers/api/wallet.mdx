@@ -185,6 +185,34 @@ Response
 }
 ```
 
+### `split_address`
+
+> Split integrated data from an address.
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "split_address",
+  "id": 1,
+  "params": {
+    "address": "xet1qqqsqqgpq45x2mrvdahgv5cmqnkk4ke9hyhllyn8m0dcscmfg7jghazf87cqqa3r37jv2ykk8np"
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "address": "xet1qqqxapjnrvzw66kmykujllujvldahzrrd9r6fzl5fylmqqrkyw86f3gztlvhu",
+    "integrated_data": "hello"
+  }
+}
+```
+
 ### `rescan`
 
 > Rescan the wallet until a specific topoheight. 
@@ -213,35 +241,6 @@ Response
   "id": 1,
   "jsonrpc": "2.0",
   "result": true
-}
-```
-
-
-### `split_address`
-
-> Split integrated data from an address.
-
-Request
-```json
-{
-  "jsonrpc": "2.0",
-  "method": "split_address",
-  "id": 1,
-  "params": {
-    "address": "xet1qqqsqqgpq45x2mrvdahgv5cmqnkk4ke9hyhllyn8m0dcscmfg7jghazf87cqqa3r37jv2ykk8np"
-  }
-}
-```
-
-Response
-```json
-{
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": {
-    "address": "xet1qqqxapjnrvzw66kmykujllujvldahzrrd9r6fzl5fylmqqrkyw86f3gztlvhu",
-    "integrated_data": "hello"
-  }
 }
 ```
 
@@ -293,6 +292,37 @@ Response
   "id": 1,
   "jsonrpc": "2.0",
   "result": ["0000000000000000000000000000000000000000000000000000000000000000"]
+}
+```
+
+### `get_asset_precision`
+
+> Get the decimal value of an asset that represents the floating-point aspect of the atomic value.
+
+Parameters
+
+|   Name  |   Type  | Required |                Note               |
+|:-------:|:-------:|:--------:|:---------------------------------:|
+|  asset  |   Hash  | Required |    Asset ID registered on chain   |
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "get_asset_precision`",
+  "id": 1,
+  "params": {
+    "asset": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": 8
 }
 ```
 
