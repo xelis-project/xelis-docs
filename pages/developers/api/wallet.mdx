@@ -3,7 +3,7 @@ import { Tabs } from 'nextra/components'
 
 # Wallet API
 
-## Fetch
+## Setup
 
 <Callout type="warning">
   Connect to the wallet endpoint instead of the node.
@@ -18,7 +18,7 @@ For the example below:
 
   - The `{bind_address}` is `127.0.0.1:8787`
   - The `{username}` is `Aladdin`:
- -  The `{password}` is `open sesame`
+  - The `{password}` is `open sesame`
 
 The authentication scheme is using [rfc7617](https://datatracker.ietf.org/doc/html/rfc7617).  
 More info here https://en.wikipedia.org/wiki/Basic_access_authentication.  
@@ -73,18 +73,18 @@ Concatening both username and password with `:` gives `QWxhZGRpbjpvcGVuIHNlc2FtZ
 Request
 ```json
 {
-	"jsonrpc": "2.0",
-	"method": "get_version",
-	"id": 1
+  "jsonrpc": "2.0",
+  "method": "get_version",
+  "id": 1
 }
 ```
 
 Response
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": "1.2.0"
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": "1.2.0"
 }
 ```
 
@@ -95,18 +95,18 @@ Response
 Request
 ```json
 {
-	"jsonrpc": "2.0",
-	"method": "get_network",
-	"id": 1
+  "jsonrpc": "2.0",
+  "method": "get_network",
+  "id": 1
 }
 ```
 
 Response
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": "Testnet"
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": "Testnet"
 }
 ```
 
@@ -117,18 +117,18 @@ Response
 Request
 ```json
 {
-	"jsonrpc": "2.0",
-	"method": "get_nonce",
-	"id": 1
+  "jsonrpc": "2.0",
+  "method": "get_nonce",
+  "id": 1
 }
 ```
 
 Response
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": 1
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": 1
 }
 ```
 
@@ -139,18 +139,18 @@ Response
 Request
 ```json
 {
-	"jsonrpc": "2.0",
-	"method": "get_topoheight",
-	"id": 1
+  "jsonrpc": "2.0",
+  "method": "get_topoheight",
+  "id": 1
 }
 ```
 
 Response
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": 60
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": 60
 }
 ```
 
@@ -167,9 +167,9 @@ Parameters
 Request
 ```json
 {
-	"jsonrpc": "2.0",
-	"method": "get_address",
-	"id": 1,
+  "jsonrpc": "2.0",
+  "method": "get_address",
+  "id": 1,
   "params": {
     "integated_data": "hello"
   }
@@ -179,11 +179,43 @@ Request
 Response
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": "xet1qqqsqqgpq45x2mrvdahgv5cmqnkk4ke9hyhllyn8m0dcscmfg7jghazf87cqqa3r37jv2ykk8np"
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": "xet1qqqsqqgpq45x2mrvdahgv5cmqnkk4ke9hyhllyn8m0dcscmfg7jghazf87cqqa3r37jv2ykk8np"
 }
 ```
+
+### `rescan`
+
+> Rescan the wallet until a specific topoheight. 
+
+Parameters
+
+|   Name             |   Type  | Required |                Note               |
+|:------------------:|:-------:|:--------:|:---------------------------------:|
+| until_topoheight   | Integer | Optional | Default is 0                      |
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "rescan",
+  "id": 1,
+  "params": {
+    "until_topoheight": 0
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": true
+}
+```
+
 
 ### `split_address`
 
@@ -192,11 +224,11 @@ Response
 Request
 ```json
 {
-	"jsonrpc": "2.0",
-	"method": "split_address",
-	"id": 1,
+  "jsonrpc": "2.0",
+  "method": "split_address",
+  "id": 1,
   "params": {
-      "address": "xet1qqqsqqgpq45x2mrvdahgv5cmqnkk4ke9hyhllyn8m0dcscmfg7jghazf87cqqa3r37jv2ykk8np"
+    "address": "xet1qqqsqqgpq45x2mrvdahgv5cmqnkk4ke9hyhllyn8m0dcscmfg7jghazf87cqqa3r37jv2ykk8np"
   }
 }
 ```
@@ -204,12 +236,12 @@ Request
 Response
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": {
-        "address": "xet1qqqxapjnrvzw66kmykujllujvldahzrrd9r6fzl5fylmqqrkyw86f3gztlvhu",
-        "integrated_data": "hello"
-    }
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "address": "xet1qqqxapjnrvzw66kmykujllujvldahzrrd9r6fzl5fylmqqrkyw86f3gztlvhu",
+    "integrated_data": "hello"
+  }
 }
 ```
 
@@ -226,9 +258,9 @@ Parameters
 Request
 ```json
 {
-	"jsonrpc": "2.0",
-	"method": "get_balance",
-	"id": 1,
+  "jsonrpc": "2.0",
+  "method": "get_balance",
+  "id": 1,
   "params": {}
 }
 ```
@@ -236,9 +268,9 @@ Request
 Response
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": 10000
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": 10000
 }
 ```
 
@@ -249,18 +281,18 @@ Response
 Request
 ```json
 {
-	"jsonrpc": "2.0",
-	"method": "get_tracked_assets`",
-	"id": 1
+  "jsonrpc": "2.0",
+  "method": "get_tracked_assets`",
+  "id": 1
 }
 ```
 
 Response
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": ["0000000000000000000000000000000000000000000000000000000000000000"]
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": ["0000000000000000000000000000000000000000000000000000000000000000"]
 }
 ```
 
@@ -277,19 +309,19 @@ Parameters
 Request
 ```json
 {
-    "jsonrpc": "2.0",
-    "method": "get_transaction",
-    "id": 1,
-    "params": {}
+  "jsonrpc": "2.0",
+  "method": "get_transaction",
+  "id": 1,
+  "params": {}
 }
 ```
 
 Response
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": {}
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {}
 }
 ```
 
@@ -308,28 +340,28 @@ Parameters
 Request
 ```json
 {
-    "jsonrpc": "2.0",
-    "method": "build_transaction",
-    "id": 1,
-    "params": {
-        "tx_type": {
-            "transfers": [{
-              "amount": 1000,
-              "asset": "0000000000000000000000000000000000000000000000000000000000000000",
-              "to": "xet1qqqxapjnrvzw66kmykujllujvldahzrrd9r6fzl5fylmqqrkyw86f3gztlvhu"
-            }]
-        },
-        "broadcast": true
-    }
+  "jsonrpc": "2.0",
+  "method": "build_transaction",
+  "id": 1,
+  "params": {
+    "tx_type": {
+      "transfers": [{
+        "amount": 1000,
+        "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+        "to": "xet1qqqxapjnrvzw66kmykujllujvldahzrrd9r6fzl5fylmqqrkyw86f3gztlvhu"
+      }]
+    },
+    "broadcast": true
+  }
 }
 ```
 
 Response
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": {}
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {}
 }
 ```
 
@@ -353,18 +385,18 @@ Parameters
 Request
 ```json
 {
-    "jsonrpc": "2.0",
-    "method": "list_transactions",
-    "id": 1,
-    "params": {}
+  "jsonrpc": "2.0",
+  "method": "list_transactions",
+  "id": 1,
+  "params": {}
 }
 ```
 
 Response
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": []
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": []
 }
 ```

@@ -2,7 +2,7 @@ import { Tabs } from 'nextra/components'
 
 # Daemon API
 
-## Fetch
+## Setup
 
 <Tabs items={['HTTP', 'WebSocket']}>
   <Tabs.Tab>
@@ -16,15 +16,15 @@ import { Tabs } from 'nextra/components'
 
     ```js
     fetch('https://node.xelis.io/json_rpc', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            jsonrpc: '2.0',
-            method: 'get_info',
-            id: 1
-        })
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        method: 'get_info',
+        id: 1
+      })
     })
     ```
   </Tabs.Tab>
@@ -35,9 +35,9 @@ import { Tabs } from 'nextra/components'
     const ws = new WebSocket('wss://node.xelis.io/json_rpc')
 
     const message = {
-        id: 1,
-        jsonrpc: '2.0',
-        method: 'get_info'
+      id: 1,
+      jsonrpc: '2.0',
+      method: 'get_info'
     }
 
     ws.send(JSON.stringify(message))
@@ -54,18 +54,18 @@ import { Tabs } from 'nextra/components'
 Request
 ```json
 {
-	"jsonrpc": "2.0",
-	"method": "get_version",
-	"id": 1
+  "jsonrpc": "2.0",
+  "method": "get_version",
+  "id": 1
 }
 ```
 
 Response
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": "1.2.0"
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": "1.2.0"
 }
 ```
 
@@ -77,9 +77,9 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "method": "get_info",
-    "id": 1
+  "jsonrpc": "2.0",
+  "method": "get_info",
+  "id": 1
 }
 ```
 
@@ -87,24 +87,24 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": {
-        "average_block_time": 11812,
-        "block_reward": 865869,
-        "block_time_target": 15000,
-        "difficulty": 35533666,
-        "height": 27552,
-        "mempool_size": 0,
-        "circulating_supply": 24141030101,
-        "maximum_supply": 18400000000000,
-        "network": "Testnet",
-        "pruned_topoheight": null,
-        "stableheight": 27544,
-        "top_block_hash": "00000014adb905b46053363e264975dd32cd0020eaf474fe08c5f492110aa95c",
-        "topoheight": 28032,
-        "version": "1.4.0"
-    }
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "average_block_time": 11812,
+    "block_reward": 865869,
+    "block_time_target": 15000,
+    "difficulty": 35533666,
+    "height": 27552,
+    "mempool_size": 0,
+    "circulating_supply": 24141030101,
+    "maximum_supply": 18400000000000,
+    "network": "Testnet",
+    "pruned_topoheight": null,
+    "stableheight": 27544,
+    "top_block_hash": "00000014adb905b46053363e264975dd32cd0020eaf474fe08c5f492110aa95c",
+    "topoheight": 28032,
+    "version": "1.4.0"
+  }
 }
 ```
 
@@ -116,9 +116,9 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "method": "get_height",
-    "id": 1
+  "jsonrpc": "2.0",
+  "method": "get_height",
+  "id": 1
 }
 ```
 
@@ -126,9 +126,9 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": 23
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": 23
 }
 ```
 
@@ -140,9 +140,9 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "method": "get_topoheight",
-    "id": 1
+  "jsonrpc": "2.0",
+  "method": "get_topoheight",
+  "id": 1
 }
 ```
 
@@ -150,9 +150,9 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": 23
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": 23
 }
 ```
 
@@ -164,9 +164,9 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "method": "get_stableheight",
-    "id": 1
+  "jsonrpc": "2.0",
+  "method": "get_stableheight",
+  "id": 1
 }
 ```
 
@@ -174,9 +174,9 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": 15
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": 15
 }
 ```
 
@@ -194,12 +194,12 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "method": "get_block_template",
-    "id": 1,
-    "params": {
-        "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
-    }
+  "jsonrpc": "2.0",
+  "method": "get_block_template",
+  "id": 1,
+  "params": {
+    "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
+  }
 }
 ```
 
@@ -207,13 +207,13 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": {
-		"difficulty": 1699032,
-		"height": 113,
-		"template": "00000000000000180000000000000000000001845c7a6e000000000000000000eed448813c9c2028d21e029ada21b5a82840b195e70fff8ce7be256afe35d2dc010000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d69200006c24cdc1c8ee8f028b8cafe7b79a66a0902f26d89dd54eeff80abcf251a9a3bd02"
-    }
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "difficulty": 1699032,
+    "height": 113,
+    "template": "00000000000000180000000000000000000001845c7a6e000000000000000000eed448813c9c2028d21e029ada21b5a82840b195e70fff8ce7be256afe35d2dc010000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d69200006c24cdc1c8ee8f028b8cafe7b79a66a0902f26d89dd54eeff80abcf251a9a3bd02"
+  }
 }
 ```
 
@@ -232,12 +232,12 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "method": "get_block_at_topoheight",
-    "id": 1,
-    "params": {
-        "topoheight": 23
-    }
+  "jsonrpc": "2.0",
+  "method": "get_block_at_topoheight",
+  "id": 1,
+  "params": {
+    "topoheight": 23
+  }
 }
 ```
 
@@ -245,29 +245,29 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": {
-		"block_type": "Normal",
-		"cumulative_difficulty": 76173573,
-		"difficulty": 7902701,
-		"extra_nonce": "cac46116afea8a00d2d9f9ea10d20a3a5bc9c2ae7f47201f24450e3e3fe5ec09",
-		"hash": "0000019fab49717777dba2ee23f46f9f27706a9c5103a5550cf429f9c786b1e4",
-		"height": 23,
-		"miner": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
-		"nonce": 183776,
-		"reward": 877360,
-		"supply": 42113762,
-		"timestamp": 1674226439134,
-		"tips": [
-			"000001aa69c15167a192de809eeed112f50ec91e513cfbf7b1674523583acbf9"
-		],
-		"topoheight": 23,
-		"total_fees": null,
-		"total_size_in_bytes": 131,
-		"txs_hashes": [],
-		"version": 0
-    }
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "block_type": "Normal",
+    "cumulative_difficulty": 76173573,
+    "difficulty": 7902701,
+    "extra_nonce": "cac46116afea8a00d2d9f9ea10d20a3a5bc9c2ae7f47201f24450e3e3fe5ec09",
+    "hash": "0000019fab49717777dba2ee23f46f9f27706a9c5103a5550cf429f9c786b1e4",
+    "height": 23,
+    "miner": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
+    "nonce": 183776,
+    "reward": 877360,
+    "supply": 42113762,
+    "timestamp": 1674226439134,
+    "tips": [
+      "000001aa69c15167a192de809eeed112f50ec91e513cfbf7b1674523583acbf9"
+    ],
+    "topoheight": 23,
+    "total_fees": null,
+    "total_size_in_bytes": 131,
+    "txs_hashes": [],
+    "version": 0
+  }
 }
 ```
 
@@ -286,12 +286,12 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "method": "get_blocks_at_height",
-    "id": 1,
-    "params": {
-        "height": 23
-    }
+  "jsonrpc": "2.0",
+  "method": "get_blocks_at_height",
+  "id": 1,
+  "params": {
+    "height": 23
+  }
 }
 ```
 
@@ -299,29 +299,29 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": [{
-        "block_type": "Normal",
-        "cumulative_difficulty": 76173573,
-        "difficulty": 7902701,
-        "extra_nonce": "cac46116afea8a00d2d9f9ea10d20a3a5bc9c2ae7f47201f24450e3e3fe5ec09",
-        "hash": "0000019fab49717777dba2ee23f46f9f27706a9c5103a5550cf429f9c786b1e4",
-        "height": 23,
-        "miner": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
-        "nonce": 183776,
-        "reward": 877360,
-        "supply": 42113762,
-        "timestamp": 1674226439134,
-        "tips": [
-            "000001aa69c15167a192de809eeed112f50ec91e513cfbf7b1674523583acbf9"
-        ],
-        "topoheight": 23,
-        "total_fees": null,
-        "total_size_in_bytes": 131,
-        "txs_hashes": [],
-        "version": 0
-    }]
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [{
+    "block_type": "Normal",
+    "cumulative_difficulty": 76173573,
+    "difficulty": 7902701,
+    "extra_nonce": "cac46116afea8a00d2d9f9ea10d20a3a5bc9c2ae7f47201f24450e3e3fe5ec09",
+    "hash": "0000019fab49717777dba2ee23f46f9f27706a9c5103a5550cf429f9c786b1e4",
+    "height": 23,
+    "miner": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
+    "nonce": 183776,
+    "reward": 877360,
+    "supply": 42113762,
+    "timestamp": 1674226439134,
+    "tips": [
+        "000001aa69c15167a192de809eeed112f50ec91e513cfbf7b1674523583acbf9"
+    ],
+    "topoheight": 23,
+    "total_fees": null,
+    "total_size_in_bytes": 131,
+    "txs_hashes": [],
+    "version": 0
+  }]
 }
 ```
 
@@ -340,12 +340,12 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "method": "get_block_by_hash",
-    "id": 1,
-    "params": {
-        "hash": "000002144bb86d9fcbe223aff1f6c2526d0c47eef0b8f7433b3abec22685fb31"
-    }
+  "jsonrpc": "2.0",
+  "method": "get_block_by_hash",
+  "id": 1,
+  "params": {
+    "hash": "000002144bb86d9fcbe223aff1f6c2526d0c47eef0b8f7433b3abec22685fb31"
+  }
 }
 ```
 
@@ -353,29 +353,29 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": {
-		"block_type": "Normal",
-		"cumulative_difficulty": 76173573,
-		"difficulty": 7902701,
-		"extra_nonce": "cac46116afea8a00d2d9f9ea10d20a3a5bc9c2ae7f47201f24450e3e3fe5ec09",
-		"hash": "0000019fab49717777dba2ee23f46f9f27706a9c5103a5550cf429f9c786b1e4",
-		"height": 23,
-		"miner": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
-		"nonce": 183776,
-		"reward": 877360,
-		"supply": 42113762,
-		"timestamp": 1674226439134,
-		"tips": [
-			"000001aa69c15167a192de809eeed112f50ec91e513cfbf7b1674523583acbf9"
-		],
-		"topoheight": 23,
-		"total_fees": null,
-		"total_size_in_bytes": 131,
-		"txs_hashes": [],
-		"version": 0
-    }
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "block_type": "Normal",
+    "cumulative_difficulty": 76173573,
+    "difficulty": 7902701,
+    "extra_nonce": "cac46116afea8a00d2d9f9ea10d20a3a5bc9c2ae7f47201f24450e3e3fe5ec09",
+    "hash": "0000019fab49717777dba2ee23f46f9f27706a9c5103a5550cf429f9c786b1e4",
+    "height": 23,
+    "miner": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
+    "nonce": 183776,
+    "reward": 877360,
+    "supply": 42113762,
+    "timestamp": 1674226439134,
+    "tips": [
+      "000001aa69c15167a192de809eeed112f50ec91e513cfbf7b1674523583acbf9"
+    ],
+    "topoheight": 23,
+    "total_fees": null,
+    "total_size_in_bytes": 131,
+    "txs_hashes": [],
+    "version": 0
+  }
 }
 ```
 
@@ -393,9 +393,9 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "method": "get_top_block",
-    "id": 1
+  "jsonrpc": "2.0",
+  "method": "get_top_block",
+  "id": 1
 }
 ```
 
@@ -403,29 +403,29 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": {
-		"block_type": "Normal",
-		"cumulative_difficulty": 76173573,
-		"difficulty": 7902701,
-		"extra_nonce": "cac46116afea8a00d2d9f9ea10d20a3a5bc9c2ae7f47201f24450e3e3fe5ec09",
-		"hash": "0000019fab49717777dba2ee23f46f9f27706a9c5103a5550cf429f9c786b1e4",
-		"height": 23,
-		"miner": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
-		"nonce": 183776,
-		"reward": 877360,
-		"supply": 42113762,
-		"timestamp": 1674226439134,
-		"tips": [
-			"000001aa69c15167a192de809eeed112f50ec91e513cfbf7b1674523583acbf9"
-		],
-		"topoheight": 23,
-		"total_fees": null,
-		"total_size_in_bytes": 131,
-		"txs_hashes": [],
-		"version": 0
-    }
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "block_type": "Normal",
+    "cumulative_difficulty": 76173573,
+    "difficulty": 7902701,
+    "extra_nonce": "cac46116afea8a00d2d9f9ea10d20a3a5bc9c2ae7f47201f24450e3e3fe5ec09",
+    "hash": "0000019fab49717777dba2ee23f46f9f27706a9c5103a5550cf429f9c786b1e4",
+    "height": 23,
+    "miner": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
+    "nonce": 183776,
+    "reward": 877360,
+    "supply": 42113762,
+    "timestamp": 1674226439134,
+    "tips": [
+      "000001aa69c15167a192de809eeed112f50ec91e513cfbf7b1674523583acbf9"
+    ],
+    "topoheight": 23,
+    "total_fees": null,
+    "total_size_in_bytes": 131,
+    "txs_hashes": [],
+    "version": 0
+  }
 }
 ```
 
@@ -448,12 +448,12 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "id": 1,
-    "method": "get_nonce",
-    "params": {
-        "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
-    }
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_nonce",
+  "params": {
+    "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
+  }
 }
 ```
 
@@ -461,9 +461,9 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": 17
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": 17
 }
 ```
 
@@ -482,12 +482,12 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "id": 1,
-    "method": "has_nonce",
-    "params": {
-        "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
-    }
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "has_nonce",
+  "params": {
+    "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
+  }
 }
 ```
 
@@ -495,11 +495,11 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": {
-        "exist": true
-    }
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "exist": true
+  }
 }
 ```
 
@@ -522,13 +522,13 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "id": 1,
-    "method": "get_balance",
-    "result": {
-        "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
-        "asset": "0000000000000000000000000000000000000000000000000000000000000000"
-    }
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_balance",
+  "result": {
+    "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
+    "asset": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
 }
 ```
 
@@ -536,15 +536,15 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": {
-        "version": {
-            "balance": 37726957,
-            "previous_topoheight": 41
-        },
-        "topoheight": 42
-    }
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "version": {
+      "balance": 37726957,
+      "previous_topoheight": 41
+    },
+    "topoheight": 42
+  }
 }
 ```
 
@@ -568,14 +568,14 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "id": 1,
-    "method": "get_balance_at_topoheight",
-    "params": {
-        "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
-        "asset": "0000000000000000000000000000000000000000000000000000000000000000",
-        "topoheight": 30
-    }
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_balance_at_topoheight",
+  "params": {
+    "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
+    "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+    "topoheight": 30
+  }
 }
 ```
 
@@ -583,12 +583,12 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": {
-        "balance": 27198582,
-        "previous_topoheight": 29
-    }
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "balance": 27198582,
+    "previous_topoheight": 29
+  }
 }
 ```
 
@@ -600,9 +600,9 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "id": 1,
-    "method": "get_assets"
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_assets"
 }
 ```
 
@@ -610,11 +610,11 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": [
-        "0000000000000000000000000000000000000000000000000000000000000000"
-    ]
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [
+    "0000000000000000000000000000000000000000000000000000000000000000"
+  ]
 }
 ```
 
@@ -626,9 +626,9 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "id": 1,
-    "method": "count_assets"
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "count_assets"
 }
 ```
 
@@ -636,9 +636,9 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": 1
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": 1
 }
 ```
 
@@ -650,9 +650,9 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "id": 1,
-    "method": "count_transactions"
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "count_transactions"
 }
 ```
 
@@ -660,9 +660,9 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": 44
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": 44
 }
 ```
 
@@ -675,9 +675,9 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "id": 1,
-    "method": "count_accounts"
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "count_accounts"
 }
 ```
 
@@ -685,9 +685,9 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": 1
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": 1
 }
 ```
 
@@ -699,9 +699,9 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "id": 1,
-    "method": "get_tips"
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_tips"
 }
 ```
 
@@ -709,11 +709,11 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": [
-        "0000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d692"
-    ]
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [
+    "0000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d692"
+  ]
 }
 ```
 
@@ -725,9 +725,9 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "id": 1,
-    "method": "p2p_status"
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "p2p_status"
 }
 ```
 
@@ -735,16 +735,16 @@ Response
 
 ```json
 { 
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": {
-        "best_topoheight": 23,
-        "max_peers": 32,
-        "our_topoheight": 23,
-        "peer_count": 1,
-        "peer_id": 17384099500704996810,
-        "tag": null
-    }
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "best_topoheight": 23,
+    "max_peers": 32,
+    "our_topoheight": 23,
+    "peer_count": 1,
+    "peer_id": 17384099500704996810,
+    "tag": null
+  }
 }
 ```
 
@@ -768,13 +768,13 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "id": 1,
-    "method": "get_dag_order",
-    "params": {
-        "start_topoheight": 0,
-        "end_topoheight": 5
-    }
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_dag_order",
+  "params": {
+    "start_topoheight": 0,
+    "end_topoheight": 5
+  }
 }
 ```
 
@@ -782,14 +782,13 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": [
-        "83f6a544d69ca4852e8e2b6bc98b3a1602509e8feea7d744f6a60deeef51c663",
-        "00005c58f5c2a506b2a24e79967db009d3b2be13f15e657d6352b1aa59cdfedc",
-        "00002d138fbab2bc14958061edbc4a0c272d1ac27d60ef4a72e2f5ac9d1a2b0a",
-        ...
-    ]
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [
+      "83f6a544d69ca4852e8e2b6bc98b3a1602509e8feea7d744f6a60deeef51c663",
+      "00005c58f5c2a506b2a24e79967db009d3b2be13f15e657d6352b1aa59cdfedc",
+      "00002d138fbab2bc14958061edbc4a0c272d1ac27d60ef4a72e2f5ac9d1a2b0a"
+  ]
 }
 ```
 
@@ -807,12 +806,12 @@ Request
 
 ```json
 {
-	"jsonrpc": "2.0",
-	"id": 0,
-	"method": "submit_block",
-	"params": {
-		"block_template": "0000000000000be0000000000000000000000186c0d2dac5000000000003e33798b264214181b57720a6e6cdf87cd9bcd80391dde6780223f87176aff03b45080100000040453896c70b2be2d7088860f179a9e9fc3d03941170d6bf8c2dc6d3e60000d549622a55c88b5c14c263ec0db5f5ffae249c7288f68b0c1333cb105df89450"
-	}
+  "jsonrpc": "2.0",
+  "id": 0,
+  "method": "submit_block",
+  "params": {
+    "block_template": "0000000000000be0000000000000000000000186c0d2dac5000000000003e33798b264214181b57720a6e6cdf87cd9bcd80391dde6780223f87176aff03b45080100000040453896c70b2be2d7088860f179a9e9fc3d03941170d6bf8c2dc6d3e60000d549622a55c88b5c14c263ec0db5f5ffae249c7288f68b0c1333cb105df89450"
+  }
 }
 ```
 
@@ -820,9 +819,9 @@ Response
 
 ```json
 {
-    "id": 0,
-    "jsonrpc": "2.0",
-    "result": true
+  "id": 0,
+  "jsonrpc": "2.0",
+  "result": true
 }
 ```
 
@@ -840,21 +839,21 @@ Request
 
 ```json
 {
-	"jsonrpc": "2.0",
-	"id": 0,
-	"method": "submit_transaction",
-	"params": {
-		"data": "a15637c25cefd438998a2a043867ef8df905542078a8724ada1aabce003df3cc010100000000000000000000000000000000000000000000000000000000000000000000000000003a986c24cdc1c8ee8f028b8cafe7b79a66a0902f26d89dd54eeff80abcf251a9a3bd0000000000000003e80000000000000002d297ef720d388ff2aaedf6755a1f93b4ac1b55c987da5dc53c19350d8a779d970c7f4cfcc25d2f4ce3f4ef3a77d0f31d15635d221d5a72ef6651dbb7f1810301"
-	}
+  "jsonrpc": "2.0",
+  "id": 0,
+  "method": "submit_transaction",
+  "params": {
+    "data": "a15637c25cefd438998a2a043867ef8df905542078a8724ada1aabce003df3cc010100000000000000000000000000000000000000000000000000000000000000000000000000003a986c24cdc1c8ee8f028b8cafe7b79a66a0902f26d89dd54eeff80abcf251a9a3bd0000000000000003e80000000000000002d297ef720d388ff2aaedf6755a1f93b4ac1b55c987da5dc53c19350d8a779d970c7f4cfcc25d2f4ce3f4ef3a77d0f31d15635d221d5a72ef6651dbb7f1810301"
+  }
 }
 
 Response
 
 ```json
 {
-	"id": 0,
-	"jsonrpc": "2.0",
-	"result": true
+  "id": 0,
+  "jsonrpc": "2.0",
+  "result": true
 }
 ```
 
@@ -866,9 +865,9 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "id": 0,
-    "method": "get_mempool"
+  "jsonrpc": "2.0",
+  "id": 0,
+  "method": "get_mempool"
 }
 ```
 
@@ -920,12 +919,12 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "id": 0,
-    "method": "get_transaction",
-    "params": {
-        "hash": "136e9c19f8e9afd814e1e5f819914dca8fc0df01b68c5744bcfba0ab224dc0c2"
-    }
+  "jsonrpc": "2.0",
+  "id": 0,
+  "method": "get_transaction",
+  "params": {
+    "hash": "136e9c19f8e9afd814e1e5f819914dca8fc0df01b68c5744bcfba0ab224dc0c2"
+  }
 }
 ```
 
@@ -933,31 +932,31 @@ Response
 
 ```json
 {
-    "id": 0,
-    "jsonrpc": "2.0",
-    "result": {
-		"hash": "136e9c19f8e9afd814e1e5f819914dca8fc0df01b68c5744bcfba0ab224dc0c2",
-		"blocks": [
-			"0000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d692"
-		],
-		"executed_in_block": "0000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d692",
-		"data": {
-			"transfers": [
-				{
-					"amount": 15000,
-					"asset": "0000000000000000000000000000000000000000000000000000000000000000",
-					"extra_data": null,
-					"to": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
-				}
-			]
-		},
-		"version": 0,
-		"fee": 1000,
-		"in_mempool": false,
-		"nonce": 2,
-		"owner": "xel1qyq2z43hcfwwl4pcnx9z5ppcvlhcm7g92ss832rjftdp427wqq7l8nqp5khq3",
-		"signature": "d297ef720d388ff2aaedf6755a1f93b4ac1b55c987da5dc53c19350d8a779d970c7f4cfcc25d2f4ce3f4ef3a77d0f31d15635d221d5a72ef6651dbb7f1810301"
-	}
+  "id": 0,
+  "jsonrpc": "2.0",
+  "result": {
+  "hash": "136e9c19f8e9afd814e1e5f819914dca8fc0df01b68c5744bcfba0ab224dc0c2",
+  "blocks": [
+    "0000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d692"
+  ],
+  "executed_in_block": "0000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d692",
+  "data": {
+    "transfers": [
+      {
+        "amount": 15000,
+        "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+        "extra_data": null,
+        "to": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
+      }
+    ]
+  },
+  "version": 0,
+  "fee": 1000,
+  "in_mempool": false,
+  "nonce": 2,
+  "owner": "xel1qyq2z43hcfwwl4pcnx9z5ppcvlhcm7g92ss832rjftdp427wqq7l8nqp5khq3",
+  "signature": "d297ef720d388ff2aaedf6755a1f93b4ac1b55c987da5dc53c19350d8a779d970c7f4cfcc25d2f4ce3f4ef3a77d0f31d15635d221d5a72ef6651dbb7f1810301"
+}
 }
 ```
 
@@ -975,15 +974,15 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "id": 0,
-    "method": "get_transactions",
-    "params": {
-        "tx_hashes": [
-            "136e9c19f8e9afd814e1e5f819914dca8fc0df01b68c5744bcfba0ab224dc0c2",
-            "136e9c19f8e9afd814e1e5f819914dca8fc0df01b68c5744bcfba0ab224dc0c3"
-        ]
-    }
+  "jsonrpc": "2.0",
+  "id": 0,
+  "method": "get_transactions",
+  "params": {
+    "tx_hashes": [
+      "136e9c19f8e9afd814e1e5f819914dca8fc0df01b68c5744bcfba0ab224dc0c2",
+      "136e9c19f8e9afd814e1e5f819914dca8fc0df01b68c5744bcfba0ab224dc0c3"
+    ]
+  }
 }
 ```
 
@@ -991,32 +990,32 @@ Response
 
 ```json
 {
-    "id": 0,
-    "jsonrpc": "2.0",
-    "result": [{
-        "blocks": [
-            "0000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d692"
-        ],
-        "hash": "136e9c19f8e9afd814e1e5f819914dca8fc0df01b68c5744bcfba0ab224dc0c2",
-        "data": {
-            "Transfer": [
-                {
-                    "amount": 15000,
-                    "asset": "0000000000000000000000000000000000000000000000000000000000000000",
-                    "extra_data": null,
-                    "to": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
-                }
-            ]
-        },
-        "fee": 1000,
-        "nonce": 2,
-        "owner": "xel1qyq2z43hcfwwl4pcnx9z5ppcvlhcm7g92ss832rjftdp427wqq7l8nqp5khq3",
-        "signature": "d297ef720d388ff2aaedf6755a1f93b4ac1b55c987da5dc53c19350d8a779d970c7f4cfcc25d2f4ce3f4ef3a77d0f31d15635d221d5a72ef6651dbb7f1810301",
-        "first_seen": 1696080037,
-        "executed_in_block": "2ab430ceff1d181fc8c93ea9db1a7c03267177153783662eaf639f99abcccfab",
-        "version": 0,
-        "in_mempool": false
-    }]
+  "id": 0,
+  "jsonrpc": "2.0",
+  "result": [{
+    "blocks": [
+        "0000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d692"
+    ],
+    "hash": "136e9c19f8e9afd814e1e5f819914dca8fc0df01b68c5744bcfba0ab224dc0c2",
+    "data": {
+      "Transfer": [
+        {
+          "amount": 15000,
+          "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+          "extra_data": null,
+          "to": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
+        }
+      ]
+    },
+    "fee": 1000,
+    "nonce": 2,
+    "owner": "xel1qyq2z43hcfwwl4pcnx9z5ppcvlhcm7g92ss832rjftdp427wqq7l8nqp5khq3",
+    "signature": "d297ef720d388ff2aaedf6755a1f93b4ac1b55c987da5dc53c19350d8a779d970c7f4cfcc25d2f4ce3f4ef3a77d0f31d15635d221d5a72ef6651dbb7f1810301",
+    "first_seen": 1696080037,
+    "executed_in_block": "2ab430ceff1d181fc8c93ea9db1a7c03267177153783662eaf639f99abcccfab",
+    "version": 0,
+    "in_mempool": false
+  }]
 }
 ```
 
@@ -1035,13 +1034,13 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "id": 1,
-    "method": "get_blocks_range_by_topoheight",
-    "params": {
-        "start_topoheight": 0,
-        "end_topoheight": 19
-    }
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_blocks_range_by_topoheight",
+  "params": {
+    "start_topoheight": 0,
+    "end_topoheight": 19
+  }
 }
 ```
 
@@ -1049,27 +1048,27 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": [{
-        "block_type": "Sync",
-        "cumulative_difficulty": 1,
-        "difficulty": 1,
-        "extra_nonce": "0000000000000000000000000000000000000000000000000000000000000000",
-        "hash": "55a162b8e0e137bb6a8de9f4c4b214fb60bcd2df15ec32fdd8f06759b863f06e",
-        "height": 0,
-        "miner": "xel1qqqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680gtl9ky3",
-        "nonce": 0,
-        "reward": 877380,
-        "supply": 877380,
-        "timestamp": 1678215431432,
-        "tips": [],
-        "topoheight": 0,
-        "total_fees": null,
-        "total_size_in_bytes": 99,
-        "txs_hashes": [],
-        "version": 0
-    }]
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [{
+    "block_type": "Sync",
+    "cumulative_difficulty": 1,
+    "difficulty": 1,
+    "extra_nonce": "0000000000000000000000000000000000000000000000000000000000000000",
+    "hash": "55a162b8e0e137bb6a8de9f4c4b214fb60bcd2df15ec32fdd8f06759b863f06e",
+    "height": 0,
+    "miner": "xel1qqqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680gtl9ky3",
+    "nonce": 0,
+    "reward": 877380,
+    "supply": 877380,
+    "timestamp": 1678215431432,
+    "tips": [],
+    "topoheight": 0,
+    "total_fees": null,
+    "total_size_in_bytes": 99,
+    "txs_hashes": [],
+    "version": 0
+  }]
 }
 ```
 
@@ -1088,13 +1087,13 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "id": 1,
-    "method": "get_blocks_range_by_height",
-    "params": {
-        "start_height": 0,
-        "end_height": 19
-    }
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_blocks_range_by_height",
+  "params": {
+    "start_height": 0,
+    "end_height": 19
+  }
 }
 ```
 
@@ -1102,27 +1101,27 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": [{
-        "block_type": "Sync",
-        "cumulative_difficulty": 1,
-        "difficulty": 1,
-        "extra_nonce": "0000000000000000000000000000000000000000000000000000000000000000",
-        "hash": "55a162b8e0e137bb6a8de9f4c4b214fb60bcd2df15ec32fdd8f06759b863f06e",
-        "height": 0,
-        "miner": "xel1qqqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680gtl9ky3",
-        "nonce": 0,
-        "reward": 877380,
-        "supply": 877380,
-        "timestamp": 1678215431432,
-        "tips": [],
-        "topoheight": 0,
-        "total_fees": null,
-        "total_size_in_bytes": 99,
-        "txs_hashes": [],
-        "version": 0
-    }]
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [{
+    "block_type": "Sync",
+    "cumulative_difficulty": 1,
+    "difficulty": 1,
+    "extra_nonce": "0000000000000000000000000000000000000000000000000000000000000000",
+    "hash": "55a162b8e0e137bb6a8de9f4c4b214fb60bcd2df15ec32fdd8f06759b863f06e",
+    "height": 0,
+    "miner": "xel1qqqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680gtl9ky3",
+    "nonce": 0,
+    "reward": 877380,
+    "supply": 877380,
+    "timestamp": 1678215431432,
+    "tips": [],
+    "topoheight": 0,
+    "total_fees": null,
+    "total_size_in_bytes": 99,
+    "txs_hashes": [],
+    "version": 0
+  }]
 }
 ```
 
@@ -1143,10 +1142,10 @@ Request
 
 ```json
 {
-	"jsonrpc": "2.0",
-	"id": 1,
-	"method": "get_accounts",
-	"params": {}
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_accounts",
+  "params": {}
 }
 ```
 
@@ -1154,16 +1153,16 @@ Response
 
 ```json
 {
-	"id": 1,
-	"jsonrpc": "2.0",
-	"result": [
-		"xet1qqq9rrdy6s2zy4yavp59094jzlm66n33vy0datvv900yls8pugvyvmqn46pvl",
-		"xet1qqqgpk6n5klceg9gg9tcw0xa8r3e7zd3gc5mzv2v4m48knxd0y9wadg3mdp9t",
-		"xet1qqqvpwf9qprl6hzysg0zycm3y56ygys32wukxnl7yezqc7ydudy3azcxq6nwv",
-		"xet1qqqvltq9dsmvdsvapr6y0742sv477766g9vpvp2expe5v7x7fadvftc9h2vyw",
-		"xet1qqqd9ur03xahtts6q00t8z8ya2gxm39qx43ljz32vmv8p7j9ccxn6zccrfnxp",
-		"xet1qqqd2jtz9f2u3z6uznpx8mqdkh6llt3yn3eg3a5tpsfn8jcsthufg5qmwwl2j"
-	]
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [
+    "xet1qqq9rrdy6s2zy4yavp59094jzlm66n33vy0datvv900yls8pugvyvmqn46pvl",
+    "xet1qqqgpk6n5klceg9gg9tcw0xa8r3e7zd3gc5mzv2v4m48knxd0y9wadg3mdp9t",
+    "xet1qqqvpwf9qprl6hzysg0zycm3y56ygys32wukxnl7yezqc7ydudy3azcxq6nwv",
+    "xet1qqqvltq9dsmvdsvapr6y0742sv477766g9vpvp2expe5v7x7fadvftc9h2vyw",
+    "xet1qqqd9ur03xahtts6q00t8z8ya2gxm39qx43ljz32vmv8p7j9ccxn6zccrfnxp",
+    "xet1qqqd2jtz9f2u3z6uznpx8mqdkh6llt3yn3eg3a5tpsfn8jcsthufg5qmwwl2j"
+  ]
 }
 ```
 
@@ -1181,12 +1180,12 @@ Request
 
 ```json
 {
-	"jsonrpc": "2.0",
-	"id": 1,
-	"method": "get_account_history",
-    "params": {
-        "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
-    }
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_account_history",
+  "params": {
+    "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
+  }
 }
 ```
 
@@ -1194,16 +1193,16 @@ Response
 
 ```json
 {
-	"id": 1,
-	"jsonrpc": "2.0",
-	"result": [{
-        "block_timestamp": 1697749965331,
-        "hash": "00000030bd46c7d790693fad42c9096744c343c75b9d45704ae182611e51dc82",
-        "mining": {
-            "reward": 116937
-        },
-        "topoheight": 499058
-    }]
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [{
+    "block_timestamp": 1697749965331,
+    "hash": "00000030bd46c7d790693fad42c9096744c343c75b9d45704ae182611e51dc82",
+    "mining": {
+        "reward": 116937
+    },
+    "topoheight": 499058
+  }]
 }
 ```
 
@@ -1221,12 +1220,12 @@ Request
 
 ```json
 {
-	"jsonrpc": "2.0",
-	"id": 1,
-	"method": "get_account_assets",
-	"params": {
-        "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
-    }
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_account_assets",
+  "params": {
+    "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
+  }
 }
 ```
 
@@ -1234,11 +1233,11 @@ Response
 
 ```json
 {
-	"id": 1,
-	"jsonrpc": "2.0",
-	"result": [
-		"0000000000000000000000000000000000000000000000000000000000000000",
-	]
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [
+    "0000000000000000000000000000000000000000000000000000000000000000",
+  ]
 }
 ```
 
@@ -1250,9 +1249,9 @@ Request
 
 ```json
 {
-	"jsonrpc": "2.0",
-	"id": 1,
-	"method": "get_peers"
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_peers"
 }
 ```
 
@@ -1260,48 +1259,48 @@ Response
 
 ```json
 {
-	"id": 1,
-	"jsonrpc": "2.0",
-	"result": [
-        {
-            "addr": "188.241.176.196:2125",
-            "cumulative_difficulty": 7472238181272,
-            "height": 100842,
-            "id": 2926489600042871000,
-            "last_ping": 1701127717,
-            "peers": {
-                "162.19.249.100:2125": "In",
-                "44.198.24.170:2125": "Out",
-                "90.35.37.125:2125": "Out",
-                "91.173.44.110:2125": "Out",
-                "95.214.55.65:2125": "In"
-            },
-            "pruned_topoheight": null,
-            "tag": null,
-            "top_block_hash": "000000251eb3af8e6db1fc57dfd14f6a1b31c6f63d5c3fa2551b5046ed0b1281",
-            "topoheight": 100899,
-            "version": "1.6.0"
-        },
-        {
-            "addr": "162.19.249.100:2125",
-            "cumulative_difficulty": 7472238181272,
-            "height": 100842,
-            "id": 8826166700231580000,
-            "last_ping": 1701127717,
-            "peers": {
-                "188.241.176.196:2125": "In",
-                "44.198.24.170:2125": "In",
-                "90.35.37.125:2125": "Out",
-                "91.173.44.110:2125": "Out",
-                "95.214.55.65:2125": "In"
-            },
-            "pruned_topoheight": null,
-            "tag": null,
-            "top_block_hash": "000000251eb3af8e6db1fc57dfd14f6a1b31c6f63d5c3fa2551b5046ed0b1281",
-            "topoheight": 100899,
-            "version": "1.6.0"
-        }
-    ]
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [
+    {
+      "addr": "188.241.176.196:2125",
+      "cumulative_difficulty": 7472238181272,
+      "height": 100842,
+      "id": 2926489600042871000,
+      "last_ping": 1701127717,
+      "peers": {
+          "162.19.249.100:2125": "In",
+          "44.198.24.170:2125": "Out",
+          "90.35.37.125:2125": "Out",
+          "91.173.44.110:2125": "Out",
+          "95.214.55.65:2125": "In"
+      },
+      "pruned_topoheight": null,
+      "tag": null,
+      "top_block_hash": "000000251eb3af8e6db1fc57dfd14f6a1b31c6f63d5c3fa2551b5046ed0b1281",
+      "topoheight": 100899,
+      "version": "1.6.0"
+    },
+    {
+      "addr": "162.19.249.100:2125",
+      "cumulative_difficulty": 7472238181272,
+      "height": 100842,
+      "id": 8826166700231580000,
+      "last_ping": 1701127717,
+      "peers": {
+          "188.241.176.196:2125": "In",
+          "44.198.24.170:2125": "In",
+          "90.35.37.125:2125": "Out",
+          "91.173.44.110:2125": "Out",
+          "95.214.55.65:2125": "In"
+      },
+      "pruned_topoheight": null,
+      "tag": null,
+      "top_block_hash": "000000251eb3af8e6db1fc57dfd14f6a1b31c6f63d5c3fa2551b5046ed0b1281",
+      "topoheight": 100899,
+      "version": "1.6.0"
+    }
+  ]
 }
 ```
 
@@ -1313,9 +1312,9 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "method": "get_dev_fee_thresholds",
-    "id": 1
+  "jsonrpc": "2.0",
+  "method": "get_dev_fee_thresholds",
+  "id": 1
 }
 ```
 
@@ -1323,22 +1322,22 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": [
-        {
-            "fee_percentage": 15,
-            "height": 0
-        },
-        {
-            "fee_percentage": 10,
-            "height": 1250000
-        },
-        {
-            "fee_percentage": 5,
-            "height": 3000000
-        }
-    ]
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [
+    {
+      "fee_percentage": 15,
+      "height": 0
+    },
+    {
+      "fee_percentage": 10,
+      "height": 1250000
+    },
+    {
+      "fee_percentage": 5,
+      "height": 3000000
+    }
+  ]
 }
 ```
 
@@ -1350,9 +1349,9 @@ Request
 
 ```json
 {
-    "jsonrpc": "2.0",
-    "method": "get_size_on_disk",
-    "id": 1
+  "jsonrpc": "2.0",
+  "method": "get_size_on_disk",
+  "id": 1
 }
 ```
 
@@ -1360,12 +1359,12 @@ Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": {
-        "size_bytes": 94896128,
-        "size_formatted": "90.5 MiB"
-    }
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "size_bytes": 94896128,
+    "size_formatted": "90.5 MiB"
+  }
 }
 ```
 
@@ -1380,12 +1379,12 @@ For example:
 const ws = new WebSocket('wss://node.xelis.io/ws')
  
 const message = {
-    id: 1,
-    jsonrpc: '2.0',
-    method: 'subscribe',
-    params: {
-        notify: 'NewBlock'
-    }
+  id: 1,
+  jsonrpc: '2.0',
+  method: 'subscribe',
+  params: {
+    notify: 'NewBlock'
+  }
 }
  
 ws.send(JSON.stringify(message))
@@ -1399,27 +1398,27 @@ On Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": {
-        "block_type": "Normal",
-        "cumulative_difficulty": 95411226796,
-        "difficulty": 3291268,
-        "event": "NewBlock",
-        "extra_nonce": "2365cfaac7652364a8fc9cfeadcbb16a0e29ae8c3aa48f099449ac92d161f91e",
-        "hash": "ad4c28c060f8bcc6fd7ccf955eeaebcd5611d69fc22a17b8ec6961a995b2c6be",
-        "height": 20698,
-        "miner": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
-        "nonce": 0,
-        "reward": 868763,
-        "supply": 18071559927,
-        "timestamp": 1677081254817,
-        "tips": ["1faac9784c07b41d6e8740f15b23c163966aecebc1b7cac77aca74946a25625d"],
-        "topoheight": 20698,
-        "total_fees": 0,
-        "total_size_in_bytes": 131,
-        "txs_hashes": []
-    }
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "block_type": "Normal",
+    "cumulative_difficulty": 95411226796,
+    "difficulty": 3291268,
+    "event": "NewBlock",
+    "extra_nonce": "2365cfaac7652364a8fc9cfeadcbb16a0e29ae8c3aa48f099449ac92d161f91e",
+    "hash": "ad4c28c060f8bcc6fd7ccf955eeaebcd5611d69fc22a17b8ec6961a995b2c6be",
+    "height": 20698,
+    "miner": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
+    "nonce": 0,
+    "reward": 868763,
+    "supply": 18071559927,
+    "timestamp": 1677081254817,
+    "tips": ["1faac9784c07b41d6e8740f15b23c163966aecebc1b7cac77aca74946a25625d"],
+    "topoheight": 20698,
+    "total_fees": 0,
+    "total_size_in_bytes": 131,
+    "txs_hashes": []
+  }
 }
 ```
 
@@ -1431,24 +1430,24 @@ On Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": {
-        "data": {
-            "Transfer": [{
-                "amount": 1,
-                "asset": "0000000000000000000000000000000000000000000000000000000000000000",
-                "extra_data": null,
-                "to": "xel1qqqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680gtl9ky3"
-            }]
-        },
-        "event": "TransactionAddedInMempool",
-        "fee": 1000,
-        "hash": "43e10cf783e6596efdfdd1fe9480be7221e5bfb36c817a299a9fc95b98624e80",
-        "nonce": 17,
-        "owner": "xel1qqqtgm427maw6mjnnl26kvfpapwc82esqsd2ryzwk5hrckt77kjld7qx6dnxc",
-        "signature": "1b479bc06963657d4f5d26b9f14fe8361a9eec7ef1e85e6f3c89fd5fec705fb0b2a04a98f7883f060245794f6f66c9de08c1a86dab5deb2dc544f6cda4b47a0a"
-    }
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "data": {
+      "Transfer": [{
+        "amount": 1,
+        "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+        "extra_data": null,
+        "to": "xel1qqqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680gtl9ky3"
+      }]
+    },
+    "event": "TransactionAddedInMempool",
+    "fee": 1000,
+    "hash": "43e10cf783e6596efdfdd1fe9480be7221e5bfb36c817a299a9fc95b98624e80",
+    "nonce": 17,
+    "owner": "xel1qqqtgm427maw6mjnnl26kvfpapwc82esqsd2ryzwk5hrckt77kjld7qx6dnxc",
+    "signature": "1b479bc06963657d4f5d26b9f14fe8361a9eec7ef1e85e6f3c89fd5fec705fb0b2a04a98f7883f060245794f6f66c9de08c1a86dab5deb2dc544f6cda4b47a0a"
+  }
 }
 ```
 
@@ -1460,14 +1459,14 @@ On Response
 
 ```json
 {
-    "id": 1,
-    "jsonrpc": "2.0",
-    "result": {
-        "block_hash": "cdae731b35c7bef7bfa4678fb97618d13957e99009e1aa952b5b5598f717c49e",
-        "event": "TransactionExecuted",
-        "topoheight": 6472,
-        "tx_hash": "43e10cf783e6596efdfdd1fe9480be7221e5bfb36c817a299a9fc95b98624e80"
-    }
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "block_hash": "cdae731b35c7bef7bfa4678fb97618d13957e99009e1aa952b5b5598f717c49e",
+    "event": "TransactionExecuted",
+    "topoheight": 6472,
+    "tx_hash": "43e10cf783e6596efdfdd1fe9480be7221e5bfb36c817a299a9fc95b98624e80"
+  }
 }
 ```
 
