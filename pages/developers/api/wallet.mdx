@@ -328,7 +328,7 @@ Response
 
 ### `get_transaction`
 
-> Get wallet transaction.
+> Get a transaction from the wallet storage.
 
 Parameters
 
@@ -357,7 +357,7 @@ Response
 
 ### `build_transaction`
 
-> Create a new transaction and broadcast to the network.
+> Build a transaction and broadcast to the network if requested.
 
 Parameters
 
@@ -391,14 +391,19 @@ Response
 {
   "id": 1,
   "jsonrpc": "2.0",
-  "result": {}
+  "result": {
+    "tx_as_hex": "",
+    "inner": {
+      "hash": "",
+      "data": {}
+    }
+  }
 }
 ```
 
 ### `list_transactions`
 
-
-> Create a new transaction and broadcast to the network.
+> List transactions from the wallet storage.
 
 Parameters
 
@@ -428,5 +433,27 @@ Response
   "id": 1,
   "jsonrpc": "2.0",
   "result": []
+}
+```
+
+### `is_online`
+
+> Check if the wallet is currently connected to a daemon.
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "is_online",
+  "id": 1
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": true
 }
 ```
