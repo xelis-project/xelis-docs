@@ -26,5 +26,7 @@ export default {
     text: <span>
       {new Date().getFullYear()} © <a href="https://xelis.io" target="_blank">XELIS Blockchain</a>
     </span>
-  }
+  },
+  primaryHue: 162,
+  primarySaturation: 92,
 }
