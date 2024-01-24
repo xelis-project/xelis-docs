@@ -1,4 +1,4 @@
-import { Tabs } from 'nextra/components'
+import { Tabs, Callout } from 'nextra/components'
 
 # Daemon API
 
@@ -503,13 +503,48 @@ Response
 }
 ```
 
+### `get_nonce_at_topoheight`
+
+> Get topoheight nonce value of an address.
+
+Parameters
+
+|   Name     |   Type  | Required |                Note               |
+|:----------:|:-------:|:--------:|:---------------------------------:|
+| address    | Address | Required | Valid address registered on chain |
+| topoheight | Integer | Required | nonce at specified topoheight     |
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_nonce_at_topoheight",
+  "params": {
+    "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
+    "topoheight": 0
+  }
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": 0
+}
+```
+
 ### `get_balance`
 
 > Get up-to-date asset's balance for a specific address.
 
-```txt
-Balance is returned in atomic units
-```
+<Callout type="warning">
+  Balance is returned in atomic units.
+</Callout>
 
 Parameters
 
@@ -548,13 +583,55 @@ Response
 }
 ```
 
+### `has_balance`
+
+> Check if the address has balance for an asset.
+
+<Callout type="warning">
+  Balance is returned in atomic units.
+</Callout>
+
+Parameters
+
+|   Name       |   Type  | Required |                Note               |
+|:------------:|:-------:|:--------:|:---------------------------------:|
+| address      | Address | Required | Valid address registered on chain |
+| asset        | Hash    | Required |    Asset ID registered on chain   |
+| topoheight   | Integer | Optional |                                   |
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "has_balance",
+  "result": {
+    "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
+    "asset": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "exists": true
+  }
+}
+```
+
 ### `get_balance_at_topoheight`
 
 > Get asset's balance from address at exact topoheight.
 
-```txt
-Balance is returned in atomic units
-```
+<Callout type="warning">
+  Balance is returned in atomic units.
+</Callout>
 
 Parameters
 
@@ -588,6 +665,42 @@ Response
   "result": {
     "balance": 27198582,
     "previous_topoheight": 29
+  }
+}
+```
+
+### `get_asset`
+
+> Get asset data with hash.
+
+Parameters
+
+|    Name    |   Type  | Required |                           Note                          |
+|:----------:|:-------:|:--------:|:-------------------------------------------------------:|
+|    asset   |   Hash  | Required |               Asset ID registered on chain              |
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_asset",
+  "params": {
+    "asset": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "topoheight": 0, // registered topoheight
+    "decimals": 8
   }
 }
 ```
@@ -1365,6 +1478,41 @@ Response
     "size_bytes": 94896128,
     "size_formatted": "90.5 MiB"
   }
+}
+```
+
+### `is_tx_executed_in_block`
+
+> Check if a transaction was executed in a specific block.
+
+Parameters
+
+|       Name          |   Type  | Required |                      Note                        |
+|:-------------------:|:-------:|:--------:|:------------------------------------------------:|
+|  tx_hash            | Hash    | Required |                                                  |
+|  block_hash         | Hash    | Required |                                                  |
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "is_tx_executed_in_block",
+  "id": 1,
+  "params": {
+    "tx_hash": "",
+    "block_hash": ""
+  }
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": false
 }
 ```
 

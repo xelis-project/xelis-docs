@@ -1,5 +1,4 @@
-import { Callout } from 'nextra/components'
-import { Tabs } from 'nextra/components'
+import { Tabs, Callout } from 'nextra/components'
 
 # Wallet API
 
@@ -478,5 +477,28 @@ Response
   "id": 1,
   "jsonrpc": "2.0",
   "result": {}
+}
+```
+
+### `estimate_fees`
+
+> Estimate the fees for a transaction.
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "estimate_fees",
+  "id": 1,
+  "params": {}
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": 0
 }
 ```
