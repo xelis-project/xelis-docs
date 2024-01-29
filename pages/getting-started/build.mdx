@@ -1,12 +1,23 @@
-# Build XELIS
+import { Steps } from 'nextra-theme-docs';
 
-### Install Git  (if not already installed)
+**This guide will shows you how to easily build XELIS from sources.**
+
+<Steps>
+### Install Git (if not already installed)
 
 Official Git installation guide at https://git-scm.com/downloads.
+
+This software allows you to clone the project directly on your device.
 
 ### Install Rust and Cargo (if not already installed)
 
 Official Rust installation guide at https://www.rust-lang.org/tools/install.
+
+Rust is the programming language used by XELIS.
+
+It is a compiled language that needs its toolchain to produce binaries from sources to work on your device.
+
+Cargo is the package manager of Rust and allows for easier build, dependencies managements and much more.
 
 ### Clone the blockchain repository
 
@@ -18,6 +29,7 @@ This will create a local copy of the source code in a folder named `xelis-blockc
 
 ### Navigate to the repository
 
+Navigate to the repository using the following command:
 `cd xelis-blockchain`
 
 ### Build the project with Cargo
@@ -26,7 +38,14 @@ This will create a local copy of the source code in a folder named `xelis-blockc
 
 To build all project (daemon, wallet, miner), use `cargo build`.  
 To build a release version in production-ready mode with optimizations, use `cargo build --release`.  
-To run immediately in debug mode, use `cargo run --bin xelis_daemon`.  
+To run immediately in debug mode, use `cargo run --bin xelis_daemon`.
+
+It is recommended to build it using `--release`, for developers that want to contribute and needs fast building, they can use debug mode.
 
 After building the binary, run the executable available in  
 `./target/debug` or `./target/release`
+
+### Run it
+
+Now that you have successfully build the software, see [Run](/getting-started/run).
+</Steps>

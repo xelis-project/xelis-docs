@@ -1,11 +1,40 @@
 {
-  "index": "Home",
-  "project": "What is XELIS?",
+  "index": {
+    "display": "hidden",
+    "title": "Welcome",
+    "theme": {
+      "breadcrumb": false
+    }
+  },
+  "-- Overview": {
+    "title": "Overview",
+    "type": "separator"
+  },
+  "project": "What is XELIS ?",
+  "getting-started": "Getting Started",
+  "features": "Features",
+  "-- Developers": {
+    "title": "Developers",
+    "type": "separator"
+  },
+  "developers-api": "API",
+  "developers-sdk": {
+    "title": "SDK",
+    "theme": {
+      "breadcrumb": false
+    }
+  },
+  "-- Resources": {
+    "title": "Resources",
+    "type": "separator"
+  },
   "links": "Links",
-  "run": "Run",
-  "build": "Build",
-  "developers": "Developers",
-  "team": "Team",
+  "team": {
+    "title": "Team Members",
+    "theme": {
+      "breadcrumb": false
+    }
+  },
   "xelis": {
     "title": "Website",
     "href": "https://xelis.io",

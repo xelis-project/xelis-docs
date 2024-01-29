@@ -10,21 +10,21 @@ export default {
   docsRepositoryBase: 'https://github.com/xelis-project/xelis-docs/blob/master',
   useNextSeoProps() {
     return {
-      titleTemplate: '%s – XELIS Docs'
+      titleTemplate: '%s – XELIS Documentation'
     }
   },
   head: () => {
     const { frontMatter } = useConfig()
     return <>
-      <meta property="og:title" content={frontMatter.title || 'XELIS Docs'} />
-      <meta property="og:description" content={frontMatter.description || 'Detailed information on the core features and functionality of the XELIS Blockchain'} />
+      <meta property="og:title" content={frontMatter.title || 'XELIS Documentation'} />
+      <meta property="og:description" content={frontMatter.description || 'Detailed information on the core features and functionality of XELIS'} />
       {frontMatter.image && <meta name="og:image" content={frontMatter.image} />}
       <link rel="icon" href="/favicon.ico" sizes="any" />
     </>
   },
   footer: {
     text: <span>
-      {new Date().getFullYear()} © <a href="https://xelis.io" target="_blank">XELIS Blockchain</a>
+      {new Date().getFullYear()} © <a href="https://xelis.io" target="_blank">XELIS</a>
     </span>
   },
   primaryHue: 162,
