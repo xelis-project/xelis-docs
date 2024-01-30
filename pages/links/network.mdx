@@ -1,13 +1,26 @@
 import { Card, Cards } from 'nextra-theme-docs'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
+import { faNewspaper, faCubes, faPager } from '@fortawesome/free-solid-svg-icons'
+
+import styles from './network.module.css'
 
 **Some usefuls links to monitor the current network state and learns more about it.**
 
 <Cards>
-  <Card title="Website" href="https://xelis.io" />
-  <Card title="Explorer" href="https://explorer.xelis.io/" />
+  <Card title="Website" href="https://xelis.io" image icon={<FontAwesomeIcon icon={faPager} />}>
+    <div style={{backgroundImage: `url(/screenshots/website.png)`}} className={styles.image} />
+  </Card>
+  <Card title="Explorer" href="https://explorer.xelis.io/" image icon={<FontAwesomeIcon icon={faCubes} />}>
+    <div style={{backgroundImage: `url(/screenshots/explorer.png)`}} className={styles.image} />
+  </Card>
 </Cards>
 
 <Cards>
-  <Card title="GitHub" href="https://github.com/xelis-project" />
-  <Card title="Documentation" href="https://docs.xelis.io" />
+  <Card title="GitHub" href="https://github.com/xelis-project" image icon={<FontAwesomeIcon icon={faGithub} />}>
+    <div style={{backgroundImage: `url(/screenshots/github.png)`}} className={styles.image} />
+  </Card>
+  <Card title="Documentation" href="https://docs.xelis.io" image icon={<FontAwesomeIcon icon={faNewspaper} />}>
+    <div style={{backgroundImage: `url(/screenshots/docs.png)`}} className={styles.image} />
+  </Card>
 </Cards>

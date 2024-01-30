@@ -1,0 +1,11 @@
+.image {
+  height: 150px;
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+  opacity: .6;
+}
+
+.image:hover {
+  opacity: 1;
+}
