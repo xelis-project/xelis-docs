@@ -1,14 +1,15 @@
-import { Card, Cards } from 'nextra-theme-docs'
+import { Cards } from 'nextra-theme-docs'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faJs, faGolang } from '@fortawesome/free-brands-svg-icons'
 import { faCode } from '@fortawesome/free-solid-svg-icons'
+import { Card } from '../components/card'
 
 # SDK
 
 List of availables SDK to interacts easily with XELIS in your favorite programming language.
 
 <Cards>
-  <Card icon={<FontAwesomeIcon icon={faJs} />} title="JavaScript" href="https://github.com/xelis-project/xelis-js-sdk" />
-  <Card icon={<FontAwesomeIcon icon={faCode} />} title="Dart" href="https://github.com/xelis-project/xelis-dart-sdk" />
-  <Card icon={<FontAwesomeIcon icon={faGolang} />} title="Golang" href="https://github.com/xelis-project/xelis-go-sdk" />
+  <Card icon={<FontAwesomeIcon icon={faJs} />} title="JavaScript" href="https://github.com/xelis-project/xelis-js-sdk" subtitle="xelis-js-sdk" />
+  <Card icon={<FontAwesomeIcon icon={faCode} />} title="Dart" href="https://github.com/xelis-project/xelis-dart-sdk" subtitle="xelis-dart-sdk" />
+  <Card icon={<FontAwesomeIcon icon={faGolang} />} title="Golang" href="https://github.com/xelis-project/xelis-go-sdk" subtitle="xelis-go-sdk" />
 </Cards>
