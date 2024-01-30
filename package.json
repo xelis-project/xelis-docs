@@ -8,6 +8,10 @@
     "export": "next build && next export"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.1",
+    "@fortawesome/free-brands-svg-icons": "^6.5.1",
+    "@fortawesome/free-solid-svg-icons": "^6.5.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "next": "^13.5.4",
     "nextra": "^2.13.2",
     "nextra-theme-docs": "^2.13.2",

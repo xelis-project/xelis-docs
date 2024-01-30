@@ -1,9 +1,11 @@
-import { Card, Cards } from 'nextra-theme-docs';
+import { Card, Cards } from 'nextra-theme-docs'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDiscord, faTelegram, faTwitter } from '@fortawesome/free-brands-svg-icons'
 
 **Join a growing community using your favorite social network application.**
 
 <Cards>
-    <Card title="Discord" href="https://discord.gg/z543umPUdj" />
-    <Card title="Telegram" href="https://t.me/xelis_io" />
-    <Card title="Twitter" href="https://twitter.com/xelis_project" />
+  <Card icon={<FontAwesomeIcon icon={faDiscord} />} title="Discord" href="https://discord.gg/z543umPUdj" />
+  <Card icon={<FontAwesomeIcon icon={faTelegram} />} title="Telegram" href="https://t.me/xelis_io" />
+  <Card icon={<FontAwesomeIcon icon={faTwitter} />} title="Twitter" href="https://twitter.com/xelis_project" />
 </Cards>
