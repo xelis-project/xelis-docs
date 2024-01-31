@@ -1,16 +1,9 @@
 {
-  "index": {
-    "display": "hidden",
-    "title": "Welcome",
-    "theme": {
-      "breadcrumb": false
-    }
-  },
   "-- Overview": {
     "title": "Overview",
     "type": "separator"
   },
-  "project": "What is XELIS ?",
+  "index": "What is XELIS ?",
   "getting-started": "Getting Started",
   "features": "Features",
   "-- Developers": {

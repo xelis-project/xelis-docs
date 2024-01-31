@@ -1,17 +1,92 @@
----
-title: Welcome
-description: A comprehensive guide to help developers and users understand the XELIS platform.
----
+import { Cards } from 'nextra-theme-docs'
+import { Card } from '../components/card'
 
-# Welcome
+![XELIS header](/header.png)
 
-This simple guide is designed to help developers and users understand the XELIS platform.
+**XELIS** is an innovate cryptocurrency from scratch with BlockDAG, Homomorphic Encryption, Zero-Knowledge Proof and Smart Contracts.
 
-Inside, you'll find detailed information on the core features and functionalities of the XELIS Blockchain,
-including its Proof-of-Work consensus algorithm, Smart Contracts capabilities, and privacy measures.
+It's using the famous programming language **Rust**, to be secure using its memory safe features and fast.
 
-You'll also learn how to set up and configure your own XELIS node, interact with the blockchain APIs and other tools to easily use or integrate XELIS.
+Based on an event-driven system, its using asynchronous tasks for I/O (database, P2p, API).<br/>
+It is extremely easy to **monitor** the network with the event system available for developers to be notified on any events happening on the network and to be able to react **instantly** to them.
 
-Whether you're an experienced blockchain developer or just getting started, this documentation is the official resource for working with XELIS ecosystem.
+## Main Features
 
-Dive in and discover the permissionless decentralized technology of XELIS.
+**BlockDAG** is enabled to improve the scalability and the security of the network.<br/>
+Instead of chosing between two chains during soft forks, BlockDAG merge both chains in one.
+
+**Homomorphic Encryption** is enabled using ElGamal to provide **privacy** on transactions (transferred amounts) and balances.
+
+**ElGamal** cryptosystem was chosen because it's a well known and studied encryption algorithm which has homomorphism features.
+ElGamal is fast and is used in combination with **Ristretto255** curve to provide a good level of security (~128 bits of security).<br/>
+Homomorphic operations availables using ElGamal are addition/subtraction between ciphertexts and/or plaintext and multiplication against plaintext value.
+
+**Account Model** (instead of UTXO like Bitcoin) was chosen in order to be faster, smaller, and easier for everyone.
+It allows to have a more flexible system than UTXO model and to have a better privacy because there is no need to link inputs and outputs, which provide real **fungibility**.<br/>
+It also enables the **fast-sync** feature to only download the last state of the chain instead of downloading all its history.
+
+**Pruning system** is also available to reduce the size of the blockchain by removing old blocks and transactions.
+
+We also aims to enable **Smart Contract** support in the future.
+
+>To read more in details about all features available, please use the **Features** tab.
+
+## Network
+
+We provide differents built-in networks for the ease of everyone.
+<Cards>
+  <Card title="Mainnet" subtitle="Not released yet." href="#" />
+  <Card title="Testnet" subtitle="Currently running." href="#" />
+  <Card title="Devnet" subtitle="This network is used for local development purpose where you want to create your own local chain." href="#" />
+</Cards>
+
+These 3 networks have the exact same consensus rules, except not the same chain or peers.
+
+Testnet and devnet are availables for testing purposes only, and can be **reset** at any moment.
+
+## Consensus
+
+The current configuration of the consensus is the following:
+- Target Block Time is `15` seconds.
+- Minimum transaction fee is `0.00001000` XEL per KB.
+- Full coin can be divided up to `8` decimals.
+- Maximum supply is set to `18.4` millions.
+- Maximum block size is set to `1.25` MB.
+- Maximum transaction size is set to `1` MB.
+
+To prevent mis-using addresses across differents networks, we set them a prefix.<br/>
+For mainnet addresses, they all starts using `xel` prefix, while others networks (devnet/testnet) starts with `xet`.
+
+## Objectives
+
+We want to provide a better **privacy** than Bitcoin and Ethereum by having encrypted balances and encrypted transferred amounts.
+This is done using [Homomorphic Encryption](/features/homomorphic-encryption) and [Zero-Knowledge Proof](/features/zero-knowledge-proof).<br/>
+This means nobody except you can see how much you own and how much you spend.
+
+**Scalability** and **security** is also a point we try to solve using a [BlockDAG](/features/blockdag).<br/>
+Because of a low block time target we may have some orphaned blocks.
+We try to reduce its rate as much as we can by using a BlockDAG which allows a higher count of blocks, faster confirmation, better security and more transactions per seconds.
+
+**Smart Contracts** are a necessity to build a real DeFi ecosystem, it is planned to have [Smart Contract](features/smart-contracts) support using our own Virtual Machine. 
+
+**Confidential Assets** will allow to have real decentralized tokens, with the same level of privacy and decentralization as XELIS and not just a Smart Contract managing numbers.
+
+**Decentralized** network is a necessity for its own security and to remove any failure point.<br/>
+We can have a decentralized network by having a lot of nodes spread across the Earth, but we can also have reward emissions decentralized.
+This is done by attracting CPUs and GPUs miners to join mining XELIS using a friendly PoW algorithm.
+
+**Ease of use** is one of our main focus to attracts everyone and have real adoption in daily usage.<br/>
+It is not only for people using our software, but also for developers to create and integrate any kind of application.
+
+## Funding
+
+XELIS is a community driven project and is not funded by any company or organization.
+To helps its development, success and provide a better support, we set a decreasing dev fee curve starting at `15%` on block reward.
+
+Current dev fee curve is as following:
+- `15%` from block 0 to 1 250 000 (expected time is ~6 months with blockDAG)
+- `10%` from block 1 250 001 to 3 000 000 (expected time is another ~6 months with blockDAG and network growing)
+- `5%` from 3 000 001 until the project being developed and stable enough to reduce it.
+
+**NOTE**: The dev fee will be redirected to a Smart Contracts once they are available.
+We also have in mind to create a DAO to manage the dev fee and the project after few years.

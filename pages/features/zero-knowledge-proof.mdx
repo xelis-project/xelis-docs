@@ -4,9 +4,9 @@ A **zero-knowledge** proof (also known under abreviation ZK Proof) is a cryptogr
 
 The proof assures the verifier that the prover possesses the knowledge without disclosing any details, ensuring privacy and security.
 
-**XELIS** uses zero-knowledge proof to prove that a ciphertext (transfered amount which is in encrypted form) in a transaction is valid.
+**XELIS** uses zero-knowledge proof to prove that a ciphertext (transferred amount which is in encrypted form) in a transaction is valid.
 To verify such claims, we do two verifications:
-- First, we verify that the transfered amount is **never** above encrypted balance.
+- First, we verify that the transferred amount is **never** above encrypted balance.
 - Second, the proof must assert that the ciphertext is **always** above-or-equal to zero.
 
 For these two checks, we use [Bulletproofs](https://eprint.iacr.org/2017/1066.pdf), which is a non-interactive, zero-knowledge proof protocol and allows us to create two efficient range proof without any trusted setup.
