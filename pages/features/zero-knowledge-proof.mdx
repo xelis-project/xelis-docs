@@ -1,0 +1,53 @@
+## Introduction
+
+A **zero-knowledge** proof (also known under abreviation ZK Proof) is a cryptographic method that allows one party (the prover) to demonstrate knowledge of a specific piece of information to another party (the verifier) **without revealing** the actual information.
+
+The proof assures the verifier that the prover possesses the knowledge without disclosing any details, ensuring privacy and security.
+
+**XELIS** uses zero-knowledge proof to prove that a ciphertext (transfered amount which is in encrypted form) in a transaction is valid.
+To verify such claims, we do two verifications:
+- First, we verify that the transfered amount is **never** above encrypted balance.
+- Second, the proof must assert that the ciphertext is **always** above-or-equal to zero.
+
+For these two checks, we use [Bulletproofs](https://eprint.iacr.org/2017/1066.pdf), which is a non-interactive, zero-knowledge proof protocol and allows us to create two efficient range proof without any trusted setup.
+
+We're making some optimizations in it to have a faster bulletproofs verification time, with plans to be below 1 ms.
+
+## Optimizations
+
+To have scalable and a fast way to verify all transactions included in a block, we can use batching/aggregate or pre-computed scalars.
+
+## Front Running
+
+Range proofs are based on the current final balance (in encrypted form) available during the transaction creation.
+This is a necessary process to makes the assertions explained in introduction.
+
+Because we need to integrate the balance ciphertext we have two potential problems.
+
+### BlockDAG
+
+As explained in the [BlockDAG](/features/blockdag) feature, XELIS has an unstable height and a stable height.
+In the unstable height, blocks can be reordered based on their cumulative difficulty and thus, changes the order of transactions.
+
+Alice creates a transaction to Bob and its transaction is integrated on the block ordered at topoheight 1000.
+Bob send a transaction back to Alice using a part of coins received from her and is integrated in the block at topoheight 1001.
+If the BlockDAG reorganize the order of the two blocks and switch their topoheight, Bob transaction would be orphaned.
+
+Fortunately, the blockDAG take in count the TIPS of each block to create the topological order.
+This means that, as long both transactions are integrated in the same chain (branch tip), they will be executed in correct order.  
+
+### Incoming Transaction
+
+Alice creates a ZK Proof with her current final balance ciphertext stored in chain.
+Then, Bob sent her a transaction that will update her ciphertext balance.
+
+In this case, Alice created a outdated ZK Proof because the transaction didn't got included before the Bob transaction.
+The final balance used by Alice is not the latest anymore, this cause the transaction being rejected.
+
+To solve this problem, we chose to make the verification of the transaction based on the latest balance that had a outgoing transaction.
+So even if we receive incoming transactions between the time we create the Proof and the transaction is executed on chain, it will stay valid.
+
+In details, newly created accounts will be based on their first balance when they do their first outgoing transaction.
+We also set a limit to the use of the lastest balance with a outgoing transaction, we can use the last stable balance (which is in stable height of BlockDAG) if its higher.
+
+This way, we have instant confirmation for coins and can be spend directly in the next block.

@@ -1,6 +1,7 @@
 {
   "blockdag": "BlockDAG",
   "homomorphic-encryption": "Homomorphic Encryption",
+  "zero-knowledge-proof": "Zero-Knowledge Proof",
   "smart-contracts": "Smart Contracts",
   "client-protocol": "Client Protocol",
   "xswd": "XSWD"
