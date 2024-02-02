@@ -2,6 +2,17 @@
 title: Homomorphic Encryption
 ---
 
-# Homomorphic Encryption
+## Introduction
 
-WIP
+Homomorphic Encryption (also known under abreviation HE) is a form of encryption that allows computation on ciphertexts, generating an encrypted result which, when decrypted, matches the result of the operations as if they had been performed on the plaintext.
+The purpose of homomorphic encryption is to allow computation on encrypted data without decrypting it.
+The result of the computation is also encrypted, and can be decrypted to obtain the result of the computation on the plaintext.
+
+Homomorphic Encryption allows to add privacy on transactions and accounts by doing computation while staying in encrypted form.
+Each balances, transaction assets values are in encrypted form and nobody can determine the real value of it except involved parties.
+
+## ElGamal
+
+ElGamal is a public-key cryptosystem that is based on the difficulty of computing discrete logarithms. It was described by Taher Elgamal in 1985.
+
+In XELIS, we use ElGamal to encrypt the data and perform operations on the encrypted data thanks of its homomorphic properties.
