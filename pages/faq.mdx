@@ -22,7 +22,7 @@ No counterfeiting, no srutinizing eyes, 100% uptime, decentralized and secure tr
 
 ## What does "private" blockchain means?
 
-The account balance are private. They are homomorphicaly encrypted.
+The account balance are private. They are homomorphically encrypted.
 
 ## What is Homomorphic Encryption for dummies?
 
@@ -32,10 +32,12 @@ of each participants.
 
 ## What is BlockDAG? Why is it used?
 
-BlockDAG stands for Directed Acyclic Graph, a data structure designed to store blocks that differs from traditional blockchains structure.
-Its key feature is the ability to insert blocks simultaneously, aiming to enchance scalability while mitigating centralization.
-Various block types now exists, each distinguished by a unique topological height; however, it is possible for multiple blocks to coexists at the same block height.
-Topo height /= Network height.
+BlockDAG stands for Directed Acyclic Graph, it differs from traditional blockchains structure.
+Multiple blocks can now coexists at the same height with various types, but each can be distinguished by a unique topological height. 
+The primary reason for using this structure is 
+to achieve fast block time validation; XELIS block time is ~15s.
+The DAG significantly reduces the number of orphan blocks by merging them instead of creating split branches,
+inherently enhancing scalability while mitigating centralization.
 
 More info here: [BlockDAG](/features/blockdag).
 
@@ -48,7 +50,7 @@ Additionally, it enables a fast-sync feature - download the lastest state of the
 
 More info here: [Features](/#main-features).
 
-## How are you encrypting the balance homomorphicaly?
+## How are you encrypting the balance homomorphically?
 
 We use ElGamal with the Ristretto255 curve (~128 bits of security).
 While homomorphic encryptions are generally computation-intensive, we only use addition and substraction.
