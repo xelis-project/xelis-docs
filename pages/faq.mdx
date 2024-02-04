@@ -1,0 +1,136 @@
+---
+title: FAQ
+---
+
+# Frequently Asked Questions (FAQ)
+
+This page will be updated regularly as more important questions are asked by the community.
+
+## Wen launch, wen Mainnet, wen...?
+
+The current target is **March 2024**; if we encounter any hiccups,
+it could be later. Check for announcements on the official social channels to stay updated.
+
+## What is XELIS?
+
+It's a layer-1 private cryptocurrency blockchain. You can launch your own token or decentalized application.
+
+## Is there any real world application of this?
+
+Absolutely! There are a lot of tangible applications. One notable example is creating your own local currency foundation with peace of mind. 
+No counterfeiting, no srutinizing eyes, 100% uptime, decentralized and secure transactions.
+
+## What does "private" blockchain means?
+
+The account balance are private. They are homomorphicaly encrypted.
+
+## What is Homomorphic Encryption for dummies?
+
+Perform computations on encrypted data without prior decryption; in this context,
+it provides nodes the ability to validate transactions without ever knowing the balance 
+of each participants.
+
+## What is BlockDAG? Why is it used?
+
+BlockDAG stands for Directed Acyclic Graph, a data structure designed to store blocks that differs from traditional blockchains structure.
+Its key feature is the ability to insert blocks simultaneously, aiming to enchance scalability while mitigating centralization.
+Various block types now exists, each distinguished by a unique topological height; however, it is possible for multiple blocks to coexists at the same block height.
+Topo height /= Network height.
+
+More info here: [BlockDAG](/features/blockdag).
+
+## Why is XELIS an account-based model?
+
+Account based blockchains offers way more advantages than drawbacks.
+It's a more flexible system than traditional UTXO model, eliminating the need to follow inputs / outputs.
+Node pruning is possible, removing old blocks while maintaining the verifiability of blockchain state.
+Additionally, it enables a fast-sync feature - download the lastest state of the chain and join the network instantly.
+
+More info here: [Features](/#main-features).
+
+## How are you encrypting the balance homomorphicaly?
+
+We use ElGamal with the Ristretto255 curve (~128 bits of security).
+While homomorphic encryptions are generally computation-intensive, we only use addition and substraction.
+
+## Is this a fork of an existing crypto project?
+
+XELIS is **NOT** a fork. Everything is written in Rust from scratch using open source libraries.
+If you want to know how the protocol work in details, start here: [Features](/#main-features).
+
+Github repo: https://github.com/xelis-project/xelis-blockchain
+
+## Was there any premine?
+
+There is no premine or any allocation of coins whatsoever.
+We have set a dev fee within the protocol for every block.
+
+More info here: [Funding](/#funding).
+
+## I saw Atomic Unit of 8 for the coin. What does that mean?
+
+We store the balance as an unsigned integer to facilitate computations with encryption,
+and the client shifts the balance by 8 decimals after decryption.
+
+Ex: 100000000 = 1.00000000 XEL
+
+## Will Testnet coins be transferred to Mainnet?
+
+No! Coins will never be transferred or transferable from Testnet to Mainnet.
+One network is for development, and the other is for the future of financial freedom.
+
+## Is there any incentive toward minning or running a node in Testnet?
+
+No immediate incentive is offered, but potential gifts may be given later down the road.
+Being an early adopter, running a node, and participating in mining can help
+us find bugs and move faster toward our goal of a stable running blokchain.
+It benefits everyone involved in the project.
+
+## What are your primary focus for the project?
+
+  - Providing simple, functioning tools, up-to-date documentation, including easy-to-integrate APIs for devs.
+  - A POW CPU/GPU friendly mining algo.
+  - Decentralization, security and speed (no chain split, double spend, or any kind of network downtime).
+  - Optimization (blockchain size, bandwidth transfer, transaction execution and encryption speed).
+  - Community driven decisions.
+
+More info here: [Objectives](/#objectives).
+
+## What is the consensus algorithm that XELIS uses?
+
+XELIS is a POW network. We are still currently working on a CPU/GPU friendly mining algorithm,
+ASIC, and FPGA resistant.
+
+## Does XELIS support Smart Contracts?
+
+Yes, smart contracts are expressed using an interpreted language, known as XELIS-VM. 
+The language has various primitives and features, such as recursive functions.
+Functions are implemented with a configurable depth limitation to mitigate risk of network attacks and congestion.
+
+More info here: [Smart Contracts](/features/smart-contracts).  
+Github repo: https://github.com/xelis-project/xelis-vm  
+
+Please note the smart contracts are not currently available within the network.
+
+## Some of the XELIS devs are contributors to Dero. What are the differences between both blockchain?
+
+Here is a quick 1-to-1 table.
+
+| Item                 | XELIS       | Dero (Stargate) |
+|----------------------|-------------|-----------------|
+| Language             | Rust        | GO              |
+| Blockchain structure | BlockDag    | Traditional (Sigma) |
+| Mining algo          | ?           | AstroBWT3       |
+| Avg time finality    | 15s         | 18s             |
+| Dev fee              | % block fee | Premine         |
+| Coin/Token decimals  | 8 decimals  | 5 decimals      |
+| Balance encryption   | ElGamal (Ristretto) | ElGamal (BN256) |
+| P2P protocol         | TCP (Tokio) | UDP (KCP)       |
+| Storage              | Sled        | Graviton        |
+| Total supply         | 18.4m       | 21m             |
+| Smart Contract (VM)  | XELIS-VM    | DVM-BASIC       |
+| Supply emission      | Curve       | 4 year halving  |
+| Wallet registration  | Fee based   | POW (2m-2h)     |
+| Addr mixins          | Transfers   | RingCT          |
+
+However, it's worth nothing that there is a lot of aspects on each side that are not comparable.
