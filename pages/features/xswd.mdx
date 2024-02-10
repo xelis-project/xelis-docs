@@ -4,16 +4,19 @@ title: XSWD
 
 ## Introduction
 
-XSWD (XELIS Secure WebSocket DApp) is a simple and secure protocol based on WebSocket protocol to allow permissioned data exchange between two parties.
-Your wallet would acts like a WebSocket server on port **44235** and allow any decentralized application (any website or application included) to connect to it and request access to wallet.
+XSWD (XELIS Secure WebSocket DApp) is a secure protocol that utilizes WebSocket to exchange permissioned data between the wallet 
+and a decentralized application. 
 
-It is based on JSON-RPC API of the wallet and each data request made by an application must have a permission granted by the user.
-This way allows to control the data access and prevent any unauthorized access to the wallet.
+The procotol act as a proxy for the wallet JSON-RPC API, and each request made by an application must receive permission granted by the user.
+This enables a more secure and granular approach of controlling which functions get executed and what data can be accessed. 
+In any case, the user can easily prevent any unauthorized access. Without this protocol, you would have to authorize full access 
+to your wallet for interacting with any third-party application.
 
-Instead of giving full credentials access of the JSON-RPC API of the wallet to a dApp or to trust a third party that would do the bridge between your wallet and the dApp, XSWD do all this work in the wallet itself.
+Moreover, XSWD openly proxies all daemon requests when the wallet is connected to a node.
+It provides developers with the ability to manage only one connection and swiftly access all the necessary 
+blockchain information.
 
-To allow easier usage of XELIS network, the XSWD can also play the role of a proxy between the application and the daemon, which mean all daemon requests are made through XSWD.
-This is useful as you would have to only manage one connection, and as long as the wallet is connected to a node, the XSWD will be able to make requests to the daemon.
+Read on below to delve deeper into the specifics.
 
 ## Protocol
 
