@@ -18,6 +18,7 @@ export default {
     return <>
       <meta property="og:title" content={frontMatter.title || 'XELIS Documentation'} />
       <meta property="og:description" content={frontMatter.description || 'Detailed information on the core features and functionality of XELIS'} />
+      <meta name="theme-color" content="#7afad3" />
       {frontMatter.image && <meta name="og:image" content={frontMatter.image} />}
       <link rel="icon" href="/favicon.ico" sizes="any" />
     </>
