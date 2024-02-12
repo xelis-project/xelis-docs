@@ -1,4 +1,6 @@
 {
     "build": "Build from sources",
-    "run": "Run"
+    "download": "Download",
+    "docker": "Docker",
+    "configuration": "Configuration"
 }

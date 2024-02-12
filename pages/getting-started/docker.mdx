@@ -1,0 +1,41 @@
+---
+title: Docker
+---
+
+**Docker** is a platform for developers and sysadmins to develop, deploy, and run applications with containers.
+It uses Linux containers to deploy applications to any machine and treat them as a single server.
+
+In case you prefer to use Docker, we provide a Docker image for each software part.
+
+## Docker images
+
+### Daemon
+
+The daemon is the software allowing to be a node and connecting to the network.
+
+You can easily download the image from the Docker Hub.
+
+```bash
+docker pull xelis/daemon
+```
+
+### Wallet
+
+The wallet is the software allowing to manage your wallet and interact with the network.
+
+You can easily download the image from the Docker Hub.
+
+```bash
+docker pull xelis/wallet
+```
+
+### Miner
+
+The miner is the software allowing to mine blocks and secure the network. It is part of the Proof-Of-Work consensus.
+It must be connected to a daemon to work properly.
+
+You can easily download the image from the Docker Hub.
+
+```bash
+docker pull xelis/miner
+```

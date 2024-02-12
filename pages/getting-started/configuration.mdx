@@ -1,0 +1,181 @@
+---
+title: Configuration
+---
+
+# Configuration
+
+You will have to open your operating system's command-line interface (CLI) in the folder where the executable is located.
+
+## Daemon
+
+Run `./xelis_daemon --help` to see all available options.
+
+### Network
+
+Network selected by default is mainnet.<br/>
+Available values are `mainnet`, `testnet` and `dev`.
+
+Example: `./xelis_daemon --network testnet`.
+
+### Boost Sync Mode
+
+Boost sync mode is a faster way to sync the blockchain. It is not enabled by default as it require more resources usage.
+It is requesting blocks during chain syncronization in parallel.
+
+To enable it, use: `./xelis_daemon --allow-boost-sync-mode`.
+
+### Fast Sync Mode
+
+Fast sync mode allows to have a faster syncronization by downloading the last chain state from any peer.<br/>
+It allows to have a light node and with a really small disk usage as it's using only latest available data.
+
+To enable it, use: `./xelis_daemon --allow-fast-sync-mode`.
+
+### Auto Pruning
+
+Enable the auto prune mode and prune the chain at each new block by keeping at least N blocks before the top block.
+This is useful to keep a light node and to reduce the disk usage.
+
+Example to keep only 1000 latest blocks: `./xelis_daemon --auto-prune-keep-n-blocks 1000`.
+
+### Cache Size
+
+Set the cache size by setting how many elements to keep in memory.
+Higher cache size will require more memory but can be useful for chain operations.
+
+Default is set to **1024** elements. If you set it to 0, it will disable the cache and will not keep any.
+
+Example to set the cache size to 1000: `./xelis_daemon --cache-size 1000`.
+
+### Disable P2P Server
+
+Disable the P2P server, this will disable the node to be connected to other nodes and will not be able to sync the chain or broadcast mined blocks.
+
+To disable the P2P Server, use: `./xelis_daemon --disable-p2p-server`.
+
+### P2p Bind Address
+
+Set the bind address to use for the P2P server. By default, the bind address is set to `0.0.0.0:2125`.
+
+To set the bind address to `0.0.0.0:2126`, use: `./xelis_daemon --p2p-bind-address 0.0.0.0:2126`.
+
+### Max Peers
+
+Set the maximum number of P2P peers to connect to.<br/>
+By default, the maximum number of peers is set to 32.
+
+To set the maximum number of peers to 64, use: `./xelis_daemon --max-peers 64`.
+
+### Exclusive Nodes
+
+Set the exclusive nodes to connect to. This will only connect to the given nodes and will not connect to any other nodes.<br/>
+Each Socket Address must be separated by a comma.
+
+Example to connect to two nodes: `./xelis_daemon --exclusive-nodes 0.0.0.0:2125,0.0.0.0:2126`.
+
+### Priority Nodes
+
+Set the priority nodes to connect to. This will connect to the given nodes first and then will connect to other nodes.<br/>
+Connections to priority nodes will be also maintained in case of disconnection.<br/>
+Each Socket Address must be separated by a comma.
+
+Other nodes will still be connected to as long as the maximum number of peers is not reached.
+
+Example to connect to two nodes: `./xelis_daemon --priority-nodes 0.0.0.0:2125,0.0.0.0:2126`
+
+### Tag
+
+Set the tag to use for the node. This is useful to identify the node in the network.
+Maximum length is 16 characters.
+
+Example to set the tag to `mytag`: `./xelis_daemon --tag mytag`.
+
+### Maximum Chain Response Size
+
+Configure the maximum chain response size This is useful for low devices who want to reduce resources usage And for high-end devices who want to (or help others to) sync faster.
+
+By default, the maximum chain response size is set to 4096.<br/>
+Minimum value is 512 and maximum value is 16384.
+
+This is used to notify others nodes about the maximum size of the chain response that you accept to receive / send per request.
+It can speedup the syncronization process by allowing to send more data at once.
+
+Example to set the maximum chain response size to 8192: `./xelis_daemon --max-chain-response-size 8192`.
+
+### Disable File Logging
+
+By default, the daemon is logging to a file. To disable it, use: `./xelis_daemon --disable-file-logging`.
+
+### Filename Log
+
+Set the filename to use for logging. By default, the filename is set to `xelis.log`.<br/>
+Every logs file are stored in the `logs` folder and are named with the date of the day.
+
+To set the filename to `mylog.log`, use: `./xelis_daemon --filename-log mylog.log`.
+
+### Log Level
+
+Set the log level to use. Available values are `trace`, `debug`, `info`, `warning`, `error`.
+
+By default, the log level is set to `info`.
+
+Example to set the log level to debug: `./xelis_daemon --log-level debug`.
+
+### Disable GetWork Server
+
+Disable the GetWork server, this will disable the HTTP server running above the RPC Server and will prevent any miner to connect and receive new jobs.
+
+To disable the GetWork server, use: `./xelis_daemon --disable-getwork-server`.
+
+### RPC Bind Address
+
+Set the bind address to use for the RPC server. By default, the bind address is set to `0.0.0.0:8080`.
+
+To set the bind address to `0.0.0.0:8081`, use: `./xelis_daemon --rpc-bind-address 0.0.0.0:8081`.
+
+### Dir Path
+
+Set the directory path to use for the database and the blockchain. By default, the directory path is set to the name of the network at the same location of the executable.
+
+To set the directory path to `mydir`, use: `./xelis_daemon --dir-path mydir`.
+
+### Simulator
+
+Enable the simulator mode. This will disable the P2P server and will simulate the blockchain based on its variant.
+This will generate new blocks when necessary and will not connect to any other nodes.
+
+Availables values are:
+- `blockchain`: to simulate the blockchain with a new block every 15 seconds and up to 15 random transactions.
+- `blockdag`: to simulate the blockdag with up to 3 new block every 15 seconds and up to 15 random transactions.
+- `stress`: to simulate a blockDAG under attacks with heavy blocks and a lot of transactions.
+
+To enable the `stress` simulator mode, use: `./xelis_daemon --simulator stress`.
+
+### Version
+
+Print the version of the daemon.
+
+To print the version, use: `./xelis_daemon --version`.
+
+## Wallet
+
+Open your operating system's command-line interface (CLI) in the folder where the executable is located.
+
+Run `./xelis_wallet --name {wallet_name}`.  
+
+Set specific node, use `./xelis_wallet --daemon-address https://node.xelis.io`.  
+For testnet, use `./xelis_wallet --network testnet`.  
+
+For more commands, use `--help`.  
+
+## Miner
+
+Open your operating system's command-line interface (CLI) in the folder where the executable is located.
+
+Run `./xelis_miner --miner-address {wallet_address}`.  
+
+### Main Options
+- To connect to another node than the local one, use `./xelis_miner --daemon-address https://node.xelis.io`.  
+- To set max threads, use `./xelis_miner --num-threads N` where N is your number of threads.  
+
+For more commands, use `--help`.  
