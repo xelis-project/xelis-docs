@@ -159,23 +159,92 @@ To print the version, use: `./xelis_daemon --version`.
 
 ## Wallet
 
-Open your operating system's command-line interface (CLI) in the folder where the executable is located.
+Run `./xelis_wallet --help` to see all available options.
 
-Run `./xelis_wallet --name {wallet_name}`.  
+TODO
 
-Set specific node, use `./xelis_wallet --daemon-address https://node.xelis.io`.  
-For testnet, use `./xelis_wallet --network testnet`.  
+### Disable File Logging
 
-For more commands, use `--help`.  
+By default, the daemon is logging to a file. To disable it, use: `./xelis_wallet --disable-file-logging`.
+
+### Filename Log
+
+Set the filename to use for logging. By default, the filename is set to `xelis-miner.log`.<br/>
+Every logs file are stored in the `logs` folder and are named with the date of the day.
+
+To set the filename to `mylog.log`, use: `./xelis_wallet --filename-log mylog.log`.
+
+### Log Level
+
+Set the log level to use. Available values are `trace`, `debug`, `info`, `warning`, `error`.
+
+By default, the log level is set to `info`.
+
+Example to set the log level to debug: `./xelis_wallet --log-level debug`.
+
+### Version
+
+Print the version of the miner.
+
+To print the version, use: `./xelis_wallet --version`.
 
 ## Miner
 
-Open your operating system's command-line interface (CLI) in the folder where the executable is located.
+Run `./xelis_miner --help` to see all available options.
 
-Run `./xelis_miner --miner-address {wallet_address}`.  
+### Miner Address
 
-### Main Options
-- To connect to another node than the local one, use `./xelis_miner --daemon-address https://node.xelis.io`.  
-- To set max threads, use `./xelis_miner --num-threads N` where N is your number of threads.  
+Set the miner address to use for the miner. This is the address that will be used to find blocks and earn rewards.
 
-For more commands, use `--help`.  
+This is a **mandatory** option.
+
+Example: `./xelis_miner --miner-address <YOUR_ADDRESS>`.
+
+### Benchmark
+
+Enable the benchmark mode. This will run the miner without submitting any block and will print the hashrate of the miner.
+
+To enable the benchmark mode, use: `./xelis_miner --benchmark`.
+
+In case you want to changes the numbers of iterations to use for the benchmark, use: `./xelis_miner --benchmark --iterations 100`.
+
+### Numbers of Threads
+
+Set the numbers of threads to use for the miner.
+By default, the numbers of threads is set to the number of logical cores of the CPU.
+
+Minimum is 1 and maximum is 255.
+
+Example to set the numbers of threads to 4: `./xelis_miner --num-threads 4`.
+
+### Worker
+
+Set the worker name to use for the miner. This is useful to identify the miner in the daemon.<br/>
+Default is set to `default`.
+
+Example to set the worker name to `myworker`: `./xelis_miner --worker myworker`.
+
+### Disable File Logging
+
+By default, the daemon is logging to a file. To disable it, use: `./xelis_miner --disable-file-logging`.
+
+### Filename Log
+
+Set the filename to use for logging. By default, the filename is set to `xelis-miner.log`.<br/>
+Every logs file are stored in the `logs` folder and are named with the date of the day.
+
+To set the filename to `mylog.log`, use: `./xelis_miner --filename-log mylog.log`.
+
+### Log Level
+
+Set the log level to use. Available values are `trace`, `debug`, `info`, `warning`, `error`.
+
+By default, the log level is set to `info`.
+
+Example to set the log level to debug: `./xelis_miner --log-level debug`.
+
+### Version
+
+Print the version of the miner.
+
+To print the version, use: `./xelis_miner --version`.
