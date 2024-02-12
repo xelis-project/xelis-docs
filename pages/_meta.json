@@ -4,7 +4,6 @@
     "type": "separator"
   },
   "index": "What is XELIS?",
-  "faq": "FAQ",
   "getting-started": "Getting Started",
   "features": "Features",
   "-- Developers": {
@@ -29,6 +28,7 @@
       "breadcrumb": false
     }
   },
+  "faq": "FAQ",
   "xelis": {
     "title": "Website",
     "href": "https://xelis.io",
