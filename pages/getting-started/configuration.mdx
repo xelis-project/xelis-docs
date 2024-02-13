@@ -161,7 +161,72 @@ To print the version, use: `./xelis_daemon --version`.
 
 Run `./xelis_wallet --help` to see all available options.
 
-TODO
+### Daemon Address
+
+Set the daemon address to use for the wallet. This is the address of the daemon to connect to.
+
+By default, the daemon address is set to `127.0.0.1:8080` to connect to your local node.
+
+To set the daemon address to `http://127.0.0.1:8081`, use: `./xelis_wallet --daemon-address http://127.0.0.1:8081`.
+
+### Enable XSWD
+
+Enable the XSWD mode. This will enable the wallet to use the XSWD protocol to communicate with any applications securely.
+
+By default, the XSWD mode is disabled.
+
+To enable the XSWD mode, use: `./xelis_wallet --enable-xswd`.
+
+### Name
+
+Set the name to use for the wallet file.
+
+To use the wallet file `mywallet`, use: `./xelis_wallet --name mywallet`.
+
+### Password
+
+Set the password to use for the wallet file.
+
+To use the password `mypassword`, use: `./xelis_wallet --password mypassword`.
+
+### Seed
+
+Set the seed to use for the wallet file.
+
+This is useful to recover a wallet from a seed.
+
+To use the seed `myseed myseed`, use: `./xelis_wallet --seed "myseed myseed"`.
+
+### Offline Mode
+
+Enable the offline mode. This will disable the wallet to connect to the daemon and will not be able to send transactions.
+
+By default, the wallet open in online mode and try to connect to the daemon.
+
+To enable the offline mode, use: `./xelis_wallet --offline-mode`.
+
+### RPC Bind Address
+
+Set the bind address to use for the RPC server. By default, the bind address is set to `127.0.0.1:8080`.
+
+To set the bind address to `127.0.0.1:8081`, use: `./xelis_wallet --rpc-bind-address 127.0.0.1:8081`.
+
+
+### RPC Password
+
+Set the password to use for the RPC server. By default, no password is set.
+
+In case you set a username, the password is mandatory.
+
+To set the password to `mypassword`, use: `./xelis_wallet --rpc-password mypassword`.
+
+### RPC Username
+
+Set the username to use for the RPC server.
+
+In case you set a password, the username is mandatory.
+
+To set the username to `myusername`, use: `./xelis_wallet --rpc-username myusername`.
 
 ### Disable File Logging
 
