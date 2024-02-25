@@ -55,3 +55,36 @@ In details, newly created accounts will be based on their first balance when the
 We also set a limit to the use of the lastest balance with a outgoing transaction, we can use the last stable balance (which is in stable height of BlockDAG) if its higher.
 
 This way, we have instant confirmation for coins and can be spend directly in the next block.
+
+### Outgoing Transaction
+
+The order of execution for outgoing transactions is important to make sure that the balance is always valid during verification of the proof.
+If we do more than one transaction, we need to make sure that they keep the same order as the one we used to create the ZK Proof.
+
+To solve this problem, we use a nonce that is incremented for each transaction.
+This nonce is used to prevent any replay attacks on chain and also to make sure that the order of transactions is kept.
+
+### Multiple Transactions
+
+In the case of multiple transactions, we need to make sure that the balance is valid for both transactions.
+
+>**Example**:<br/>
+>Alice send a transaction to Bob. But Bob has built 2 transactions before Alice TX.<br/>
+>In block topoheight 1000 we have only two transactions executed: Alice TX and the first TX from Bob.<br/>
+>The final balance for this topoheight would be the combination of Alice TX and Bob first TX.<br/>
+
+
+In this scenario, the second TX from Bob cannot be included in any block topoheight 1001 and would be orphaned as the source balance isn't the one expected in the ZK Proof.
+
+To solve this problem, the solution we chose is to split the versioned balance for this topoheight in two:
+- Output balance: which represents the current balance minus the outputs spents in the transaction.
+- Final balance: this represents the real user balance with incoming funds and outgoings funds combined.
+
+The ZK Proof must be always created with the final balance to be valid.
+But in case of multiple output transactions that get splitted by incoming transactions, the verification would be done with the output balance.
+
+This is an internal process, as the user would never see its output balance, only the final balance.
+
+The output balance is only set / stored during this scenario so next transactions are still valid with chain state.
+
+We determine which balance (final balance or output balance) to use based on the block hash set in the transaction to determine at which time the transaction was created.
