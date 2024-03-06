@@ -14,5 +14,29 @@ Each balances, transaction assets values are in encrypted form and nobody can de
 ## ElGamal
 
 ElGamal is a public-key cryptosystem that is based on the difficulty of computing discrete logarithms. It was described by Taher Elgamal in 1985.
+In XELIS, we use an implementation of ElGamal cryptosystem to encrypt the data and perform operations on the encrypted data thanks of its homomorphic properties.
 
-In XELIS, we use ElGamal to encrypt the data and perform operations on the encrypted data thanks of its homomorphic properties.
+In order to have easier compatibility with Bulletproofs for transactions verification and thus, faster verification time, we use a Twisted ElGamal implementation.
+This consists in the use of Pedersen commitments in every ciphertexts directly to take part of encryption / decryption process.
+
+Twisted ElGamal implementation homomorphic properties and security are the exact same as the original ElGamal implementation.
+
+## Homomorphic Properties
+
+ElGamal Homomorphic Encryption has three main properties:
+- **Additive**: Given two ciphertexts `c1` and `c2` that encrypts `m1` and `m2` respectively, we can compute a new ciphertext `c3` that encrypts `m1 + m2` without decrypting `c1` and `c2`.
+- **Multiplicative**: Given a ciphertext `c1` that encrypts `m1` and a plaintext `m2`, we can compute a new ciphertext `c2` that encrypts `m1 * m2` without decrypting `c1`.
+- **Subtractive**: Given two ciphertexts `c1` and `c2` that encrypts `m1` and `m2` respectively, we can compute a new ciphertext `c3` that encrypts `m1 - m2` without decrypting `c1` and `c2`.
+
+For the protocol, we are only using additions to increase receiver's balance and subtractions to decrease sender's balance.
+Multiplication aren't needed in a traditional blockchain protocol as we are only transfering exact values from one to another account without changing this amount.
+
+## Why chosing ElGamal?
+
+ElGamal is a well-known and widely used cryptosystem. It is compatible with the curve25519 curve through Ristretto Points, which is used in XELIS.
+It is also a very secure cryptosystem, and it has homomorphic properties that are useful for our protocol.
+
+We didn't chose a FHE (Fully Homomorphic Encryption) cryptosystem because it is very slow and not adapted to our use case as we only need to perform additions and subtractions.
+
+ElGamal provide a fixed size of ciphertexts, which can have unlimited operations on it without changing its size of the ciphertexts.
+Most of FHE schemes have a growing size of ciphertexts after each operation with "noise" and provide additional key to reorganize it, which is not adapted to our use case.

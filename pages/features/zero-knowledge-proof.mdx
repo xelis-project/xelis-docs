@@ -19,7 +19,20 @@ We're making some optimizations in it to have a faster bulletproofs verification
 
 ## Optimizations
 
-To have scalable and a fast way to verify all transactions included in a block, we can use batching/aggregate or pre-computed scalars.
+To have scalable and a fast way to verify all transactions included in a block, we are using batching and aggregation of Range Proof.
+Sigma Proofs are also batched for faster verification.
+
+Such optimizations are necessary to make sure that the verification time of a block is not increasing too much with the number of transactions.
+
+Currently, with 100 transactions in a block, we are at ~0.40 ms for verification per transaction. 
+This allows us to have a block verification time of around 40 ms every 100 transactions, which give a potential of ~2500 transactions per second.
+
+Also, we group the sum of spent assets in a single source commitment per asset. This allows us to decrease the sender balance only one time per asset used,
+which is a good performance gain when users use several transfers in the same transaction.
+
+Others potential optimizations availables are:
+- Reduce compress/decompress count of keys and ciphertexts during verification.
+- Use pre computed scalars base for the verification. 
 
 ## Front Running
 
