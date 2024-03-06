@@ -2,6 +2,7 @@
   "blockdag": "BlockDAG",
   "homomorphic-encryption": "Homomorphic Encryption",
   "zero-knowledge-proof": "Zero-Knowledge Proof",
+  "ecdlp": "ECDLP",
   "smart-contracts": "Smart Contracts",
   "client-protocol": "Client Protocol",
   "xswd": "XSWD"

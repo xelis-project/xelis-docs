@@ -1,0 +1,48 @@
+---
+title: ECDLP
+---
+
+## Introduction
+
+The Elliptic Curve Discrete Logarithm Problem (ECDLP) is a mathematical problem that forms the basis of the security of elliptic curve cryptography (ECC).
+ECC is a cryptography system that relies on the difficulty of solving the ECDLP for its security.
+
+ECDLP involves finding the exponent `k` in the equation `Q` = `k` * `P`, where `P` is a point on an elliptic curve, `Q` is the result of multiplying `P` by `k`.
+
+The difficulty lies in finding the private key `k` when only the public key `Q` and the base point `P` are known.
+
+For traditional discrete logarithm problems, such as those in finite field-based systems like RSA or Diffie-Hellman, the best-known algorithms have exponential time complexity, making them computationally infeasible for large key sizes.
+Similarly, the ECDLP is believed to be hard, but it is computationally more efficient compared to its finite field counterparts for equivalent security levels.
+This efficiency makes elliptic curve cryptography attractive for resource-constrained environments, such as mobile devices and IoT devices.
+
+## Fast ECDLP
+
+The algorithm implemented is BSGS (Baby Step Giant Step) that allows us to solve the ECDLP problem in a reasonable time.
+
+Implementation details are based on [Solving Small Exponential ECDLP in EC-based Additively Homomorphic Encryption and Applications](https://eprint.iacr.org/2022/1573).
+
+Only ~330 MB of precomputed tables with `L1 = 26` are needed to solve the ECDLP for any point in the curve in a few milliseconds to decode an integer up to `2^48`.
+
+The gist of BSGS goes as follows:
+- Our target point, which we want to decode, represents an integer in the range `[0, 2^(L1 + L2)]`.
+- We have a T1 hash table, where the key is the curve point and value is the decoded point. `T1 = <i * G => i | i in [1, 2^L1]>`
+- We have a T2 linear table (an array), where `T2 = [j * 2^L1 * G | j in [1, 2^L2]]`
+- For each j in 0..2^L2
+    - Compute the difference between T2[j] and the target point.<br/>
+    - If we have an occurence in T1 table, the decoded integer is `j * 2^L1 + i`.
+
+On top of this regular BSGS algorithm, we add the following optimizations:
+- Batching. The paper uses a tree-based Montgomery trick - instead, we use the batched inversion which is implemented in FieldElement.
+- T1 only contains the truncated x coordinates.
+    - The table uses Cuckoo hashing, and the hash of a point is directly just a subset of the bytes of the point.
+- We need a canonical encoding of a point before any hashmap lookup: this means that we must work with affine coordinates.
+    - Addition of affine Montgomery points requires less inversions than Edwards points, so we use that instead.  
+- Using the fact -(x, y) = (x, -y) on the Montgomery curve, we can shift the inputs so that we only need half of T1 and T2 and half of the modular inversions.
+- The L2 constant has been fixed here, because we can just shift the input after every batch.
+    - This means that L2 has a constant size of about 16Ko, which is preferable to >100Mo when `L2 = 22`, for example.
+    - This results in slightly more modular inversions, however this has no visible impact on performance.
+    - Shifting the inputs like this also means that we support arbitrary decoding ranges for a given constant tables file.
+
+**NOTE**: We are dealing with a curve which has cofactors;
+as such, we need to multiply by the cofactor before running ECDLP to clear it and guarantee a canonical encoding of our points.
+The tables also need to be based on `num * cofactor` to match.
