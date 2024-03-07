@@ -3,6 +3,7 @@
   "homomorphic-encryption": "Homomorphic Encryption",
   "zero-knowledge-proof": "Zero-Knowledge Proof",
   "ecdlp": "ECDLP",
+  "difficulty-adjustment": "Difficulty Adjustment",
   "smart-contracts": "Smart Contracts",
   "client-protocol": "Client Protocol",
   "xswd": "XSWD"
