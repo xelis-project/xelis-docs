@@ -4,15 +4,14 @@ title: Difficulty Adjustment
 
 ## Introduction
 
-The difficulty adjustment algorithm is a key part of any blockchain protocol using Proof-Of-Work (PoW) consensus.
-It is used to ensure that the time between blocks remains near the configured target block time as the amount of hash power on the network changes.
-This is a crucial part of the protocol, as it ensures that the rate of new coins creation remains relatively constant over time.
+The difficulty adjustment algorithm is a crucial component of any blockchain protocol that utilizes a Proof-Of-Work (PoW) consensus mechanism.
+Its primary function is to maintain the block generation time close to a predefined target as the network's hashing power fluctuates.
+This mechanism plays a vital role in ensuring that the creation rate of new coins remains relatively stable over time, thereby contributing to the network's security.
 
-This allows the network to remain secure, as the cost of attacking the network is directly related to the amount of hash power on the network.
+The cost of launching an attack on the network is directly proportional to the network's hashing power.
+Consequently, a network that harnesses substantial hashing power from numerous sources is inherently more secure.
 
-The more we have a high hash power through several devices, the more the network is secure.
-
-Having an efficient difficulty adjustment algorithm is crucial to the security and stability of the network.
+Having an efficient difficulty adjustment algorithm is paramount for the security and stability of the network.
 
 ## Difficulty Adjustment Algorithm
 
@@ -21,11 +20,9 @@ This refined estimate is crucial for adjusting the difficulty target for each ne
 
 The advantage of using the Kalman filter lies in its ability to rapidly converge on the actual network hash rate while effectively filtering out misleading fluctuations caused by temporary hash rate spikes.
 
-The difficulty is retargeted at every block and is based on the tips of block.<br/>
-The parent difficulty is taken from the heaviest block's tip.
-The heaviest block's tip selection is based on the cumulative difficulty achieved on its DAG branch.
-It is used as the parent difficulty parameter for the algorithm.
+The algorithm adjusts the difficulty for every block, drawing on the heaviest block's tip as the basis for the parent difficulty.
+This selection hinges on the cumulative difficulty accrued in its DAG branch, informing the parent difficulty parameter for the algorithm.
 
-To estimate the solve time of the block, we take the timestamp from the youngest block's tip available.
-Youngest block's tip selection is based on the highest timestamp of all blocks tips.
-It is used as the parent timestamp parameter for the algorithm which is then subtracted from the block timestamp to estimate the solve time.
+To estimate the time taken to solve the block, the algorithm uses the timestamp from the tip of the youngest block available.
+The choice of the youngest block's tip is determined by the highest timestamp among all block tips, serving as the basis for the parent timestamp parameter in the algorithm.<br/>
+This value is then subtracted from the current block's timestamp to estimate the solve time.
