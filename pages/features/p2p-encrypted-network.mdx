@@ -30,6 +30,8 @@ Once both parties have received the other's symetric encryption key, they can st
 
 The client that initiated the connection will send a handshake packet to the other party to be upgraded as a Peer, and the other party will respond with a handshake packet to confirm the upgrade.
 
+In the handshake packet, a peer can inform others peers if he accept that its IP is shared to extend peerlist of others and / or to be returned in RPC API.
+
 To reduce overall bandwidth of network, nodes shouldn't:
 - send twice a transaction during propagation time to the same peer.
 - send twice a block during propagation time to the same peer.
