@@ -19,17 +19,17 @@ Example: `./xelis_daemon --network testnet`.
 
 ### Boost Sync Mode
 
-Boost sync mode is a faster way to sync the blockchain. It is not enabled by default as it require more resources usage.
+Boost sync mode is a faster way to sync the full blockchain. It is not enabled by default as it require more resources usage.
 It is requesting blocks during chain syncronization in parallel.
 
-To enable it, use: `./xelis_daemon --allow-boost-sync-mode`.
+To enable it, use: `./xelis_daemon --allow-boost-sync`.
 
 ### Fast Sync Mode
 
 Fast sync mode allows to have a faster syncronization by downloading the last chain state from any peer.<br/>
 It allows to have a light node and with a really small disk usage as it's using only latest available data.
 
-To enable it, use: `./xelis_daemon --allow-fast-sync-mode`.
+To enable it, use: `./xelis_daemon --allow-fast-sync`.
 
 ### Auto Pruning
 
@@ -111,16 +111,35 @@ It can speedup the syncronization process by allowing to send more data at once.
 
 Example to set the maximum chain response size to 8192: `./xelis_daemon --max-chain-response-size 8192`.
 
+### Disable IP Sharing
+
+Ask peers to not share our IP to others and/or through API.<br/>
+This is useful for people that don't want that their IP is revealed in RPC API and/or shared to others nodes as a potential new peer to connect to.
+
+By default, your IP is allowed to be shared across the network to others nodes.<br/>
+To enable it, use: `./xelis_daemon --disable-ip-sharing`.
+
+Please note that it may prevent to have new incoming peers as your IP will not be shared to others.
+
 ### Disable File Logging
 
 By default, the daemon is logging to a file. To disable it, use: `./xelis_daemon --disable-file-logging`.
 
 ### Filename Log
 
-Set the filename to use for logging. By default, the filename is set to `xelis.log`.<br/>
+Set the filename to use for logging. By default, the filename is set to `xelis-daemon.log`.<br/>
 Every logs file are stored in the `logs` folder and are named with the date of the day.
 
 To set the filename to `mylog.log`, use: `./xelis_daemon --filename-log mylog.log`.
+
+### Logs Dir Path
+
+Set a custom directory path to store the logs files.<br/>
+By default it will be `logs/` of the current directory.
+
+To set the directory path to `mylogs/`, use: `./xelis_daemon --logs-path mylogs/`.
+
+**NOTE**: The directory will be created using the provided path if not existing and must ends with a `/`. 
 
 ### Log Level
 
@@ -242,10 +261,19 @@ By default, the daemon is logging to a file. To disable it, use: `./xelis_wallet
 
 ### Filename Log
 
-Set the filename to use for logging. By default, the filename is set to `xelis-miner.log`.<br/>
+Set the filename to use for logging. By default, the filename is set to `xelis-wallet.log`.<br/>
 Every logs file are stored in the `logs` folder and are named with the date of the day.
 
 To set the filename to `mylog.log`, use: `./xelis_wallet --filename-log mylog.log`.
+
+### Logs Dir Path
+
+Set a custom directory path to store the logs files.<br/>
+By default it will be `logs/` of the current directory.
+
+To set the directory path to `mylogs/`, use: `./xelis_wallet --logs-path mylogs/`.
+
+**NOTE**: The directory will be created using the provided path if not existing and must ends with a `/`. 
 
 ### Log Level
 
@@ -307,6 +335,15 @@ Set the filename to use for logging. By default, the filename is set to `xelis-m
 Every logs file are stored in the `logs` folder and are named with the date of the day.
 
 To set the filename to `mylog.log`, use: `./xelis_miner --filename-log mylog.log`.
+
+### Logs Dir Path
+
+Set a custom directory path to store the logs files.<br/>
+By default it will be `logs/` of the current directory.
+
+To set the directory path to `mylogs/`, use: `./xelis_miner --logs-path mylogs/`.
+
+**NOTE**: The directory will be created using the provided path if not existing and must ends with a `/`. 
 
 ### Log Level
 
