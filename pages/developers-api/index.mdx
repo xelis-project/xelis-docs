@@ -1,0 +1,69 @@
+# Index API
+
+This is an API to access an indexed version of the blockchain and more goodies.  
+You can easily search data with very specific parameters and create custom awesome statistics.  
+
+We provide a rate limiting free access for the data at this endpoint.  
+`https://index.xelis.io/`
+
+You can also clone the repo and index the blockchain yourself if you want more controls or higher throughput of the information.  
+https://github.com/xelis-project/xelis-index
+
+## How to use
+
+The API consist of a list of exclusive views that you can request and add parameters on top of it.
+
+For example, if you want the last 5 transactions of an account, the query would look like this:  
+https://testnet-index.xelis.io/views/transactions?count=true&pretty=true&limit=5&order=nonce::desc&where=source::eq::xet:6eadzwf5xdacts6fs4y3csmnsmy4mcxewqt3xyygwfx0hm0tm32sqxdy9zk
+
+### Views
+
+| Name                               | Link                                          |
+|------------------------------------|-----------------------------------------------|
+| accounts                           | [/views/accounts](https://testnet-index.xelis.io/views/accounts) |
+| blocks                             | [/views/blocks](https://testnet-index.xelis.io/views/blocks) |
+| contracts                          | [/views/contracts](https://testnet-index.xelis.io/views/contracts) |
+| market_history                     | [/views/market_history](https://testnet-index.xelis.io/views/market_history) |
+| transaction_transfers              | [/views/transaction_transfers](https://testnet-index.xelis.io/views/transaction_transfers) |
+| transactions                       | [/views/transactions](https://testnet-index.xelis.io/views/transactions) |
+| get_accounts_active_time(*)        | [/views/get_accounts_active_time(*)](https://testnet-index.xelis.io/views/get_accounts_active_time(*)) |
+| get_accounts_count_time(*)         | [/views/get_accounts_count_time(*)](https://testnet-index.xelis.io/views/get_accounts_count_time(*)) |
+| get_accounts_txs_time(*)           | [/views/get_accounts_txs_time(*)](https://testnet-index.xelis.io/views/get_accounts_txs_time(*)) |
+| get_blocks_time(*)                 | [/views/get_blocks_time(*)](https://testnet-index.xelis.io/views/get_blocks_time(*)) |
+| get_blocks_topo(*)                 | [/views/get_blocks_topo()](https://testnet-index.xelis.io/views/get_blocks_topo()) |
+| get_market_assets()                | [/views/get_market_assets()](https://testnet-index.xelis.io/views/get_market_assets()) |
+| get_market_exchanges()             | [/views/get_market_exchanges()](https://testnet-index.xelis.io/views/get_market_exchanges()) |
+| get_market_history_exchange_time(*)| [/views/get_market_history_exchange_time(*)](https://testnet-index.xelis.io/views/get_market_history_exchange_time(*)) |
+| get_market_history_time(*)         | [/views/get_market_history_time(*)](https://testnet-index.xelis.io/views/get_market_history_time(*)) |
+| get_miners_blocks_time(*)          | [/views/get_miners_blocks_time(*)](https://testnet-index.xelis.io/views/get_miners_blocks_time(*)) |
+| get_miners_blocks()                | [/views/get_miners_blocks()](https://testnet-index.xelis.io/views/get_miners_blocks()) |
+| get_miners_count_time(*)           | [/views/get_miners_count_time(*)](https://testnet-index.xelis.io/views/get_miners_count_time(*)) |
+| get_stats()                        | [/views/get_stats()](https://testnet-index.xelis.io/views/get_stats()) |
+| get_txs_time(*)                    | [/views/get_txs_time(*)](https://testnet-index.xelis.io/views/get_txs_time(*)) |
+| get_txs()                          | [/views/get_txs()](https://testnet-index.xelis.io/views/get_txs()) |
+
+The asterisk means that there is a mandatory parameter needed for the view.
+
+### Parameters
+
+| Parameter | Default | Type    | Format               | Query Format           | Description                                   |
+|-----------|---------|---------|----------------------|------------------------|-----------------------------------------------|
+| offset    | 0       | int     |                      | `&offset=10`           | Start query at this offset.                   |
+| limit     | 100     | int     |                      | `&limit=50`            | Maximum of rows returned.                     |
+| where     |         | string  | `column::op::value`  | `&where=height::eq::0` | Filter the data with column and operator.     |
+| order     |         | string  | `column::sort`       | `&order=time::desc`    | Sort with the column either desc or asc.      |
+| param     |         | any     |                      | `&param=10000`         | Set the param value of the asterisk.          |
+| count     | false   | boolean |                      | `&count=true`          | Return the total number of rows in the query. |
+| pretty    | false   | boolean |                      | `&pretty=true`         | Indent the data to inhance readability.       |
+
+### Operators (where)
+
+| Op    | Description           |
+|-------|-----------------------|
+| eq    | Equal `=`             |
+| neq   | Not equal `!= or <>`  |
+| gt    | Greater than `>`      |
+| gte   | Greater or equel `>=` |
+| lt    | Lower than `<`        |
+| lte   | Lower or equal `<=`   |
+| like  | `LIKE`                |
