@@ -59,15 +59,6 @@ Set the bind address to use for the P2P server. By default, the bind address is 
 
 To set the bind address to `0.0.0.0:2126`, use: `./xelis_daemon --p2p-bind-address 0.0.0.0:2126`.
 
-### Disable IP Sharing
-
-Ask peers to not share our IP to others and/or through API.
-This option is useful for people that don't want that their IP is revealed in RPC API and/or shared to others nodes as a potential new peer to connect to.
-
-NOTE: that it may prevent to have new incoming peers
-
-To disable the IP sharing, use: `./xelis_daemon --disable-ip-sharing`.
-
 ### Max Peers
 
 Set the maximum number of P2P peers to connect to.<br/>
@@ -205,11 +196,13 @@ By default, the XSWD mode is disabled.
 
 To enable the XSWD mode, use: `./xelis_wallet --enable-xswd`.
 
-### Name
+### Wallet Path
 
-Set the name to use for the wallet file.
+Set the wallet path to use for the wallet.
 
-To use the wallet file `mywallet`, use: `./xelis_wallet --name mywallet`.
+To use the wallet file `mywallet`, use: `./xelis_wallet --wallet-path mywallet`.
+
+If not specified, wallet is created in `wallets/` folder of the current directory with its name.
 
 ### Password
 
