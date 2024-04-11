@@ -1,0 +1,25 @@
+---
+title: Transaction Fees
+---
+
+## Introduction
+
+XELIS has transaction capabilities on its network.
+
+To reward miners for their hard work keeping the blockchain a safe space and also preventing spamming attacks using high count of transactions, XELIS has a slightly different approach to calculate the required fee.
+
+First, fees paid by a transaction can only be paid using XELIS (native) asset, and is based on more than one parameter.
+
+The parameters used to determine the minimal transaction fee are the following:
+- Size in bytes, where every 1024 bytes used, you must pay 0.0001 XELIS.
+> This fee is used to prevent chain bloating and growing too fast in size disk terms.
+
+- Transfers count, where each transfer cost an additional fee of 0.00005 XELIS.
+> This is used to have accurate fee based on the needed computation due to Homomorphic Encryption. More transfers require more computation to be applied and verified.
+
+- Newly created addresses, where each address registered by a transaction must pay an additional fee of 0.01 XELIS.
+> This fee is set in exchange to have no Proof-Of-Work process needed to register an account on chain, preventing a spamming attack that would bloat the chain with fake and/or unused accounts.
+> This is a one-time fee for each account that never had any record previously.
+> An account can be registered automatically by either mining a block or by already receiving a transaction.
+
+This limit the advantages of using transactions as a vector of attack in case some dishonest people would try to harm the chain.
