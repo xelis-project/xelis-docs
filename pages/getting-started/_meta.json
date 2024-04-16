@@ -2,5 +2,6 @@
     "build": "Build from sources",
     "download": "Download",
     "docker": "Docker",
-    "configuration": "Configuration"
+    "configuration": "Configuration",
+    "guides": "Guides"
 }
