@@ -1,0 +1,51 @@
+---
+title: Start a miner
+---
+
+import { Steps } from 'nextra-theme-docs';
+
+## Start a miner
+
+XELIS is a Proof of Work (PoW) blockchain, meaning that miners are needed to secure the network and validate transactions.
+In this guide, we will show you how to start a miner on the XELIS network.
+
+XELIS Miner is a CLI (Command Line Interface) software in which you interact using the command line in a terminal.
+
+### Requirements
+
+In order to follow this guide, it requires that you already have the miner software on your device and a valid wallet address to receive your rewards in case of a block found and accepted by the network.
+
+If you don't have one, please follow the [Create your wallet using CLI](/getting-started/guides/create-wallet-cli) page.
+
+### Run the miner
+
+<Steps>
+### Open a terminal
+
+Open a terminal on your device.
+
+### Start the miner
+
+Run the following command to start the miner:
+
+On Windows:
+```bash
+xelis-miner.exe --wallet-address <your-wallet-address>
+```
+
+On Linux:
+```bash
+./xelis-miner --wallet-address <your-wallet-address>
+```
+
+Your wallet address should be replaced with your own wallet address.
+It must be a valid XELIS wallet address in the network wanted.
+
+For example, if you want to mine on the mainnet, you should use a mainnet wallet address.
+
+### Monitor your miner
+
+You can monitor your miner by checking the logs in the terminal.
+It will show you the current status of your miner and if you found a block, if it is accepted or rejected and your current hashrate.
+
+</Steps>
