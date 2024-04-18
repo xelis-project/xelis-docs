@@ -8,7 +8,10 @@ XSWD (XELIS Secure WebSocket DApp) is a secure protocol that utilizes WebSocket 
 and a decentralized application. 
 
 The procotol act as a proxy for the wallet JSON-RPC API, and each request made by an application must receive permission granted by the user.
-This enables a more secure and granular approach of controlling which functions get executed and what data can be accessed. 
+This enables a more secure and granular approach of controlling which functions get executed and what data can be accessed.
+
+WebSockets enable real-time, bidirectional communication between web clients and servers, for direct communication, allowing to be notified of any event happening on the wallet.
+
 In any case, the user can easily prevent any unauthorized access. Without this protocol, you would have to authorize full access 
 to your wallet for interacting with any third-party application.
 
@@ -17,6 +20,24 @@ It provides developers with the ability to manage only one connection and swiftl
 blockchain information.
 
 Read on below to delve deeper into the specifics.
+
+## Features and Benefits
+
+- **Elimination of RPC Bridge Dependency**: XSWD eliminates the need for the RPC bridge browser extension.
+
+- **Secure dApp Interaction**: XSWD ensures safe connections and authentication with dApps via WebSocket removing the risk of being stolen from a compromised/malicious application.
+
+- **Flexible Permissions**: Users can opt to deny, allow (one-time or always), or permanently reject requests from dApps, providing control over data access.
+
+- **Ease of Integration**: Manage integration effortlessly through CLI wallet commands. Toggle the XSWD Server and manage dApp permissions.
+
+- **Proxy for Daemon Requests**: XSWD acts as a proxy, offering a comprehensive API for developers to integrate XELIS into their services or dApps. Maintain a single connection to access all blockchain information.
+
+- **Real-time Notifications**: Receive real-time notifications of wallet events, such as incoming transactions, new blocks, and more.
+
+- **Standardized Protocol**: XSWD uses the WebSocket protocol and JSON-RPC 2.0 for communication, ensuring compatibility with most programming languages and frameworks.
+
+- **Compatibility**: XSWD is compatible with all platforms and devices, including web browsers, mobile devices, and desktop applications.
 
 ## Protocol
 
