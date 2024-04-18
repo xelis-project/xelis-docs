@@ -150,7 +150,7 @@ Before listening to an event you must `subcribe` with an available method.
 For example: 
 
 ```js
-const ws = new WebSocket('wss://node.xelis.io/ws')
+const ws = new WebSocket('wss://node.xelis.io/json_rpc')
  
 const message = {
   id: 1,
@@ -160,7 +160,11 @@ const message = {
     notify: 'NewBlock'
   }
 }
- 
+
+ws.onmessage = (message) => {
+  console.log(message.data)
+}
+
 ws.send(JSON.stringify(message))
 ```
 
