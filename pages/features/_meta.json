@@ -7,5 +7,6 @@
   "smart-contracts": "Smart Contracts",
   "client-protocol": "Client Protocol",
   "xswd": "XSWD",
-  "transaction-fees": "Transaction Fees"
+  "transaction-fees": "Transaction Fees",
+  "integrated-data": "Integrated Data"
 }
