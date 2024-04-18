@@ -1,0 +1,53 @@
+
+### `get_blocks_range_by_topoheight`
+
+> Get blocks between range of topoheight. Max of 20 blocks and if no params returns recent blocks.
+
+Parameters
+
+|       Name       |   Type  | Required |                      Note                     |
+|:----------------:|:-------:|:--------:|:---------------------------------------------:|
+| start_topoheight | Integer | Optional |        0 or under topoheight                  |
+|  end_topoheight  | Integer | Optional |        Must be under current topoheight       |
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_blocks_range_by_topoheight",
+  "params": {
+    "start_topoheight": 0,
+    "end_topoheight": 19
+  }
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [{
+    "block_type": "Sync",
+    "cumulative_difficulty": 1,
+    "difficulty": 1,
+    "extra_nonce": "0000000000000000000000000000000000000000000000000000000000000000",
+    "hash": "55a162b8e0e137bb6a8de9f4c4b214fb60bcd2df15ec32fdd8f06759b863f06e",
+    "height": 0,
+    "miner": "xel1qqqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680gtl9ky3",
+    "nonce": 0,
+    "reward": 877380,
+    "supply": 877380,
+    "timestamp": 1678215431432,
+    "tips": [],
+    "topoheight": 0,
+    "total_fees": null,
+    "total_size_in_bytes": 99,
+    "txs_hashes": [],
+    "version": 0
+  }]
+}
+```

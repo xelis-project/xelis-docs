@@ -1,0 +1,27 @@
+### `get_tips`
+
+> Retrieve Tips (highest blocks from blockDAG) from chain.
+
+This is the available blocks hashes to mine on to continue the chain and merge DAG branches in one chain.
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_tips"
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [
+    "0000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d692"
+  ]
+}
+```

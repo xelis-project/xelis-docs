@@ -1,0 +1,31 @@
+### `get_balance`
+
+> Get asset balance from wallet.
+
+When no parameter is set, default asset is XELIS.  
+By default, if no balance for the requested asset is found, it will returns 0.
+
+Parameters
+
+|   Name  |   Type  | Required |                Note               |
+|:-------:|:-------:|:--------:|:---------------------------------:|
+|  asset  |   Hash  | Optional |    Asset ID registered on chain   |
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "get_balance",
+  "id": 1,
+  "params": {}
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": 10000
+}
+```

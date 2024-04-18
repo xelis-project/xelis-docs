@@ -1,0 +1,38 @@
+import { Callout } from 'nextra/components'
+
+### `rescan`
+
+> Request the wallet to rescan balances and transactions history until the specified topoheight.
+
+When no topoheight is set, it rescan until topoheight 0.
+
+<Callout type="warning">
+  All balances and transactions will be deleted from wallet storage and become up-to-date with the connected node.
+</Callout>
+
+Parameters
+
+|   Name             |   Type  | Required |                Note               |
+|:------------------:|:-------:|:--------:|:---------------------------------:|
+| until_topoheight   | Integer | Optional | Default is 0                      |
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "rescan",
+  "id": 1,
+  "params": {
+    "until_topoheight": 0
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": true
+}
+```

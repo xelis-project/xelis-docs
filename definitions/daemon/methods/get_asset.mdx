@@ -1,0 +1,35 @@
+### `get_asset`
+
+> Get asset data with hash.
+
+Parameters
+
+|    Name    |   Type  | Required |                           Note                          |
+|:----------:|:-------:|:--------:|:-------------------------------------------------------:|
+|    asset   |   Hash  | Required |               Asset ID registered on chain              |
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_asset",
+  "params": {
+    "asset": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "topoheight": 0, // registered topoheight
+    "decimals": 8
+  }
+}
+```

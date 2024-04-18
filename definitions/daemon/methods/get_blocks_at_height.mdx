@@ -1,0 +1,53 @@
+### `get_blocks_at_height`
+
+> Retrieve all blocks at a specific height.
+
+Parameters
+
+|  Name       |   Type  | Required |                       Note                       |
+|:-----------:|:-------:|:--------:|:------------------------------------------------:|
+| height      | Integer | Required | Height must be equal or less than current height |
+| include_txs | Boolean | Optional | Include serialized txs                           |
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "get_blocks_at_height",
+  "id": 1,
+  "params": {
+    "height": 23
+  }
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [{
+    "block_type": "Normal",
+    "cumulative_difficulty": 76173573,
+    "difficulty": 7902701,
+    "extra_nonce": "cac46116afea8a00d2d9f9ea10d20a3a5bc9c2ae7f47201f24450e3e3fe5ec09",
+    "hash": "0000019fab49717777dba2ee23f46f9f27706a9c5103a5550cf429f9c786b1e4",
+    "height": 23,
+    "miner": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
+    "nonce": 183776,
+    "reward": 877360,
+    "supply": 42113762,
+    "timestamp": 1674226439134,
+    "tips": [
+        "000001aa69c15167a192de809eeed112f50ec91e513cfbf7b1674523583acbf9"
+    ],
+    "topoheight": 23,
+    "total_fees": null,
+    "total_size_in_bytes": 131,
+    "txs_hashes": [],
+    "version": 0
+  }]
+}
+```

@@ -1,0 +1,34 @@
+### `is_tx_executed_in_block`
+
+> Check if a transaction was executed in a specific block.
+
+Parameters
+
+|       Name          |   Type  | Required |                      Note                        |
+|:-------------------:|:-------:|:--------:|:------------------------------------------------:|
+|  tx_hash            | Hash    | Required |                                                  |
+|  block_hash         | Hash    | Required |                                                  |
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "is_tx_executed_in_block",
+  "id": 1,
+  "params": {
+    "tx_hash": "",
+    "block_hash": ""
+  }
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": false
+}
+```

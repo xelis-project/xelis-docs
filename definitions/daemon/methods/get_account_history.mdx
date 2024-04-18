@@ -1,0 +1,39 @@
+### `get_account_history`
+
+> List mined blocks, incoming and outgoing transactions.
+
+Parameters
+
+|       Name          |   Type  | Required |                      Note                          |
+|:-------------------:|:-------:|:--------:|:--------------------------------------------------:|
+|  address            | Address | Required | Account address                                    |
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_account_history",
+  "params": {
+    "address": "xet:qze954a6tjc2d36zdjuapgu75hpckvtlmfxsymevmqn9ewvpkfasqkrzdql"
+  }
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [{
+    "block_timestamp": 1697749965331,
+    "hash": "00000030bd46c7d790693fad42c9096744c343c75b9d45704ae182611e51dc82",
+    "mining": {
+        "reward": 116937
+    },
+    "topoheight": 499058
+  }]
+}
+```

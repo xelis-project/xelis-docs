@@ -1,0 +1,32 @@
+### `submit_transaction`
+
+> Submit a transaction in HEX format to the daemon mempool.
+
+Parameters
+
+| Name |  Type  | Required |            Note           |
+|:----:|:------:|:--------:|:-------------------------:|
+|  hex | String | Required | Transaction in HEX format |
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 0,
+  "method": "submit_transaction",
+  "params": {
+    "data": "a15637c25cefd438998a2a043867ef8df905542078a8724ada1aabce003df3cc010100000000000000000000000000000000000000000000000000000000000000000000000000003a986c24cdc1c8ee8f028b8cafe7b79a66a0902f26d89dd54eeff80abcf251a9a3bd0000000000000003e80000000000000002d297ef720d388ff2aaedf6755a1f93b4ac1b55c987da5dc53c19350d8a779d970c7f4cfcc25d2f4ce3f4ef3a77d0f31d15635d221d5a72ef6651dbb7f1810301"
+  }
+}
+```
+
+Response
+
+```json
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "result": true
+}
+```

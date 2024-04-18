@@ -1,0 +1,32 @@
+### `get_asset_precision`
+
+> Get the decimal value of an asset that represents the floating-point aspect of the atomic value.
+
+his is useful to format correctly the atomic units coins to human readable.
+
+Parameters
+
+|   Name  |   Type  | Required |                Note               |
+|:-------:|:-------:|:--------:|:---------------------------------:|
+|  asset  |   Hash  | Required |    Asset ID registered on chain   |
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "get_asset_precision`",
+  "id": 1,
+  "params": {
+    "asset": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": 8
+}
+```

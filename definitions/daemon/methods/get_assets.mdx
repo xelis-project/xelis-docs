@@ -1,0 +1,36 @@
+### `get_assets`
+
+> Get all assets available on network.
+
+Parameters
+
+|   Name  |   Type  | Required |                   Note                   |
+|:-------:|:-------:|:--------:|:----------------------------------------:|
+|   skip  | Integer | Optional |          How many assets to skip         |
+| maximum | Integer | Optional | Maximum assets to fetch (limited to 100) |
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_assets"
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [
+    {
+      "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+			"decimals": 8, // balance is in atomic unit this is the number in decimal places
+			"topoheight": 0 // registered topoheight
+    }
+  ]
+}
+```

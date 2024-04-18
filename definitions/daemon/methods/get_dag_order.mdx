@@ -1,0 +1,42 @@
+### `get_dag_order`
+
+> Retrieve the whole DAG order (all blocks hash ordered by topoheight).
+
+If no parameters are set, it will retrieve the last 64 blocks hash ordered descending.  
+Maximum of 64 blocks hash only per request.
+
+
+Parameters
+
+|       Name       |   Type  | Required |                      Note                     |
+|:----------------:|:-------:|:--------:|:---------------------------------------------:|
+| start_topoheight | Integer | Optional | If not set, will retrieve last 64 blocks hash |
+|  end_topoheight  | Integer | Optional |        Must be under current topoheight       |
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_dag_order",
+  "params": {
+    "start_topoheight": 0,
+    "end_topoheight": 5
+  }
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [
+      "83f6a544d69ca4852e8e2b6bc98b3a1602509e8feea7d744f6a60deeef51c663",
+      "00005c58f5c2a506b2a24e79967db009d3b2be13f15e657d6352b1aa59cdfedc",
+      "00002d138fbab2bc14958061edbc4a0c272d1ac27d60ef4a72e2f5ac9d1a2b0a"
+  ]
+}
+```

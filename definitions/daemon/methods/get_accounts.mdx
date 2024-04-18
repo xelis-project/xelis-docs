@@ -1,0 +1,55 @@
+
+### `get_accounts`
+
+> Retrieve a list of available accounts (each account must have one on-chain interaction).
+
+Parameters
+
+|       Name          |   Type  | Required |                      Note                          |
+|:-------------------:|:-------:|:--------:|:--------------------------------------------------:|
+|  skip               | Integer | Optional | How many accounts to skip                          |
+|  maximum            | Integer | Optional | Maximum accounts to fetch (limited to 100)         |
+|  minimum_topoheight | Integer | Optional | Minimum topoheight for first on-chain interaction  |
+|  maximum_topoheight | Integer | Optional | Maximum topoheight for first on-chain interaction  |
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_accounts",
+  "params": {}
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [
+		"xet:qze954a6tjc2d36zdjuapgu75hpckvtlmfxsymevmqn9ewvpkfasqkrzdql",
+		"xet:qf5u2p46jpgqmypqc2xwtq25yek2t7qhnqtdhw5kpfwcrlavs5asq0r83r7",
+		"xet:qn7qwdmweculrklzh94p6wvss2yj46vrgmlh8y6fh7rue2fmn9usqr3dq78",
+		"xet:q622pz5exf5hmw98d73dlqhwjvfwd5g9k0tpuay90ga634c64cgsqczfmvx",
+		"xet:pquh4gagcfmjg42jvx0ywc6a3ph03n6zxynaak9gdv5eh0zdysrqq5mrlz3",
+		"xet:pg6nn3q3fqqaw0h7p689ul4a0tz9z76kkj6ys2umexs08flsrvmsqg4eea0",
+		"xet:zpt4h6tcqhrdatkyvwmcffmjrqwq00ryy62tzgu7ra5uvhqx0ckqq537j52",
+		"xet:z63vuknmvtq2yqj320dgc3vzsvszyxmd2w5j06k539snv9pxlcsqqkkusu9",
+		"xet:rqp2gplxyy9duud0jh7kz7kamcujfrcdmqtpgu2tx46fk7yzwa4qqdrgpmn",
+		"xet:rr3s2erc8ta6qg29m8ujksxdw26053wev8ja8kaxc62yc0yuceqqqqedmvd",
+		"xet:rt7260ltjnnqw9qfpgcackrhwkaeyc8hhtp8vls6ws99g5lq44xsqrjs9r9",
+		"xet:rjq4yt20zwcq3tyc7z4kjdp9e2h7q5f29wjht7vht575jtlkkq6qqhlx97s",
+		"xet:r6zyz66ppefhxy3mmhvlyeplmp734zpltl270egxd04u02pe2fdsqzmts74",
+		"xet:ypyeqzf6wyedmjeqrkplpwqkz0yp3rj4nnepmpvqvjj7gv4ae54qqzfaw3n",
+		"xet:yp8rlns8ufqd2ktfs86e0h93e92vy5u8pd9m8652n4fppdtjwsaqquzug5z",
+		"xet:xc73lapnp2qar6u804f5px756k9xayfssvrr24k9g7d9vxhx650qqg0euc0",
+		"xet:xc7ux9465mxjffuafv2t9lpt5nhquvfsqk7fmaa983vppz3dygmsqql9pts",
+		"xet:8jj5v2xqje9r4lmn0xjak7khfx0qr6x5fp629mqszre609m2r9fsqzxm6kq",
+		"xet:gpxqv0gs89tmdz8ggv6anhlx94ed6lwmwedl0j4ukepxpwu7sgjqqmvvyn9",
+		"xet:g6520vnznu6t6zt8fu85srm7upnlp7tpd5u5tu0urdptmldnwvcqqd539vl"
+  ]
+}
+```

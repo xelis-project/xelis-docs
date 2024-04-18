@@ -1,0 +1,34 @@
+### `get_account_assets`
+
+> List of assets within a specific address.
+
+Parameters
+
+|       Name          |   Type  | Required |                      Note                          |
+|:-------------------:|:-------:|:--------:|:--------------------------------------------------:|
+|  address            | Address | Required | Account address                                    |
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_account_assets",
+  "params": {
+    "address": "xet:qze954a6tjc2d36zdjuapgu75hpckvtlmfxsymevmqn9ewvpkfasqkrzdql"
+  }
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [
+    "0000000000000000000000000000000000000000000000000000000000000000",
+  ]
+}
+```

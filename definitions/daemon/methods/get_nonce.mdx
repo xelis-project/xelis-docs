@@ -1,0 +1,36 @@
+
+### `get_nonce`
+
+> Retrieve the nonce for address in request params.
+
+If no nonce is found for this address and its valid, value start at 0.  
+Each nonce represents how many TX has been made by this address.
+
+Parameters
+
+|   Name  |   Type  | Required |                Note               |
+|:-------:|:-------:|:--------:|:---------------------------------:|
+| address | Address | Required | Valid address registered on chain |
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_nonce",
+  "params": {
+    "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
+  }
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": 17
+}
+```

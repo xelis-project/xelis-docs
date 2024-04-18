@@ -1,0 +1,33 @@
+### `estimate_fees`
+
+> Estimate the minimum required fees for a future transaction.
+
+Returned fees are in atomic units.  
+Paramater value can be anything (object, value, array...).
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "estimate_fees",
+  "id": 1,
+  "params": {
+    "transfers": [
+			{
+				"amount": 1000,
+				"asset": "0000000000000000000000000000000000000000000000000000000000000000",
+				"destination": "xet:t23w8pp90zsj04sp5r3r9sjpz3vq7rxcwhydf5ztlk6efhnusersqvf8sny"
+			}
+		]
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": 25000
+}
+```

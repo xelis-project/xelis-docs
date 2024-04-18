@@ -1,0 +1,39 @@
+### `has_balance`
+
+> Check if the address has balance for an asset.
+
+Parameters
+
+|   Name       |   Type  | Required |                Note               |
+|:------------:|:-------:|:--------:|:---------------------------------:|
+| address      | Address | Required | Valid address registered on chain |
+| asset        | Hash    | Required |    Asset ID registered on chain   |
+| topoheight   | Integer | Optional |                                   |
+
+NOTE: If you don't specify the `topoheight` parameter, the function will search if the account already had balance at any moment of this asset.
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "has_balance",
+  "result": {
+    "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
+    "asset": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "exists": true
+  }
+}
+```

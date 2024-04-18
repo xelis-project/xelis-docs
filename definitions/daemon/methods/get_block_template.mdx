@@ -1,0 +1,36 @@
+### `get_block_template`
+
+> Retrieve the block template for PoW work.
+
+Parameters
+
+|   Name  |   Type  | Required |            Note           |
+|:-------:|:-------:|:--------:|:-------------------------:|
+| address | Address | Required | Miner address for rewards |
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "get_block_template",
+  "id": 1,
+  "params": {
+    "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5"
+  }
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "difficulty": 1699032,
+    "height": 113,
+    "template": "00000000000000180000000000000000000001845c7a6e000000000000000000eed448813c9c2028d21e029ada21b5a82840b195e70fff8ce7be256afe35d2dc010000073b071e04ce4e79b095f3c44f4aefb65f4e70f8a5591c986cb4b688d69200006c24cdc1c8ee8f028b8cafe7b79a66a0902f26d89dd54eeff80abcf251a9a3bd02"
+  }
+}
+```

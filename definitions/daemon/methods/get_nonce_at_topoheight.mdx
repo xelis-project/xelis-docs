@@ -1,0 +1,34 @@
+### `get_nonce_at_topoheight`
+
+> Get topoheight nonce value of an address.
+
+Parameters
+
+|   Name     |   Type  | Required |                Note               |
+|:----------:|:-------:|:--------:|:---------------------------------:|
+| address    | Address | Required | Valid address registered on chain |
+| topoheight | Integer | Required | nonce at specified topoheight     |
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_nonce_at_topoheight",
+  "params": {
+    "address": "xel1qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
+    "topoheight": 0
+  }
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": 0
+}
+```

@@ -1,0 +1,66 @@
+### `get_peers`
+
+> Get list of connected peers.
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "get_peers"
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+		"hidden_peers": 0,
+		"peers": [
+			{
+				"addr": "162.19.249.100:2125",
+				"connected_on": 1711663198,
+				"cumulative_difficulty": "874788276435001",
+				"height": 21939,
+				"id": 7089875151156203202,
+				"last_ping": 1711664680,
+				"local_port": 2125,
+				"peers": {
+					"255.255.255.255:2125": "In",
+					"74.208.251.149:2125": "Both"
+				},
+				"pruned_topoheight": null,
+				"tag": null,
+				"top_block_hash": "0000000007eeed3fecdaedff82ad867a224826230c12465cf39186471e2e360e",
+				"topoheight": 22241,
+				"version": "1.8.0-58bb439"
+			},
+			{
+				"addr": "74.208.251.149:2125",
+				"connected_on": 1711663199,
+				"cumulative_difficulty": "874788276435001",
+				"height": 21939,
+				"id": 2448648666414530279,
+				"last_ping": 1711664682,
+				"local_port": 2125,
+				"peers": {
+					"127.0.0.1:2125": "In",
+					"127.0.0.1:2126": "Both"
+				},
+				"pruned_topoheight": null,
+				"tag": null,
+				"top_block_hash": "0000000007eeed3fecdaedff82ad867a224826230c12465cf39186471e2e360e",
+				"topoheight": 22241,
+				"version": "1.8.0-58bb439"
+			},
+		],
+		"total_peers": 4
+	}
+}
+```
+
+NOTE: Addresses displayed in this example are not real one and were replaced for privacy reasons.
