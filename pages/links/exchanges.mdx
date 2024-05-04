@@ -2,4 +2,25 @@
 title: Exchanges
 ---
 
-**No exchanges available at this moment.**
+import { Card, Cards } from 'nextra-theme-docs'
+import styles from './network.module.css'
+
+# Official Exchanges
+
+No official exchanges available at this moment.
+
+# Unofficial Exchanges
+
+Exchanges listed the coin on their own accord. Use them at your own risk, and never keep your coins on an exchange after trading.
+
+<Cards>
+  <Card title="TradeOgre" href="https://tradeogre.com/markets" image>
+    <div style={{backgroundImage: `url(/screenshots/exchanges/tradeogre.png)`}} className={styles.image} />
+  </Card>
+  <Card title="Exbitron" href="https://exbitron.com/" image>
+    <div style={{backgroundImage: `url(/screenshots/exchanges/exbitron.png)`}} className={styles.image} />
+  </Card>
+    <Card title="SeavenSeas" href="https://www.sevenseas.exchange/" image>
+    <div style={{backgroundImage: `url(/screenshots/exchanges/sevenseas.png)`}} className={styles.image} />
+  </Card>
+</Cards>
