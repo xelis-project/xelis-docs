@@ -10,13 +10,14 @@ const classes = {
     'nx-text-current nx-no-underline dark:nx-shadow-none',
     'hover:nx-shadow-gray-100 dark:hover:nx-shadow-none nx-shadow-gray-100',
     'active:nx-shadow-sm active:nx-shadow-gray-200',
-    'nx-transition-all nx-duration-200 hover:nx-border-gray-300'
+    'nx-transition-all nx-duration-200 hover:nx-border-gray-300',
+    'nx-p-4'
   ),
   title: cn(
-    'nx-flex nx-font-semibold nx-items-start nx-gap-2 nx-p-4 nx-text-gray-700 hover:nx-text-gray-900'
+    'nx-flex nx-font-semibold nx-items-start nx-gap-2 nx-text-gray-700 hover:nx-text-gray-900'
   ),
   substitle: cn(
-    'nx-px-4 nx-pb-4 nx-text-gray-400'
+    'nx-text-gray-400 nx-pt-1'
   )
 }
 
