@@ -1,5 +1,6 @@
 {
   "daemon": "Daemon",
   "wallet": "Wallet",
-  "index": "Index"
+  "index": "Index",
+  "mini": "Mini"
 }
