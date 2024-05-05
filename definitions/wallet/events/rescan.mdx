@@ -1,0 +1,16 @@
+### `rescan`
+
+> When a rescan has been triggered by the wallet. The event response contains the topoheight until which the wallet rescanned and deleted the transactions.
+
+On Response
+
+```json
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": {
+		"event": "rescan",
+		"start_topoheight": 50
+	}
+}
+```

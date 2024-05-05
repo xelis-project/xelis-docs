@@ -16,6 +16,13 @@ import ListTransaction from '../../definitions/wallet/methods/list_transaction.m
 import IsOnline from '../../definitions/wallet/methods/is_online.mdx'
 import EstimateFee from '../../definitions/wallet/methods/estimate_fee.mdx'
 
+import BalanceChanged from '../../definitions/wallet/events/balance_changed.mdx'
+import NewAsset from '../../definitions/wallet/events/new_asset.mdx'
+import NewTopoHeight from '../../definitions/wallet/events/new_topo_height.mdx'
+import NewTransaction from '../../definitions/wallet/events/new_transaction.mdx'
+import Offline from '../../definitions/wallet/events/offline.mdx'
+import Online from '../../definitions/wallet/events/online.mdx'
+import RescanEvent from '../../definitions/wallet/events/rescan.mdx'
 
 # Wallet API
 
@@ -35,7 +42,7 @@ It contains all the necessary methods for developing an application or integrate
 
 For the example below:
 
-  - The `{bind_address}` is `127.0.0.1:8787`
+  - The `{bind_address}` is `127.0.0.1:8081`
   - The `{username}` is `Aladdin`:
   - The `{password}` is `open sesame`
 
@@ -48,7 +55,7 @@ Concatening both username and password with `:` gives `QWxhZGRpbjpvcGVuIHNlc2FtZ
     Send a POST request to `/json_rpc`.
 
     ```js
-    fetch('https://127.0.0.1:8787/json_rpc', {
+    fetch('http://127.0.0.1:8787/json_rpc', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -100,3 +107,37 @@ Concatening both username and password with `:` gives `QWxhZGRpbjpvcGVuIHNlc2FtZ
 <ListTransaction />
 <IsOnline />
 <EstimateFee />
+
+## Events
+
+Events are only available through Websocket protocol.   
+Before listening to an event you must `subscribe` with an available method. 
+
+For example: 
+
+```js
+const ws = new WebSocket('ws://127.0.0.1:8081/json_rpc')
+ 
+const message = {
+  id: 1,
+  jsonrpc: '2.0',
+  method: 'subscribe',
+  params: {
+    notify: 'new_topo_height'
+  }
+}
+
+ws.onmessage = (message) => {
+  console.log(message.data)
+}
+
+ws.send(JSON.stringify(message))
+```
+
+<BalanceChanged />
+<NewAsset />
+<NewTopoHeight />
+<NewTransaction />
+<Offline />
+<Online />
+<RescanEvent />
