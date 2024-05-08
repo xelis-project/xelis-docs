@@ -1,0 +1,10 @@
+.image {
+  height: 100%;
+  position: absolute;
+  right: 0;
+  width: 100px;
+  top: 0;
+  background-size: cover;
+  /*-webkit-mask-image: -webkit-gradient(linear, 200 0, 0 0, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));*/
+  mask-image: linear-gradient(to right, transparent 5%, black 150%);
+}
