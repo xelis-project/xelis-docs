@@ -5,7 +5,7 @@ Parameters
 |    Name   |   Type  | Required |                                         Note                                         |
 |:---------:|:-------:|:--------:|:------------------------------------------------------------------------------------:|
 |  address  | Address | Required |                               wallet address to verify                               |
-| tx_as_hex | Boolean | Optional | Returns Public Key as hexadecimal. By default set to false and returns a byte array. |
+|  as_hex   | Boolean | Optional | Returns Public Key as hexadecimal. By default set to false and returns a byte array. |
 
 Request
 
@@ -16,7 +16,7 @@ Request
   "method": "extract_key_from_address",
   "params": {
     "address": "xel:vs3mfyywt0fjys0rgslue7mm4wr23xdgejsjk0ld7f2kxng4d4nqqnkdufz",
-    "tx_as_hex": true
+    "as_hex": true
   }
 }
 ```
