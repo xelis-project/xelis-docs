@@ -37,7 +37,8 @@
   "wallet": {
     "title": "Wallet",
     "href": "https://wallet.xelis.io",
-    "type": "page"
+    "type": "page",
+    "display": "hidden"
   },
   "explorer": {
     "title": "Explorer",
