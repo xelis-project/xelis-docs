@@ -3,5 +3,6 @@
     "download": "Download",
     "docker": "Docker",
     "configuration": "Configuration",
-    "guides": "Guides"
+    "guides": "Guides",
+    "bootstrap": "Bootstrap"
 }

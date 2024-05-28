@@ -1,0 +1,21 @@
+# Bootstrap
+
+## Bootstrap Script
+
+This script makes it easy to onboard onto the network with just one step.  
+On the first launch, it will ask if you want to bootstrap from the latest snapshot or sync from scratch using boost sync.
+
+```bash copy
+curl --proto '=https' --tlsv1.2 -sSf https://docs.xelis.io/scripts/bootstrap.sh | sh
+```
+
+## Full Database
+
+If you don't want to sync the blockchain from the beginning and start at the latest snapshot, you can download the entire database.  
+It's updated every day.
+
+[Direct Download](https://node.xelis.io/files/mainnet.zip)
+
+```bash copy
+curl -o ./mainnet.zip "https://node.xelis.io/files/mainnet.zip"
+```
