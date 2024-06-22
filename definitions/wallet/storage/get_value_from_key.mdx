@@ -1,0 +1,30 @@
+### `get_value_from_key`
+
+> Get a value using its key in the requested Tree.
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "get_value_from_key",
+  "id": 1,
+  "params": {
+    "tree": "test",
+    "key": "my_list"
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [
+    "hello",
+    " ",
+    "world",
+    "!"
+  ]
+}
+```

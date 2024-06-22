@@ -1,0 +1,47 @@
+### `query_db`
+
+> Query the DB in the requested Tree with filters.
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "query_db",
+  "id": 1,
+  "params": {
+    "tree": "test",
+    "value": {
+      "or": [
+        {
+          "equal": "welcome"
+        },
+        {
+          "equal": "test"
+        },
+        {
+          "equal": "!"
+        }
+      ]
+    }
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "entries": {
+      "my_list": [
+        "hello",
+        " ",
+        "world",
+        "!"
+      ]
+    },
+    "next": null
+  }
+}
+```

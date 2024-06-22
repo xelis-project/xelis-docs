@@ -1,0 +1,26 @@
+### `store`
+
+> Store a new key / value entry in the requested Tree.
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "store",
+  "id": 1,
+  "params": {
+    "tree": "test",
+    "key": "my_list",
+    "value": ["hello", " ", "world", "!"]
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": true
+}
+```
