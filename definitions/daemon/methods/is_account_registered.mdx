@@ -1,0 +1,34 @@
+### `is_account_registered`
+
+> Check if the account is registered on chain or not.
+
+Parameters
+
+|       Name          |   Type  | Required |                      Note                        |
+|:-------------------:|:-------:|:--------:|:------------------------------------------------:|
+|  address            | String  | Required |                                                  |
+|  in_stable_height   | Boolean | Required |                                                  |
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "is_account_registered",
+  "id": 1,
+  "params": {
+    "address": "xel:ee48xuktxn0kxh3r6p0hw9x68adcm0dqf4c04hptu0qhegcnldusqr62y47",
+    "in_stable_height": true
+  }
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": true
+}
+```

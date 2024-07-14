@@ -1,0 +1,33 @@
+### `get_transaction_executor`
+
+> Get the block the the transaction was executed in.
+
+Parameters
+
+|       Name          |   Type  | Required |                      Note                        |
+|:-------------------:|:-------:|:--------:|:------------------------------------------------:|
+|  hash               | Hash    | Required |                                                  |
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "get_transaction_executor",
+  "id": 1,
+  "params": {
+    "hash": "e7137ea8fe3d39c1c525f3b4ef0045d3b755270a2f15bd702b5efbed2129c58e"
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "block_topoheight":	472424,
+    "block_hash": "e118b2cad5e03a673e5f46df2f8eac759bbe65852e6495b0277a043cdc64171b"
+  }
+}
+```
