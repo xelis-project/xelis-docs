@@ -1,0 +1,30 @@
+### `has_balance`
+
+> Check if the wallet has a balance for a specific asset.
+
+Parameters
+
+|   Name  |   Type  | Required |                Note               |
+|:-------:|:-------:|:--------:|:---------------------------------:|
+|  asset  |   Hash  | Optional |    Asset ID registered on chain   |
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "has_balance",
+  "id": 1,
+  "params": {
+    "asset": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": true
+}
+```

@@ -8,13 +8,18 @@ import GetAddress from '../../definitions/wallet/methods/get_address.mdx'
 import SplitAddress from '../../definitions/wallet/methods/split_address.mdx'
 import Rescan from '../../definitions/wallet/methods/rescan.mdx'
 import GetBalance from '../../definitions/wallet/methods/get_balance.mdx'
+import HasBalance from '../../definitions/wallet/methods/has_balance.mdx'
 import GetTrackedAssets from '../../definitions/wallet/methods/get_tracked_assets.mdx'
 import GetAssetPrecision from '../../definitions/wallet/methods/get_asset_precision.mdx'
 import GetTransaction from '../../definitions/wallet/methods/get_transaction.mdx'
 import BuildTransaction from '../../definitions/wallet/methods/build_transaction.mdx'
 import ListTransaction from '../../definitions/wallet/methods/list_transaction.mdx'
 import IsOnline from '../../definitions/wallet/methods/is_online.mdx'
+import SetOnlineMode from '../../definitions/wallet/methods/set_online_mode.mdx'
+import SetOfflineMode from '../../definitions/wallet/methods/set_offline_mode.mdx'
 import EstimateFee from '../../definitions/wallet/methods/estimate_fee.mdx'
+import EstimateExtraDataSize from '../../definitions/wallet/methods/estimate_extra_data_size.mdx'
+import SignData from '../../definitions/wallet/methods/sign_data.mdx'
 
 import BalanceChanged from '../../definitions/wallet/events/balance_changed.mdx'
 import NewAsset from '../../definitions/wallet/events/new_asset.mdx'
@@ -106,13 +111,18 @@ Concatening both username and password with `:` gives `QWxhZGRpbjpvcGVuIHNlc2FtZ
 <SplitAddress />
 <Rescan />
 <GetBalance />
+<HasBalance />
 <GetTrackedAssets />
 <GetAssetPrecision />
 <GetTransaction />
 <BuildTransaction />
 <ListTransaction />
 <IsOnline />
+<SetOnlineMode />
+<SetOfflineMode />
 <EstimateFee />
+<EstimateExtraDataSize />
+<SignData />
 
 ## Events
 

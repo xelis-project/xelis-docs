@@ -1,0 +1,32 @@
+### `set_online_mode`
+
+> Connect the wallet to a daemon if not already connected.
+
+Parameters
+
+|       Name       |   Type   | Required |                Note             |
+|:----------------:|:--------:|:--------:|:-------------------------------:|
+|  daemon_address  |  String  | Required |  The daemon endpoint            |
+|  auto_reconnect  |  Boolean | Required |  Auto reconnect in case of fail |
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "set_online_mode",
+  "id": 1,
+  "params": {
+    "daemon_address": "node.xelis.io",
+    "auto_reconnect": true
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": true
+}
+```

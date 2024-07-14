@@ -1,0 +1,28 @@
+### `estimate_extra_data_size`
+
+> Estimate the extra data size for a list of destinations.
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "estimate_extra_data_size",
+  "id": 1,
+  "params": {
+    "destinations": [
+      "xet:6eadzwf5xdacts6fs4y3csmnsmy4mcxewqt3xyygwfx0hm0tm32szqsrqyzkjar9d4esyqgpq4ehwmmjvsqqypgpq45x2mrvduqqzpthdaexceqpq4mk7unywvqsgqqpq4yx2mrvduqqzp2hdaexceqqqyzxvun0d5qqzp2cg4xyj5ct5udlg",
+    ]
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "size": 675
+  }
+}
+```
