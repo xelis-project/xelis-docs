@@ -184,3 +184,9 @@ We will announce job openings and create a dedicated page in the documentation w
 However, if you want to stand out and improve your chances, you can contribute by submitting valuable PRs, actively engage with the community and developers, and more. 
 We always appreciate proactive involvement and contributions. 
 This is an initiative that carries significant weight if you want to work more closely with the team.
+
+## Why does the blockchain size vary between nodes?
+
+XELIS use Sled as the primary storage for the ledger, which includes block headers, transactions, encrypted account balances, etc... 
+However, Sled is still in beta and has pending issues with garbage collection overhead, such as write amplification. 
+This can result in different sizes across devices and nodes. For now, we continue to use Sled, but we might consider switching to an alternative like RocksDB.
