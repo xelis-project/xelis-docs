@@ -7,8 +7,9 @@ XELIS has a fixed maximum supply of **18.4M** XEL.
 ## Mining reward
 
 Mining block starts at around ~1.41 XEL and decreases each subsequent block. 
-This reduction isn't based on halving logic but rather on the supply and emission factor of 20. 
-It's also possible to mine a side block due to BlockDAG and receive a smaller portion of the reward.
+This reduction isn't based on halving logic but rather on the supply and emission factor of 20.
+
+Based on how the DAG react, your reward can be lower due to side blocks, this would give you minimum 5% and maximum 30% of initial reward based on the count of side blocks at same height.
 
 [Code logic for block reward](https://github.com/xelis-project/xelis-blockchain/blob/12afc7725522bf31caaac54f4d08d7a962cc0ade/xelis_daemon/src/core/blockchain.rs#L2622)  
 [Code logic for side blocks](https://github.com/xelis-project/xelis-blockchain/blob/12afc7725522bf31caaac54f4d08d7a962cc0ade/xelis_daemon/src/core/blockchain.rs#L2606)
