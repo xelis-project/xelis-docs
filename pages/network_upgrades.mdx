@@ -2,7 +2,7 @@
 
 The table below lists network upgrades, commonly known as hard forks, in the cryptocurrency world.
 These updates are mandatory for all nodes and help to keep the network secure and up-to-date.
-For a comprehensive list of past and frequent core updates, please refer to the [Gihub releases](https://github.com/xelis-project/xelis-blockchain/releases) 
+For a comprehensive list of past and frequent core updates, please refer to the [Github releases](https://github.com/xelis-project/xelis-blockchain/releases) 
 or [Git commits](https://github.com/xelis-project/xelis-blockchain/commits/dev).
 
 | Version | Date       | Block Height | Goal                    |                                   |
@@ -13,19 +13,19 @@ or [Git commits](https://github.com/xelis-project/xelis-blockchain/commits/dev).
 
 ## V1
 
-This is the first network upgrade, primarily aimed at adjusting the minning algorithm to be more egalitarian across devices
-and enchance resistance against FPGAs.
+This is the first network upgrade, primarily aimed at adjusting the mining algorithm to be more egalitarian across devices
+and enhance resistance against FPGAs.
 
 The name of the new version of POW algorithm is [XelisHashV2](https://github.com/xelis-project/xelis-hash).
-Additionnaly, during V0, we could not get an accurate estimate of the current hashrate, because
+Additionally, during V0, we could not get an accurate estimate of the current hashrate, because
 the first algorithm was susceptible of producing low-bits hash result, resulting in higher than expected reported network hashrate.
 This issue has been resolved with the new algorithm and is now a thing of the past.
 
-Another mandatory has been introduced, increasing the extra data size limit per TX from 1 KB to 32 KB.
-This allows to integrate more data in a single transaction, such as a document or a picture.
+Another mandatory change has been introduced, increasing the extra data size limit per TX from 1 KB to 32 KB.
+This allows more data to be integrated into a single transaction, such as a document or a picture.
 Limit per transfer in a TX is set to 1 KB.
 
-Difficulty algorithm has been adjusted to be less aggressive and more smooth in its adjustment.
+The difficulty algorithm has been adjusted to be less aggressive and more smooth in its adjustment.
 This will help to reduce the impact of hashrate fluctuations on the network and reduce the orphans blocks rate.
 
 Last change done is in the internal storage of the versioned balances when a TX is executed.

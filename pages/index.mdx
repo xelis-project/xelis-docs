@@ -9,38 +9,38 @@ import { Card } from '../components/card'
 
 **XELIS** is an innovative cryptocurrency from scratch with BlockDAG, Homomorphic Encryption, Zero-Knowledge Proof and Smart Contracts.
 
-It's using the famous programming language **Rust**, to be secure using its memory safe features and fast.
+It's built with the famous programming language **Rust**, to be fast and secure using its memory safe features.
 
-Based on an event-driven system, its using asynchronous tasks for I/O (database, P2p, API).<br/>
+Database, P2P, and API IO are all handled using and event-driven asynchronous task system.<br/>
 It is extremely easy to **monitor** the network with the event system available for developers to be notified on any events happening on the network and to be able to react **instantly** to them.
 
 ## Main Features
 
-**BlockDAG** is enabled to improve the scalability and the security of the network.<br/>
-Instead of chosing between two chains during soft forks, BlockDAG merge both chains in one.
+**BlockDAG** is used to improve the scalability and the security of the network.<br/>
+Instead of choosing between two chains during soft forks, BlockDAG merges both chains into one.
 
 **Homomorphic Encryption** is enabled using ElGamal to provide **privacy** on transactions (transferred amounts) and balances.
 
 **ElGamal** cryptosystem was chosen because it's a well known and studied encryption algorithm which has homomorphism features.
-ElGamal is fast and is used in combination with **Ristretto255** curve to provide a good level of security (~128 bits of security).<br/>
-Homomorphic operations availables using ElGamal are addition/substraction between ciphertexts and/or plaintext and multiplication against plaintext value.
+ElGamal is used in combination with the **Ristretto255** curve to provide a good level of security (~128 bits of security).<br/>
+Homomorphic operations available using ElGamal are addition/subtraction between ciphertexts and/or plaintext and multiplication against plaintext value.
 
 **Account Model** (instead of UTXO like Bitcoin) was chosen in order to be faster, smaller, and easier for everyone.
 It allows to have a more flexible system than UTXO model and to have a better privacy because there is no need to link inputs and outputs, which provide real **fungibility**.<br/>
 It also enables the **fast-sync** feature to only download the last state of the chain instead of downloading all its history.
 
-**Pruning system** is also available to reduce the size of the blockchain by removing old blocks and transactions.
+**Pruning system** is available to reduce the size of the blockchain by removing old blocks and transactions.
 
-**P2p Encrypted Network** is used to prevent any network traffic analysis and to provide a better privacy.
-It is using ChaCha20-Poly1305 encryption algorithm to encrypt all messages sent between nodes with a key rotation happening every GB of data sent.
+**P2p Encrypted Network** is used to prevent any network traffic analysis and to provide better privacy.
+All messages between nodes are encrypted with ChaCha20-Poly1305. Messages keys are rotated every GB of data. 
 
-We also aims to enable **Smart Contract** support in the future.
+**Smart Contracts** are not yet available, but progress is being made towards their development.
 
 >To read more in details about all features available, please use the **Features** tab.
 
 ## Network
 
-We provide differents built-in networks for the ease of everyone.
+Three built-in networks are available for use.
 <Cards>
   <Card 
     title="Mainnet" 
@@ -59,8 +59,8 @@ We provide differents built-in networks for the ease of everyone.
   />
 </Cards>
 
-These 3 networks have the exact same consensus rules, except not the same chain or peers.  
-Testnet and devnet are availables for testing purposes only, and can be **reset** at any moment.
+The mainnet is the primary network. testnet and devnet are for testing and development and can be **reset** at any time. 
+All networks have the exact same consensus rules, but do not share the same chain or peers.  
 
 ## Consensus
 
@@ -72,12 +72,12 @@ The current configuration of the consensus is the following:
 - Maximum block size is set to `1.25` MB.
 - Maximum transaction size is set to `1` MB.
 
-To prevent mis-using addresses across differents networks, we set them a prefix.<br/>
-For mainnet addresses, they all starts using `xel` prefix, while others networks (devnet/testnet) starts with `xet`.
+To prevent mis-using addresses across different networks, we set them a prefix.<br/>
+Mainnet addresses begin with with `xel` prefix, while devnet/testnet addresses begin with `xet`.
 
 ## Objectives
 
-We want to provide a better **privacy** than Bitcoin and Ethereum by having encrypted balances and encrypted transferred amounts.
+We want to provide better **privacy** than Bitcoin and Ethereum by having encrypted balances and encrypted transferred amounts.
 This is done using [Homomorphic Encryption](/features/homomorphic-encryption) and [Zero-Knowledge Proof](/features/zero-knowledge-proof).<br/>
 This means nobody except you can see how much you own and how much you spend.
 
@@ -99,7 +99,7 @@ It is not only for people using our software, but also for developers to create 
 ## Funding
 
 XELIS is a community-driven project and is not funded by any company or organization. 
-To helps its development, success, and provide continous support, we have set a decreasing dev fee curve starting at `10%` on block reward.
+To help its development, success, and provide continuous support, we have set a decreasing dev fee curve starting at `10%` on block reward.
 The funds are crucial to ensure a strong early ecosystem. This guarantees, a **constant stream of capital** exclusively used for the growth of the blockchain.
 
 The funds are not there for a money grab, nor for being dumped; they are exclusively used for past / future network development expenses.
@@ -110,7 +110,7 @@ Dev fee halving is as following:
 - `10%` from block 0 to 3,249,999 (expected time is ~1.5 years with BlockDAG).
 - `5%` from 3,250,000 until the project being developed is stable on major facets of the ecosystem in order to reduce it.
 
-There are multiple reasons why we opted for a dev fee halving, but one amongs others, is to prevent big miners from earning 
+There are multiple reasons why we opted for a dev fee halving, but one among others, is to prevent big miners from earning 
 too much during the birth of the project, especially when the block reward is at the highest and the mining difficulty at the lowest. 
 This is to avoid quick accumulation and manipulation of a young market. Despite all of this, the miners still have plenty of room 
 to make a profit and reinvest wherever they see fit.
@@ -120,7 +120,7 @@ with multiple trustees. It will allow to create a DAO and manage all of this tru
 On the plus side, the fees are not here to stay. They will decrease and may be exempt entirely when the network can sustain itself without it.
 
 All in all, a dev fee is the best solution we came up with. We do not have mining infrastructures, and we cannot mine the network
-ourselves as impactfully as you could back in the days. We are aware that there are big miners we can't compete with, and we absolutely need
-funds for maintaining a healhty growing environment. We have the best interest for this platform, not powerful entities 
+ourselves as easily as you could back in the day. We are aware that there are big miners we can't compete with, and we absolutely need
+funds for maintaining a healthy growing environment. We have the best interest for this platform, not powerful entities 
 joining for a quick turnaround. The dev fund is here to keep us in the same playing field as them, 
 and inject back exactly where the network needs it.

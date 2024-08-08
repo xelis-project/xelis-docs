@@ -44,16 +44,17 @@ To build all project (daemon, wallet, miner), use `cargo build`.
 To build a release version in production-ready mode with optimizations, use `cargo build --release`.  
 To run immediately in debug mode, use `cargo run --bin xelis_daemon`.
 
+> **NOTE**:
+> It is recommended to build it using `--release` for production / mainnet usage.
+> Otherwise, your syncing speed will be too slow.
+> 
+> Developers who want to contribute should build in debug mode for faster build times.
+> 
+
 After building the binary, run the executable available in  
 `./target/debug` or `./target/release`
 
-**NOTE**:
-It is recommended to build it using `--release` for production / mainnet usage.
-Otherwise, your syncing speed will be too slow.
-
-For developers that want to contribute and needs fast building, they can use debug mode.
-
 ### Run it
 
-Now that you have successfully build the software, see [Configuration](/getting-started/configuration).
+Now that you have successfully built the software, see [Configuration](/getting-started/configuration).
 </Steps>
