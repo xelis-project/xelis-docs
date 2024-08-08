@@ -3,15 +3,15 @@
 This is an API to access an indexed version of the blockchain and more goodies.  
 You can easily search data with very specific parameters and create custom awesome statistics.  
 
-We provide a rate limiting free access for the data at this endpoint.  
+We provide a rate limited free access for the data at this endpoint.  
 `https://index.xelis.io/`
 
-You can also clone the repo and index the blockchain yourself if you want more controls or higher throughput of the information.  
+You can also clone the repo and index the blockchain yourself if you want more control or higher throughput of the information.  
 https://github.com/xelis-project/xelis-index
 
 ## How to use
 
-The API consist of a list of exclusive views that you can request and add parameters on top of it.
+The API consists of a list of exclusive views that you can request and add parameters on top of it.
 
 For example, if you want the last 5 transactions of an account, the query would look like this:  
 https://index.xelis.io/views/transactions?count=true&pretty=true&limit=5&order=nonce::desc&where=source::eq::xel:fjqn40v9q8ghystrnpzfczzuuylj9wdcs6gegqe76x970g3xy4kqq6gk3d4
