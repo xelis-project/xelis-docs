@@ -4,12 +4,12 @@ title: Homomorphic Encryption
 
 ## Introduction
 
-Homomorphic Encryption (also known under abreviation HE) is a form of encryption that allows computation on ciphertexts, generating an encrypted result which, when decrypted, matches the result of the operations as if they had been performed on the plaintext.
+Homomorphic Encryption (also known as HE) is a form of encryption that allows computation on ciphertexts, generating an encrypted result which, when decrypted, matches the result of the operations as if they had been performed on the plaintext.
 The purpose of homomorphic encryption is to allow computation on encrypted data without decrypting it.
 The result of the computation is also encrypted, and can be decrypted to obtain the result of the computation on the plaintext.
 
-Homomorphic Encryption allows to add privacy on transactions and accounts by doing computation while staying in encrypted form.
-Each balances, transaction assets values are in encrypted form and nobody can determine the real value of it except involved parties.
+Homomorphic Encryption makes XELIS transactions and accounts more private by doing computation while staying in encrypted form.
+All balances, and transaction asset values are in encrypted form and nobody can determine the real value of it except involved parties.
 
 ## ElGamal
 
@@ -19,7 +19,7 @@ In XELIS, we use an implementation of ElGamal cryptosystem to encrypt the data a
 In order to have easier compatibility with Bulletproofs for transactions verification and thus, faster verification time, we use a Twisted ElGamal implementation.
 This consists in the use of Pedersen commitments in every ciphertexts directly to take part of encryption / decryption process.
 
-Twisted ElGamal implementation homomorphic properties and security are the exact same as the original ElGamal implementation.
+The homomorphic properties and security of the Twisted ElGamal implementation are exactly the same as the original ElGamal implementation.
 
 ## Homomorphic Properties
 
@@ -28,15 +28,16 @@ ElGamal Homomorphic Encryption has three main properties:
 - **Multiplicative**: Given a ciphertext `c1` that encrypts `m1` and a plaintext `m2`, we can compute a new ciphertext `c2` that encrypts `m1 * m2` without decrypting `c1`.
 - **Subtractive**: Given two ciphertexts `c1` and `c2` that encrypts `m1` and `m2` respectively, we can compute a new ciphertext `c3` that encrypts `m1 - m2` without decrypting `c1` and `c2`.
 
-For the protocol, we are only using additions to increase receiver's balance and subtractions to decrease sender's balance.
-Multiplication aren't needed in a traditional blockchain protocol as we are only transfering exact values from one to another account without changing this amount.
+For the protocol, we only use addition to increase receiver's balance and subtraction to decrease sender's balance.
+Multiplication is not needed in a traditional blockchain protocol as we are only transferring exact values from one to another account without changing the amount.
 
-## Why chosing ElGamal?
+## Why ElGamal?
 
 ElGamal is a well-known and widely used cryptosystem. It is compatible with the curve25519 curve through Ristretto Points, which is used in XELIS.
 It is also a very secure cryptosystem, and it has homomorphic properties that are useful for our protocol.
 
 We didn't chose a FHE (Fully Homomorphic Encryption) cryptosystem because it is very slow and not adapted to our use case as we only need to perform additions and subtractions.
 
-ElGamal provide a fixed size of ciphertexts, which can have unlimited operations on it without changing its size of the ciphertexts.
-Most of FHE schemes have a growing size of ciphertexts after each operation with "noise" and provide additional key to reorganize it, which is not adapted to our use case.
+Operations in ElGamal do not change the size of the ciphertext, allowing the ciphertext to remain the same size after many operations.
+In most FHE schemes, ciphertexts grow after each operation using additional "noise".
+The variable size and additional complexity found in most FHE schemes makes them unfit for our use case.  

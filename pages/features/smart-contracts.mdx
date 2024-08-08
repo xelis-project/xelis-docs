@@ -68,12 +68,12 @@ let my_u128: u128 = 100_000_000L
 ```
 
 ### Variable
-for constant variable, it must be declared outside a function, with `const` keyword.
+Constant variables must be declared outside a function using the `const` keyword.
 
 **Rules**
-- Every variable must be declared with `let` or `const` keyword.
-- Variable name must alphanumeric characters.
-- Must provide value type.
+- All variables must be declared with `let` or `const` keyword.
+- Variable names must only consist of alphanumeric characters.
+- Must specify a type.
 - If no value is set, `null` is set by default.
 
 **Examples**
@@ -84,7 +84,7 @@ let world: string = "world"
 ```
 
 ### Casting
-Values of built-in types can be casted into other built-in types easily using the keyword `as`.
+Values of built-in types can be cast into other built-in types easily using the `as` keyword.
 
 **Rules**
 - Both value types must be a built-in type.
@@ -97,10 +97,10 @@ let id_str: string = id as string
 ```
 
 ### Function
-`entry` function is a "public callable" function and must return a `u64` value.
+The `entry` function is a "public callable" function and must return a `u64` value.
 
 **Rules**
-- Must starts with `func` or `entry` keyword.
+- Must start with `func` or `entry` keyword.
 - Signature is based on function name and parameters.
 - For type functions, the type must not be primitive.
 - Recursive functions are allowed.
@@ -142,7 +142,7 @@ struct MyStruct {
 let score: u64 = is_winner() ? 20 : 0
 ```
 
-### Negate operator
+### Negation operator
  
 **Rules**
 - A `bool` condition is required after it.

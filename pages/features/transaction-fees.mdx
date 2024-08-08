@@ -12,10 +12,10 @@ First, fees paid by a transaction can only be paid using XELIS (native) asset, a
 
 The parameters used to determine the minimal transaction fee are the following:
 - Size in bytes, where every 1024 bytes used, you must pay 0.0001 XELIS.
-> This fee is used to prevent chain bloating and growing too fast in size disk terms.
+> This fee is used to prevent chain bloating and growing too fast in disk size.
 
-- Transfers count, where each transfer cost an additional fee of 0.00005 XELIS.
-> This is used to have accurate fee based on the needed computation due to Homomorphic Encryption. More transfers require more computation to be applied and verified.
+- Transfer count, where each transfer costs an additional fee of 0.00005 XELIS.
+> This is used to have an accurate fee based on the needed computation for Homomorphic Encryption. More transfers requires more computation to be applied and verified.
 
 - Newly created addresses, where each address registered by a transaction must pay an additional fee of 0.001 XELIS.
 > This fee is set in exchange to have no Proof-Of-Work process needed to register an account on chain, preventing a spamming attack that would bloat the chain with fake and/or unused accounts.

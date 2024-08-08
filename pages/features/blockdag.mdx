@@ -15,8 +15,8 @@ BlockDAG aim to reduce **centralization** by being flexible in blocks added and 
 In the BlockDAG, we use the topological order where each block is assigned a topological height (named **topoheight**) based on its position in the directed acyclic graph.
 
 The topological height represents the block's order in the partial order defined by the DAG.
-Blocks with higher topoheight are considered to be later in the order.<br/>
-This topological order helps establish a consistent and deterministic sequence for the blocks,
+Blocks with greater topoheight are considered to be later in the order.<br/>
+The topological order helps establish a consistent and deterministic sequence for the blocks,
 facilitating a clear understanding of the chronological relationships in the DAG.
 
 The block topological height set in chain is like a **dynamic** pointer and can be changed at any moment a reorganization occurs until its block height pass in the chain stable height.<br/>
@@ -27,20 +27,21 @@ It provides a systematic way to represent dependencies, ensuring that tasks or e
 
 ## Stable Height
 
-BlockDAG implementation allow to **reorganize** the chain topological order.
+The BlockDAG implementation allows **reorganizing** the topological order of the chain.
 
-To prevent too deep reorganization of the chain in case of attacks or dishonest miners trying to mine older blocks and inject them in chain,
-a stable height is set to ensure that the topological order will **never** change from genesis block to the stable height.
+A **stable height** is set where blocks with a lower topological order can not be reorganized.
+This is done to prevent deep reorganization of the chain by attackers or dishonest miners trying to mine and inject older blocks into the chain.
+The topological order of the chain will **never** change from the genesis block to the stable height.
 
-Stable height is at minimum 8 blocks height of **distance** from the main chain top height.
+The stable height is at minimum 8 blocks **distance** from the top of the main chain.
 
 ## Block Types
 
-It exists differents block types in BlockDAG depending on specific criteria.
+Four different types of blocks are used in the BlockDAG, each with their own purpose.
 
 ### Side Block
 
-A side block is when the block A **lose** the race against another block where block A height is lower or equal to the other block that got ordered before it.
+A side block is found when the block A **loses** the race against another block where block A's height is lower or equal to the other block that got ordered before it.
 It is checking up to `STABLE_LIMIT` (currently set to 8) past topological ordered blocks.
 This block is ordered and executed in chain.
 
@@ -49,12 +50,12 @@ This block is ordered and executed in chain.
 >Block B is ordered at topoheight 99 and has a height of 96.<br/>
 >Block A is a side block.
 
-Side block reward are 30% of the expected block reward still integrated in main chain, its transactions are verified and executed if not already.
+Side block rewards are 30% of the expected block reward still integrated in main chain, its transactions are verified and executed if not already.
 
 ### Sync Block
 
 A sync block must be ordered in chain and be in the stable height and should be the only block ordered at its height.
-Block should also have the higher cumulative difficulty compared to the ordered blocks from `STABLE_LIMIT` previous blocks height.
+This block should also have the higher cumulative difficulty compared to the previous `STABLE_LIMIT` height ordered blocks.
 
 ### Normal Block
 
@@ -70,10 +71,11 @@ None of its transactions are executed and the miner is not rewarded.
 
 ## Consensus Rules
 
-Because height is **not** unique anymore, you can have few blocks at same height and thus, up to **3** previous blocks hashes per block.
+Because height is **not** unique anymore, a few blocks can exist at same height and thus, up to **3** previous blocks hashes per block.
 
-During PoW process, you have to select up to **3** heaviest TIPs as previous blocks hashes.
-They shouldn't have more than **9%** of difficulty difference between TIPS selected in the same block.
+During the PoW process, up to **3** heaviest TIPs are selected as previous blocks hashes.
+
+Between TIPS selected in the same block, they shouldn't have more than **9%** difficulty difference.
 
 The same transaction can be added in **more** than a block if they are not in the same TIP branch.<br/>
 [Client Protocol](/features/client-protocol) will handle it by executing it only one time.
@@ -84,4 +86,4 @@ Transactions are also executed using the topological order and can be re-verifie
 
 **Longest** chain is the one selected by nodes. But for tips branches **conflicts**, block cumulative difficulty is used to select the main chain.
 
-Using topological order, you can easily count how many blocks there is in current chain by using the top topoheight.
+Using topological order, you can easily count how many blocks exist in current chain by using the top topoheight.

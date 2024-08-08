@@ -4,40 +4,40 @@ title: Zero-Knowledge Proof
 
 ## Introduction
 
-A **zero-knowledge** proof (also known under abreviation ZK Proof) is a cryptographic method that allows one party (the prover) to demonstrate knowledge of a specific piece of information to another party (the verifier) **without revealing** the actual information.
+A **zero-knowledge** proof (also known as a ZK Proof) is a cryptographic method that allows one party (the prover) to demonstrate knowledge of a specific piece of information to another party (the verifier) **without revealing** the actual information.
 
 The proof assures the verifier that the prover possesses the knowledge without disclosing any details, ensuring privacy and security.
 
-**XELIS** uses zero-knowledge proof to prove that a ciphertext (transferred amount which is in encrypted form) in a transaction is valid.
+**XELIS** uses zero-knowledge proofs to prove that a ciphertext (transferred amount which is in encrypted form) in a transaction is valid.
 To verify such claims, we do two verifications:
 - First, we verify that the transferred amount is **never** above encrypted balance.
 - Second, the proof must assert that the ciphertext is **always** above-or-equal to zero.
 
-For these two checks, we use [Bulletproofs](https://eprint.iacr.org/2017/1066.pdf), which is a non-interactive, zero-knowledge proof protocol and allows us to create two efficient range proof without any trusted setup.
+For these two checks, we use [Bulletproofs](https://eprint.iacr.org/2017/1066.pdf), which is a non-interactive, zero-knowledge proof protocol and allows us to create two efficient range proofs without any trusted setup.
 
 We're making some optimizations in it to have a faster bulletproofs verification time, with plans to be below 1 ms.
 
 ## Optimizations
 
-To have scalable and a fast way to verify all transactions included in a block, we are using batching and aggregation of Range Proof.
+To have a scalable and fast way to verify all transactions included in a block, we are using batching and aggregation of Range Proofs.
 Sigma Proofs are also batched for faster verification.
 
-Such optimizations are necessary to make sure that the verification time of a block is not increasing too much with the number of transactions.
+Such optimizations are necessary to make sure that the verification time of a block does not increase too much with the number of transactions.
 
-Currently, with 100 transactions in a block, we are at ~0.40 ms for verification per transaction. 
-This allows us to have a block verification time of around 40 ms every 100 transactions, which give a potential of ~2500 transactions per second.
+Currently, with 100 transactions in a block, each transaction takes ~0.40 ms to verify. 
+This allows us to have a block verification time of around 40 ms every 100 transactions, giving the potential for ~2500 transactions per second.
 
 Also, we group the sum of spent assets in a single source commitment per asset. This allows us to decrease the sender balance only one time per asset used,
 which is a good performance gain when users use several transfers in the same transaction.
 
-Others potential optimizations availables are:
+Others potential optimizations are:
 - Reduce compress/decompress count of keys and ciphertexts during verification.
 - Use pre computed scalars base for the verification. 
 
 ## Front Running
 
 Range proofs are based on the current final balance (in encrypted form) available during the transaction creation.
-This is a necessary process to makes the assertions explained in introduction.
+This is a necessary process to make the assertions explained in introduction.
 
 Because we need to integrate the balance ciphertext we have two potential problems.
 
@@ -46,26 +46,26 @@ Because we need to integrate the balance ciphertext we have two potential proble
 As explained in the [BlockDAG](/features/blockdag) feature, XELIS has an unstable height and a stable height.
 In the unstable height, blocks can be reordered based on their cumulative difficulty and thus, changes the order of transactions.
 
-Alice creates a transaction to Bob and its transaction is integrated on the block ordered at topoheight 1000.
-Bob send a transaction back to Alice using a part of coins received from her and is integrated in the block at topoheight 1001.
-If the BlockDAG reorganize the order of the two blocks and switch their topoheight, Bob transaction would be orphaned.
+Alice creates a transaction to Bob which is integrated on the block ordered at topoheight 1000.
+Bob sends a transaction back to Alice using a part of the coins received from her and it is integrated in the block at topoheight 1001.
+If the BlockDAG reorganizes the order of the two blocks and switches their topoheight, Bob transaction would be orphaned.
 
-Fortunately, the blockDAG take in count the TIPS of each block to create the topological order.
-This means that, as long both transactions are integrated in the same chain (branch tip), they will be executed in correct order.  
+Fortunately, the blockDAG takes into account the TIPS of each block to create the topological order.
+This means that, as long as both transactions are integrated in the same chain (branch tip), they will be executed in correct order.  
 
 ### Incoming Transaction
 
 Alice creates a ZK Proof with her current final balance ciphertext stored in chain.
-Then, Bob sent her a transaction that will update her ciphertext balance.
+Then, Bob sends her a transaction that will update her ciphertext balance.
 
-In this case, Alice created a outdated ZK Proof because the transaction didn't got included before the Bob transaction.
-The final balance used by Alice is not the latest anymore, this cause the transaction being rejected.
+In this case, Alice created a outdated ZK Proof because her transaction didn't get included before Bob's transaction.
+The final balance used by Alice is not the latest anymore, this causes the transaction being rejected.
 
 To solve this problem, we chose to make the verification of the transaction based on the latest balance that had a outgoing transaction.
 So even if we receive incoming transactions between the time we create the Proof and the transaction is executed on chain, it will stay valid.
 
-In details, newly created accounts will be based on their first balance when they do their first outgoing transaction.
-We also set a limit to the use of the lastest balance with a outgoing transaction, we can use the last stable balance (which is in stable height of BlockDAG) if its higher.
+In detail, newly created accounts will be based on their first balance when they create their first outgoing transaction.
+We also set a limit to the use of the latest balance for outgoing transactions: we can use the last stable balance (which is in stable height of BlockDAG) if its higher.
 
 This way, we have instant confirmation for coins and can be spend directly in the next block.
 
@@ -77,20 +77,21 @@ If we do more than one transaction, we need to make sure that they keep the same
 To solve this problem, we use a nonce that is incremented for each transaction.
 This nonce is used to prevent any replay attacks on chain and also to make sure that the order of transactions is kept.
 
+
 ### Multiple Transactions
 
-In the case of multiple transactions, we need to make sure that the balance is valid for both transactions.
+In the case of multiple transactions, we must validate the balance for each transactions
 
 >**Example**:<br/>
->Alice send a transaction to Bob. But Bob has built 2 transactions before Alice TX.<br/>
->In block topoheight 1000 we have only two transactions executed: Alice TX and the first TX from Bob.<br/>
+>Alice sends a transaction to Bob. But Bob has built two transactions before Alice's TX.<br/>
+>In block topoheight 1000 we have only two transactions executed: Alice's TX and the first TX from Bob.<br/>
 >The final balance for this topoheight would be the combination of Alice TX and Bob first TX.<br/>
 
 
 In this scenario, the second TX from Bob cannot be included in any block topoheight 1001 and would be orphaned as the source balance isn't the one expected in the ZK Proof.
 
 To solve this problem, the solution we chose is to split the versioned balance for this topoheight in two:
-- Output balance: which represents the current balance minus the outputs spents in the transaction.
+- Output balance: which represents the current balance minus the outputs spent in the transaction.
 - Final balance: this represents the real user balance with incoming funds and outgoings funds combined.
 
 The ZK Proof must be always created with the final balance to be valid.
