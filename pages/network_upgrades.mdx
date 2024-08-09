@@ -13,24 +13,25 @@ or [Git commits](https://github.com/xelis-project/xelis-blockchain/commits/dev).
 
 ## V1
 
-This is the first network upgrade, primarily aimed at adjusting the minning algorithm to be more egalitarian across devices
+This is the first network upgrade. It was aimed at adjusting the minning algorithm to be more egalitarian across devices
 and enchance resistance against FPGAs.
 
-The name of the new version of POW algorithm is [XelisHashV2](https://github.com/xelis-project/xelis-hash).
-Additionnaly, during V0, we could not get an accurate estimate of the current hashrate, because
-the first algorithm was susceptible of producing low-bits hash result, resulting in higher than expected reported network hashrate.
-This issue has been resolved with the new algorithm and is now a thing of the past.
+The name of the new POW algorithm is [XelisHashV2](https://github.com/xelis-project/xelis-hash).
 
-Another mandatory has been introduced, increasing the extra data size limit per TX from 1 KB to 32 KB.
+Additionally, prior to this upgrade, we could not get an accurate estimate of the current hashrate.
+The first algorithm was susceptible of producing low-bits hash, resulting in higher than expected reported network hashrate.
+This issue was inherently resolved by using the new algorithm.
+
+We've also increase the extra data size limit per TX from 1 KB to 32 KB.
 This allows to integrate more data in a single transaction, such as a document or a picture.
-Limit per transfer in a TX is set to 1 KB.
+Note that the limit per transfer in a TX stays at 1 KB.
 
-Difficulty algorithm has been adjusted to be less aggressive and more smooth in its adjustment.
-This will help to reduce the impact of hashrate fluctuations on the network and reduce the orphans blocks rate.
+The difficulty algorithm was also adjusted to be less aggressive and smoother.
+This will help to reduce the impact of hashrate fluctuations on the network and reduce orphans blocks.
 
-Last change done is in the internal storage of the versioned balances when a TX is executed.
-We've discovered a front running issue that could happen during the build of several TXs but not all executed in the same block,
-receiving an input during that lapse of time. The not-yet executed transactions were orphaned because the output balance was not updated.
+Lasty, changes were made to the internal storage of the versioned balances to fix orphan transactions.
+We discovered a front-running problem that could occur when building several TXs not all executed in the same block,
+causing them to become orphaned because the output balance was not updated accordingly.
 
 The upgrade was scheduled to take place at block height 434100, approximately on July 11th, 2024.
 
