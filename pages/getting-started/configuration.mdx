@@ -19,15 +19,14 @@ Example: `./xelis_daemon --network testnet`.
 
 ### Boost Sync Mode
 
-Boost sync mode is a faster way to sync the full blockchain. It is not enabled by default as it require more resources usage.
-It is requesting blocks during chain syncronization in parallel.
+Boost sync mode syncs the full blockchain faster by requesting blocks in parallel during synchronization. It is not enabled by default as it requires more system resources.
 
 To enable it, use: `./xelis_daemon --allow-boost-sync`.
 
 ### Fast Sync Mode
 
-Fast sync mode allows to have a faster syncronization by downloading the last chain state from any peer.<br/>
-It allows to have a light node and with a really small disk usage as it's using only latest available data.
+Fast sync mode downloads the last chain state from any peer.<br/>
+It allows having a light node with very light disk usage as it will use only the latest available data.
 
 To enable it, use: `./xelis_daemon --allow-fast-sync`.
 
@@ -36,20 +35,20 @@ To enable it, use: `./xelis_daemon --allow-fast-sync`.
 Enable the auto prune mode and prune the chain at each new block by keeping at least N blocks before the top block.
 This is useful to keep a light node and to reduce the disk usage.
 
-Example to keep only 1000 latest blocks: `./xelis_daemon --auto-prune-keep-n-blocks 1000`.
+To keep only 1000 latest blocks: `./xelis_daemon --auto-prune-keep-n-blocks 1000`.
 
 ### Cache Size
 
-Set the cache size by setting how many elements to keep in memory.
+The cache size determines how many elements to keep in memory.
 Higher cache size will require more memory but can be useful for chain operations.
 
 Default is set to **1024** elements. If you set it to 0, it will disable the cache and will not keep any.
 
-Example to set the cache size to 1000: `./xelis_daemon --cache-size 1000`.
+To set the cache size to 1000: `./xelis_daemon --cache-size 1000`.
 
 ### Disable P2P Server
 
-Disable the P2P server, this will disable the node to be connected to other nodes and will not be able to sync the chain or broadcast mined blocks.
+Disable the P2P server, this will prevent the node from connecting to other nodes. With P2P disabled, the node will not be able to sync the chain or broadcast mined blocks.
 
 To disable the P2P Server, use: `./xelis_daemon --disable-p2p-server`.
 
@@ -74,14 +73,14 @@ To set the maximum number of peers to 64, use: `./xelis_daemon --max-peers 64`.
 
 ### Exclusive Nodes
 
-Set the exclusive nodes to connect to. This will only connect to the given nodes and will not connect to any other nodes.<br/>
+Set exclusive nodes to connect to. This will only connect to the given nodes and will not connect to any other nodes.<br/>
 Each Socket Address must be separated by a comma.
 
 Example to connect to two nodes: `./xelis_daemon --exclusive-nodes 0.0.0.0:2125,0.0.0.0:2126`.
 
 ### Priority Nodes
 
-Set the priority nodes to connect to. This will connect to the given nodes first and then will connect to other nodes.<br/>
+Gives certain nodes a higher connection priority. Connections will be made with priority nodes first, and then connections will be made with regular nodes.<br/>
 Connections to priority nodes will be also maintained in case of disconnection.<br/>
 Each Socket Address must be separated by a comma.
 
@@ -94,24 +93,24 @@ Example to connect to two nodes: `./xelis_daemon --priority-nodes 0.0.0.0:2125,0
 Set the tag to use for the node. This is useful to identify the node in the network.
 Maximum length is 16 characters.
 
-Example to set the tag to `mytag`: `./xelis_daemon --tag mytag`.
+To set the tag to `mytag`: `./xelis_daemon --tag mytag`.
 
 ### Maximum Chain Response Size
 
-Configure the maximum chain response size This is useful for low devices who want to reduce resources usage And for high-end devices who want to (or help others to) sync faster.
+Configure the maximum chain response size This is useful for low end devices who want to reduce resources usage and also for high-end devices who want to (or help others to) sync faster.
 
 By default, the maximum chain response size is set to 4096.<br/>
 Minimum value is 512 and maximum value is 16384.
 
 This is used to notify others nodes about the maximum size of the chain response that you accept to receive / send per request.
-It can speedup the syncronization process by allowing to send more data at once.
+It can speedup the synchronization process by allowing to send more data at once.
 
-Example to set the maximum chain response size to 8192: `./xelis_daemon --max-chain-response-size 8192`.
+To set the maximum chain response size to 8192: `./xelis_daemon --max-chain-response-size 8192`.
 
 ### Disable IP Sharing
 
-Ask peers to not share our IP to others and/or through API.<br/>
-This is useful for people that don't want that their IP is revealed in RPC API and/or shared to others nodes as a potential new peer to connect to.
+Ask peers to not share your IP to others and/or through API.<br/>
+This is useful for people that don't want their IP to be revealed in RPC API and/or shared to others nodes as a potential new peer to connect to.
 
 By default, your IP is allowed to be shared across the network to others nodes.<br/>
 To enable it, use: `./xelis_daemon --disable-ip-sharing`.
@@ -120,7 +119,7 @@ Please note that it may prevent to have new incoming peers as your IP will not b
 
 ### Disable P2P Outgoing Connections
 
-Disable P2P outgoing connections from peer. This is useful for seed nodes under heavy load or for nodes that don't want to connect to others.
+Disable P2P outgoing connections from peers. This is useful for seed nodes under heavy load or for nodes that don't want to connect to others.
 
 To disable, use: `./xelis_daemon --disable-p2p-outgoing-connections`.
 
@@ -132,30 +131,30 @@ To set limit, use: `./xelis_daemon --p2p-concurrency-task-count-limit 4`.
 
 ### Disable File Logging
 
-By default, the daemon is logging to a file. To disable it, use: `./xelis_daemon --disable-file-logging`.
+By default, the daemon logs to a file. To disable logging, use: `./xelis_daemon --disable-file-logging`.
 
-### Disable File Log Date Based
+### Disable Date-Based File Log Naming
 
-Disable the log filename date based. If disabled, the log file will be named xelis-daemon.log instead of YYYY-MM-DD.xelis-daemon.log
+Disable date-based file naming for logs. If disabled, the log file will be named xelis-daemon.log instead of YYYY-MM-DD.xelis-daemon.log
 
 To disable, use: `./xelis_daemon --disable-file-log-date-based`.
 
-### Disable Log Color
+### Disable Log Colors
 
-Disable the usage of colors in log.
+Disable the usage of colors in the log.
 
 To disable, use: `./xelis_daemon --disable-log-color`.
 
 ### Disable Interactive Mode
 
-Disable terminal interactive mode. You will not be able to write CLI commands in it or to have an updated prompt
+Disable terminal interactive mode. You will not be able to write CLI commands in it or have an updated prompt.
 
 To disable, use: `./xelis_daemon --disable-interactive-mode`.
 
-### Filename Log
+### Log Filename
 
-Set the filename to use for logging. By default, the filename is set to `xelis-daemon.log`.<br/>
-Every logs file are stored in the `logs` folder and are named with the date of the day.
+Set a custom log file name. By default, the filename is set to `xelis-daemon.log`.<br/>
+Log file are stored in the `logs` folder and are named with the date of the day.
 
 To set the filename to `mylog.log`, use: `./xelis_daemon --filename-log mylog.log`.
 
@@ -164,9 +163,9 @@ To set the filename to `mylog.log`, use: `./xelis_daemon --filename-log mylog.lo
 Set a custom directory path to store the logs files.<br/>
 By default it will be `logs/` of the current directory.
 
-To set the directory path to `mylogs/`, use: `./xelis_daemon --logs-path mylogs/`.
+To set the path to `mylogs/`, use: `./xelis_daemon --logs-path mylogs/`.
 
-**NOTE**: The directory will be created using the provided path if not existing and must ends with a `/`. 
+**NOTE**: The directory will be created using the provided path if it does not exist. The path must end with a `/`. 
 
 ### Logs Modules
 
@@ -180,11 +179,11 @@ Set the log level to use. Available values are `trace`, `debug`, `info`, `warnin
 
 By default, the log level is set to `info`.
 
-Example to set the log level to debug: `./xelis_daemon --log-level debug`.
+To set the log level to debug: `./xelis_daemon --log-level debug`.
 
 ### Disable GetWork Server
 
-Disable the GetWork server, this will disable the HTTP server running above the RPC Server and will prevent any miner to connect and receive new jobs.
+Disable the GetWork server, this will disable the HTTP server running above the RPC Server and will prevent miners from connecting and receive new jobs.
 
 To disable the GetWork server, use: `./xelis_daemon --disable-getwork-server`.
 
@@ -205,7 +204,7 @@ To set the directory path to `mydir`, use: `./xelis_daemon --dir-path mydir`.
 Enable the simulator mode. This will disable the P2P server and will simulate the blockchain based on its variant.
 This will generate new blocks when necessary and will not connect to any other nodes.
 
-Availables values are:
+Available values are:
 - `blockchain`: to simulate the blockchain with a new block every 15 seconds and up to 15 random transactions.
 - `blockdag`: to simulate the blockdag with up to 3 new block every 15 seconds and up to 15 random transactions.
 - `stress`: to simulate a blockDAG under attacks with heavy blocks and a lot of transactions.
@@ -214,13 +213,13 @@ To enable the `stress` simulator mode, use: `./xelis_daemon --simulator stress`.
 
 ### Skip POW Verification
 
-Skip PoW verification. Warning: This is dangerous and should not be used in production
+Skip PoW verification. Warning: This is dangerous and should not be used in production.
 
 To skip verification, use: `./xelis_daemon --skip-pow-verification`.
 
 ### Version
 
-Print the version of the daemon.
+Print the daemon version. 
 
 To print the version, use: `./xelis_daemon --version`.
 
@@ -238,7 +237,7 @@ To set the daemon address to `http://127.0.0.1:8081`, use: `./xelis_wallet --dae
 
 ### Enable XSWD
 
-Enable the XSWD mode. This will enable the wallet to use the XSWD protocol to communicate with any applications securely.
+Enable the XSWD mode. This will enable the wallet to use the XSWD protocol to communicate with applications securely.
 
 By default, the XSWD mode is disabled.
 
@@ -268,7 +267,7 @@ To use the seed `myseed myseed`, use: `./xelis_wallet --seed "myseed myseed"`.
 
 ### Offline Mode
 
-Enable the offline mode. This will disable the wallet to connect to the daemon and will not be able to send transactions.
+Enable offline mode. This will disable the wallet to connect to the daemon and will not be able to send transactions.
 
 By default, the wallet open in online mode and try to connect to the daemon.
 
@@ -284,7 +283,7 @@ To set the bind address to `127.0.0.1:8081`, use: `./xelis_wallet --rpc-bind-add
 
 Set the password to use for the RPC server. By default, no password is set.
 
-In case you set a username, the password is mandatory.
+A password is required if a username is provided.
 
 To set the password to `mypassword`, use: `./xelis_wallet --rpc-password mypassword`.
 
@@ -292,36 +291,36 @@ To set the password to `mypassword`, use: `./xelis_wallet --rpc-password mypassw
 
 Set the username to use for the RPC server.
 
-In case you set a password, the username is mandatory.
+A username is required if a password is provided.
 
 To set the username to `myusername`, use: `./xelis_wallet --rpc-username myusername`.
 
 ### Disable File Logging
 
-By default, the daemon is logging to a file. To disable it, use: `./xelis_wallet --disable-file-logging`.
+By default, the wallet logs to a file. To disable logging, use: `./xelis_wallet --disable-file-logging`.
 
-### Disable File Log Date Based
+### Disable Date-Based File Log Naming
 
-Disable the log filename date based. If disabled, the log file will be named xelis-daemon.log instead of YYYY-MM-DD.xelis-daemon.log
+Disable date-based file naming for logs. If disabled, the log file will be named xelis-daemon.log instead of YYYY-MM-DD.xelis-daemon.log
 
 To disable, use: `./xelis_wallet --disable-file-log-date-based`.
 
-### Disable Log Color
+### Disable Log Colors
 
-Disable the usage of colors in log.
+Disable the usage of colors in the log.
 
 To disable, use: `./xelis_wallet --disable-log-color`.
 
 ### Disable Interactive Mode
 
-Disable terminal interactive mode. You will not be able to write CLI commands in it or to have an updated prompt
+Disable terminal interactive mode. You will not be able to write CLI commands in it or have an updated prompt.
 
 To disable, use: `./xelis_wallet --disable-interactive-mode`.
 
-### Filename Log
+### Log Filename
 
-Set the filename to use for logging. By default, the filename is set to `xelis-wallet.log`.<br/>
-Every logs file are stored in the `logs` folder and are named with the date of the day.
+Set a custom log file name. By default, the filename is set to `xelis-daemon.log`.<br/>
+Log file are stored in the `logs` folder and are named with the date of the day.
 
 To set the filename to `mylog.log`, use: `./xelis_wallet --filename-log mylog.log`.
 
@@ -336,9 +335,9 @@ To set, use: `./xelis_wallet --logs-modules module_name=off`.
 Set a custom directory path to store the logs files.<br/>
 By default it will be `logs/` of the current directory.
 
-To set the directory path to `mylogs/`, use: `./xelis_wallet --logs-path mylogs/`.
+To set the path to `mylogs/`, use: `./xelis_wallet --logs-path mylogs/`.
 
-**NOTE**: The directory will be created using the provided path if not existing and must ends with a `/`. 
+**NOTE**: The directory will be created using the provided path if it does not exist. The path must end with a `/`. 
 
 ### Log Level
 
@@ -346,7 +345,7 @@ Set the log level to use. Available values are `trace`, `debug`, `info`, `warnin
 
 By default, the log level is set to `info`.
 
-Example to set the log level to debug: `./xelis_wallet --log-level debug`.
+To set the log level to debug: `./xelis_wallet --log-level debug`.
 
 ### Disable History Scan
 
@@ -374,7 +373,7 @@ Run `./xelis_miner --help` to see all available options.
 
 ### Miner Address
 
-Set the miner address to use for the miner. This is the address that will be used to find blocks and earn rewards.
+Set the miner address. This address is used to and earn mining rewards.
 
 This is a **mandatory** option.
 
@@ -383,9 +382,9 @@ Example: `./xelis_miner --miner-address <YOUR_ADDRESS>`.
 ### Daemon Address
 
 Set the daemon address to which you want to connect.
-By default, it is set to `127.0.0.1:8080` to connect automatically to your local node.
+By default, the miner connects to the a local node at `127.0.0.1:8080`.
 
-If you want to connect to another node (domain or ip:port format), use: `./xelis_miner --daemon-address testnet-node.xelis.io`.
+To connect to another node (domain or ip:port format), use: `./xelis_miner --daemon-address testnet-node.xelis.io`.
 
 ### Benchmark
 
@@ -393,11 +392,11 @@ Enable the benchmark mode. This will run the miner without submitting any block 
 
 To enable the benchmark mode, use: `./xelis_miner --benchmark`.
 
-In case you want to changes the numbers of iterations to use for the benchmark, use: `./xelis_miner --benchmark --iterations 100`.
+In case you want to changes the number of iterations to use for the benchmark, use: `./xelis_miner --benchmark --iterations 100`.
 
 ### Numbers of Threads
 
-Set the numbers of threads to use for the miner.
+Set the number of threads to use for the miner.
 By default, the numbers of threads is set to the number of logical cores of the CPU.
 
 Minimum is 1 and maximum is 255.
@@ -415,28 +414,28 @@ Example to set the worker name to `myworker`: `./xelis_miner --worker myworker`.
 
 By default, the daemon is logging to a file. To disable it, use: `./xelis_miner --disable-file-logging`.
 
-### Disable File Log Date Based
+### Disable Date-Based File Log Naming
 
-Disable the log filename date based. If disabled, the log file will be named xelis-daemon.log instead of YYYY-MM-DD.xelis-daemon.log
+Disable date-based file naming for logs. If disabled, the log file will be named xelis-daemon.log instead of YYYY-MM-DD.xelis-daemon.log
 
 To disable, use: `./xelis_miner --disable-file-log-date-based`.
 
-### Disable Log Color
+### Disable Log Colors
 
-Disable the usage of colors in log.
+Disable the usage of colors in the log.
 
 To disable, use: `./xelis_miner --disable-log-color`.
 
 ### Disable Interactive Mode
 
-Disable terminal interactive mode. You will not be able to write CLI commands in it or to have an updated prompt
+Disable terminal interactive mode. You will not be able to write CLI commands in it or have an updated prompt.
 
 To disable, use: `./xelis_miner --disable-interactive-mode`.
 
 ### Filename Log
 
-Set the filename to use for logging. By default, the filename is set to `xelis-miner.log`.<br/>
-Every logs file are stored in the `logs` folder and are named with the date of the day.
+Set a custom log file name. By default, the filename is set to `xelis-miner.log`.<br/>
+Log file are stored in the `logs` folder and are named with the date of the day.
 
 To set the filename to `mylog.log`, use: `./xelis_miner --filename-log mylog.log`.
 
@@ -453,7 +452,7 @@ By default it will be `logs/` of the current directory.
 
 To set the directory path to `mylogs/`, use: `./xelis_miner --logs-path mylogs/`.
 
-**NOTE**: The directory will be created using the provided path if not existing and must ends with a `/`. 
+**NOTE**: The directory will be created using the provided path if it does not exist. The path must end with a `/`. 
 
 ### Log Level
 

@@ -5,14 +5,14 @@ title: Client Protocol
 ## Introduction
 
 Client Protocol is a unique feature that is implemented for BlockDAG support.
-A same transaction may be inserted in two distincts blocks by two miners, instead of rejecting the whole block because of the double spending, the client protocol allows the client to accept both blocks and to handle the double spending.
+A single transaction may be inserted in two distinct blocks by two miners, and instead of rejecting the whole block because of the double spending, the client protocol allows the client to accept both blocks and to handle the double spending.
 
-To handle the double spending, the Client Protocol will just execute only one time the transaction based on the topological order of the BlockDAG.
+To handle the double spending, the Client Protocol will just execute the transaction once based on the topological order of the BlockDAG.
 
 >**Example**<br/>
 >Block A is at topoheight 1000. It is the common base TIP between the next two blocks B and C.<br/>
 >Block B is at topoheight 1001 and Block C is at topoheight 1001, they both contain the same transaction named T1.<br/>
 >Because they are both ordered in DAG partial order, the client will execute the transaction T1 from Block B because it is ordered first.<br/>
 
-But there is some limitations. It is only accepted only if the chain / previous TIPS of the block candidate don't already include this transaction.
-It is done to avoid the double spending of the same transaction during the merge of differents branches in one main chain.
+But there are some limitations. It is only accepted only if the chain / previous TIPS of the block candidate don't already include this transaction.
+It is done to avoid the double spending of the same transaction during the merge of different branches in one main chain.

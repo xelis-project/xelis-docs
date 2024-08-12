@@ -36,9 +36,9 @@ Here is the estimated circulating supply for the next 5 years:
 ## Is there any real world application of this?
 
 Absolutely! There are a lot of tangible applications. One notable example is creating your own local currency foundation with peace of mind. 
-No counterfeiting, no srutinizing eyes, 100% uptime, decentralized and secure transactions.
+No counterfeiting, no scrutinizing eyes, 100% uptime, decentralized and secure transactions.
 
-## Where are stored my coins?
+## Where are my coins stored?
 
 Your balance is stored on chain, not on your computer or in your wallet.<br/>
 The wallet allows you to manage these funds as long as you have access to it.
@@ -46,21 +46,21 @@ The wallet allows you to manage these funds as long as you have access to it.
 Always keep your seed or a backup of your wallet file. 
 This ensures you can access your funds if your device is lost or unusable.
 
-## What does "private" blockchain means?
+## What does a "private" blockchain mean?
 
 The account balance are private. They are homomorphically encrypted.
 Others cannot see your wallet balance on the public ledger.
 
 ## What is Homomorphic Encryption for dummies?
 
-Perform computations on encrypted data without prior decryption; in this context,
+Homomorphic Encryption allows computations on encrypted data without prior decryption; in this context,
 it provides nodes the ability to validate transactions without ever knowing the balance 
-of each participants.
+of each participant.
 
 ## What is BlockDAG? Why is it used?
 
-A blockDAG stands for Directed Acyclic Graph, it differs from traditional blockchains structure.
-Multiple blocks can now coexists at the same height with various types, but each can be distinguished by a unique topological height.
+A BlockDAG differs from a traditional blockchain by using a Directed Acyclic Graph data structure.
+In a BlockDAG, multiple blocks can coexist at the same height with various types, but each can be distinguished by a unique topological height.
 
 The primary reason for using this structure is to achieve fast block time validation; XELIS block time is ~15s.<br/>
 The DAG significantly reduces the number of orphan blocks by merging them instead of creating split branches,
@@ -70,7 +70,7 @@ More info here: [BlockDAG](/features/blockdag).
 
 ## Why is XELIS an account-based model?
 
-Account based blockchains offers way more advantages than drawbacks from our point of view.<br/>
+Account based blockchains offer way more advantages than drawbacks from our point of view.<br/>
 It's a more flexible system than traditional UTXO model, eliminating the need to follow inputs / outputs.<br/>
 It allows real fungibility of coins. 1 XEL = 1 XEL. No tainted coins.
 
@@ -84,21 +84,21 @@ More info here: [Features](/#main-features).
 ## How are you encrypting the balance homomorphically?
 
 We use ElGamal with the Ristretto255 points on Curve25519 (which achieves ~128 bits of security).<br/>
-While homomorphic encryptions are generally computation-intensive, we need to use addition and substraction for transactions.
+While homomorphic encryptions are generally computation-intensive, we need to use addition and subtraction for transactions.
 
 ## Is this a fork of an existing crypto project?
 
 XELIS is **NOT** a fork. Everything is written in Rust from scratch using open source libraries.<br/>
-If you want to know how the protocol work in details, start here: [Features](/#main-features).
+If you want to know how the protocol works in detail, start here: [Features](/#main-features).
 
 Github repository: https://github.com/xelis-project/xelis-blockchain
 
 ## Why another crypto project?
 
 Not the same vision as other blockchains, different choices made and strong commitment to build a fast / robust / long lasting financial system.<br/>
-Cryptocurrency world is a whole new technology and continue to evolve each day, we want to be part of it by contributing to it.
+The cryptocurrency world is still young and the technology and continues to evolve each day. We want to be part of it by contributing to it.
 
-## Did you already launched a project before XELIS?
+## Did you already launch a project before XELIS?
 
 No, none of us have created a project like this before; this is our first one.
 However, some of us may have participated or contributed to other projects as community developers.
@@ -117,12 +117,12 @@ and the client shifts the balance by 8 decimals after decryption.
 
 Ex: 100000000 = 1.00000000 XEL
 
-Unsigned integer are used to have exact precision on addition / substraction in financial systems.<br/>
+Unsigned integers are used to have exact precision on addition / subtraction in financial systems.<br/>
 Try the following in Python to have an example of floating point issue: `3.33-3.13`
 
 ## Will Testnet coins be transferred to Mainnet?
 
-No, coins will never be transferred or transferable from Testnet to Mainnet.<br/>
+No. Coins will never be transferred or transferable from Testnet to Mainnet.<br/>
 Testnet can be reset at any time and its coins have no value.
 
 One network is for development, and the other is for the future of financial freedom.
@@ -134,7 +134,7 @@ Being an early adopter, running a node, and participating in mining can help
 us find bugs and move faster toward our goal of a stable running blockchain.
 It benefits everyone involved in the project.
 
-## What are your primary focus for the project?
+## What are your primary focuses for the project?
 
   - Providing simple, functioning tools, up-to-date documentation, including easy-to-integrate APIs for devs.
   - A POW CPU/GPU friendly mining algo.
@@ -146,8 +146,8 @@ More info here: [Objectives](/#objectives).
 
 ## What is the consensus algorithm that XELIS uses?
 
-XELIS is a Proof-Of-Work (PoW) network. We are still currently working on a CPU/GPU friendly mining algorithm,
-ASIC, and FPGA resistant.
+XELIS is a Proof-Of-Work (PoW) network. We are currently working on a CPU/GPU friendly mining algorithm that is both
+ASIC and FPGA resistant.
 
 The longest chain is the one selected by nodes, based on topoheight.<br/>
 During chain split at same height, the main chain is selected based on the cumulative difficulty of each branch tip.
@@ -170,11 +170,11 @@ An online wallet simply keeps a live connection to a remote node and displays yo
 Now, don't forget to assign your wallet address to your miner. If you find a solution that's accepted by the network, 
 you'll receive the reward regardless of your wallet's connectivity.
 
-## What kind of reward I can expect when mining?
+## What kind of reward can I expect from mining?
 
-It's starts at around ~1.41 XEL per block and decreases each subsequent block.
+It starts at around ~1.41 XEL per block and decreases for each subsequent block.
 This reduction isn't based on halving logic but rather on the supply and emission factor of 20.
-It's also possible to mine a side block due to BlockDAG and receive a smaller portion of the reward.  
+It's also possible to mine a side block on the BlockDAG and receive a smaller portion of the reward.  
 More info here: [Block Types](/features/blockdag#block-types)
 
 ## I want to work with the team. How can I apply?
@@ -187,6 +187,6 @@ This is an initiative that carries significant weight if you want to work more c
 
 ## Why does the blockchain size vary between nodes?
 
-XELIS use Sled as the primary storage for the ledger, which includes block headers, transactions, encrypted account balances, etc... 
+XELIS uses Sled as the primary storage for the ledger, which includes block headers, transactions, encrypted account balances, etc... 
 However, Sled is still in beta and has pending issues with garbage collection overhead, such as write amplification. 
 This can result in different sizes across devices and nodes. For now, we continue to use Sled, but we might consider switching to an alternative like RocksDB.

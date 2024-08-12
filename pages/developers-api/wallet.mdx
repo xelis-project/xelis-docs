@@ -59,7 +59,7 @@ For the example below:
 
 The authentication scheme is using [rfc7617](https://datatracker.ietf.org/doc/html/rfc7617).  
 More info here https://en.wikipedia.org/wiki/Basic_access_authentication.  
-Concatening both username and password with `:` gives `QWxhZGRpbjpvcGVuIHNlc2FtZQ==` in base64.  
+Concatenating both username and password with `:` gives `QWxhZGRpbjpvcGVuIHNlc2FtZQ==` in base64.  
 
 <Tabs items={['HTTP', 'WebSocket']}>
   <Tabs.Tab>
@@ -181,7 +181,7 @@ This feature is planned to be improved in future. For now, the follow are implem
 
 Those filters can be used together or alone, using the `Not`, `And`, `Or` operations.
 
-If key or value is a map or an array, you can also do filter on them:
+If a key or value is a map or an array, you can also do filter on them:
 - `Has Key` (with expected key value and an optional query on the value if present)
 - `At Key` (same as above but query is mandatory)
 - `Len` (check the map/array size using a `query number`)
@@ -191,7 +191,7 @@ If key or value is a map or an array, you can also do filter on them:
 
 Please note that these functionalities are also available from XSWD calls, which mean, any accepted Application through XSWD can have its own DB like a local storage on web JavaScript.
 
-This query system will be used in daemon also once Smart Contracts are deployed to easily search entries in the Smart Contract database.
+This query system will also be used in daemon once Smart Contracts are deployed to easily search entries in the Smart Contract database.
 
 <Store />
 <Delete />
