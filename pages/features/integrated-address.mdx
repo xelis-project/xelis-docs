@@ -5,7 +5,7 @@ title: Integrated Address
 ## Introduction
 
 Nowadays, it is common to have a unique address for each user on a service like a centralized exchange or a wallet provider.
-This address is used to send and receive transactions, solo mine, see the history on explorer or to simply communicate with him on-chain.
+This address is used to send and receive transactions, solo mine, see the history on explorer, or to simply communicate on-chain.
 
 XELIS provide the ability to have an integrated address, which is a wallet address with data integrated in the address directly.
 
@@ -15,9 +15,13 @@ This is the same way as an integrated address on Monero with payment ID, but wit
 
 If you want to send a transaction to someone with an integrated address, the wallet will automatically encrypt the data and inject it in the `extra_data` field of the transaction.
 
-The data can be of any type and support JSON encoding/decoding for easy manipulation.
+The integrated data is:
+- of any data type
+- must support JSON encoding/decoding for easy manipulation.
 
 A query system is also integrated in the wallet database to make research like in a traditional database across all transactions and more.
+
+Please refer to [Encrypted Communication](/features/encrypted-communication) for more information about how this data is securely transmitted.
 
 ## Examples
 
@@ -27,10 +31,11 @@ The possibilities are endless and it's up to you to decide what you want to incl
 
 ## Limitations
 
-The data included in an integrated address is limited to 1 KiB only.
+The data included in an integrated address is limited to 1 KiB only because maximum size of `extra_data` field in a transfer is 1 KiB.
 
-You cannot use an integrated address to send a transaction, it's only for receiving funds.
-The address marked as the signer / sender of the transaction will be the wallet address.
+- You cannot use an integrated address to send a transaction, it's only for receiving funds.
+- The address marked as the signer / sender of the transaction will be the wallet address.
+- It is not possible to solo mine with an integrated address, you need to use the wallet address.
 
 Please note that you can't track the exact history of a specific integrated address on the explorer, as it's not a unique address but a way to include data easily in a transaction.
 The history of an integrated address will be the same as the wallet address.
