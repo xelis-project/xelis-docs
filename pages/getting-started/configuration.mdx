@@ -181,6 +181,16 @@ By default, the log level is set to `info`.
 
 To set the log level to debug: `./xelis_daemon --log-level debug`.
 
+### File Log Level
+
+Set the file log level to use. Available values are `trace`, `debug`, `info`, `warning`, `error`.
+
+This is useful to have a different log level for the file log than the console log.
+
+By default, the file log level is set to value passed to `--log-level` (which is also `info` by default).
+
+To set the file log level to debug: `./xelis_daemon --file-log-level debug`.
+
 ### Disable GetWork Server
 
 Disable the GetWork server, this will disable the HTTP server running above the RPC Server and will prevent miners from connecting and receive new jobs.
@@ -347,6 +357,16 @@ By default, the log level is set to `info`.
 
 To set the log level to debug: `./xelis_wallet --log-level debug`.
 
+### File Log Level
+
+Set the file log level to use. Available values are `trace`, `debug`, `info`, `warning`, `error`.
+
+This is useful to have a different log level for the file log than the console log.
+
+By default, the file log level is set to value passed to `--log-level` (which is also `info` by default).
+
+To set the file log level to debug: `./xelis_wallet --file-log-level debug`.
+
 ### Disable History Scan
 
 Disable the history scan. This will prevent syncing old TXs/blocks.
@@ -461,6 +481,16 @@ Set the log level to use. Available values are `trace`, `debug`, `info`, `warnin
 By default, the log level is set to `info`.
 
 Example to set the log level to debug: `./xelis_miner --log-level debug`.
+
+### File Log Level
+
+Set the file log level to use. Available values are `trace`, `debug`, `info`, `warning`, `error`.
+
+This is useful to have a different log level for the file log than the console log.
+
+By default, the file log level is set to value passed to `--log-level` (which is also `info` by default).
+
+To set the file log level to debug: `./xelis_miner --file-log-level debug`.
 
 ### Version
 
