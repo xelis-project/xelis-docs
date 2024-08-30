@@ -233,6 +233,24 @@ Print the daemon version.
 
 To print the version, use: `./xelis_daemon --version`.
 
+### Internal DB cache size
+
+Set the internal DB cache size to use for the daemon. By default, the cache size is set to 16 MB.
+
+This is useful to speed up the I/O database operations.
+
+To set the cache size to 32 MB, you must provide the bytes count to use: `./xelis_daemon --internal-cache-size 33554432`.
+
+### Internal DB mode
+
+Set the internal DB mode to use for the daemon. By default, the mode is set to `slow-space`.
+
+Availale values are:
+- `slow-space`: to use the slowest mode with the smallest space usage by rewriting (if needed) few times the data to defragment the database.
+- `high-throughput`: to use the fastest mode to have the best performance but may provide bigger space usage.
+
+To set the mode to `high-throughput`, use: `./xelis_daemon --internal-db-mode high-throughput`.
+
 ## Wallet
 
 Run `./xelis_wallet --help` to see all available options.
