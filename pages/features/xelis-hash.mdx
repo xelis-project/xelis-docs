@@ -9,12 +9,12 @@ XELIS Hash is a cryptographic hash function relying on two major algorithms (Cha
 The main purpose of this self-made algorithm is to be ASIC-resistant and to be able to run on any device, from a smartphone to a server.
 We aim to have a fair distribution of the network and to avoid centralization as much as possible by keeping the network accessible to everyone.
 
-To do so, we try to keep the CPUs and GPUs in the game together, and to avoid the use of efficient FPGAs or ASICs by having a memory-hard algorithm.
+To do so, we try to keep the CPUs and GPUs in the game together, and to avoid the use of efficient FPGAs or ASICs by having a memory-focused algorithm.
 Due to the objective of having both CPUs and GPUs mining together on the same algorithm, we have to keep the algorithm simple and efficient to run on both devices.
 
 The main points of the algorithm are:
 - CPU and GPU friendly: Both devices should be able to mine efficiently as they are the most common parts and everyone have access to them
-- Memory-hard: Being bottlenecked by memory access rather than computation
+- Memory-focused: Being bottlenecked by memory access rather than computation
 - ASIC-resistant: ASIC shouldn't provide too much advantage over CPUs and GPUs in efficiency
 - Fast to compute: it shouldn't take more than 3 milliseconds to compute a hash on a CPU (this is necessary for fast blocks POW challenge verification on nodes)
 
