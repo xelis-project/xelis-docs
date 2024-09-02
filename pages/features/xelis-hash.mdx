@@ -1,0 +1,85 @@
+---
+title: XELIS Hash
+---
+
+## Introduction
+
+XELIS Hash is a cryptographic hash function relying on two major algorithms (ChaCha8 and Blake3) used as the POW algorithm for our network.
+
+The main purpose of this self-made algorithm is to be ASIC-resistant and to be able to run on any device, from a smartphone to a server.
+We aim to have a fair distribution of the network and to avoid centralization as much as possible by keeping the network accessible to everyone.
+
+To do so, we try to keep the CPUs and GPUs in the game together, and to avoid the use of efficient FPGAs or ASICs by having a memory-hard algorithm.
+Due to the objective of having both CPUs and GPUs mining together on the same algorithm, we have to keep the algorithm simple and efficient to run on both devices.
+
+The main points of the algorithm are:
+- CPU and GPU friendly: Both devices should be able to mine efficiently as they are the most common parts and everyone have access to them
+- Memory-hard: Being bottlenecked by memory access rather than computation
+- ASIC-resistant: ASIC shouldn't provide too much advantage over CPUs and GPUs in efficiency
+- Fast to compute: it shouldn't take more than 3 milliseconds to compute a hash on a CPU (this is necessary for fast blocks POW challenge verification on nodes)
+
+A new iteration of the algorithm has been released in July 2024 to keep the network secure and bring back the CPUs in the game.
+
+
+The source code of the POW algorithm is available on [GitHub](https://github.com/xelis-project/xelis-hash).
+
+It is released under the MIT license, so you can freely use it in your project if you want to have a fair distribution of your network.
+
+## XELIS Hash v2
+
+XELIS HASH v2 is using a scratchpad of ~440 kB per hash, enough to fit in CPUs cache and limit the number workers running in parallel on GPU and FPGA due to the memory bandwidth.
+
+Please note that the scratchpad allocated can be reused for each new computation as it is completely rewritten at each hash computation.
+
+The expected time per hash is between 1 ms and 1.50 ms.
+
+It is splitted in 3 differents stages.
+
+### Stage 1
+
+This first stage is the initialization process of the scratchpad.
+
+The input (block work) is hashed using Blake3 to fill the nonce (12 bytes) and also form the initial key that will be used for the ChaCha8 stream cipher.
+
+The input is then iterated in chunks of 32 bytes to fill the scratchpad with the ChaCha8 stream cipher, where a new raw key is formed using the previous key and the chunk of data.
+this raw key is then hashed again using Blake3 to be used as the ChaCha8 stream cipher to fill the scratchpad and also to be used as part of the next iteration key.
+
+Once an iteration is done, the nonce is also updated by being taken from the scratchpad, which will also be used in next iterations.
+
+The scratchpad is fully ready when we went through all input chunks.
+
+**NOTE**: The scratchpad must be as random as possible to ensure a good distribution of future operations and prevent any kind of optimization / patterns.
+We're going over the whole input to ensure a good entropy and hashing all inputs to prevent input manipulation that can be done using dynamic data (like a timestamp, nonce or extra nonce).
+
+### Stage 2
+
+Stage 2 has been removed in XELIS Hash V2 has its main work got merged in Stage 1.
+
+It was used to prevent too-high parallelism of GPUs and has failed in V1.
+
+### Stage 3
+
+Stage 3 is responsible for hashing the scratchpad.
+
+Its goal is to have a lot of random memory accesses within some branching to make it hard to optimize on GPUs and FPGAs.
+
+It shouldn't be possible to parallelize the computation of a hash because each iteration are dependent of the previous one including the memory accesses.
+
+The scratchpad is splitted in two slices of same length, buffer a and buffer b.
+
+For each iteration, we're acessing two random indexes in buffer a and buffer b, to constitute a 16 bytes block that will be go in a AES cipher round using our constant key.
+The first 8 bytes of the block ouput are used as a new integer that will be xored with the previous two values from the indexes in buffer a and buffer b.
+Unary operation is then applied to this result as the first value to be used in the inner loop.
+
+This inner loop will go through the whole scratchpad with a branching on 16 possibilities (including bits rotation, xor, mul, add, sub, rem, div) and will overwrite the scratchpad.
+
+128 bits operations are also used to waste clock cycles on FPGAs and GPUs.
+
+### Stage 4
+
+Stage 4 is the final stage of the hash computation.
+
+It is responsible for the finalization of the hash and the output.
+
+The scratchpad is hashed using Blake3 to get the final (32 bytes output) hash with a good quality.
+The whole scratchpad itself is hashed to ensure that nobody can skip a part of the computation and still get a valid hash.
