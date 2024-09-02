@@ -1,0 +1,31 @@
+---
+title: Confidential Assets
+---
+
+## Introduction
+
+Confidential Assets are unique feature allowing anyone to create its own asset / token and be fully compatible with wallets, exchanges and other services.
+
+This is possible because it is directly implemented in base layer of the blockchain, and not as a second layer solution.
+
+Each asset is represented by a unique asset ID (32 bytes hash). This asset ID is used to identify the asset in transactions and in the blockchain.
+
+It allows to have fully private balances and transferred amounts just like XELIS.
+
+As an example, XELIS is a confidential asset itself with the asset ID `0000000000000000000000000000000000000000000000000000000000000000`.
+
+**NOTE**: Currently, there is no possibility to create your own confidential asset.
+This is on hold until Smart Contracts are released.
+
+## Advantages
+
+- **Privacy**: Confidential Assets allow to have fully private balances and transferred amounts.
+- **Compatibility**: Confidential Assets are fully compatible with wallets, exchanges and other services.
+- **Security**: Confidential Assets are implemented in base layer of the blockchain, and not as a second layer solution.
+- **Decentralized**: Confidential Assets are fully decentralized and trustless, nobody can freeze or censor your assets.
+- **Management**: if deployed by a Smart Contract, it can be minted (example: a stablecoin based on a mint/burn mechanism).
+
+## Limitations
+
+Unfortunately (or fortunately ?), confidential assets outside of a Smart Contract cannot be managed by the owner.
+This means that the owner cannot freeze or burn the assets you own, but also cannot take, for example, a % fee on each transfer.

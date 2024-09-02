@@ -11,5 +11,6 @@
   "encrypted-communication": "Encrypted Communication",
   "integrated-address": "Integrated Address",
   "p2p-encrypted-network": "P2P Encrypted Network",
-  "xelis-hash": "XELIS Hash"
+  "xelis-hash": "XELIS Hash",
+  "confidential-assets": "Confidential Assets"
 }
