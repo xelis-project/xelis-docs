@@ -73,7 +73,7 @@ Unary operation is then applied to this result as the first value to be used in 
 
 This inner loop will go through the whole scratchpad with a branching on 16 possibilities (including bits rotation, xor, mul, add, sub, rem, div) and will overwrite the scratchpad.
 
-128 bits operations are also used to waste clock cycles on FPGAs and GPUs.
+128 bits operations are also used to reduce gaps between CPU and GPUs/FPGAs as they require more computation.
 
 ### Stage 4
 
