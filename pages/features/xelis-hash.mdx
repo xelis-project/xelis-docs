@@ -23,11 +23,11 @@ A new iteration of the algorithm has been released in July 2024 to keep the netw
 
 The source code of the POW algorithm is available on [GitHub](https://github.com/xelis-project/xelis-hash).
 
-It is released under the MIT license, so you can freely use it in your project if you want to have a fair distribution of your network.
+It is released under the [MIT license](https://github.com/xelis-project/xelis-hash/blob/master/LICENSE), so you can freely use it in your project if you want to have a fair distribution of your network.
 
 ## XELIS Hash v2
 
-XELIS HASH v2 is using a scratchpad of ~440 kB per hash, enough to fit in CPUs cache and limit the number workers running in parallel on GPU and FPGA due to the memory bandwidth.
+XELIS HASH v2 is using a scratchpad of ~440 kB per hash, enough to fit in CPUs cache and limit the number workers running in parallel on GPU and FPGA due to the VRAM / device memory bandwidth.
 
 Please note that the scratchpad allocated can be reused for each new computation as it is completely rewritten at each hash computation.
 
