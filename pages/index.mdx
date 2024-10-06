@@ -21,8 +21,10 @@ Instead of choosing between two chains during soft forks, BlockDAG merges both c
 
 **Homomorphic Encryption** is enabled using ElGamal to provide **privacy** on transactions (transferred amounts) and balances.
 
-**ElGamal** cryptosystem was chosen because it's a well known and studied encryption algorithm which has homomorphism features.
-ElGamal is used in combination with the **Ristretto255** curve to provide a good level of security (~128 bits of security).<br/>
+**ElGamal** cryptosystem was choosen because it's a well known and studied encryption algorithm which has homomorphism features.
+We use a variant named **Twisted ElGamal** which give us a full integration with Pedersen commitments, useful for Bulletproofs compatibility and also saving space and time by avoiding an intermediate proof.
+
+**Twisted ElGamal** is fast and is used with the Ristretto group over the popular elliptic curve "Curve25519" to provide a good level of security (~128 bits of security).
 Homomorphic operations available using ElGamal are addition/subtraction between ciphertexts and/or plaintext and multiplication against plaintext value.
 
 **Account Model** (instead of UTXO like Bitcoin) was chosen in order to be faster, smaller, and easier for everyone.

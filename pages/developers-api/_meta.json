@@ -2,5 +2,6 @@
   "daemon": "Daemon",
   "wallet": "Wallet",
   "index": "Index",
-  "mini": "Mini"
+  "mini": "Mini",
+  "stratum": "Stratum Protocol"
 }
