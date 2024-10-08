@@ -28,9 +28,9 @@
       "breadcrumb": false
     }
   },
-  "dev_status": "Dev Status",
+  "development-status": "Development Status",
   "tokenomics": "Tokenomics",
-  "network_upgrades": "Network Upgrades",
+  "network-upgrades": "Network Upgrades",
   "faq": "FAQ",
   "xelis": {
     "title": "Website",
