@@ -1,16 +1,9 @@
 {
-  "blockdag": "BlockDAG",
-  "homomorphic-encryption": "Homomorphic Encryption",
-  "zero-knowledge-proof": "Zero-Knowledge Proof",
-  "ecdlp": "ECDLP",
-  "difficulty-adjustment": "Difficulty Adjustment",
+  "mining": "Mining",
+  "privacy": "Privacy",
+  "scalability": "Scalability",
+  "wallet": "Wallet",
   "smart-contracts": "Smart Contracts",
-  "client-protocol": "Client Protocol",
-  "xswd": "XSWD",
   "transaction-fees": "Transaction Fees",
-  "encrypted-communication": "Encrypted Communication",
-  "integrated-address": "Integrated Address",
-  "p2p-encrypted-network": "P2P Encrypted Network",
-  "xelis-hash": "XELIS Hash",
-  "confidential-assets": "Confidential Assets"
+  "p2p-encrypted-network": "P2P Encrypted Network"
 }
