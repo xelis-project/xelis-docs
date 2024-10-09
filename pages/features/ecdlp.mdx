@@ -49,9 +49,9 @@ The tables also need to be based on `num * cofactor` to match.
 
 ## Usage
 
-The ECDLP is used in the wallet **only** to decode quickly a **Scalar** to an **integer**, which is done in the case of a newly scanned transaction or on a new account final balance.
+The ECDLP is used in the wallet **only** to decode quickly a **Ristretto Point** to an **integer**, which is done in the case of a newly scanned transaction or on a new account final balance.
 
-A Scalar is obtained by decrypting a Ciphertext using the Private Key by doing the following:
+The point to decode is obtained by decrypting a Ciphertext using the Private Key by doing the following:
 - `P = CC - (SK * C)` where P is the Ristretto Point, CC is the Ciphertext (Pedersen) commitment, SK is the Secret Key, and C is a Curve Point.
 
 Using Fast ECDLP, we are able to find integer values of our ciphertexts in the most efficient way.
