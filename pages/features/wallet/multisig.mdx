@@ -1,0 +1,39 @@
+---
+title: MultiSig
+---
+
+import { Callout } from 'nextra/components';
+
+## Introduction
+
+MultiSig (or multi-signature) is a feature that allows multiple parties to sign a transaction before it is broadcasted to the network.
+
+This feature is useful for organizations, companies, or individuals who want to have more control over their funds and require multiple parties to sign off on a transaction.
+
+In the case of XELIS, MultiSig is configurable on-chain by setting the number of required signatures and the list of public keys that are allowed to sign the transaction.
+With this feature, you can configure N-of-M MultiSig, where N is the number of required signatures and M is the total number of public keys.
+
+The maximum number of public keys that can be used in a MultiSig transaction is 255.
+
+The configuration can be updated at any time by sending a new transaction with the updated list of public keys and the required number of signatures.
+
+<Callout emoji="💡">
+    MultiSig isn't available on the mainnet yet, but it has been already designed and implemented.
+</Callout>
+
+## How it works
+
+When a MultiSig transaction is created, the transaction is signed by the required number of parties and then broadcasted to the network.
+The transaction is only considered valid if it has the required number of signatures and the public keys used to sign the transaction match the list of public keys configured for the MultiSig account.
+If the transaction is valid, it is processed by the network and added to the blockchain like any other transaction.
+
+On the technical part, a new field is added to the transaction, named `multisig`, which contains a list of signatures and signer identifier combined.
+All the signatures must be valid and match the public keys with the configured multisig present in the chain state and must have the exact count of required signatures.
+
+## Advantages
+
+- **Security**: MultiSig provides an additional layer of security by requiring multiple parties to sign off on a transaction.
+- **Control**: MultiSig allows organizations and individuals to have more control over their funds by requiring multiple parties to sign off on a transaction.
+- **Flexibility**: MultiSig is configurable on-chain, allowing users to update the list of public keys and the required number of signatures at any time.
+- **Transparency**: MultiSig transactions are visible on the blockchain, providing transparency and accountability for all parties involved.
+- **Viewable Wallet**: MultiSig allow to share the account private key to be able to view the wallet balances and transactions, without being able to spend the funds.
