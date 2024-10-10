@@ -4,6 +4,7 @@ title: Introduction
 
 import { Cards } from 'nextra-theme-docs'
 import { Card } from '../components/card'
+import Icons from '../components/icons'
 
 ![XELIS header](/header.png)
 
@@ -14,31 +15,119 @@ It's built with the famous programming language **Rust**, to be fast and secure 
 Database, P2P, and API IO are all handled using an event-driven asynchronous task system.<br/>
 It is extremely easy to **monitor** the network with the event system available for developers to be notified on any events happening on the network and to be able to react **instantly** to them.
 
-## Main Features
+## Features
 
-**BlockDAG** is used to improve the scalability and the security of the network.<br/>
-Instead of choosing between two chains during soft forks, BlockDAG merges both chains into one.
+### Mining
 
-**Homomorphic Encryption** is enabled using ElGamal to provide **privacy** on transactions (transferred amounts) and balances.
+<Cards>
+  <Card 
+    title="Difficulty Adjustment" 
+    subtitle="Using Kalman Filter to rapidely converge network hashrate and filter misleading fluctuations." 
+    href="/features/mining/difficulty-adjustment"
+    icon={<Icons.Graph />}
+  />
+  <Card 
+    title="XELIS Hash" 
+    subtitle="A new CPU/GPU friendly algorythm resistant to FPGAs/ASIC." 
+    href="/features/mining/xelis-hash"
+    icon={<Icons.Mining />}
+  />
+</Cards>
 
-**ElGamal** cryptosystem was choosen because it's a well known and studied encryption algorithm which has homomorphism features.
-We use a variant named **Twisted ElGamal** which give us a full integration with Pedersen commitments, useful for Bulletproofs compatibility and also saving space and time by avoiding an intermediate proof.
+### Privacy
 
-**Twisted ElGamal** is fast and is used with the Ristretto group over the popular elliptic curve "Curve25519" to provide a good level of security (~128 bits of security).
-Homomorphic operations available using ElGamal are addition/subtraction between ciphertexts and/or plaintext and multiplication against plaintext value.
+<Cards>
+  <Card 
+    title="Homomorphic Encryption" 
+    subtitle="Enabled using ElGamal to provide privacy on transferred amounts and balances." 
+    href="/features/privacy/homomorphic-encryption"
+    icon={<Icons.Encryption />}
+  />
+  <Card 
+    title="Zero-Knowledge Proof" 
+    subtitle="Prove that transferred encrypted amount are valid without revealing." 
+    href="/features/privacy/zero-knowledge-proof"
+    icon={<Icons.ReceiptCheck />}
+  />
+  <Card 
+    title="Confidential Assets" 
+    subtitle="Create your own native token fully compatible with all services." 
+    href="/features/privacy/confidential-assets"
+    icon={<Icons.Incognito />}
+  />
+</Cards>
 
-**Account Model** (instead of UTXO like Bitcoin) was chosen in order to be faster, smaller, and easier for everyone.
-It allows to have a more flexible system than UTXO model and to have a better privacy because there is no need to link inputs and outputs, which provide real **fungibility**.<br/>
-It also enables the **fast-sync** feature to only download the last state of the chain instead of downloading all its history.
+### Scalability
 
-**Pruning system** is available to reduce the size of the blockchain by removing old blocks and transactions.
+<Cards>
+  <Card 
+    title="BlockDAG" 
+    subtitle="Mutliple block at the same height to improve scalability and security of the network." 
+    href="/features/scalability/blockdag"
+    icon={<Icons.BlockGraph />}
+  />
+  <Card 
+    title="Client Protocol" 
+    subtitle="Allows accepting same transaction in multiple blocks without double spending." 
+    href="/features/scalability/client-protocol"
+    icon={<Icons.Protocol />}
+  />
+</Cards>
 
-**P2P Encrypted Network** is used to prevent any network traffic analysis and to provide better privacy.
-All messages between nodes are encrypted with ChaCha20-Poly1305. Messages keys are rotated every GB of data. 
+### Wallet
 
-**Smart Contracts** are not yet available, but progress is being made towards their development.
+<Cards>
+  <Card 
+    title="ECDLP" 
+    subtitle="" 
+    href="/features/wallet/ecdlp" 
+  />
+  <Card 
+    title="Extra Data" 
+    subtitle="" 
+    href="/features/wallet/extra-data" 
+  />
+  <Card 
+    title="Integrated Address" 
+    subtitle="" 
+    href="/features/wallet/integrated-address" 
+  />
+  <Card 
+    title="XSWD" 
+    subtitle="" 
+    href="/features/wallet/xswd" 
+  />
+  <Card 
+    title="Encrypted Storage" 
+    subtitle="" 
+    href="/features/wallet/encrypted-storage" 
+  />
+</Cards>
 
->To read more in details about all features available, please use the **Features** tab.
+### Others
+
+<Cards>
+  <Card 
+    title="P2P Encrypted Network" 
+    subtitle="Prevent any network traffic analysis and provide better privacy." 
+    href="/features/p2p-encrypted-network"
+    icon={<Icons.NodeConnections />}
+  />
+  <Card 
+    title="Smart Contracts" 
+    subtitle="Easily code and create decentralized programs." 
+    href="/features/smart-contracts"
+    icon={<Icons.Code />}
+  />
+  <Card 
+    title="Transaction Fees" 
+    subtitle="Strict fees to avoid blockchain abuse." 
+    href="/features/transaction-fees"
+    icon={<Icons.Coins />}
+  />
+</Cards>
+
+> To read more in details about all features available, click on a specific card.
 
 ## Network
 
