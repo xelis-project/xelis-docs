@@ -1,6 +1,6 @@
 {
-    "build-from-sources": "Build from sources",
-    "download": "Download",
+    "build-from-source-code": "Build from source code",
+    "download-binaries": "Download binaries",
     "docker": "Docker",
     "configuration": "Configuration",
     "guides": "Guides",
