@@ -1,22 +1,20 @@
 ---
-title: Encrypted Communication
+title: Extra Data
 ---
 
 ## Introduction
 
-XELIS is not only a network for transactions, but also a network for data storage and computation.
-The data stored on the blockchain is encrypted and can be shared with other users or kept private.
+XELIS transactions have a powerful advantage: they can include extra data in the transaction itself.
 
-On XELIS, you can share encrypted information with other users by integrating it in a transaction.
 This allows to have powerful services connecting the network with the real world and helping to build a decentralized ecosystem.
 
-Each transaction can include up to 1 KiB of data shared across all transaction transfers.
+Each transaction can include up to 32 KiB of data shared across all transaction transfers (with a maximum set to 1 KiB per transfer).
 
-Integrated data can be passed by sending an integrated address to the user, this will be automatically encrypted and injected in the `extra_data` field of the transaction.
+XELIS wallets encrypt by default the data included in the transaction, so only the recipient can read it.
+To encrypt the data, we're generating a random shared key that is used to encrypt the payload, and is encrypted (`PK * r`) with both parties keys to be easily decrypted (`SK * SH`).
 
-It can be of any type and support JSON encoding/decoding for easy manipulation.
-
-A query system is also integrated in the wallet database to make research like in a traditional database across all transactions and more.
+It is using the ChaCha20 encryption algorithm to encrypt the data with the shared key.
+No AEAD is used, to prevent any additional metadata used during a bruteforce.
 
 ## Examples
 
@@ -33,7 +31,7 @@ Lot of possibilities are available with integrated data, it just depends on your
 
 ## Limitations
 
-The data included in a transaction is limited to 1 KiB in its encrypted form.
+The data included in a transaction is limited to a sum of 32 KiB, and 1 KiB per transfer in its encrypted form.
 
 This is a necessary limitation to prevent chain bloating and growing too fast in size disk terms.
 
