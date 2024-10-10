@@ -1,5 +1,5 @@
 {
-    "build": "Build from sources",
+    "build-from-sources": "Build from sources",
     "download": "Download",
     "docker": "Docker",
     "configuration": "Configuration",

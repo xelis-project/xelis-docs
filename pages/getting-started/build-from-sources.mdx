@@ -1,0 +1,89 @@
+---
+title: Build from sources
+---
+
+import { Steps } from 'nextra-theme-docs';
+import { Callout } from 'nextra/components'
+
+**This guide will shows you how to easily build XELIS from sources.**
+
+<Steps>
+### Install Git (if not already installed)
+
+Official Git installation guide at https://git-scm.com/downloads.
+
+This software allows you to clone the project directly on your device.
+
+### Install Rust and Cargo (if not already installed)
+
+Official Rust installation guide at https://www.rust-lang.org/tools/install.
+
+Rust is the programming language used by XELIS.
+
+It is a compiled language that needs its toolchain to produce binaries from sources to work on your device.
+
+Cargo is the package manager of Rust and allows for easier build, dependencies managements and much more.
+
+### Clone the blockchain repository
+
+Open your operating system's command-line interface (CLI) and download the source code using Git.
+```bash
+git clone https://github.com/xelis-project/xelis-blockchain
+```
+
+This will create a local copy of the source code in a folder named `xelis-blockchain`.
+
+### Navigate to the repository
+
+Navigate to the repository using the following command:
+```bash
+cd xelis-blockchain
+```
+
+### Build the project with Cargo
+
+You have two ways to build the project into binaries: with or without optimizations.
+Without optimizations will check for overflows, panics, and other issues that can be useful for debugging.
+It is designed to be used for development purposes only.
+
+For production usage, it is recommended to build with optimizations enabled.
+
+#### Build all binaries
+
+To build all parts (daemon, wallet, miner) with optimizations enabled (highly recommended for production usage), use:
+```bash
+cargo build --release
+```
+
+For developers and testing purposes, you can build in debug mode by removing the `--release` option from above command.
+
+After building the binaries, you can find them in `./target/release` (or in `./target/debug` if you built in debug mode).
+
+#### Build a specific binary
+
+To build a specific part of the project, you can use the following command:
+```bash
+cargo build --release --bin xelis_daemon
+```
+
+This will build only the daemon part of the project and can be replaced by `xelis_wallet` or `xelis_miner` to build the wallet or miner part.
+
+Once the binary has been built, you can find it in `./target/release` (or in `./target/debug` if you built in debug mode).
+
+### Run from source code
+
+You can also run directly from source code a specific package (`xelis_daemon`, `xelis_wallet`, `xelis_miner`) with following command:
+```bash
+cargo run --bin xelis_daemon`--release
+```
+
+You can also run it in debug mode by removing the `--release` option from above command.
+
+### Run it
+
+<Callout emoji="💡">
+for a production usage, it is recommended to build the software using `--release` option.
+</Callout>
+
+Now that you have successfully built the software, see [Configuration](/getting-started/configuration).
+</Steps>
