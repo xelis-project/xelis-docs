@@ -2,5 +2,6 @@
   "ecdlp": "ECDLP",
   "extra-data": "Extra Data",
   "integrated-address": "Integrated Address",
-  "xswd": "XSWD"
+  "xswd": "XSWD",
+  "encrypted-storage": "Encrypted Storage"
 }

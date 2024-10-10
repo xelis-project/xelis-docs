@@ -1,0 +1,21 @@
+---
+title: Encrypted Storage
+---
+
+## Introduction
+
+XELIS Wallet is a fully encrypted wallet that stores all sensitive data in an encrypted form. This includes the private keys, the transaction history, and the account balances.
+
+The wallet uses the [XChaCha20-Poly1305](https://tools.ietf.org/html/rfc8439) authenticated encryption algorithm to encrypt the data.
+This algorithm is based on the ChaCha20 stream cipher and the Poly1305 message authentication code.
+
+A salt and an nonce is also added to the encryption process to ensure the uniqueness of ciphertexts and hashed values.
+
+It is built on top of the Sled embedded database, which is a modern embedded database that is designed to be fast and reliable.
+
+A master key is generated for each wallet database, and this key is used to encrypt/decrypt the data. The master key is random and is not linked to the user's password.
+The user password is derived in a secure way to generate a key (using Argon2id) that is used to encrypt or decrypt the master key to access to the wallet database.
+
+This way, the user can change the password without having to re-encrypt the entire database.
+
+None of your data is stored in plain text, and the wallet is designed to be secure and private.
