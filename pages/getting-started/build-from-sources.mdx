@@ -27,7 +27,7 @@ Cargo is the package manager of Rust and allows for easier build, dependencies m
 ### Clone the blockchain repository
 
 Open your operating system's command-line interface (CLI) and download the source code using Git.
-```bash
+```bash copy
 git clone https://github.com/xelis-project/xelis-blockchain
 ```
 
@@ -36,7 +36,7 @@ This will create a local copy of the source code in a folder named `xelis-blockc
 ### Navigate to the repository
 
 Navigate to the repository using the following command:
-```bash
+```bash copy
 cd xelis-blockchain
 ```
 
@@ -51,7 +51,7 @@ For production usage, it is recommended to build with optimizations enabled.
 #### Build all binaries
 
 To build all parts (daemon, wallet, miner) with optimizations enabled (highly recommended for production usage), use:
-```bash
+```bash copy
 cargo build --release
 ```
 
@@ -62,7 +62,7 @@ After building the binaries, you can find them in `./target/release` (or in `./t
 #### Build a specific binary
 
 To build a specific part of the project, you can use the following command:
-```bash
+```bash copy
 cargo build --release --bin xelis_daemon
 ```
 
@@ -73,8 +73,8 @@ Once the binary has been built, you can find it in `./target/release` (or in `./
 ### Run from source code
 
 You can also run directly from source code a specific package (`xelis_daemon`, `xelis_wallet`, `xelis_miner`) with following command:
-```bash
-cargo run --bin xelis_daemon`--release
+```bash copy
+cargo run --bin xelis_daemon --release
 ```
 
 You can also run it in debug mode by removing the `--release` option from above command.
