@@ -22,12 +22,7 @@
     "type": "separator"
   },
   "links": "Links",
-  "team": {
-    "title": "Team Members",
-    "theme": {
-      "breadcrumb": false
-    }
-  },
+  "contributors": "Contributors",
   "development-status": "Development Status",
   "tokenomics": "Tokenomics",
   "network-upgrades": "Network Upgrades",
