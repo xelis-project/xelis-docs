@@ -98,11 +98,17 @@ If a transaction is not found in the mempool, the local node requests it from th
 
 #### Chain Request
 
-TODO
+This packet is sent to a peer to request a chain sync.
+It contains a maximum allowed response size and the last `CHAIN_SYNC_REQUEST_MAX_BLOCKS` blocks hashes of the local node's chain with their topoheight spaced exponentially.
 
 #### Chain Response
 
-TODO
+This packet is sent to a peer in response to a chain request.
+It contains the last `CHAIN_SYNC_RESPONSE_MAX_BLOCKS` blocks hashes of the peer's chain ordered by block topoheight.
+
+Only block hashes are sent in this packet, allowing a peer to request the full block if don't have any block matching the hash.
+It also prevent any DDoS attack by sending a lot of blocks to a peer or having high bandwidth usage during high traffic.
+Blocks are requested one by one to the peer to prevent any overload and controling the memory and network usage.
 
 #### Ping
 
@@ -111,27 +117,48 @@ Every 15 minutes, the packet can contain up to `MAX_LEN` sockets addresses (IPv4
 
 #### Object Request
 
-TODO
+This packet is sent to a peer to request an object (block header, full block or transaction) by its hash.
+It is mainly used for chain synchronization, block / transaction propagation.
 
 #### Object Response
 
-TODO
+This packet is sent to a peer in response to an object request.
+It contains the requested object (block header, full block or transaction) or the requested hash if the object was not found.
 
 #### Notify Inventory Request
 
-TODO
+Inventory request packet is requested when we've connected to a new synced peer or when we've finished to sync the chain with the peer.
+It is used to request the mempool of the peer to have the same transactions in the mempool.
+
+The inventory is paginated using one (optional) byte that contains the page number.
 
 #### Notify Inventory Response
 
-TODO
+Inventory response packet is sent in response to an inventory request.
+It contains the list of all transactions hashes from the mempool of the peer.
+
+An optional byte is used to indicate if the inventory is paginated and if there are more pages to request.
 
 #### Bootstrap Chain Request
 
-TODO
+Bootstrap chain request packet is a specific packet that is split in several sub-variants to efficiently request the top chain state from a peer.
+
+This packet should be used only with a trusted peer, to prevent any bad behavior that could occurs (like sending fake datas, etc).
+
+Requests variants must follow the following proceed:
+- Chain Info: The chain info contains the chain state (common point, stable height, stable topoheight, stable hash, etc)
+- Assets: retrieve all assets present in the chain
+- Keys: all accounts registered in the chain
+- Nonces: nonce of each account
+- Balances: all balances summary of the accounts for a specific asset
+- Balances Details: all balances details of the accounts for a specific asset
+- Blocks metadata: 80 blocks below stable topoheight containing hash, supply, reward, difficulty, cumulative difficulty, difficulty P variable.
 
 #### Bootstrap Chain Response
 
-TODO
+Bootsrap chain response contains all the needed data to bootstrap the chain from a peer.
+
+It is split in several sub-variants to efficiently request each part of the chain.
 
 #### Disconnect
 
