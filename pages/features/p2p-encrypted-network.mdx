@@ -55,7 +55,7 @@ The local node randomly select a peer in the peer list which  has a greater heig
 
 The chain request includes last `CHAIN_SYNC_REQUEST_MAX_BLOCKS` blocks hashes of the local node's chain with their topoheight spaced exponentially.
 This data is used by the selected peer to try to find a common point with the local node's chain and his own (block hash must be at same topoheight as other peer).
-If the selected peer finds a common point, it adds up to `CHAIN_SYNC_RESPONSE_MAX_BLOCKS` blocks hashes ordered by block height.
+If the selected peer finds a common point, it adds up to `CHAIN_SYNC_RESPONSE_MAX_BLOCKS` blocks hashes ordered by block topoheight.
 
 Through the "ask and await" request object system, the local node asks for the complete block (block header with transactions included) and add it to the chain directly.
 
