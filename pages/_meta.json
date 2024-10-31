@@ -32,11 +32,15 @@
     "href": "https://xelis.io",
     "type": "page"
   },
+  "whitepaper": {
+    "title": "Whitepaper",
+    "href": "https://whitepaper.xelis.io",
+    "type": "page"
+  },
   "wallet": {
-    "title": "Wallet",
+    "title": "Web Wallet",
     "href": "https://wallet.xelis.io",
-    "type": "page",
-    "display": "hidden"
+    "type": "page"
   },
   "explorer": {
     "title": "Explorer",
