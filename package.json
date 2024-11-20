@@ -2,9 +2,9 @@
   "name": "xelis-docs",
   "version": "0.0.1",
   "scripts": {
-    "dev": "next dev",
+    "start": "next dev",
     "build": "next build",
-    "start": "next start",
+    "prod": "next start",
     "export": "next build && next export"
   },
   "dependencies": {
