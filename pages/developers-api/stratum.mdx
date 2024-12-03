@@ -324,17 +324,20 @@ This method call will only be executed by the server.
 {
   "id": 1,
   "method": "mining.set_extranonce",
-  "params": ["EXTRANONCE", 32]
+  "params": ["EXTRANONCE", 32, "PUBLIC KEY"]
 }
 ```
 
 - `id` : `int`: request id
 - `method` : `string`: RPC method name
-- `params` : `[ string, int ]`:
+- `params` : `[ string, int, string ]`:
   1. New extra nonce to use (in hex format)
   2. The length of the extra nonce in bytes
+  2. New public key to use (in hex format)
 
-Any subsequent jobs started by a client after receiving this update **MUST** honor the new extranonce and servers will reject any shares below this difficulty.
+Any subsequent jobs started by a client after receiving this update **MUST** honor the new extranonce and public key.
+
+Servers will reject any shares below difficulty.
 
 This **SHOULD** be followed by a `mining.notify` call.
 
