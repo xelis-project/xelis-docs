@@ -333,7 +333,7 @@ This method call will only be executed by the server.
 - `params` : `[ string, int, string ]`:
   1. New extra nonce to use (in hex format)
   2. The length of the extra nonce in bytes
-  2. New public key to use (in hex format)
+  3. New public key to use (in hex format). New public key parameter is optional and mandatory only if changed.
 
 Any subsequent jobs started by a client after receiving this update **MUST** honor the new extranonce and public key.
 
