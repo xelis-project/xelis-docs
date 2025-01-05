@@ -66,7 +66,7 @@ Concatenating both username and password with `:` gives `QWxhZGRpbjpvcGVuIHNlc2F
     Send a POST request to `/json_rpc`.
 
     ```js
-    fetch('http://127.0.0.1:8787/json_rpc', {
+    fetch('http://127.0.0.1:8081/json_rpc', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ Concatenating both username and password with `:` gives `QWxhZGRpbjpvcGVuIHNlc2F
     Connect with prefix `wss://` if you have a SSL/TLS certificate, otherwise use `ws://`.
 
     ```js
-    const ws = new WebSocket('https://127.0.0.1:8787/json_rpc', {
+    const ws = new WebSocket('https://127.0.0.1:8081/json_rpc', {
       headers: {
         'Authorization': 'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=='
       }
