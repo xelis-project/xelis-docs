@@ -1,7 +1,7 @@
 import { Card, Cards } from 'nextra-theme-docs'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
-import { faNewspaper, faCubes, faPager, faChartPie, faSignal, faWallet } from '@fortawesome/free-solid-svg-icons'
+import { faNewspaper, faCubes, faPager, faChartPie, faSignal, faWallet, faMoneyBill } from '@fortawesome/free-solid-svg-icons'
 
 import styles from './network.module.css'
 
@@ -33,5 +33,8 @@ Some useful links to monitor and learn more about the ecosystem.
   </Card>
   <Card title="Paper Wallet" href="https://paperwallet.xelis.io" image icon={<FontAwesomeIcon icon={faWallet} />}>
     <div style={{backgroundImage: `url(/network/paperwallet.webp)`}} className={styles.image} />
+  </Card>
+  <Card title="Fiat Onramp" href="https://onramp.xelis.io" image icon={<FontAwesomeIcon icon={faMoneyBill} />}>
+    <div style={{backgroundImage: `url(/network/fiat_onramp.webp)`}} className={styles.image} />
   </Card>
 </Cards>
