@@ -1,0 +1,350 @@
+---
+title: Silex Lang
+---
+
+## Introduction
+
+**Smart Contracts** can be programmed using our own interpreted language running in a Virtual Machine, allowing safe and secure execution of code on the blockchain.
+
+Smart Contracts are a way to automate the execution of a contract, without the need of a third party.
+They are self-executing contracts with the terms of the agreement directly written into lines of code.
+
+A lot of use cases can be found for Smart Contracts, such as:
+- Decentralized applications (dApps)
+- Tokenization of assets
+- Voting systems
+- Supply chain management
+- etc.
+
+Please note that they are not yet available on the mainnet, but are planned to be released in the future.
+
+You can find the documentation of the [XVM](https://github.com/xelis-project/xelis-vm) below.
+
+## Documentation
+**Silex** is a statically typed programming language powered by XVM (XELIS Virtual Machine) with syntax that should feel familiar to those experienced with modern C-family languages.
+
+**XVM** is a fully customizable VM built from scratch in Rust providing a robust & deterministic sandboxed environment.
+
+This guide aims to describe its major features, from syntax to data structures and control flow, so that you can effectively write contracts in Silex.
+
+## Table of Contents
+- [Silex Language Documentation](#silex-language-documentation)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Lexical Elements](#lexical-elements)
+  - [Data Types](#data-types)
+    - [Primitive Types](#primitive-types)
+    - [Composite Types](#composite-types)
+  - [Variables and Constants](#variables-and-constants)
+    - [Variables](#variables)
+    - [Constants](#constants)
+  - [Expressions](#expressions)
+  - [Operators](#operators)
+  - [Flow Control](#flow-control)
+    - [`if` / `else`](#if--else)
+    - [Loops](#loops)
+      - [`while`](#while)
+      - [`for` (C-style)](#for-c-style)
+      - [`foreach`](#foreach)
+    - [`break` / `continue`](#break--continue)
+    - [`return`](#return)
+  - [Functions](#functions)
+    - [Entry Functions](#entry-functions)
+    - [Hook Functions](#hook-functions)
+    - [Methods on Structs/Enums](#methods-on-structsenums)
+  - [Structs](#structs)
+  - [Enums](#enums)
+  - [Imports](#imports)
+  - [Example Program](#example-program)
+
+## Introduction
+
+Silex code typically consists of:
+- **Constant declarations** (`const`)  
+- **Functions** (`fn`, `entry`, `hook`)  
+- **Struct** and **Enum** definitions  
+- **Imports** for referencing other files  
+- **Statements** (control flow, variable assignments, loops, etc.)
+
+Every Silex contract may optionally define an *entry* function—this serves as the main entry point for external invocations.
+
+## Lexical Elements
+
+1. **Identifiers**:  
+   - Must start with an alphabetic character (`[A-Za-z]`) and can contain letters, digits, or underscores.  
+   - Examples: `myVar`, `Address1`, `_temporary` (although `_temporary` is valid, a single `_` is treated as an ignored placeholder variable).
+
+2. **Keywords**:  
+   Common keywords include `let`, `const`, `fn`, `enum`, `struct`, `entry`, `hook`, `if`, `else`, `while`, `for`, `foreach`, `in`, `break`, `continue`, `return`, etc.
+
+3. **Semicolons**:  
+   Silex has minimal semicolon usage. A newline often denotes the end of a statement, but semicolons may still appear to separate statements if desired. Some syntax forms (like `for` loops) explicitly use semicolons.
+
+4. **Braces & Parentheses**:  
+   - `{ ... }` typically denotes blocks or type constructors.  
+   - `( ... )` encloses function parameters and subexpressions.  
+   - `[ ... ]` encloses array elements or indices.
+
+## Data Types
+
+### Primitive Types
+
+- `u8`, `u16`, `u32`, `u64`, `u128`, `u256`: Unsigned integer types of various bit-widths.
+- `bool`: Boolean type (`true` or `false`).
+- `string`: UTF-8 text type.
+- `null`: Special null value (only valid for optional types).
+
+### Composite Types
+
+- **Arrays**: Denoted by `T[]` where `T` is the element type. Multidimensional arrays become `T[][]`, etc.
+- **Optional**: Denoted by `optional<T>`; can hold a value of type `T` or `null`.
+- **Map**: Denoted by `map<K, V>`; a dictionary from keys `K` to values `V`. The key must not be another `map`.
+- **Range**: Denoted by `range<T>`; a half-open or fully open range from one value to another of type `T` (usually a numeric type).
+- **Struct**: A user-defined record type (see [Structs](#structs)).
+- **Enum**: A user-defined discriminated union type (see [Enums](#enums)).
+
+## Variables and Constants
+
+### Variables
+
+- Declared with `let`.
+- Must specify a type and (usually) an initializer.
+  
+```silex
+let x: u64 = 10
+let greetings: string[] = ["hello", "world"]
+```
+
+- If a type is optional, you can omit the assignment and it will default to `null`:
+
+```silex
+let maybeValue: optional<u64> // defaults to null
+```
+
+- Silex disallows “shadowing” by default if `set_shadowing_variables` is enabled, but can be permitted if that feature is disabled in the parser.
+
+### Constants
+
+- Declared with `const` and must be **uppercase**.
+- Must have a compile-time–resolvable expression:
+
+```silex
+const MAX_SIZE: u64 = 100
+```
+
+- Named `_` is disallowed for constants.
+
+## Expressions
+
+Expressions in Silex include:
+
+- **Literals**: e.g., `42`, `true`, `"hello"`, `null`.
+- **Variable references**: `myVar`.
+- **Array/map constructors**: e.g., `[1, 2, 3]`, `{ key: "value" }`.
+- **Struct/enum constructors**: e.g., `MyStruct { fieldName }` or `MyEnum::VariantName { ... }`.
+- **Operators** (arithmetic, logical, bitwise).
+- **Function calls**: `fnName(arg1, arg2)`.
+- **Member access**: `expr.field` or `expr.methodCall(...)`.
+- **Indexing**: `myArray[2]`.
+- **Casts**: `myVal as u32`.
+- **Ternary**: `cond ? exprIfTrue : exprIfFalse`.
+
+## Operators
+
+1. **Arithmetic**: `+`, `-`, `*`, `/`, `%`, `**` (power).
+2. **Bitwise**: `&`, `|`, `^`, `<<`, `>>`.
+3. **Comparisons**: `==`, `!=`, `<`, `<=`, `>`, `>=`.
+4. **Logical**: `&&`, `||`, `isnot` (unary `isnot expr` flips a boolean).
+5. **Assignment**: `=`, `+=`, `-=`, etc.  
+   For example, `x += 5` is equivalent to `x = x + 5`.
+
+Operator precedence is generally “C-like,” with power (`**`) and unary operators near the top, arithmetic/bitwise in the middle, and logical last.
+
+## Flow Control
+
+### `if` / `else`
+
+```silex
+if condition {
+    // ...
+} else if anotherCondition {
+    // ...
+} else {
+    // ...
+}
+```
+
+### Loops
+
+#### `while`
+
+```silex
+while x < 10 {
+    x += 1
+}
+```
+
+#### `for` (C-style)
+
+```silex
+for i: u64 = 0; i < 10; i += 1 {
+    // use i
+}
+```
+This syntax includes an initializer (`i: u64 = 0`), a condition (`i < 10`), and an increment expression (`i += 1`).
+
+#### `foreach`
+
+```silex
+foreach element in myArray {
+    // element is the array’s element type
+}
+```
+
+### `break` / `continue`
+
+Use `break` to exit a loop immediately, and `continue` to skip to the next iteration.
+
+### `return`
+
+Returns from the current function, optionally with an expression if the function has a return type. If a function declares a return type, its final statement must ultimately return a value.
+
+## Functions
+
+Functions start with `fn`, `entry`, or `hook`. They have a name, an optional list of parameters, and an optional return type. **Entry** and **Hook** functions have special roles in a smart contract context.
+
+```silex
+fn add(a: u64, b: u64) -> u64 {
+    return a + b
+}
+```
+
+### Entry Functions
+
+Marked by `entry`; there can be at most one or a limited number of them in a contract (depending on the environment). Typically, an entry function returns `u64`, though the parser can be configured to allow other types or no return type.
+
+```silex
+entry main() -> u64 {
+    return 0
+}
+```
+
+### Hook Functions
+
+Marked by `hook`; these are special callbacks or event handlers invoked by the system. The environment typically imposes constraints on their name, parameters, and return types:
+
+```silex
+hook onDataReceived(data: u8[]) {
+    // handle data
+}
+```
+
+### Methods on Structs/Enums
+
+A function can be declared as a “method” by specifying `(varName Type)` before the function name:
+
+```silex
+fn (p Person) greet() -> string {
+    return "Hello, " + p.name
+}
+```
+
+This is akin to an instance method in other languages: `p` is the struct instance. You can only declare methods for a type that is locally defined (e.g. a `struct` or `enum` you own).
+
+## Structs
+
+Structs are user-defined composite types with named fields. By convention, struct names start with uppercase letters.
+
+```silex
+struct Person {
+    name: string,
+    age: u64
+}
+```
+
+To instantiate:
+```silex
+let p: Person = Person { name: "Alice", age: 30 }
+```
+If you have a local variable `name` that matches the field name, you can shorthand it as `Person { name }`.
+
+## Enums
+
+Enums represent discriminated unions (sum types). Each variant may have zero or more fields:
+
+```silex
+enum Result {
+    Ok { value: u64 },
+    Err { message: string }
+}
+```
+
+Create an instance:
+```silex
+let res: Result = Result::Ok { value: 123 }
+```
+
+Check a variant with pattern matching in a future extension or by calling environment-defined methods to see which variant is active.
+
+## Imports
+
+Use `import "someFile.slx"` to load external code. The parser enforces certain rules like preventing `..` and absolute paths:
+
+```silex
+import "helpers.slx"
+```
+
+*(Alias syntax or advanced scoping might be added later.)*
+
+## Example Program
+
+Below is a complete (albeit simple) Silex contract that demonstrates constants, variables, loops, a struct, an enum, and an entry function.
+
+```silex
+const MAX_COUNT: u64 = 5
+
+struct Accumulator {
+    sum: u64
+}
+
+enum Operation {
+    Add { value: u64 },
+    Reset
+}
+
+fn (acc Accumulator) doOperation(op: Operation) -> Accumulator {
+    match op {
+        Operation::Add { value } => {
+            // If pattern matching is not directly supported yet,
+            // we can parse the fields in future expansions.
+            Accumulator { sum: acc.sum + value }
+        },
+        Operation::Reset => Accumulator { sum: 0 }
+    }
+}
+
+entry main() -> u64 {
+    // Create an instance of Accumulator
+    let acc: Accumulator = Accumulator { sum: 0 }
+
+    // Perform operations
+    let updated: Accumulator = acc.doOperation(Operation::Add { value: 10 })
+    let resetAcc: Accumulator = updated.doOperation(Operation::Reset)
+
+    // Use a for-loop up to MAX_COUNT
+    let mut result: u64 = 0
+    for i: u64 = 0; i < MAX_COUNT; i += 1 {
+        result += i
+    }
+
+    // Return the final result
+    return result + resetAcc.sum
+}
+```
+
+**Explanation**:
+- We declare a constant `MAX_COUNT`.
+- We define a `struct Accumulator` with a single field, `sum`.
+- We define an `enum Operation` with two variants: `Add` and `Reset`.
+- We create a method `doOperation` on `Accumulator` that takes an `Operation` and returns a new `Accumulator`.
+- The `entry main` function is the main entry point, returning a `u64`.

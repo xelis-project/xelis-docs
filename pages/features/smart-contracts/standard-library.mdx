@@ -1,0 +1,1221 @@
+---
+title: Silex Standard Library
+---
+
+## Silex Standard Library (Built-in Functions)
+
+This document describes the built-in functions available in Silex. These functions are automatically available in your Silex code and can be invoked on the appropriate types (Arrays, Strings, Maps, etc.) or as static functions (e.g., `Block::current()`).
+
+Please note:
+
+- **Gas Cost**: Each function consumes a certain amount of gas when invoked. The gas cost is indicated below next to each function.  
+- **optional Return**: Some functions return an `optional<T>`. You can check if it is `None` via `.is_none()` or use `.unwrap()` / `.unwrap_or(...)` to extract the value.  
+- **Type Parameters**: Some functions use a type variable `T(0)`, `T(1)` (like in arrays or maps) simply meaning "whatever element type" your array or map uses.  
+
+---
+
+## Table of Contents
+
+- [1. Global Utility Functions](#1-global-utility-functions)
+  - [println](#println)
+  - [debug](#debug)
+  - [panic](#panic)
+  - [assert](#assert)
+  - [is_same_ptr](#is_same_ptr)
+
+- [2. Array Functions](#2-array-functions)
+  - [len (array)](#len-array)
+  - [push](#push)
+  - [remove](#remove)
+  - [pop](#pop)
+  - [slice](#slice)
+  - [contains (array)](#contains-array)
+  - [get (array)](#get-array)
+  - [first](#first)
+  - [last](#last)
+
+- [3. optional Functions](#3-optional-functions)
+  - [is_none](#is_none)
+  - [is_some](#is_some)
+  - [unwrap](#unwrap)
+  - [unwrap_or](#unwrap_or)
+
+- [4. Map Functions](#4-map-functions)
+  - [len (map)](#len-map)
+  - [contains_key](#contains_key)
+  - [get (map)](#get-map)
+  - [insert](#insert)
+  - [remove (map)](#remove-map)
+  - [clear](#clear)
+  - [keys](#keys)
+  - [values](#values)
+
+- [5. String Functions](#5-string-functions)
+  - [len (string)](#len-string)
+  - [trim](#trim)
+  - [contains (string)](#contains-string)
+  - [contains_ignore_case](#contains_ignore_case)
+  - [to_uppercase](#to_uppercase)
+  - [to_lowercase](#to_lowercase)
+  - [to_bytes (string)](#to_bytes-string)
+  - [index_of](#index_of)
+  - [last_index_of](#last_index_of)
+  - [replace](#replace)
+  - [starts_with](#starts_with)
+  - [ends_with](#ends_with)
+  - [split](#split)
+  - [char_at](#char_at)
+  - [is_empty](#is_empty)
+  - [matches](#matches)
+  - [substring (1 param)](#substring-1-param)
+  - [substring (2 params)](#substring-2-params)
+
+- [6. Range Functions](#6-range-functions)
+  - [contains (range)](#contains-range)
+  - [collect](#collect)
+  - [max (range)](#max-range)
+  - [min (range)](#min-range)
+  - [count](#count)
+
+- [7. Integer Functions & Constants](#7-integer-functions--constants)
+  - [Overflowing Arithmetic](#overflowing-arithmetic)
+  - [MIN, MAX constants](#min-max-constants)
+  - [to_be_bytes / to_le_bytes](#to_be_bytes--to_le_bytes)
+
+- [8. Transaction (Opaque) Functions](#8-transaction-opaque-functions)
+  - [Transaction::current()](#transactioncurrent)
+  - [nonce (transaction)](#nonce-transaction)
+  - [hash (transaction)](#hash-transaction)
+  - [source](#source)
+  - [fee](#fee)
+  - [signature (transaction)](#signature-transaction)
+
+- [9. Block (Opaque) Functions](#9-block-opaque-functions)
+  - [Block::current()](#blockcurrent)
+  - [nonce (block)](#nonce-block)
+  - [timestamp](#timestamp)
+  - [height](#height)
+  - [extra_nonce](#extra_nonce)
+  - [hash (block)](#hash-block)
+  - [miner](#miner)
+  - [version](#version)
+  - [tips](#tips)
+  - [transactions_hashes](#transactions_hashes)
+  - [transactions](#transactions)
+  - [transactions_count](#transactions_count)
+
+- [10. Storage (Opaque) Functions](#10-storage-opaque-functions)
+  - [Storage::new()](#storagenew)
+  - [load (storage)](#load-storage)
+  - [has (storage)](#has-storage)
+  - [store (storage)](#store-storage)
+  - [delete (storage)](#delete-storage)
+
+- [11. ReadOnlyStorage (Opaque) Functions](#11-readonlystorage-opaque-functions)
+  - [ReadOnlyStorage::new(contract_hash)](#readonlystoragenewcontract_hash)
+  - [load (read-only)](#load-read-only)
+  - [has (read-only)](#has-read-only)
+
+- [12. MemoryStorage (Opaque) Functions](#12-memorystorage-opaque-functions)
+  - [MemoryStorage::new()](#memorystoragenew)
+  - [load (memory-storage)](#load-memory-storage)
+  - [has (memory-storage)](#has-memory-storage)
+  - [store (memory-storage)](#store-memory-storage)
+  - [delete (memory-storage)](#delete-memory-storage)
+
+- [13. Address (Opaque) Functions](#13-address-opaque-functions)
+  - [is_mainnet](#is_mainnet)
+  - [is_normal](#is_normal)
+  - [to_public_key_bytes](#to_public_key_bytes)
+  - [Address::from_string()](#addressfrom_string)
+
+- [14. Hash (Opaque) Functions](#14-hash-opaque-functions)
+  - [to_bytes (hash)](#to_bytes-hash)
+  - [to_array](#to_array)
+  - [to_u256](#to_u256)
+  - [to_hex](#to_hex)
+  - [Hash::from_bytes](#hashfrom_bytes)
+  - [Hash::from_array](#hashfrom_array)
+  - [Hash::from_u256](#hashfrom_u256)
+  - [Hash::from_hex](#hashfrom_hex)
+  - [Hash::blake3](#hashblake3)
+  - [Hash::sha256](#hashsha256)
+  - [Hash::zero](#hashzero)
+  - [Hash::max](#hashmax)
+
+- [15. Random (Opaque) Functions](#15-random-opaque-functions)
+  - [Random::new()](#randomnew)
+  - [next_u8 / next_u16 / next_u32 / next_u64 / next_u128 / next_u256](#next_u8--next_u16--next_u32--next_u64--next_u128--next_u256)
+  - [next_bool](#next_bool)
+
+- [16. Signature (Opaque) Functions](#16-signature-opaque-functions)
+  - [verify](#verify)
+  - [Signature::from_bytes](#signaturefrom_bytes)
+
+- [17. Asset (Opaque) Functions](#17-asset-opaque-functions)
+  - [Asset::get_by_id](#assetget_by_id)
+  - [Asset::create](#assetcreate)
+  - [Asset::get_by_hash](#assetget_by_hash)
+  - [get_max_supply](#get_max_supply)
+  - [get_supply](#get_supply)
+  - [get_name](#get_name)
+  - [get_ticker](#get_ticker)
+  - [get_hash](#get_hash)
+  - [mint](#mint)
+  - [is_read_only](#is_read_only)
+  - [get_contract_hash (asset)](#get_contract_hash-asset)
+  - [get_id](#get_id)
+  - [transfer_ownership](#transfer_ownership)
+
+- [18. Misc. Built-ins (No Specific Opaque)](#18-misc-built-ins-no-specific-opaque)
+  - [get_contract_hash()](#get_contract_hash)
+  - [get_deposit_for_asset()](#get_deposit_for_asset)
+  - [get_balance_for_asset()](#get_balance_for_asset)
+  - [transfer()](#transfer)
+  - [burn()](#burn)
+  - [fire_event()](#fire_event)
+
+---
+
+## 1. Global Utility Functions
+
+### println
+**Signature**:  
+```silex
+println(value: Any)
+```
+**Return**: `None`  
+**Gas Cost**: 1  
+**Description**: Prints a string representation of `value` (only effective if in debug mode).  
+
+### debug
+**Signature**:  
+```silex
+debug(value: Any)
+```
+**Return**: `None`  
+**Gas Cost**: 1  
+**Description**: Prints a debug-style (developer-friendly) representation of `value` (only effective if in debug mode).  
+
+### panic
+**Signature**:  
+```silex
+panic(value: Any) -> Any
+```
+**Gas Cost**: 1  
+**Description**: Aborts execution with the provided `value` as a message. It never returns normally.  
+
+### assert
+**Signature**:  
+```silex
+assert(value: bool)
+```
+**Return**: `None`  
+**Gas Cost**: 1  
+**Description**: If `value` is `false`, execution aborts with an assertion error.  
+
+### is_same_ptr
+**Signature**:  
+```silex
+is_same_ptr(value1: Any, value2: Any) -> bool
+```
+**Gas Cost**: 5  
+**Description**: Checks if `value1` and `value2` refer to the exact same internal pointer (used to see if two values are the same reference).  
+
+---
+
+## 2. Array Functions
+
+Each of these functions is invoked as a method on an array. Let the array be of type `[T]`.
+
+### len (array)
+**Signature**:  
+```silex
+arr.len() -> u32
+```
+**Gas Cost**: 1  
+**Description**: Returns the number of elements in the array.  
+
+### push
+**Signature**:  
+```silex
+arr.push(value: T)
+```
+**Return**: `None`  
+**Gas Cost**: 2  
+**Description**: Appends `value` to the end of the array.  
+
+### remove
+**Signature**:  
+```silex
+arr.remove(index: u32) -> T
+```
+**Gas Cost**: 5  
+**Description**: Removes and returns the element at the specified `index`, shifting subsequent elements to the left.  
+Throws an "OutOfBounds" error if `index` is invalid.
+
+### pop
+**Signature**:  
+```silex
+arr.pop() -> optional<T>
+```
+**Gas Cost**: 1  
+**Description**: Removes and returns the last element of the array if it exists. Returns `null` if the array is empty.  
+
+### slice
+**Signature**:  
+```silex
+arr.slice(range: Range<u32>) -> [T]
+```
+**Gas Cost**: 5  
+**Description**: Returns a new array containing the elements in the given inclusive range `[start, end)`.  
+Throws an "InvalidRange" error if the range is out of bounds.
+
+### contains (array)
+**Signature**:  
+```silex
+arr.contains(value: T) -> bool
+```
+**Gas Cost**: 10  
+**Description**: Returns true if `value` is an element of `arr`.  
+
+### get (array)
+**Signature**:  
+```silex
+arr.get(index: u32) -> optional<T>
+```
+**Gas Cost**: 1  
+**Description**: Returns the element at `index` wrapped in `Some(...)`, or `None` if out of bounds.  
+
+### first
+**Signature**:  
+```silex
+arr.first() -> optional<T>
+```
+**Gas Cost**: 1  
+**Description**: Returns the first element of `arr` as `Some(...)`, or `None` if empty.  
+
+### last
+**Signature**:  
+```silex
+arr.last() -> optional<T>
+```
+**Gas Cost**: 1  
+**Description**: Returns the last element of `arr` as `Some(...)`, or `None` if empty.  
+
+---
+
+## 3. optional Functions
+
+These are invoked as methods on an optional value, e.g. `my_opt.is_none()`.
+
+### is_none
+**Signature**:  
+```silex
+opt.is_none() -> bool
+```
+**Gas Cost**: 1  
+**Description**: Returns true if `opt` is `None`.  
+
+### is_some
+**Signature**:  
+```silex
+opt.is_some() -> bool
+```
+**Gas Cost**: 1  
+**Description**: Returns true if `opt` contains a value.  
+
+### unwrap
+**Signature**:  
+```silex
+opt.unwrap() -> T
+```
+**Gas Cost**: 1  
+**Description**: Returns the underlying value if `opt` is `Some(...)`, otherwise throws an error if `None`.  
+
+### unwrap_or
+**Signature**:  
+```silex
+opt.unwrap_or(default_value: T) -> T
+```
+**Gas Cost**: 1  
+**Description**: Returns the underlying value if `opt` is `Some(...)`, otherwise returns `default_value`.  
+
+---
+
+## 4. Map Functions
+
+Let `map` be of type `Map<K, V>`.
+
+### len (map)
+**Signature**:  
+```silex
+map.len() -> u32
+```
+**Gas Cost**: 1  
+**Description**: Returns the number of key-value pairs in `map`.  
+
+### contains_key
+**Signature**:  
+```silex
+map.contains_key(key: K) -> bool
+```
+**Gas Cost**: 15  
+**Description**: Checks if the given `key` exists in `map`.  
+
+### get (map)
+**Signature**:  
+```silex
+map.get(key: K) -> optional<V>
+```
+**Gas Cost**: 15  
+**Description**: Returns the value corresponding to `key` as `Some(...)`, or `None` if not present.  
+
+### insert
+**Signature**:  
+```silex
+map.insert(key: K, value: V) -> optional<V>
+```
+**Gas Cost**: 30  
+**Description**: Inserts or updates the key-value pair. If the key was already present, returns the old value as `Some(...)`; otherwise returns `None`.  
+
+### remove (map)
+**Signature**:  
+```silex
+map.remove(key: K) -> optional<V>
+```
+**Gas Cost**: 15  
+**Description**: Removes the key-value pair and returns the old value as `Some(...)`, or `None` if the key was not present.  
+
+### clear
+**Signature**:  
+```silex
+map.clear()
+```
+**Return**: `None`  
+**Gas Cost**: 5  
+**Description**: Removes all key-value pairs from `map`.  
+
+### keys
+**Signature**:  
+```silex
+map.keys() -> [K]
+```
+**Gas Cost**: 20  
+**Description**: Returns an array of all keys in `map`.  
+
+### values
+**Signature**:  
+```silex
+map.values() -> [V]
+```
+**Gas Cost**: 20  
+**Description**: Returns an array of all values in `map`.  
+
+---
+
+## 5. String Functions
+
+All are invoked on a string variable, e.g. `my_string.len()`.
+
+### len (string)
+**Signature**:  
+```silex
+str.len() -> u32
+```
+**Gas Cost**: 1  
+**Description**: Returns the length of the string in bytes (UTF-8 length).  
+
+### trim
+**Signature**:  
+```silex
+str.trim() -> String
+```
+**Gas Cost**: 1  
+**Description**: Returns a new string with leading and trailing whitespace removed.  
+
+### contains (string)
+**Signature**:  
+```silex
+str.contains(value: String) -> bool
+```
+**Gas Cost**: 1  
+**Description**: Checks if `value` is a substring of `str`.  
+
+### contains_ignore_case
+**Signature**:  
+```silex
+str.contains_ignore_case(value: String) -> bool
+```
+**Gas Cost**: 1  
+**Description**: Case-insensitive version of `contains`.  
+
+### to_uppercase
+**Signature**:  
+```silex
+str.to_uppercase() -> String
+```
+**Gas Cost**: 1  
+**Description**: Returns `str` converted to uppercase.  
+
+### to_lowercase
+**Signature**:  
+```silex
+str.to_lowercase() -> String
+```
+**Gas Cost**: 1  
+**Description**: Returns `str` converted to lowercase.  
+
+### to_bytes (string)
+**Signature**:  
+```silex
+str.to_bytes() -> [u8]
+```
+**Gas Cost**: 5  
+**Description**: Converts `str` into an array of its UTF-8 bytes.  
+
+### index_of
+**Signature**:  
+```silex
+str.index_of(value: String) -> optional<u32>
+```
+**Gas Cost**: 3  
+**Description**: Finds the first index of `value` in `str`. Returns `Some(index)` if found, else `None`.  
+
+### last_index_of
+**Signature**:  
+```silex
+str.last_index_of(value: String) -> optional<u32>
+```
+**Gas Cost**: 3  
+**Description**: Finds the last index of `value` in `str`. Returns `Some(index)` if found, else `None`.  
+
+### replace
+**Signature**:  
+```silex
+str.replace(from: String, to: String) -> String
+```
+**Gas Cost**: 5  
+**Description**: Returns a copy of `str` with all occurrences of `from` replaced by `to`.  
+
+### starts_with
+**Signature**:  
+```silex
+str.starts_with(value: String) -> bool
+```
+**Gas Cost**: 3  
+**Description**: Returns true if `str` begins with `value`.  
+
+### ends_with
+**Signature**:  
+```silex
+str.ends_with(value: String) -> bool
+```
+**Gas Cost**: 3  
+**Description**: Returns true if `str` ends with `value`.  
+
+### split
+**Signature**:  
+```silex
+str.split(at: String) -> [String]
+```
+**Gas Cost**: 5  
+**Description**: Splits `str` by the separator `at` and returns an array of substrings.  
+
+### char_at
+**Signature**:  
+```silex
+str.char_at(index: u32) -> optional<String>
+```
+**Gas Cost**: 1  
+**Description**: Returns the character (as a 1-char string) at position `index`, or `None` if out of range.  
+
+### is_empty
+**Signature**:  
+```silex
+str.is_empty() -> bool
+```
+**Gas Cost**: 1  
+**Description**: Returns true if the string is empty.  
+
+### matches
+**Signature**:  
+```silex
+str.matches(pattern: String) -> [String]
+```
+**Gas Cost**: 50  
+**Description**: Returns all non-overlapping matches of `pattern` within `str` as an array of strings.  
+
+### substring (1 param)
+**Signature**:  
+```silex
+str.substring(start: u32) -> optional<String>
+```
+**Gas Cost**: 3  
+**Description**: Returns the substring from `start` index to the end of the string, or `None` if `start` is out of range.  
+
+### substring (2 params)
+**Signature**:  
+```silex
+str.substring(start: u32, end: u32) -> optional<String>
+```
+**Gas Cost**: 3  
+**Description**: Returns the substring from `start` (inclusive) up to `end` (exclusive). Returns `None` if out of range.  
+
+---
+
+## 6. Range Functions
+
+Silex supports a range type `Range<T>` (e.g. `Range<u32>`). These functions are methods on such range variables.
+
+### contains (range)
+**Signature**:  
+```silex
+range.contains(value: T) -> bool
+```
+**Gas Cost**: 5  
+**Description**: Checks if `value` is within `range`.  
+
+### collect
+**Signature**:  
+```silex
+range.collect() -> [T]
+```
+**Gas Cost**: 20 (plus additional usage proportional to the size of the range)  
+**Description**: Creates an array of all values in the `[start, end)` range.  
+
+### max (range)
+**Signature**:  
+```silex
+range.max() -> T
+```
+**Gas Cost**: 1  
+**Description**: Returns the `end` value of the range.  
+
+### min (range)
+**Signature**:  
+```silex
+range.min() -> T
+```
+**Gas Cost**: 1  
+**Description**: Returns the `start` value of the range.  
+
+### count
+**Signature**:  
+```silex
+range.count() -> T
+```
+**Gas Cost**: 5  
+**Description**: Returns the number of elements in `[start, end)` as `T`.  
+
+---
+
+## 7. Integer Functions & Constants
+
+### Overflowing Arithmetic
+For each unsigned integer type (`u8`, `u16`, `u32`, `u64`, `u128`, `u256`), the following methods exist:
+
+- `overflowing_add(other: T) -> optional<T>`
+- `overflowing_sub(other: T) -> optional<T>`
+- `overflowing_mul(other: T) -> optional<T>`
+- `overflowing_div(other: T) -> optional<T>`
+- `overflowing_rem(other: T) -> optional<T>`
+
+**Gas Cost**: 2 (for each operation)  
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `None`, otherwise returns the result in `Some(...)`. Example usage:  
+```silex
+let x: u32 = 4000000000;
+let y: u32 = 4000000000;
+let result = x.overflowing_add(y); // returns None on overflow
+```
+
+### MIN, MAX constants
+For each of the unsigned integer types, the built-in constants `MIN` and `MAX` are available. You can reference them as `u8::MIN`, `u8::MAX`, `u16::MIN`, etc.  
+Example:
+```silex
+let min_u32 = u32::MIN; // 0
+let max_u32 = u32::MAX; // 4294967295
+```
+
+### to_be_bytes / to_le_bytes
+For each of `u16`, `u32`, `u64`, `u128`, `u256`, you have:
+- `value.to_be_bytes() -> optional<[u8]>`
+- `value.to_le_bytes() -> optional<[u8]>`
+
+**Gas Cost**: 15  
+**Description**: Converts the integer into a big-endian or little-endian byte array. Returns `Some([...])`. (It is declared as returning `optional`, but should practically always return `Some(...)`, never `None`.)
+
+---
+
+## 8. Transaction (Opaque) Functions
+
+Use these via the `Transaction` opaque type:
+
+### Transaction::current()
+**Signature**:
+```silex
+Transaction::current() -> Transaction
+```
+**Gas Cost**: 5  
+**Description**: Returns the current transaction object in which the smart contract is running.  
+
+Once you have a `Transaction` value (say `let tx = Transaction::current();`), you can call:
+
+### nonce (transaction)
+```silex
+tx.nonce() -> u64
+```
+**Gas Cost**: 5  
+**Description**: Returns the `nonce` field of the current transaction.  
+
+### hash (transaction)
+```silex
+tx.hash() -> Hash
+```
+**Gas Cost**: 5  
+**Description**: Returns the cryptographic hash of the transaction.  
+
+### source
+```silex
+tx.source() -> Address
+```
+**Gas Cost**: 5  
+**Description**: Returns the `Address` that originated the transaction.  
+
+### fee
+```silex
+tx.fee() -> u64
+```
+**Gas Cost**: 5  
+**Description**: Returns the transaction’s fee.  
+
+### signature (transaction)
+```silex
+tx.signature() -> Signature
+```
+**Gas Cost**: 5  
+**Description**: Returns the signature object of the transaction.  
+
+---
+
+## 9. Block (Opaque) Functions
+
+Use these via the `Block` opaque type:
+
+### Block::current()
+```silex
+Block::current() -> Block
+```
+**Gas Cost**: 5  
+**Description**: Returns the current block object in which the contract is executing.  
+
+After obtaining a `Block` (e.g., `let blk = Block::current();`), you can call:
+
+### nonce (block)
+```silex
+blk.nonce() -> u64
+```
+**Gas Cost**: 5  
+**Description**: Returns the block's nonce.  
+
+### timestamp
+```silex
+blk.timestamp() -> u64
+```
+**Gas Cost**: 5  
+**Description**: Returns the block's timestamp.  
+
+### height
+```silex
+blk.height() -> u64
+```
+**Gas Cost**: 5  
+**Description**: Returns the chain height at this block.  
+
+### extra_nonce
+```silex
+blk.extra_nonce() -> [u8]
+```
+**Gas Cost**: 5  
+**Description**: Returns the block's extra nonce field as a byte array.  
+
+### hash (block)
+```silex
+blk.hash() -> Hash
+```
+**Gas Cost**: 5  
+**Description**: Returns this block's hash.  
+
+### miner
+```silex
+blk.miner() -> Address
+```
+**Gas Cost**: 5  
+**Description**: Returns the miner's address for the block.  
+
+### version
+```silex
+blk.version() -> u8
+```
+**Gas Cost**: 5  
+**Description**: Returns the version number of the block.  
+
+### tips
+```silex
+blk.tips() -> [Hash]
+```
+**Gas Cost**: 5  
+**Description**: Returns an array of hash references this block depends on (the block tips).  
+
+### transactions_hashes
+```silex
+blk.transactions_hashes() -> [Hash]
+```
+**Gas Cost**: 50  
+**Description**: Returns an array of all transaction hashes included in this block.  
+
+### transactions
+```silex
+blk.transactions() -> [Transaction]
+```
+**Gas Cost**: 250  
+**Description**: Returns an array of all Transaction objects in this block.  
+
+### transactions_count
+```silex
+blk.transactions_count() -> u32
+```
+**Gas Cost**: 1  
+**Description**: Returns how many transactions are in this block.  
+
+---
+
+## 10. Storage (Opaque) Functions
+
+### Storage::new()
+```silex
+Storage::new() -> Storage
+```
+**Gas Cost**: 5  
+**Description**: Creates a `Storage` object referring to this contract’s persistent storage. Typically you just use this once.  
+
+When you have a `Storage`, you can call:
+
+### load (storage)
+```silex
+storage.load(key: Any) -> optional<Any>
+```
+**Gas Cost**: 50  
+**Description**: Loads the stored value for `key`, returning `Some(value)` or `None` if not found.  
+
+### has (storage)
+```silex
+storage.has(key: Any) -> bool
+```
+**Gas Cost**: 25  
+**Description**: Returns true if a value for `key` exists.  
+
+### store (storage)
+```silex
+storage.store(key: Any, value: Any) -> optional<Any>
+```
+**Gas Cost**: 50  
+**Description**: Stores `value` for `key`, returning the old value in `Some(...)` if one existed, otherwise `None`.  
+
+### delete (storage)
+```silex
+storage.delete(key: Any) -> optional<Any>
+```
+**Gas Cost**: 50  
+**Description**: Removes the `key` from storage, returning the old value if present.  
+
+---
+
+## 11. ReadOnlyStorage (Opaque) Functions
+
+### ReadOnlyStorage::new(contract_hash)
+```silex
+ReadOnlyStorage::new(contract: Hash) -> optional<ReadOnlyStorage>
+```
+**Gas Cost**: 15  
+**Description**: Returns a read-only view of another contract's storage if it exists, else `None`.  
+
+When you have a `ReadOnlyStorage`, you can call:
+
+### load (read-only)
+```silex
+readonly_storage.load(key: Any) -> optional<Any>
+```
+**Gas Cost**: 50  
+**Description**: Reads the value for `key` in that contract's storage, or `None` if not found.  
+
+### has (read-only)
+```silex
+readonly_storage.has(key: Any) -> bool
+```
+**Gas Cost**: 25  
+**Description**: Returns true if a value for `key` exists in that contract's read-only storage.  
+
+---
+
+## 12. MemoryStorage (Opaque) Functions
+
+### MemoryStorage::new()
+```silex
+MemoryStorage::new() -> MemoryStorage
+```
+**Gas Cost**: 5  
+**Description**: Creates a temporary in-memory storage (non-persistent).  
+
+For a `MemoryStorage`, you can call:
+
+### load (memory-storage)
+```silex
+mem.load(key: Any) -> optional<Any>
+```
+**Gas Cost**: 50  
+**Description**: Loads a value for `key` from an in-memory map.  
+
+### has (memory-storage)
+```silex
+mem.has(key: Any) -> bool
+```
+**Gas Cost**: 25  
+**Description**: Returns true if `key` is in the in-memory storage.  
+
+### store (memory-storage)
+```silex
+mem.store(key: Any, value: Any) -> optional<Any>
+```
+**Gas Cost**: 50  
+**Description**: Stores `value` in the in-memory map, returning any old value.  
+
+### delete (memory-storage)
+```silex
+mem.delete(key: Any) -> optional<Any>
+```
+**Gas Cost**: 50  
+**Description**: Removes `key`, returning any old value.  
+
+---
+
+## 13. Address (Opaque) Functions
+
+### is_mainnet
+```silex
+addr.is_mainnet() -> bool
+```
+**Gas Cost**: 5  
+**Description**: Returns true if the address is a mainnet address.  
+
+### is_normal
+```silex
+addr.is_normal() -> bool
+```
+**Gas Cost**: 5  
+**Description**: Returns true if the address is a "normal" type (not integrated, subaddress, etc.).  
+
+### to_public_key_bytes
+```silex
+addr.to_public_key_bytes() -> Bytes
+```
+**Gas Cost**: 10  
+**Description**: Extracts the public key (32 bytes) as a `Bytes` object.  
+
+### Address::from_string
+```silex
+Address::from_string(address_str: String) -> Address
+```
+**Gas Cost**: 75  
+**Description**: Constructs an `Address` from the given string representation.  
+
+---
+
+## 14. Hash (Opaque) Functions
+
+### to_bytes (hash)
+```silex
+hash_value.to_bytes() -> Bytes
+```
+**Gas Cost**: 5  
+**Description**: Converts the `Hash` to a 32-byte `Bytes`.  
+
+### to_array
+```silex
+hash_value.to_array() -> [u8]
+```
+**Gas Cost**: 5  
+**Description**: Converts the `Hash` to an array of 32 `u8`s.  
+
+### to_u256
+```silex
+hash_value.to_u256() -> u256
+```
+**Gas Cost**: 5  
+**Description**: Interprets the Hash as a `u256`.  
+
+### to_hex
+```silex
+hash_value.to_hex() -> String
+```
+**Gas Cost**: 20  
+**Description**: Returns a hex-encoded string of the hash.  
+
+### Hash::from_bytes
+```silex
+Hash::from_bytes(bytes: Bytes) -> Hash
+```
+**Gas Cost**: 75  
+**Description**: Constructs a `Hash` from a 32-byte `Bytes`.  
+
+### Hash::from_array
+```silex
+Hash::from_array(bytes: [u8]) -> Hash
+```
+**Gas Cost**: 75  
+**Description**: Constructs a `Hash` from an array of 32 `u8`s. Returns `None` if length is invalid (the actual code returns `optional<Hash>` in some forms).  
+
+### Hash::from_u256
+```silex
+Hash::from_u256(value: u256) -> Hash
+```
+**Gas Cost**: 75  
+**Description**: Constructs a 32-byte `Hash` from a `u256`.  
+
+### Hash::from_hex
+```silex
+Hash::from_hex(hex: String) -> Hash
+```
+**Gas Cost**: 75  
+**Description**: Parses a hex string into a 32-byte hash.  
+
+### Hash::blake3
+```silex
+Hash::blake3(input: [u8]) -> Hash
+```
+**Gas Cost**: 3000  
+**Description**: Computes the BLAKE3 hash of `input`.  
+
+### Hash::sha256
+```silex
+Hash::sha256(input: [u8]) -> Hash
+```
+**Gas Cost**: 7500  
+**Description**: Computes the SHA-256 hash of `input`.  
+
+### Hash::zero
+```silex
+Hash::zero() -> Hash
+```
+**Gas Cost**: 1  
+**Description**: Returns the zeroed 32-byte hash.  
+
+### Hash::max
+```silex
+Hash::max() -> Hash
+```
+**Gas Cost**: 1  
+**Description**: Returns a hash of all 0xFF bytes (the "maximum" possible hash).  
+
+---
+
+## 15. Random (Opaque) Functions
+
+### Random::new()
+```silex
+Random::new() -> Random
+```
+**Gas Cost**: 5  
+**Description**: Creates a deterministic random generator object (seeded by the execution context).  
+
+The following methods can be called on a `Random` object:
+
+### next_u8 / next_u16 / next_u32 / next_u64 / next_u128 / next_u256
+```silex
+rng.next_u8()    -> u8
+rng.next_u16()   -> u16
+rng.next_u32()   -> u32
+rng.next_u64()   -> u64
+rng.next_u128()  -> u128
+rng.next_u256()  -> u256
+```
+**Gas Cost**: 5 each  
+**Description**: Generates the next random number of the given width.  
+
+### next_bool
+```silex
+rng.next_bool() -> bool
+```
+**Gas Cost**: 5  
+**Description**: Generates a random boolean.  
+
+---
+
+## 16. Signature (Opaque) Functions
+
+### verify
+**Signature**:
+```silex
+sig.verify(data: [u8], address: Address) -> bool
+```
+**Gas Cost**: 500  
+**Description**: Verifies that the signature `sig` is valid for the byte array `data` signed by `address`. Returns `true` if valid, false if invalid.  
+
+### Signature::from_bytes
+```silex
+Signature::from_bytes(bytes: [u8]) -> Signature
+```
+**Gas Cost**: 75  
+**Description**: Creates a `Signature` from a byte array (usually 64 bytes).  
+
+---
+
+## 17. Asset (Opaque) Functions
+
+### Asset::get_by_id
+```silex
+Asset::get_by_id(id: u64) -> optional<Asset>
+```
+**Gas Cost**: 1000  
+**Description**: Looks up the asset by a numeric ID. Returns `Some(asset)` if found, otherwise `None`.  
+
+### Asset::create
+```silex
+Asset::create(
+    id: u64,
+    name: String,
+    ticker: String,
+    decimals: u8,
+    max_supply: optional<u64>
+) -> optional<Asset>
+```
+**Gas Cost**: 2500, with an additionnal 1 XEL of burned gas
+**Description**: Creates a new asset with the given parameters. `max_supply` can be `None` if unlimited. Returns `Some(asset)` if creation is successful, else `None`.  
+
+### Asset::get_by_hash
+```silex
+Asset::get_by_hash(hash: Hash) -> optional<Asset>
+```
+**Gas Cost**: 500  
+**Description**: Looks up the asset by its `Hash`. Returns `Some(asset)` if found, else `None`.  
+
+Once you have an `Asset`, you can call:
+
+### get_max_supply
+```silex
+asset.get_max_supply() -> optional<u64>
+```
+**Gas Cost**: 5  
+**Description**: Returns `Some(max_supply)` or `None` if the asset has no maximum.  
+
+### get_supply
+```silex
+asset.get_supply() -> u64
+```
+**Gas Cost**: 15  
+**Description**: Returns the current supply of the asset.  
+
+### get_name
+```silex
+asset.get_name() -> String
+```
+**Gas Cost**: 5  
+**Description**: Returns the asset's full name (human-readable).  
+
+### get_ticker
+```silex
+asset.get_ticker() -> String
+```
+**Gas Cost**: 5  
+**Description**: Returns the asset's short ticker symbol.  
+
+### get_hash
+```silex
+asset.get_hash() -> Hash
+```
+**Gas Cost**: 5  
+**Description**: Returns the unique `Hash` representing this asset.  
+
+### mint
+```silex
+asset.mint(amount: u64) -> bool
+```
+**Gas Cost**: 500  
+**Description**: Increases the asset’s supply by `amount`, if allowed. Returns `true` if successful.  
+
+### is_read_only
+```silex
+asset.is_read_only() -> bool
+```
+**Gas Cost**: 5  
+**Description**: Returns `true` if the asset is viewed in a context that does not allow modifying it.  
+
+### get_contract_hash (asset)
+```silex
+asset.get_contract_hash() -> optional<Hash>
+```
+**Gas Cost**: 5  
+**Description**: If the asset is contract-scoped, returns the owning contract hash, else `None`.  
+
+### get_id
+```silex
+asset.get_id() -> optional<u64>
+```
+**Gas Cost**: 5  
+**Description**: If the asset is numeric-based, returns the numeric ID in `Some(...)`, else `None`.  
+
+### transfer_ownership
+```silex
+asset.transfer_ownership() -> bool
+```
+**Gas Cost**: 250  
+**Description**: If the asset is owned by the current contract, transfers ownership to another context (implementation details vary).  
+
+---
+
+## 18. Misc. Built-ins (No Specific Opaque)
+
+### get_contract_hash()
+**Signature**:
+```silex
+get_contract_hash() -> Hash
+```
+**Gas Cost**: 5  
+**Description**: Returns the hash of the contract that is currently executing.  
+
+### get_deposit_for_asset()
+```silex
+get_deposit_for_asset(asset: Hash) -> optional<u64>
+```
+**Gas Cost**: 5  
+**Description**: Returns how much of `asset` has been deposited with the current contract call.  
+
+### get_balance_for_asset()
+```silex
+get_balance_for_asset(asset: Hash) -> u64
+```
+**Gas Cost**: 25  
+**Description**: Returns the contract’s current balance of `asset`.  
+
+### transfer()
+```silex
+transfer(destination: Address, amount: u64, asset: Hash) -> bool
+```
+**Gas Cost**: 500  
+**Description**: Moves `amount` of `asset` out of the contract to `destination`. Returns `true` if successful, `false` otherwise.  
+
+### burn()
+```silex
+burn(amount: u64, asset: Hash) -> bool
+```
+**Gas Cost**: 500  
+**Description**: Permanently removes `amount` of `asset` from the contract’s balance, effectively destroying it. Returns `true` if successful.  
+
+### fire_event()
+```silex
+fire_event(id: u64, data: Any)
+```
+**Gas Cost**: 250 + an additional cost proportional to the size of `data`
+**Description**: Fires an event with the given `id` and `data`. Events can be tracked externally.  
+
+---
