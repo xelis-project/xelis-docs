@@ -977,7 +977,7 @@ asset.is_read_only() -> bool
 **Gas Cost**: 5  
 **Description**: Returns `true` if the asset cannot be modified (e.g. a read-only context).  
 
-### get_contract_hash (asset)
+### get_contract_hash
 ```rust
 asset.get_contract_hash() -> Hash
 ```
@@ -993,7 +993,7 @@ asset.get_id() -> optional<u64>
 
 ### transfer_ownership
 ```rust
-asset.transfer_ownership(contract) -> bool
+asset.transfer_ownership(contract: Hash) -> bool
 ```
 **Gas Cost**: 250  
 **Description**: If the asset is owned by the current contract, transfers ownership to the contract hash passed in parameter. Returns `true` if successful.   
