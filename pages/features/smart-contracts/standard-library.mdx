@@ -2,7 +2,7 @@
 title: Silex Standard Library
 ---
 
-## Silex Standard Library (Built-in Functions)
+# Silex Standard Library (Built-in Functions)
 
 This document describes the built-in functions available in Silex. These functions are automatically available in your Silex code and can be invoked on the appropriate types (Arrays, Strings, Maps, etc.) or as static functions (e.g., `Block::current()`).
 
@@ -12,172 +12,7 @@ Please note:
 - **Optional Return**: Some functions can return a value or `null` when the value is absent.
 - **Type Parameters**: Some functions use a type variable `T(0)`, `T(1)` (like in arrays or maps) simply meaning "whatever element type" your array or map uses.
 
----
-
-## Table of Contents
-
-- [1. Global Utility Functions](#1-global-utility-functions)
-  - [println](#println)
-  - [debug](#debug)
-  - [panic](#panic)
-  - [assert](#assert)
-  - [is_same_ptr](#is_same_ptr)
-
-- [2. Array Functions](#2-array-functions)
-  - [len](#len-array)
-  - [push](#push)
-  - [remove](#remove)
-  - [pop](#pop)
-  - [slice](#slice)
-  - [contains](#contains-array)
-  - [get](#get-array)
-  - [first](#first)
-  - [last](#last)
-
-- [3. Optional (T or null) Functions](#3-optional-t-or-null-functions)
-  - [is_none](#is_none)
-  - [is_some](#is_some)
-  - [unwrap](#unwrap)
-  - [unwrap_or](#unwrap_or)
-
-- [4. Map Functions](#4-map-functions)
-  - [len](#len-map)
-  - [contains_key](#contains_key)
-  - [get](#get-map)
-  - [insert](#insert)
-  - [remove](#remove-map)
-  - [clear](#clear)
-  - [keys](#keys)
-  - [values](#values)
-
-- [5. string Functions](#5-string-functions)
-  - [len](#len-string)
-  - [trim](#trim)
-  - [contains](#contains-string)
-  - [contains_ignore_case](#contains_ignore_case)
-  - [to_uppercase](#to_uppercase)
-  - [to_lowercase](#to_lowercase)
-  - [to_bytes](#to_bytes-string)
-  - [index_of](#index_of)
-  - [last_index_of](#last_index_of)
-  - [replace](#replace)
-  - [starts_with](#starts_with)
-  - [ends_with](#ends_with)
-  - [split](#split)
-  - [char_at](#char_at)
-  - [is_empty](#is_empty)
-  - [matches](#matches)
-  - [substring (1 param)](#substring-1-param)
-  - [substring (2 params)](#substring-2-params)
-
-- [6. Range Functions](#6-range-functions)
-  - [contains](#contains-range)
-  - [collect](#collect)
-  - [max](#max-range)
-  - [min](#min-range)
-  - [count](#count)
-
-- [7. Integer Functions & Constants](#7-integer-functions--constants)
-  - [Overflowing Arithmetic](#checked-arithmetic)
-  - [MIN, MAX constants](#min-max-constants)
-  - [to_be_bytes / to_le_bytes](#to_be_bytes--to_le_bytes)
-
-- [8. Transaction Functions](#8-transaction-functions)
-  - [Transaction::current()](#transactioncurrent)
-  - [nonce](#nonce-transaction)
-  - [hash](#hash-transaction)
-  - [source](#source)
-  - [fee](#fee)
-  - [signature](#signature-transaction)
-
-- [9. Block Functions](#9-block-functions)
-  - [Block::current()](#blockcurrent)
-  - [nonce](#nonce-block)
-  - [timestamp](#timestamp)
-  - [height](#height)
-  - [extra_nonce](#extra_nonce)
-  - [hash](#hash-block)
-  - [miner](#miner)
-  - [version](#version)
-  - [tips](#tips)
-  - [transactions_hashes](#transactions_hashes)
-  - [transactions](#transactions)
-  - [transactions_count](#transactions_count)
-
-- [10. Storage Functions](#10-storage-functions)
-  - [Storage::new()](#storagenew)
-  - [load](#load-storage)
-  - [has](#has-storage)
-  - [store](#store-storage)
-  - [delete](#delete-storage)
-
-- [11. ReadOnlyStorage Functions](#11-readonlystorage-functions)
-  - [ReadOnlyStorage::new(contract_hash)](#readonlystoragenewcontract_hash)
-  - [load](#load-read-only)
-  - [has](#has-read-only)
-
-- [12. MemoryStorage Functions](#12-memorystorage-functions)
-  - [MemoryStorage::new()](#memorystoragenew)
-  - [load](#load-memory-storage)
-  - [has](#has-memory-storage)
-  - [store](#store-memory-storage)
-  - [delete](#delete-memory-storage)
-
-- [13. Address Functions](#13-address-functions)
-  - [is_mainnet](#is_mainnet)
-  - [is_normal](#is_normal)
-  - [to_public_key_bytes](#to_public_key_bytes)
-  - [Address::from_string()](#addressfrom_string)
-
-- [14. Hash Functions](#14-hash-functions)
-  - [to_bytes (hash)](#to_bytes-hash)
-  - [to_array](#to_array)
-  - [to_u256](#to_u256)
-  - [to_hex](#to_hex)
-  - [Hash::from_bytes](#hashfrom_bytes)
-  - [Hash::from_array](#hashfrom_array)
-  - [Hash::from_u256](#hashfrom_u256)
-  - [Hash::from_hex](#hashfrom_hex)
-  - [Hash::blake3](#hashblake3)
-  - [Hash::sha256](#hashsha256)
-  - [Hash::zero](#hashzero)
-  - [Hash::max](#hashmax)
-
-- [15. Random Functions](#15-random-functions)
-  - [Random::new()](#randomnew)
-  - [next_u8 / next_u16 / next_u32 / next_u64 / next_u128 / next_u256](#next_u8--next_u16--next_u32--next_u64--next_u128--next_u256)
-  - [next_bool](#next_bool)
-
-- [16. Signature Functions](#16-signature-functions)
-  - [verify](#verify)
-  - [Signature::from_bytes](#signaturefrom_bytes)
-
-- [17. Asset Functions](#17-asset-functions)
-  - [Asset::get_by_id](#assetget_by_id)
-  - [Asset::create](#assetcreate)
-  - [Asset::get_by_hash](#assetget_by_hash)
-  - [get_max_supply](#get_max_supply)
-  - [get_supply](#get_supply)
-  - [get_name](#get_name)
-  - [get_ticker](#get_ticker)
-  - [get_hash](#get_hash)
-  - [mint](#mint)
-  - [is_read_only](#is_read_only)
-  - [get_contract_hash (asset)](#get_contract_hash-asset)
-  - [get_id](#get_id)
-  - [transfer_ownership](#transfer_ownership)
-
-- [18. Misc. Built-ins](#18-misc-built-ins)
-  - [get_contract_hash()](#get_contract_hash)
-  - [get_deposit_for_asset()](#get_deposit_for_asset)
-  - [get_balance_for_asset()](#get_balance_for_asset)
-  - [transfer()](#transfer)
-  - [burn()](#burn)
-  - [fire_event()](#fire_event)
-
----
-
-## 1. Global Utility Functions
+## Global Utility Functions
 
 ### println
 **Signature**:
@@ -222,7 +57,7 @@ is_same_ptr(value1: Any, value2: Any) -> bool
 
 ---
 
-## 2. Array Functions
+## Array Functions
 
 Let `arr` be of type `[T]`.
 
@@ -303,7 +138,7 @@ arr.last() -> optional<T>
 
 ---
 
-## 3. Optional (T or null) Functions
+## Optional (T or null) Functions
 
 These functions are invoked on a value that might be `T` or `null`.
 
@@ -341,7 +176,7 @@ value.unwrap_or(default_value: T) -> T
 
 ---
 
-## 4. Map Functions
+## Map Functions
 
 Let `map` be of type `Map<K, V>`.
 
@@ -411,7 +246,7 @@ map.values() -> [V]
 
 ---
 
-## 5. string Functions
+## string Functions
 
 All are invoked on a string variable, e.g. `my_string.len()`.
 
@@ -561,7 +396,7 @@ str.substring(start: u32, end: u32) -> optional<string>
 
 ---
 
-## 6. Range Functions
+## Range Functions
 
 Silex supports a range type `range<T>` (e.g. `range<u32>`). These functions are methods on such range variables.
 
@@ -607,7 +442,7 @@ range.count() -> T
 
 ---
 
-## 7. Integer Functions & Constants
+## Integer Functions & Constants
 
 ### Checked Arithmetic
 For each unsigned integer type (`u8`, `u16`, `u32`, `u64`, `u128`, `u256`), the following methods exist:
@@ -639,7 +474,7 @@ For each of `u16`, `u32`, `u64`, `u128`, `u256`, you have:
 
 ---
 
-## 8. Transaction Functions
+## Transaction Functions
 
 Use these via the `Transaction` opaque type:
 
@@ -690,7 +525,7 @@ tx.signature() -> Signature
 
 ---
 
-## 9. Block Functions
+## Block Functions
 
 Use these via the `Block` opaque type:
 
@@ -782,7 +617,7 @@ blk.transactions_count() -> u32
 
 ---
 
-## 10. Storage Functions
+## Storage Functions
 
 ### Storage::new()
 ```silex
@@ -823,7 +658,7 @@ storage.delete(key: Any) -> optional<Any>
 
 ---
 
-## 11. ReadOnlyStorage Functions
+## ReadOnlyStorage Functions
 
 ### ReadOnlyStorage::new(contract_hash)
 ```silex
@@ -850,7 +685,7 @@ readonly_storage.has(key: Any) -> bool
 
 ---
 
-## 12. MemoryStorage Functions
+## MemoryStorage Functions
 
 ### MemoryStorage::new()
 ```silex
@@ -891,7 +726,7 @@ mem.delete(key: Any) -> optional<Any>
 
 ---
 
-## 13. Address Functions
+## Address Functions
 
 ### is_mainnet
 ```silex
@@ -923,7 +758,7 @@ Address::from_string(address_str: string) -> Address
 
 ---
 
-## 14. Hash Functions
+## Hash Functions
 
 ### to_bytes (hash)
 ```silex
@@ -1011,7 +846,7 @@ Hash::max() -> Hash
 
 ---
 
-## 15. Random Functions
+## Random Functions
 
 ### Random::new()
 ```silex
@@ -1043,7 +878,7 @@ rng.next_bool() -> bool
 
 ---
 
-## 16. Signature Functions
+## Signature Functions
 
 ### verify
 **Signature**:
@@ -1062,7 +897,7 @@ Signature::from_bytes(bytes: u8[]) -> Signature
 
 ---
 
-## 17. Asset Functions
+## Asset Functions
 
 ### Asset::get_by_id
 ```silex
@@ -1165,7 +1000,7 @@ asset.transfer_ownership(contract) -> bool
 
 ---
 
-## 18. Misc. Built-ins
+## Misc. Built-ins
 
 ### get_contract_hash()
 ```silex

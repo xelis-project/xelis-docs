@@ -20,44 +20,12 @@ Please note that they are not yet available on the mainnet, but are planned to b
 
 You can find the documentation of the [XVM](https://github.com/xelis-project/xelis-vm) below.
 
-## Documentation
+## Silex Lang
 **Silex** is a statically typed programming language powered by XVM (XELIS Virtual Machine) with syntax that should feel familiar to those experienced with modern C-family languages.
 
 **XVM** is a fully customizable VM built from scratch in Rust providing a robust & deterministic sandboxed environment.
 
 This guide aims to describe its major features, from syntax to data structures and control flow, so that you can effectively write contracts in Silex.
-
-## Table of Contents
-- [Silex Language Documentation](#silex-language-documentation)
-  - [Table of Contents](#table-of-contents)
-  - [Introduction](#introduction)
-  - [Lexical Elements](#lexical-elements)
-  - [Data Types](#data-types)
-    - [Primitive Types](#primitive-types)
-    - [Composite Types](#composite-types)
-  - [Variables and Constants](#variables-and-constants)
-    - [Variables](#variables)
-    - [Constants](#constants)
-  - [Expressions](#expressions)
-  - [Operators](#operators)
-  - [Flow Control](#flow-control)
-    - [`if` / `else`](#if--else)
-    - [Loops](#loops)
-      - [`while`](#while)
-      - [`for` (C-style)](#for-c-style)
-      - [`foreach`](#foreach)
-    - [`break` / `continue`](#break--continue)
-    - [`return`](#return)
-  - [Functions](#functions)
-    - [Entry Functions](#entry-functions)
-    - [Hook Functions](#hook-functions)
-    - [Methods on Structs/Enums](#methods-on-structsenums)
-  - [Structs](#structs)
-  - [Enums](#enums)
-  - [Imports](#imports)
-  - [Example Program](#example-program)
-
-## Introduction
 
 Silex code typically consists of:
 - **Constant declarations** (`const`)  
@@ -66,7 +34,7 @@ Silex code typically consists of:
 - **Imports** for referencing other files  
 - **Statements** (control flow, variable assignments, loops, etc.)
 
-Every Silex contract may optionally define an *entry* function—this serves as the main entry point for external invocations.
+Every Silex contract can define several *entry* function—this serves as the main entry point for external invocations.
 
 ## Lexical Elements
 
