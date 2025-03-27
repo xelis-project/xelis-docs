@@ -78,11 +78,11 @@ Please note:
   - [count](#count)
 
 - [7. Integer Functions & Constants](#7-integer-functions--constants)
-  - [Overflowing Arithmetic](#overflowing-arithmetic)
+  - [Overflowing Arithmetic](#checked-arithmetic)
   - [MIN, MAX constants](#min-max-constants)
   - [to_be_bytes / to_le_bytes](#to_be_bytes--to_le_bytes)
 
-- [8. Transaction (Opaque) Functions](#8-transaction-opaque-functions)
+- [8. Transaction Functions](#8-transaction-functions)
   - [Transaction::current()](#transactioncurrent)
   - [nonce (transaction)](#nonce-transaction)
   - [hash (transaction)](#hash-transaction)
@@ -90,7 +90,7 @@ Please note:
   - [fee](#fee)
   - [signature (transaction)](#signature-transaction)
 
-- [9. Block (Opaque) Functions](#9-block-opaque-functions)
+- [9. Block Functions](#9-block-functions)
   - [Block::current()](#blockcurrent)
   - [nonce (block)](#nonce-block)
   - [timestamp](#timestamp)
@@ -104,32 +104,32 @@ Please note:
   - [transactions](#transactions)
   - [transactions_count](#transactions_count)
 
-- [10. Storage (Opaque) Functions](#10-storage-opaque-functions)
+- [10. Storage Functions](#10-storage-functions)
   - [Storage::new()](#storagenew)
   - [load (storage)](#load-storage)
   - [has (storage)](#has-storage)
   - [store (storage)](#store-storage)
   - [delete (storage)](#delete-storage)
 
-- [11. ReadOnlyStorage (Opaque) Functions](#11-readonlystorage-opaque-functions)
+- [11. ReadOnlyStorage Functions](#11-readonlystorage-functions)
   - [ReadOnlyStorage::new(contract_hash)](#readonlystoragenewcontract_hash)
   - [load (read-only)](#load-read-only)
   - [has (read-only)](#has-read-only)
 
-- [12. MemoryStorage (Opaque) Functions](#12-memorystorage-opaque-functions)
+- [12. MemoryStorage Functions](#12-memorystorage-functions)
   - [MemoryStorage::new()](#memorystoragenew)
   - [load (memory-storage)](#load-memory-storage)
   - [has (memory-storage)](#has-memory-storage)
   - [store (memory-storage)](#store-memory-storage)
   - [delete (memory-storage)](#delete-memory-storage)
 
-- [13. Address (Opaque) Functions](#13-address-opaque-functions)
+- [13. Address Functions](#13-address-functions)
   - [is_mainnet](#is_mainnet)
   - [is_normal](#is_normal)
   - [to_public_key_bytes](#to_public_key_bytes)
   - [Address::from_string()](#addressfrom_string)
 
-- [14. Hash (Opaque) Functions](#14-hash-opaque-functions)
+- [14. Hash Functions](#14-hash-functions)
   - [to_bytes (hash)](#to_bytes-hash)
   - [to_array](#to_array)
   - [to_u256](#to_u256)
@@ -143,16 +143,16 @@ Please note:
   - [Hash::zero](#hashzero)
   - [Hash::max](#hashmax)
 
-- [15. Random (Opaque) Functions](#15-random-opaque-functions)
+- [15. Random Functions](#15-random-functions)
   - [Random::new()](#randomnew)
   - [next_u8 / next_u16 / next_u32 / next_u64 / next_u128 / next_u256](#next_u8--next_u16--next_u32--next_u64--next_u128--next_u256)
   - [next_bool](#next_bool)
 
-- [16. Signature (Opaque) Functions](#16-signature-opaque-functions)
+- [16. Signature Functions](#16-signature-functions)
   - [verify](#verify)
   - [Signature::from_bytes](#signaturefrom_bytes)
 
-- [17. Asset (Opaque) Functions](#17-asset-opaque-functions)
+- [17. Asset Functions](#17-asset-functions)
   - [Asset::get_by_id](#assetget_by_id)
   - [Asset::create](#assetcreate)
   - [Asset::get_by_hash](#assetget_by_hash)
@@ -167,7 +167,7 @@ Please note:
   - [get_id](#get_id)
   - [transfer_ownership](#transfer_ownership)
 
-- [18. Misc. Built-ins (No Specific Opaque)](#18-misc-built-ins-no-specific-opaque)
+- [18. Misc. Built-ins (No Specific Opaque)](#18-misc-built-ins-no-specific)
   - [get_contract_hash()](#get_contract_hash)
   - [get_deposit_for_asset()](#get_deposit_for_asset)
   - [get_balance_for_asset()](#get_balance_for_asset)
@@ -612,14 +612,14 @@ range.count() -> T
 
 ## 7. Integer Functions & Constants
 
-### Overflowing Arithmetic
+### Checked Arithmetic
 For each unsigned integer type (`u8`, `u16`, `u32`, `u64`, `u128`, `u256`), the following methods exist:
 
-- `overflowing_add(other: T) -> optional<T>`
-- `overflowing_sub(other: T) -> optional<T>`
-- `overflowing_mul(other: T) -> optional<T>`
-- `overflowing_div(other: T) -> optional<T>`
-- `overflowing_rem(other: T) -> optional<T>`
+- `checked_add(other: T) -> optional<T>`
+- `checked_sub(other: T) -> optional<T>`
+- `checked_mul(other: T) -> optional<T>`
+- `checked_div(other: T) -> optional<T>`
+- `checked_rem(other: T) -> optional<T>`
 
 **Gas Cost**: 2 (for each operation)
 **Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
@@ -642,7 +642,7 @@ For each of `u16`, `u32`, `u64`, `u128`, `u256`, you have:
 
 ---
 
-## 8. Transaction (Opaque) Functions
+## 8. Transaction Functions
 
 Use these via the `Transaction` opaque type:
 
@@ -693,7 +693,7 @@ tx.signature() -> Signature
 
 ---
 
-## 9. Block (Opaque) Functions
+## 9. Block Functions
 
 Use these via the `Block` opaque type:
 
@@ -785,7 +785,7 @@ blk.transactions_count() -> u32
 
 ---
 
-## 10. Storage (Opaque) Functions
+## 10. Storage Functions
 
 ### Storage::new()
 ```silex
@@ -826,7 +826,7 @@ storage.delete(key: Any) -> optional<Any>
 
 ---
 
-## 11. ReadOnlyStorage (Opaque) Functions
+## 11. ReadOnlyStorage Functions
 
 ### ReadOnlyStorage::new(contract_hash)
 ```silex
@@ -853,7 +853,7 @@ readonly_storage.has(key: Any) -> bool
 
 ---
 
-## 12. MemoryStorage (Opaque) Functions
+## 12. MemoryStorage Functions
 
 ### MemoryStorage::new()
 ```silex
@@ -894,7 +894,7 @@ mem.delete(key: Any) -> optional<Any>
 
 ---
 
-## 13. Address (Opaque) Functions
+## 13. Address Functions
 
 ### is_mainnet
 ```silex
@@ -926,7 +926,7 @@ Address::from_string(address_str: string) -> Address
 
 ---
 
-## 14. Hash (Opaque) Functions
+## 14. Hash Functions
 
 ### to_bytes (hash)
 ```silex
@@ -1014,7 +1014,7 @@ Hash::max() -> Hash
 
 ---
 
-## 15. Random (Opaque) Functions
+## 15. Random Functions
 
 ### Random::new()
 ```silex
@@ -1046,7 +1046,7 @@ rng.next_bool() -> bool
 
 ---
 
-## 16. Signature (Opaque) Functions
+## 16. Signature Functions
 
 ### verify
 **Signature**:
@@ -1065,7 +1065,7 @@ Signature::from_bytes(bytes: [u8]) -> Signature
 
 ---
 
-## 17. Asset (Opaque) Functions
+## 17. Asset Functions
 
 ### Asset::get_by_id
 ```silex
