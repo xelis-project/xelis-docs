@@ -47,6 +47,14 @@ assert(value: bool)
 **Gas Cost**: 1    
 **Description**: If `value` is false, execution aborts with an assertion error.  
 
+### require
+**Signature**:
+```rust
+require(condition: bool, msg: string)
+```
+**Gas Cost**: 1    
+**Description**: If `value` is false, execution aborts with the provided `value` as a message.  
+
 ### is_same_ptr
 **Signature**:
 ```rust
@@ -173,6 +181,14 @@ value.unwrap_or(default_value: T) -> T
 ```
 **Gas Cost**: 1  
 **Description**: Returns the underlying value if not `null`, or returns `default_value` if `null`.   
+
+### expect
+**Signature**:
+```rust
+value.expect(msg: string) -> T0
+```
+**Gas Cost**: 15  
+**Description**: Returns the underlying value if not `null`. If 'null', the execution panics with the provided message, 'msg'.    
 
 ---
 
