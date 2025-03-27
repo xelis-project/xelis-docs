@@ -78,14 +78,14 @@ Every Silex contract can define several *entry* function—this serves as the ma
 - Declared with `let`.
 - Must specify a type and (usually) an initializer.
   
-```silex
+```rust
 let x: u64 = 10
 let greetings: string[] = ["hello", "world"]
 ```
 
 - If a type is optional, you can omit the assignment and it will default to `null`:
 
-```silex
+```rust
 let maybeValue: optional<u64> // defaults to null
 ```
 
@@ -96,7 +96,7 @@ let maybeValue: optional<u64> // defaults to null
 - Declared with `const` and must be **uppercase**.
 - Must have a compile-time–resolvable expression:
 
-```silex
+```rust
 const MAX_SIZE: u64 = 100
 ```
 
@@ -132,7 +132,7 @@ Operator precedence is generally “C-like,” with power (`**`) and unary opera
 
 ### `if` / `else`
 
-```silex
+```rust
 if condition {
     // ...
 } else if anotherCondition {
@@ -146,7 +146,7 @@ if condition {
 
 #### `while`
 
-```silex
+```rust
 while x < 10 {
     x += 1
 }
@@ -154,7 +154,7 @@ while x < 10 {
 
 #### `for` (C-style)
 
-```silex
+```rust
 for i: u64 = 0; i < 10; i += 1 {
     // use i
 }
@@ -163,7 +163,7 @@ This syntax includes an initializer (`i: u64 = 0`), a condition (`i < 10`), and 
 
 #### `foreach`
 
-```silex
+```rust
 foreach element in myArray {
     // element is the array’s element type
 }
@@ -181,7 +181,7 @@ Returns from the current function, optionally with an expression if the function
 
 Functions start with `fn`, `entry`, or `hook`. They have a name, an optional list of parameters, and an optional return type. **Entry** and **Hook** functions have special roles in a smart contract context.
 
-```silex
+```rust
 fn add(a: u64, b: u64) -> u64 {
     return a + b
 }
@@ -191,7 +191,7 @@ fn add(a: u64, b: u64) -> u64 {
 
 Marked by `entry`; there can be at most one or a limited number of them in a contract (depending on the environment). Typically, an entry function returns `u64`, though the parser can be configured to allow other types or no return type.
 
-```silex
+```rust
 entry main() -> u64 {
     return 0
 }
@@ -201,7 +201,7 @@ entry main() -> u64 {
 
 Marked by `hook`; these are special callbacks or event handlers invoked by the system. The environment typically imposes constraints on their name, parameters, and return types:
 
-```silex
+```rust
 hook onDataReceived(data: u8[]) {
     // handle data
 }
@@ -211,7 +211,7 @@ hook onDataReceived(data: u8[]) {
 
 A function can be declared as a “method” by specifying `(varName Type)` before the function name:
 
-```silex
+```rust
 fn (p Person) greet() -> string {
     return "Hello, " + p.name
 }
@@ -223,7 +223,7 @@ This is akin to an instance method in other languages: `p` is the struct instanc
 
 Structs are user-defined composite types with named fields. By convention, struct names start with uppercase letters.
 
-```silex
+```rust
 struct Person {
     name: string,
     age: u64
@@ -231,7 +231,7 @@ struct Person {
 ```
 
 To instantiate:
-```silex
+```rust
 let p: Person = Person { name: "Alice", age: 30 }
 ```
 If you have a local variable `name` that matches the field name, you can shorthand it as `Person { name }`.
@@ -240,7 +240,7 @@ If you have a local variable `name` that matches the field name, you can shortha
 
 Enums represent discriminated unions (sum types). Each variant may have zero or more fields:
 
-```silex
+```rust
 enum Result {
     Ok { value: u64 },
     Err { message: string }
@@ -248,7 +248,7 @@ enum Result {
 ```
 
 Create an instance:
-```silex
+```rust
 let res: Result = Result::Ok { value: 123 }
 ```
 
@@ -258,7 +258,7 @@ Check a variant with pattern matching in a future extension or by calling enviro
 
 Use `import "someFile.slx"` to load external code. The parser enforces certain rules like preventing `..` and absolute paths:
 
-```silex
+```rust
 import "helpers.slx"
 ```
 
@@ -268,7 +268,7 @@ import "helpers.slx"
 
 Below is a complete (albeit simple) Silex contract that demonstrates constants, variables, loops, a struct, an enum, and an entry function.
 
-```silex
+```rust
 const MAX_COUNT: u64 = 5
 
 struct Accumulator {

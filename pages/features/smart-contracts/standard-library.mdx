@@ -16,7 +16,7 @@ Please note:
 
 ### println
 **Signature**:
-```silex
+```rust
 println(value: Any)
 ```   
 **Gas Cost**: 1   
@@ -24,7 +24,7 @@ println(value: Any)
 
 ### debug
 **Signature**:
-```silex
+```rust
 debug(value: Any)
 ```
 **Gas Cost**: 1  
@@ -32,7 +32,7 @@ debug(value: Any)
 
 ### panic
 **Signature**:
-```silex
+```rust
 panic(value: Any) -> Any
 ```
 **Return**: whatever type you need (but code will never return)  
@@ -41,7 +41,7 @@ panic(value: Any) -> Any
 
 ### assert
 **Signature**:
-```silex
+```rust
 assert(value: bool)
 ```
 **Gas Cost**: 1    
@@ -49,7 +49,7 @@ assert(value: bool)
 
 ### is_same_ptr
 **Signature**:
-```silex
+```rust
 is_same_ptr(value1: Any, value2: Any) -> bool
 ```
 **Gas Cost**: 5  
@@ -59,11 +59,11 @@ is_same_ptr(value1: Any, value2: Any) -> bool
 
 ## Array Functions
 
-Let `arr` be of type `[T]`.
+Let `arr` be of type `T[]`.
 
-### len (array)
+### len
 **Signature**:
-```silex
+```rust
 arr.len() -> u32
 ```
 **Return**: u32  
@@ -72,7 +72,7 @@ arr.len() -> u32
 
 ### push
 **Signature**:
-```silex
+```rust
 arr.push(value: T)
 ```
 **Gas Cost**: 2  
@@ -80,7 +80,7 @@ arr.push(value: T)
 
 ### remove
 **Signature**:
-```silex
+```rust
 arr.remove(index: u32) -> T
 ```
 **Gas Cost**: 5  
@@ -89,7 +89,7 @@ Throws an "OutOfBounds" error if `index` is invalid.
 
 ### pop
 **Signature**:
-```silex
+```rust
 arr.pop() -> optional<T>
 ```
 **Gas Cost**: 1  
@@ -97,24 +97,24 @@ arr.pop() -> optional<T>
 
 ### slice
 **Signature**:
-```silex
-arr.slice(range: Range<u32>) -> [T]
+```rust
+arr.slice(range: range<u32>) -> T[]
 ```
 **Gas Cost**: 5  
 **Description**: Returns a new array containing the elements in the given half-open range `[start, end)`.  
 Throws an "InvalidRange" error if out of bounds or invalid.  
 
-### contains (array)
+### contains
 **Signature**:
-```silex
+```rust
 arr.contains(value: T) -> bool
 ```
 **Gas Cost**: 10   
 **Description**: Returns true if `value` is in `arr`.  
 
-### get (array)
+### get
 **Signature**:
-```silex
+```rust
 arr.get(index: u32) -> optional<T>
 ```
 **Gas Cost**: 1  
@@ -122,7 +122,7 @@ arr.get(index: u32) -> optional<T>
 
 ### first
 **Signature**:
-```silex
+```rust
 arr.first() -> optional<T>
 ```
 **Gas Cost**: 1  
@@ -130,7 +130,7 @@ arr.first() -> optional<T>
 
 ### last
 **Signature**:
-```silex
+```rust
 arr.last() -> optional<T>
 ```
 **Gas Cost**: 1  
@@ -144,7 +144,7 @@ These functions are invoked on a value that might be `T` or `null`.
 
 ### is_none
 **Signature**:
-```silex
+```rust
 value.is_none() -> bool
 ```
 **Gas Cost**: 1  
@@ -152,7 +152,7 @@ value.is_none() -> bool
 
 ### is_some
 **Signature**:
-```silex
+```rust
 value.is_some() -> bool
 ```
 **Gas Cost**: 1  
@@ -160,7 +160,7 @@ value.is_some() -> bool
 
 ### unwrap
 **Signature**:
-```silex
+```rust
 value.unwrap() -> T
 ```
 **Gas Cost**: 1  
@@ -168,7 +168,7 @@ value.unwrap() -> T
 
 ### unwrap_or
 **Signature**:
-```silex
+```rust
 value.unwrap_or(default_value: T) -> T
 ```
 **Gas Cost**: 1  
@@ -180,9 +180,9 @@ value.unwrap_or(default_value: T) -> T
 
 Let `map` be of type `Map<K, V>`.
 
-### len (map)
+### len
 **Signature**:
-```silex
+```rust
 map.len() -> u32
 ```
 **Gas Cost**: 1  
@@ -190,15 +190,15 @@ map.len() -> u32
 
 ### contains_key
 **Signature**:
-```silex
+```rust
 map.contains_key(key: K) -> bool
 ```
 **Gas Cost**: 15   
 **Description**: Returns true if `map` contains `key`.   
 
-### get (map)
+### get
 **Signature**:
-```silex
+```rust
 map.get(key: K) -> optional<V>
 ```
 **Gas Cost**: 15   
@@ -206,15 +206,15 @@ map.get(key: K) -> optional<V>
 
 ### insert
 **Signature**:
-```silex
+```rust
 map.insert(key: K, value: V) -> optional<V>
 ```
 **Gas Cost**: 30   
 **Description**: Inserts or updates the key-value pair. Returns the old value if `key` was present, otherwise `null`.  
 
-### remove (map)
+### remove
 **Signature**:
-```silex
+```rust
 map.remove(key: K) -> optional<V>
 ```
 **Gas Cost**: 15   
@@ -222,7 +222,7 @@ map.remove(key: K) -> optional<V>
 
 ### clear
 **Signature**:
-```silex
+```rust
 map.clear()
 ```
 **Gas Cost**: 5  
@@ -230,7 +230,7 @@ map.clear()
 
 ### keys
 **Signature**:
-```silex
+```rust
 map.keys() -> [K]
 ```
 **Gas Cost**: 20   
@@ -238,7 +238,7 @@ map.keys() -> [K]
 
 ### values
 **Signature**:
-```silex
+```rust
 map.values() -> [V]
 ```
 **Gas Cost**: 20   
@@ -250,9 +250,9 @@ map.values() -> [V]
 
 All are invoked on a string variable, e.g. `my_string.len()`.
 
-### len (string)
+### len
 **Signature**:
-```silex
+```rust
 str.len() -> u32
 ```
 **Gas Cost**: 1  
@@ -260,15 +260,15 @@ str.len() -> u32
 
 ### trim
 **Signature**:
-```silex
+```rust
 str.trim() -> string
 ```
 **Gas Cost**: 1  
 **Description**: Returns a new string with leading and trailing whitespace removed.  
 
-### contains (string)
+### contains
 **Signature**:
-```silex
+```rust
 str.contains(value: string) -> bool
 ```
 **Gas Cost**: 1  
@@ -276,7 +276,7 @@ str.contains(value: string) -> bool
 
 ### contains_ignore_case
 **Signature**:
-```silex
+```rust
 str.contains_ignore_case(value: string) -> bool
 ```
 **Gas Cost**: 1  
@@ -284,7 +284,7 @@ str.contains_ignore_case(value: string) -> bool
 
 ### to_uppercase
 **Signature**:
-```silex
+```rust
 str.to_uppercase() -> string
 ```
 **Gas Cost**: 1  
@@ -292,15 +292,15 @@ str.to_uppercase() -> string
 
 ### to_lowercase
 **Signature**:
-```silex
+```rust
 str.to_lowercase() -> string
 ```
 **Gas Cost**: 1  
 **Description**: Returns `str` converted to lowercase.   
 
-### to_bytes (string)
+### to_bytes
 **Signature**:
-```silex
+```rust
 str.to_bytes() -> u8[]
 ```
 **Gas Cost**: 5  
@@ -308,7 +308,7 @@ str.to_bytes() -> u8[]
 
 ### index_of
 **Signature**:
-```silex
+```rust
 str.index_of(value: string) -> optional<u32>
 ```
 **Gas Cost**: 3  
@@ -316,7 +316,7 @@ str.index_of(value: string) -> optional<u32>
 
 ### last_index_of
 **Signature**:
-```silex
+```rust
 str.last_index_of(value: string) -> optional<u32>
 ```
 **Gas Cost**: 3  
@@ -324,7 +324,7 @@ str.last_index_of(value: string) -> optional<u32>
 
 ### replace
 **Signature**:
-```silex
+```rust
 str.replace(from: string, to: string) -> string
 ```
 **Gas Cost**: 5  
@@ -332,7 +332,7 @@ str.replace(from: string, to: string) -> string
 
 ### starts_with
 **Signature**:
-```silex
+```rust
 str.starts_with(value: string) -> bool
 ```
 **Gas Cost**: 3  
@@ -340,7 +340,7 @@ str.starts_with(value: string) -> bool
 
 ### ends_with
 **Signature**:
-```silex
+```rust
 str.ends_with(value: string) -> bool
 ```
 **Gas Cost**: 3  
@@ -348,7 +348,7 @@ str.ends_with(value: string) -> bool
 
 ### split
 **Signature**:
-```silex
+```rust
 str.split(at: string) -> [string]
 ```
 **Gas Cost**: 5  
@@ -356,7 +356,7 @@ str.split(at: string) -> [string]
 
 ### char_at
 **Signature**:
-```silex
+```rust
 str.char_at(index: u32) -> optional<string>
 ```
 **Gas Cost**: 1  
@@ -364,7 +364,7 @@ str.char_at(index: u32) -> optional<string>
 
 ### is_empty
 **Signature**:
-```silex
+```rust
 str.is_empty() -> bool
 ```
 **Gas Cost**: 1  
@@ -372,7 +372,7 @@ str.is_empty() -> bool
 
 ### matches
 **Signature**:
-```silex
+```rust
 str.matches(pattern: string) -> [string]
 ```
 **Gas Cost**: 50   
@@ -380,7 +380,7 @@ str.matches(pattern: string) -> [string]
 
 ### substring (1 param)
 **Signature**:
-```silex
+```rust
 str.substring(start: u32) -> optional<string>
 ```
 **Gas Cost**: 3  
@@ -388,7 +388,7 @@ str.substring(start: u32) -> optional<string>
 
 ### substring (2 params)
 **Signature**:
-```silex
+```rust
 str.substring(start: u32, end: u32) -> optional<string>
 ```
 **Gas Cost**: 3  
@@ -400,9 +400,9 @@ str.substring(start: u32, end: u32) -> optional<string>
 
 Silex supports a range type `range<T>` (e.g. `range<u32>`). These functions are methods on such range variables.
 
-### contains (range)
+### contains
 **Signature**:
-```silex
+```rust
 range.contains(value: T) -> bool
 ```
 **Gas Cost**: 5  
@@ -410,23 +410,23 @@ range.contains(value: T) -> bool
 
 ### collect
 **Signature**:
-```silex
-range.collect() -> [T]
+```rust
+range.collect() -> T[]
 ```
 **Gas Cost**: 20 (plus additional usage proportional to the size of the range)   
 **Description**: Creates an array of all values in `[start, end)`.   
 
-### max (range)
+### max
 **Signature**:
-```silex
+```rust
 range.max() -> T
 ```
 **Gas Cost**: 1  
 **Description**: Returns the `end` value of the range.   
 
-### min (range)
+### min
 **Signature**:
-```silex
+```rust
 range.min() -> T
 ```
 **Gas Cost**: 1  
@@ -434,7 +434,7 @@ range.min() -> T
 
 ### count
 **Signature**:
-```silex
+```rust
 range.count() -> T
 ```
 **Gas Cost**: 5  
@@ -459,7 +459,7 @@ For each unsigned integer type (`u8`, `u16`, `u32`, `u64`, `u128`, `u256`), the 
 ### MIN, MAX constants
 For each of the unsigned integer types, the built-in constants `MIN` and `MAX` are available. You can reference them as `u8::MIN`, `u8::MAX`, `u16::MIN`, etc.
 Example:
-```silex
+```rust
 let min_u32 = u32::MIN; // 0
 let max_u32 = u32::MAX; // 4294967295
 ```
@@ -480,7 +480,7 @@ Use these via the `Transaction` opaque type:
 
 ### Transaction::current()
 **Signature**:
-```silex
+```rust
 Transaction::current() -> Transaction
 ```
 **Gas Cost**: 5  
@@ -488,36 +488,36 @@ Transaction::current() -> Transaction
 
 Once you have a `Transaction` (e.g. `let tx: Transaction = Transaction::current();`), you can call:
 
-### nonce (transaction)
-```silex
+### nonce
+```rust
 tx.nonce() -> u64
 ```
 **Gas Cost**: 5  
 **Description**: Returns the `nonce` field of the current transaction.   
 
-### hash (transaction)
-```silex
+### hash
+```rust
 tx.hash() -> Hash
 ```
 **Gas Cost**: 5  
 **Description**: Returns the cryptographic hash of the transaction.  
 
 ### source
-```silex
+```rust
 tx.source() -> Address
 ```
 **Gas Cost**: 5  
 **Description**: Returns the `Address` that originated the transaction.  
 
 ### fee
-```silex
+```rust
 tx.fee() -> u64
 ```
 **Gas Cost**: 5  
 **Description**: Returns the transaction’s fee.  
 
-### signature (transaction)
-```silex
+### signature
+```rust
 tx.signature() -> Signature
 ```
 **Gas Cost**: 5  
@@ -530,7 +530,7 @@ tx.signature() -> Signature
 Use these via the `Block` opaque type:
 
 ### Block::current()
-```silex
+```rust
 Block::current() -> Block
 ```
 **Gas Cost**: 5  
@@ -538,78 +538,78 @@ Block::current() -> Block
 
 After obtaining a `Block` (e.g., `let blk = Block::current();`), you can call:
 
-### nonce (block)
-```silex
+### nonce
+```rust
 blk.nonce() -> u64
 ```
 **Gas Cost**: 5  
 **Description**: Returns the block's nonce.  
 
 ### timestamp
-```silex
+```rust
 blk.timestamp() -> u64
 ```
 **Gas Cost**: 5  
 **Description**: Returns the block's timestamp.  
 
 ### height
-```silex
+```rust
 blk.height() -> u64
 ```
 **Gas Cost**: 5  
 **Description**: Returns the chain height at this block.   
 
 ### extra_nonce
-```silex
+```rust
 blk.extra_nonce() -> u8[]
 ```
 **Gas Cost**: 5  
 **Description**: Returns the block's extra nonce field as a byte array.  
 
-### hash (block)
-```silex
+### hash
+```rust
 blk.hash() -> Hash
 ```
 **Gas Cost**: 5  
 **Description**: Returns this block's hash.  
 
 ### miner
-```silex
+```rust
 blk.miner() -> Address
 ```
 **Gas Cost**: 5  
 **Description**: Returns the miner's address for the block.  
 
 ### version
-```silex
+```rust
 blk.version() -> u8
 ```
 **Gas Cost**: 5  
 **Description**: Returns the version number of the block.  
 
 ### tips
-```silex
+```rust
 blk.tips() -> Hash[]
 ```
 **Gas Cost**: 5  
 **Description**: Returns an array of hash references this block depends on (the block tips).   
 
 ### transactions_hashes
-```silex
+```rust
 blk.transactions_hashes() -> Hash[]
 ```
 **Gas Cost**: 50   
 **Description**: Returns an array of all transaction hashes included in this block.  
 
 ### transactions
-```silex
+```rust
 blk.transactions() -> Transaction[]
 ```
 **Gas Cost**: 250  
 **Description**: Returns an array of all Transaction objects in this block.  
 
 ### transactions_count
-```silex
+```rust
 blk.transactions_count() -> u32
 ```
 **Gas Cost**: 1  
@@ -620,7 +620,7 @@ blk.transactions_count() -> u32
 ## Storage Functions
 
 ### Storage::new()
-```silex
+```rust
 Storage::new() -> Storage
 ```
 **Gas Cost**: 5  
@@ -628,29 +628,29 @@ Storage::new() -> Storage
 
 When you have a `Storage`, you can call:
 
-### load (storage)
-```silex
+### load
+```rust
 storage.load(key: Any) -> optional<Any>
 ```
 **Gas Cost**: 50   
 **Description**: Loads the stored value for `key`. Returns the value or `null` if not found.   
 
-### has (storage)
-```silex
+### has
+```rust
 storage.has(key: Any) -> bool
 ```
 **Gas Cost**: 25   
 **Description**: Returns true if a value for `key` exists.   
 
-### store (storage)
-```silex
+### store
+```rust
 storage.store(key: Any, value: Any) -> optional<Any>
 ```
 **Gas Cost**: 50   
 **Description**: Stores `value` for `key`, returning the old value if it existed, otherwise `null`.  
 
-### delete (storage)
-```silex
+### delete
+```rust
 storage.delete(key: Any) -> optional<Any>
 ```
 **Gas Cost**: 50   
@@ -661,7 +661,7 @@ storage.delete(key: Any) -> optional<Any>
 ## ReadOnlyStorage Functions
 
 ### ReadOnlyStorage::new(contract_hash)
-```silex
+```rust
 ReadOnlyStorage::new(contract: Hash) -> optional<ReadOnlyStorage>
 ```
 **Gas Cost**: 15   
@@ -669,15 +669,15 @@ ReadOnlyStorage::new(contract: Hash) -> optional<ReadOnlyStorage>
 
 When you have a `ReadOnlyStorage`, you can call:
 
-### load (read-only)
-```silex
+### load
+```rust
 readonly_storage.load(key: Any) -> optional<Any>
 ```
 **Gas Cost**: 50   
 **Description**: Reads the value for `key` in that contract's storage, or `null` if not found.   
 
-### has (read-only)
-```silex
+### has
+```rust
 readonly_storage.has(key: Any) -> bool
 ```
 **Gas Cost**: 25   
@@ -688,7 +688,7 @@ readonly_storage.has(key: Any) -> bool
 ## MemoryStorage Functions
 
 ### MemoryStorage::new()
-```silex
+```rust
 MemoryStorage::new() -> MemoryStorage
 ```
 **Gas Cost**: 5  
@@ -696,29 +696,29 @@ MemoryStorage::new() -> MemoryStorage
 
 For a `MemoryStorage`, you can call:
 
-### load (memory-storage)
-```silex
+### load
+```rust
 mem.load(key: Any) -> optional<Any>
 ```
 **Gas Cost**: 50   
 **Description**: Loads a value for `key` from an in-memory map. Returns the value or `null` if not present.  
 
-### has (memory-storage)
-```silex
+### has
+```rust
 mem.has(key: Any) -> bool
 ```
 **Gas Cost**: 25   
 **Description**: Returns true if `key` is in the in-memory storage.  
 
-### store (memory-storage)
-```silex
+### store
+```rust
 mem.store(key: Any, value: Any) -> optional<Any>
 ```
 **Gas Cost**: 50   
 **Description**: Stores `value`, returning the old value if it existed, otherwise `null`.  
 
-### delete (memory-storage)
-```silex
+### delete
+```rust
 mem.delete(key: Any) -> optional<Any>
 ```
 **Gas Cost**: 50   
@@ -729,28 +729,28 @@ mem.delete(key: Any) -> optional<Any>
 ## Address Functions
 
 ### is_mainnet
-```silex
+```rust
 addr.is_mainnet() -> bool
 ```
 **Gas Cost**: 5  
 **Description**: Returns true if `addr` is a mainnet address.  
 
 ### is_normal
-```silex
+```rust
 addr.is_normal() -> bool
 ```
 **Gas Cost**: 5  
 **Description**: Returns true if `addr` is a "normal" address (not integrated, subaddress, etc.).  
 
 ### to_public_key_bytes
-```silex
+```rust
 addr.to_public_key_bytes() -> Bytes
 ```
 **Gas Cost**: 10   
 **Description**: Extracts the public key (32 bytes) as a `Bytes` object.   
 
 ### Address::from_string
-```silex
+```rust
 Address::from_string(address_str: string) -> Address
 ```
 **Gas Cost**: 75   
@@ -760,85 +760,85 @@ Address::from_string(address_str: string) -> Address
 
 ## Hash Functions
 
-### to_bytes (hash)
-```silex
+### to_bytes
+```rust
 hash_value.to_bytes() -> Bytes
 ```
 **Gas Cost**: 5  
 **Description**: Converts the `Hash` to a 32-byte `Bytes`.   
 
 ### to_array
-```silex
+```rust
 hash_value.to_array() -> u8[]
 ```
 **Gas Cost**: 5  
 **Description**: Converts the `Hash` to an array of 32 `u8`.   
 
 ### to_u256
-```silex
+```rust
 hash_value.to_u256() -> u256
 ```
 **Gas Cost**: 5  
 **Description**: Interprets the Hash as a `u256`.  
 
 ### to_hex
-```silex
+```rust
 hash_value.to_hex() -> string
 ```
 **Gas Cost**: 20   
 **Description**: Returns a hex-encoded string of the hash (64 hex chars).  
 
 ### Hash::from_bytes
-```silex
+```rust
 Hash::from_bytes(bytes: Bytes) -> Hash
 ```
 **Gas Cost**: 75   
 **Description**: Constructs a `Hash` from a 32-byte `Bytes`.   
 
 ### Hash::from_array
-```silex
+```rust
 Hash::from_array(bytes: u8[]) -> Hash
 ```
 **Gas Cost**: 75   
 **Description**: Constructs a `Hash` from an array of 32 `u8`. Typically errors if the length is not 32.   
 
 ### Hash::from_u256
-```silex
+```rust
 Hash::from_u256(value: u256) -> Hash
 ```
 **Gas Cost**: 75   
 **Description**: Constructs a 32-byte `Hash` from a `u256`.  
 
 ### Hash::from_hex
-```silex
+```rust
 Hash::from_hex(hex: string) -> Hash
 ```
 **Gas Cost**: 75   
 **Description**: Parses a 64-char hex string into a 32-byte hash.  
 
 ### Hash::blake3
-```silex
+```rust
 Hash::blake3(input: u8[]) -> Hash
 ```
 **Gas Cost**: 3000   
 **Description**: Computes the BLAKE3 hash of `input`.  
 
 ### Hash::sha256
-```silex
+```rust
 Hash::sha256(input: u8[]) -> Hash
 ```
 **Gas Cost**: 7500   
 **Description**: Computes the SHA-256 hash of `input`.   
 
 ### Hash::zero
-```silex
+```rust
 Hash::zero() -> Hash
 ```
 **Gas Cost**: 1  
 **Description**: Returns the zeroed 32-byte hash.  
 
 ### Hash::max
-```silex
+```rust
 Hash::max() -> Hash
 ```
 **Gas Cost**: 1  
@@ -849,7 +849,7 @@ Hash::max() -> Hash
 ## Random Functions
 
 ### Random::new()
-```silex
+```rust
 Random::new() -> Random
 ```
 **Gas Cost**: 5  
@@ -858,7 +858,7 @@ Random::new() -> Random
 The following methods can be called on a `Random` object:
 
 ### next_u8 / next_u16 / next_u32 / next_u64 / next_u128 / next_u256
-```silex
+```rust
 rng.next_u8()-> u8
 rng.next_u16() -> u16
 rng.next_u32() -> u32
@@ -870,7 +870,7 @@ rng.next_u256()-> u256
 **Description**: Generates the next random number of the given width.  
 
 ### next_bool
-```silex
+```rust
 rng.next_bool() -> bool
 ```
 **Gas Cost**: 5  
@@ -882,14 +882,14 @@ rng.next_bool() -> bool
 
 ### verify
 **Signature**:
-```silex
+```rust
 sig.verify(data: u8[], address: Address) -> bool
 ```
 **Gas Cost**: 500  
 **Description**: Verifies that the signature `sig` is valid for the byte array `data` signed by `address`. Returns `true` if valid, `false` if invalid.  
 
 ### Signature::from_bytes
-```silex
+```rust
 Signature::from_bytes(bytes: u8[]) -> Signature
 ```
 **Gas Cost**: 75   
@@ -900,14 +900,14 @@ Signature::from_bytes(bytes: u8[]) -> Signature
 ## Asset Functions
 
 ### Asset::get_by_id
-```silex
+```rust
 Asset::get_by_id(id: u64) -> optional<Asset>
 ```
 **Gas Cost**: 1000   
 **Description**: Looks up the asset by a numeric ID. Returns the asset or `null` if not found.   
 
 ### Asset::create
-```silex
+```rust
 Asset::create(
     id: u64,
     name: string,
@@ -920,7 +920,7 @@ Asset::create(
 **Description**: Creates a new asset with the given parameters. `max_supply` can be `null` if unlimited. Returns the newly created asset or `null` if creation fails.  
 
 ### Asset::get_by_hash
-```silex
+```rust
 Asset::get_by_hash(hash: Hash) -> optional<Asset>
 ```
 **Gas Cost**: 500  
@@ -929,70 +929,70 @@ Asset::get_by_hash(hash: Hash) -> optional<Asset>
 Once you have an `Asset`, you can call:
 
 ### get_max_supply
-```silex
+```rust
 asset.get_max_supply() -> optional<u64>
 ```
 **Gas Cost**: 5  
 **Description**: Returns the maximum supply if any, otherwise `null`.  
 
 ### get_supply
-```silex
+```rust
 asset.get_supply() -> u64
 ```
 **Gas Cost**: 15   
 **Description**: Returns the current supply of the asset.  
 
 ### get_name
-```silex
+```rust
 asset.get_name() -> string
 ```
 **Gas Cost**: 5  
 **Description**: Returns the asset’s full name (human-readable).   
 
 ### get_ticker
-```silex
+```rust
 asset.get_ticker() -> string
 ```
 **Gas Cost**: 5  
 **Description**: Returns the short ticker symbol.  
 
 ### get_hash
-```silex
+```rust
 asset.get_hash() -> Hash
 ```
 **Gas Cost**: 5  
 **Description**: Returns the unique `Hash` representing this asset.  
 
 ### mint
-```silex
+```rust
 asset.mint(amount: u64) -> bool
 ```
 **Gas Cost**: 500  
 **Description**: Increases the asset’s supply by `amount`, if allowed. Returns `true` if successful, `false` otherwise.  
 
 ### is_read_only
-```silex
+```rust
 asset.is_read_only() -> bool
 ```
 **Gas Cost**: 5  
 **Description**: Returns `true` if the asset cannot be modified (e.g. a read-only context).  
 
 ### get_contract_hash (asset)
-```silex
+```rust
 asset.get_contract_hash() -> Hash
 ```
 **Gas Cost**: 5  
 **Description**: If the asset is contract-scoped, returns the owning contract hash. Otherwise `null`.  
 
 ### get_id
-```silex
+```rust
 asset.get_id() -> optional<u64>
 ```
 **Gas Cost**: 5  
 **Description**: If the asset is numeric-based, returns its numeric ID, otherwise `null`.  
 
 ### transfer_ownership
-```silex
+```rust
 asset.transfer_ownership(contract) -> bool
 ```
 **Gas Cost**: 250  
@@ -1003,42 +1003,42 @@ asset.transfer_ownership(contract) -> bool
 ## Misc. Built-ins
 
 ### get_contract_hash()
-```silex
+```rust
 get_contract_hash() -> Hash
 ```
 **Gas Cost**: 5  
 **Description**: Returns the hash of the contract that is currently executing.   
 
 ### get_deposit_for_asset()
-```silex
+```rust
 get_deposit_for_asset(asset: Hash) -> optional<u64>
 ```
 **Gas Cost**: 5  
 **Description**: Returns how much of `asset` was deposited with the current contract call, or `null` if none.  
 
 ### get_balance_for_asset()
-```silex
+```rust
 get_balance_for_asset(asset: Hash) -> u64
 ```
 **Gas Cost**: 25   
 **Description**: Returns the contract’s current balance of `asset`.  
 
 ### transfer()
-```silex
+```rust
 transfer(destination: Address, amount: u64, asset: Hash) -> bool
 ```
 **Gas Cost**: 500  
 **Description**: Moves `amount` of `asset` out of the contract to `destination`. Returns `true` if successful, `false` otherwise.  
 
 ### burn()
-```silex
+```rust
 burn(amount: u64, asset: Hash) -> bool
 ```
 **Gas Cost**: 500  
 **Description**: Permanently removes `amount` of `asset` from the contract’s balance. Returns `true` if successful.  
 
 ### fire_event()
-```silex
+```rust
 fire_event(id: u64, data: Any)
 ```
 **Gas Cost**: 250 + an additional cost proportional to the size of `data`  
