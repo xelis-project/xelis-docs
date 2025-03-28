@@ -42,10 +42,18 @@ panic(value: Any) -> Any
 ### assert
 **Signature**:
 ```rust
-assert(value: bool)
+assert(condition: bool)
 ```
 **Gas Cost**: 1    
-**Description**: If `value` is false, execution aborts with an assertion error.  
+**Description**: If `condition` is false, execution aborts with an assertion error.  
+
+### require
+**Signature**:
+```rust
+require(condition: bool, msg: string)
+```
+**Gas Cost**: 1    
+**Description**: If `condition` is false, execution aborts with the provided message, `msg`.  
 
 ### is_same_ptr
 **Signature**:
@@ -173,6 +181,14 @@ value.unwrap_or(default_value: T) -> T
 ```
 **Gas Cost**: 1  
 **Description**: Returns the underlying value if not `null`, or returns `default_value` if `null`.   
+
+### expect
+**Signature**:
+```rust
+value.expect(msg: string) -> T
+```
+**Gas Cost**: 15  
+**Description**: Returns the underlying value if not `null`. If `null`, the execution panics with the provided message, `msg`.    
 
 ---
 
@@ -916,7 +932,7 @@ Asset::create(
     max_supply: optional<u64>
 ) -> optional<Asset>
 ```
-**Gas Cost**: 2500, with an additionnal 1 XEL of burned gas  
+**Gas Cost**: 2500, with an additional 1 XEL of burned gas  
 **Description**: Creates a new asset with the given parameters. `max_supply` can be `null` if unlimited. Returns the newly created asset or `null` if creation fails.  
 
 ### Asset::get_by_hash
