@@ -214,6 +214,16 @@ hook onDataReceived(data: u8[]) {
 }
 ```
 
+Currently `constructor()` is the only hook; it has no parameters and must return a u64 error code. `invoke: { max_gas: u64 }` needs to be added to the deploy_contract parameters. 
+
+```rust
+hook constructor() -> u64 {
+    let storage: Storage = Storage::new();
+    storage.store("owner", Transaction::current().source());
+    return 0;
+}
+```
+
 ### Methods on Structs/Enums
 
 A function can be declared as a “method” by specifying `(varName Type)` before the function name:
