@@ -5,5 +5,5 @@
   "wallet": "Wallet",
   "smart-contracts": "Smart Contracts",
   "transaction-fees": "Transaction Fees",
-  "p2p-encrypted-network": "P2P Encrypted Network"
+  "p2p": "P2P"
 }
