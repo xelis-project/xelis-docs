@@ -38,6 +38,41 @@ It is a compiled language that needs its toolchain to produce binaries from sour
 
 Cargo is the package manager of Rust and allows for easier build, dependencies managements and much more.
 
+### Install required dependencies
+
+It is required for `xelis_daemon` to have a few packages installed before trying to build it.
+
+#### CLang
+
+CLang is required to compile C/C++ files that can be introduced by some FFI bindings dependencies.
+
+You can install it easily by doing the following command:
+
+- On Windows:
+```bash copy
+winget install llvm
+```
+
+- On Linux:
+```bash copy
+apt-get install libclang-dev clang
+```
+
+#### CMake
+
+CMake is also required, it is an open-source build system generator.
+It helps manage the build process of software across different platforms and compilers using a platform-independent configuration.
+
+- On Windows:
+```bash copy
+winget install cmake
+```
+
+- On Linux:
+```bash copy
+apt-get install cmake
+```
+
 ### Clone the blockchain repository
 
 Open your operating system's command-line interface (CLI) and download the source code using Git.
