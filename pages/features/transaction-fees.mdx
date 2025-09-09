@@ -4,22 +4,74 @@ title: Transaction Fees
 
 ## Introduction
 
-XELIS has transaction capabilities on its network.
+XELIS is not only a Smart Contracts platform, but can be also considered as a store of value and payments system.
+This means, XELIS has transaction capabilities on its network for transfering value.
 
-To reward miners for their hard work keeping the blockchain a safe space and also preventing spamming attacks using high count of transactions, XELIS has a slightly different approach to calculate the required fee.
+To reward miners for their hard work keeping the blockchain a safe space and also preventing spamming attacks using high count of transactions,
+XELIS has a slightly different approach to calculate the required fee.
 
 First, fees paid by a transaction can only be paid using XELIS (native) asset, and is based on more than one parameter.
+XELIS asset is used as a gas system, store of value and payments system.
 
-The parameters used to determine the minimal transaction fee are the following:
-- Size in bytes, where every 1024 bytes used, you must pay 0.0001 XELIS.
-> This fee is used to prevent chain bloating and growing too fast in disk size.
-
-- Transfer count, where each transfer costs an additional fee of 0.00005 XELIS.
-> This is used to have an accurate fee based on the needed computation for Homomorphic Encryption. More transfers requires more computation to be applied and verified.
-
-- Newly created addresses, where each address registered by a transaction must pay an additional fee of 0.001 XELIS.
-> This fee is set in exchange to have no Proof-Of-Work process needed to register an account on chain, preventing a spamming attack that would bloat the chain with fake and/or unused accounts.
-> This is a one-time fee for each account that never had any record previously.
-> An account can be registered automatically by either mining a block or by already receiving a transaction.
+Differents factors are used to calculate the required minimal fee per transaction.
 
 This limit the advantages of using transactions as a vector of attack in case some dishonest people would try to harm the chain.
+
+A fee system is necessary for security and to balance fees correctly between the needs of low cost for users using the chain daily, but high enough to prevent bad actors
+from anormal usage.
+
+## Fee per KiB
+
+The factor for this fee is based on the transaction size in raw bytes, we set a "storage fee" which is based on KiB (1 KiB = 1024 bytes).
+The lowest fee per KiB allowed by the protocol is set to **0.0001 XELIS** (`10 000` in atomic units).
+
+This fee is used to prevent chain bloating and growing too fast in disk size.
+
+It is dynamic because the protocol auto-regulate itself based on the current block usage to prevent bad actors to use our low fee model
+to attack the chain through congestion or forcing nodes to store a lot of data in a short time.
+
+The dynamic base fee is calculated by a smooth EMA (Exponential Moving Average) on the block size.
+
+For a simplified Python implementation and the graph generator for below images, see [this](https://github.com/xelis-project/xelis-simulator) repo.
+
+An exponential curve is generated to determine which base fee should be used based on the current chain usage. 
+![Smooth exponential fee curve](https://github.com/xelis-project/xelis-simulator/raw/master/images/base_fee_exp2.png)
+
+Around ~50% of EMA block usage, the base fee is almost x4 compared to the minimum required.
+This can be explained by our short block time combined with our 1.25 MiB maximum block size which allows to pass a lot of transactions per second
+in case of high usage to reduce the congestion, but at the cost of a much higher price.
+
+To reach >50% of EMA block usage, we would needs to support the daily transactions of Bitcoin, Ethereum and Monero combined.
+
+## Fee per Output
+
+On XELIS, a transaction can make one or more output, requiring one or more ZK Proof and statement to execute it safely.
+This brings an additional cost that must be reflected on the fees paid by a user to miners.
+
+The protocol charges an additional (static) fee of **0.00005 XELIS** (`5 000` in atomic units) per transaction output.
+
+This is used to have an accurate fee based on the needed computation of Homomorphic Encryption ciphertexts and the verification of their ZK Proofs.
+
+This basically means that, the more transfers you have in a transaction, the more it requires computation to be applied and verified.
+The extra fee only scale along the required computation to ensure fairness.
+
+## Fee per New Address
+
+XELIS is based on the account model, which basically create an entry for said account and link all balances and transactions history to it.
+
+To prevent any bad actors to bloat the chain with dummy accounts, an extra (static) fee is required for each newly generated account.
+
+For each new address registered by a transaction, the transaction must pay an additional fee of **0.001 XELIS** (`100 000` in atomic units).
+
+This is a one-time fee for each account that never had any record previously.
+It is not mandatory because an account can register itself by either mining a block or by already receiving a transaction.
+
+## Fee per Signature
+
+In case your account is currently configured as a multisig wallet, you may see a slight overhead in fees paid compared to others accounts.
+
+This is required by the protocol to scale correctly along the required computation on nodes and miners for verification.
+
+Each additional signature present in a transaction require an additional fee of **0.00005 XELIS** (`5 000` in atomic units).
+
+This extra fee is static and not subject to the chain usage.
