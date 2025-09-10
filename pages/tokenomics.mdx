@@ -1,42 +1,21 @@
-# Tokenomics
+## Introduction
 
-## Max supply
+Tokenomics refers to the economic design of a cryptocurrency or token, including how it is created, distributed, and used within its ecosystem.
+Key aspects include:
+- the maximum supply (the total number of coins that can ever exist)
+- the circulating supply (coins currently available to the public)
+- the emission schedule (the rate at which new coins are generated),
+- and the inflation rate (how supply grows relative to what is already in circulation).
 
-XELIS has a fixed maximum supply of **18.4M** XEL.
+## Specifications
 
-## Mining reward
+XELIS (XEL) features a **fixed** maximum supply of **18.4 million XEL**, emphasizing scarcity and long-term value.
+Unlike cryptocurrencies that use halving schedules, XELIS distributes mining rewards dynamically—each block starts at approximately 1.41 XEL
+and gradually decreases based on its current supply and a consistent emission speed factor of **20**.
 
-Mining block starts at around ~1.41 XEL and decreases each subsequent block. 
-This reduction isn't based on halving logic but rather on the supply and emission factor of 20.
+Additionally, the mining reward may vary due to the blockDAG architecture; specifically,
+rewards can drop to as low as **5%** or up to **30%** of the initial block reward depending on the frequency of side blocks at the same height.
 
-Based on how the DAG react, your reward can be lower due to side blocks, this would give you minimum 5% and maximum 30% of initial reward based on the count of side blocks at same height.
+This design leads to a smoothly asymptotic emission curve.
 
-[Code logic for block reward](https://github.com/xelis-project/xelis-blockchain/blob/12afc7725522bf31caaac54f4d08d7a962cc0ade/xelis_daemon/src/core/blockchain.rs#L2622)  
-[Code logic for side blocks](https://github.com/xelis-project/xelis-blockchain/blob/12afc7725522bf31caaac54f4d08d7a962cc0ade/xelis_daemon/src/core/blockchain.rs#L2606)
-
-## Estimated circulating supply
-
-| Year      | Supply     | Mined  |
-|-----------|------------|--------|
-| 2025 Q2   | 2,831,232  | 15.39% |
-| 2026 Q2   | 5,226,818  | 28.41% |
-| 2027 Q2   | 7,253,792  | 39.42% |
-| 2028 Q2   | 8,968,873  | 48.74% |
-| 2029 Q2   | 10,420,052 | 56.63% |
-| 2030 Q2   | 11,647,936 | 63.30% |
-| 2031 Q2   | 12,686,885 | 68.95% |
-| 2032 Q2   | 13,565,969 | 73.73% |
-| 2033 Q2   | 14,309,787 | 77.77% |
-| 2034 Q2   | 14,939,153 | 81.19% |
-| 2035 Q2   | 15,471,678 | 84.09% |
-| 2036 Q2   | 15,922,262 | 86.53% |
-| 2037 Q2   | 16,303,515 | 88.61% |
-| _         | _          | _      |
-| 2045 Q2   | 17,749,051 | 96.46% |
-| _         | _          | _      |
-| 2074 Q2   | 18,394,880 | 99.97% |
-
-Note: This table does not account for side blocks. As a result, the max supply may reach the 18.4M limit slightly sooner than expected.
-
-[Supply emission (Simulation)](https://stats.xelis.io/views/supply_emission)  
-[Supply pretty chart](https://xelis.io/#supply)
+![Estimated circulating supply](https://github.com/xelis-project/xelis-simulator/raw/master/images/circulating_supply.png)
