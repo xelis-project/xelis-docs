@@ -1,0 +1,176 @@
+---
+title: Wallet Configuration
+---
+
+## Introduction
+
+The XELIS wallet is the application that allows you to **securely** store, send, and receive XEL (and any other asset available on the chain).
+It connects to the blockchain through the daemon or a remote node, enabling you to manage your funds while maintaining full control of your private keys.
+
+By default, the wallet operates in a **non-custodial** way—only you hold the keys to your coins, ensuring that no third party can access or move your funds.
+
+Beyond basic transfers, the XELIS wallet also supports **advanced features** such as interacting with multisig, smart contracts, managing custom assets, and monitoring your transaction history.
+
+For the highest level of privacy and security, it is **highly recommended** to connect your wallet to a daemon you manage, making your setup fully trustless and independent while contributing to the health of the XELIS network.
+
+## Wallet
+
+Run `./xelis_wallet --help` to see all available options.
+
+### Daemon Address
+
+Set the daemon address to use for the wallet. This is the address of the daemon to connect to.
+
+By default, the daemon address is set to `127.0.0.1:8080` to connect to your local node.
+
+To set the daemon address to `http://127.0.0.1:8081`, use: `./xelis_wallet --daemon-address http://127.0.0.1:8081`.
+
+### Enable XSWD
+
+Enable the XSWD mode. This will enable the wallet to use the XSWD protocol to communicate with applications securely.
+
+By default, the XSWD mode is disabled.
+
+To enable the XSWD mode, use: `./xelis_wallet --enable-xswd`.
+
+### Wallet Path
+
+Set the wallet path to use for the wallet.
+
+To use the wallet file `mywallet`, use: `./xelis_wallet --wallet-path mywallet`.
+
+If not specified, wallet is created in `wallets/` folder of the current directory with its name.
+
+### Password
+
+Set the password to use for the wallet file.
+
+To use the password `mypassword`, use: `./xelis_wallet --password mypassword`.
+
+### Seed
+
+Set the seed to use for the wallet file.
+
+This is useful to recover a wallet from a seed.
+
+To use the seed `myseed myseed`, use: `./xelis_wallet --seed "myseed myseed"`.
+
+### Offline Mode
+
+Enable offline mode. This will disable the wallet to connect to the daemon and will not be able to send transactions.
+
+By default, the wallet open in online mode and try to connect to the daemon.
+
+To enable the offline mode, use: `./xelis_wallet --offline-mode`.
+
+### RPC Bind Address
+
+Set the bind address to use for the RPC server. By default, the bind address is set to `127.0.0.1:8080`.
+
+To set the bind address to `127.0.0.1:8081`, use: `./xelis_wallet --rpc-bind-address 127.0.0.1:8081`.
+
+### RPC Password
+
+Set the password to use for the RPC server. By default, no password is set.
+
+A password is required if a username is provided.
+
+To set the password to `mypassword`, use: `./xelis_wallet --rpc-password mypassword`.
+
+### RPC Username
+
+Set the username to use for the RPC server.
+
+A username is required if a password is provided.
+
+To set the username to `myusername`, use: `./xelis_wallet --rpc-username myusername`.
+
+### Disable File Logging
+
+By default, the wallet logs to a file. To disable logging, use: `./xelis_wallet --disable-file-logging`.
+
+### Disable Date-Based File Log Naming
+
+Disable date-based file naming for logs. If disabled, the log file will be named xelis-daemon.log instead of YYYY-MM-DD.xelis-daemon.log
+
+To disable, use: `./xelis_wallet --disable-file-log-date-based`.
+
+### Disable Log Colors
+
+Disable the usage of colors in the log.
+
+To disable, use: `./xelis_wallet --disable-log-color`.
+
+### Disable Interactive Mode
+
+Disable terminal interactive mode. You will not be able to write CLI commands in it or have an updated prompt.
+
+To disable, use: `./xelis_wallet --disable-interactive-mode`.
+
+### Log Filename
+
+Set a custom log file name. By default, the filename is set to `xelis-daemon.log`.<br/>
+Log file are stored in the `logs` folder and are named with the date of the day.
+
+To set the filename to `mylog.log`, use: `./xelis_wallet --filename-log mylog.log`.
+
+### Logs Modules
+
+Module configuration for logs.
+
+To set, use: `./xelis_wallet --logs-modules module_name=off`.
+
+### Logs Dir Path
+
+Set a custom directory path to store the logs files.<br/>
+By default it will be `logs/` of the current directory.
+
+To set the path to `mylogs/`, use: `./xelis_wallet --logs-path mylogs/`.
+
+**NOTE**: The directory will be created using the provided path if it does not exist. The path must end with a `/`. 
+
+### Log Level
+
+Set the log level to use. Available values are `trace`, `debug`, `info`, `warn`, `error`.
+
+By default, the log level is set to `info`.
+
+To set the log level to debug: `./xelis_wallet --log-level debug`.
+
+### File Log Level
+
+Set the file log level to use. Available values are `trace`, `debug`, `info`, `warn`, `error`.
+
+This is useful to have a different log level for the file log than the console log.
+
+By default, the file log level is set to value passed to `--log-level` (which is also `info` by default).
+
+To set the file log level to debug: `./xelis_wallet --file-log-level debug`.
+
+### Disable History Scan
+
+Disable the history scan. This will prevent syncing old TXs/blocks.
+Only blocks / transactions caught by the network handler will be stored, not the old ones
+
+To set, use: `./xelis_wallet --disable-history-scan`.
+
+### Force Stable Balance
+
+Force the wallet to use a stable balance only during transactions creation. 
+This will prevent the wallet to use unstable balance and prevent any orphaned transaction due to DAG reorg. This is only working if the wallet is in online mode.
+
+To set, use: `./xelis_wallet --force-stable-balance`.
+
+### Precomputed Tables Path
+
+Set the path to the precomputed tables to use for the wallet.
+
+By default, it will be from current directory.
+
+To set the path to `mytables`, use: `./xelis_wallet --precomputed-tables-path mytables`.
+
+### Version
+
+Print the version of the miner.
+
+To print the version, use: `./xelis_wallet --version`.
