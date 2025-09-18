@@ -1,0 +1,9 @@
+export default {
+  "mining": "Mining",
+  "privacy": "Privacy",
+  "scalability": "Scalability",
+  "wallet": "Wallet",
+  "smart-contracts": "Smart Contracts",
+  "transaction-fees": "Transaction Fees",
+  "p2p": "P2P"
+}

@@ -1,0 +1,6 @@
+export default {
+    "wallet-cli": "CLI Wallet",
+    "wallet-genesix": "Genesix Wallet",
+    "miner-cpu": "CPU Miner",
+    "daemon": "Daemon"
+}
