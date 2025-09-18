@@ -5,17 +5,21 @@
     "start": "next dev",
     "build": "next build",
     "prod": "next start",
+    "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind",
     "export": "next build && next export"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.5.1",
-    "@fortawesome/free-brands-svg-icons": "^6.5.1",
-    "@fortawesome/free-solid-svg-icons": "^6.5.1",
-    "@fortawesome/react-fontawesome": "^0.2.0",
-    "next": "^13.5.6",
-    "nextra": "^2.13.4",
-    "nextra-theme-docs": "^2.13.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-brands-svg-icons": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.6",
+    "next": "^15.5.3",
+    "nextra": "^4.4.0",
+    "nextra-theme-docs": "^4.4.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "pagefind": "^1.4.0"
   }
 }
