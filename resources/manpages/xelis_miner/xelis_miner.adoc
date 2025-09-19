@@ -1,0 +1,142 @@
+= xelis_miner(1)
+:hardbreaks:
+
+== NAME
+xelis_miner - run a XELIS miner.
+
+== SYNOPSIS
+[synopsis]
+xelis_miner [OPTIONS] [FILENAME_LOG]
+
+== DESCRIPTION
+
+The *xelis_miner* application is a **CPU miner** that allows you to participate in securing the **XELIS** network by contributing your computer’s central processing unit (CPU) power to validate transactions and produce new blocks.
+
+Unlike specialized hardware such as GPUs or ASICs, CPU mining uses the processing resources already built into most desktop and laptop computers, making it the **most accessible** way to start mining.
+
+This approach is particularly useful for newcomers who want to support the network, test configurations, or mine with spare capacity on personal machines.
+
+While CPUs are generally less powerful than dedicated mining hardware, they provide an easy, **low-barrier** entry point into the XELIS ecosystem.
+
+The XELIS CPU miner is **lightweight**, integrates directly with the node software, and requires minimal setup,
+allowing anyone to start mining and earning XEL rewards with just a few configuration steps.
+
+A formatted and hyperlinked copy of the latest `xelis_miner` documentation can be viewed at https://docs.xelis.io/getting-started/configuration/xelis_miner or https://github.com/xelis-project/xelis-docs/resources/manpages/xelis_miner/xelis_miner.html
+
+
+== OPTIONS
+
+`-h`::
+`--help`::
+Print help (see a summary with `-h`).
+
+`-V`::
+`--version`::
+Print version.
+
+`--network`::
+Select the blockchain network the node will connect to.
++
+Possible values: `mainnet`, `testnet`, `devnet`
++
+Default: `mainnet`
+
+`-m, --miner-address <address>`::
+Set the wallet `<address>` to mine and receive block rewards.
+
+`--daemon-address <address>`::
+Set the daemon `<address>` to connect to for mining.
++
+Default: `127.0.0.1:8080`
+
+`--api-bind-address <address>`::
+Set the bind `<address>` for stats API.
+
+`-n, --num-threads <n>`::
+Set the number of threads to use to `<n>` (at least 1, max: 65535). By default, this will try to detect the number of threads available on your CPU.
+
+`-w, --worker <name>`::
+Set the worker `<name>` to be displayed on daemon side.
+Default: `default`
+
+`--log-level <level>`::
+Set the log level to `<level>`.
+Available values are `trace`, `debug`, `info`, `warn`, `error`.
+By default, the log level is set to `info`.
+
+`--file-log-level <level>`::
+Set the file log level to `<level>`.
++
+Available values are `trace`, `debug`, `info`, `warn`, `error`.
+This is useful for having a different log level for the file log than the console log.
++
+By default, the file log level is set to value passed to `--log-level` (which is also `info` by default).
+
+
+`--disable-file-logging`::
+Disable the miner from writing logs to a log file.
+
+`--disable-file-log-date-based`::
+Disable date-based log filenames. If disabled, the log file will be named `xelis-miner.log` instead of `YYYY-MM-DD.xelis-miner.log`.
+
+`--auto-compress-logs`::
+Enable the log file auto-compression. If enabled, the log file will be compressed every day. This will only work if file logging is enabled.
+
+`--disable-log-color`::
+Disable the usage of colors in the log display output.
+
+`--disable-interactive-mode`::
+Disable terminal interactive mode. You will not be able to write CLI commands in it or have an updated prompt.
+
+`--logs-path <path>`::
+Set the directory `<path>` where log files are stored.
++
+By default, it will be `logs/` of the current directory. It must end with a `/` to be a valid folder.
++
+Default: `logs/`
+
+`--logs-modules <module>`::
+Module configuration for logs.
+A comma must separate each module name.
+Example: To disable logging for two modules `mod_1` and `mod_2`, use: `--logs-modules mod_1=off,mod_2=off`.
+
+
+`--datetime-format <format>`::
+Change the datetime format used by the logger.
++
+Default: `[%Y-%m-%d] (%H:%M:%S%.3f)`
+
+
+ `--benchmark <benchmark>`::
+Enable the `<benchmark>` mode with the specified algorithm
+Possible values: `v1`, `v2`
+
+`--iterations <n>`::
+Set the number of iterations to run the benchmark to `<n>`.
++
+Default: `100`
+
+`--config-file <file>`::
+Load the daemon configuration from <file>. JSON format.
+
+`--generate-config-template`::
+Generate the template at the `--config-file` path.
+
+`--disable-ascii-art`::
+Disable the ascii art at startup.
+
+== FILENAME_LOG
+Log filename.
+
+Sets the filename where logs will be saved. This log file will be stored in `logs` directory.
+
+NOTE: This is only the filename, not the full path. The log file is rotated every day and has the format `YYYY-MM-DD.xelis-miner.log`.
+
+Default: `xelis-miner.log`
+
+
+== COPYRIGHT
+include::https://raw.githubusercontent.com/xelis-project/xelis-blockchain/refs/heads/master/LICENSE[]
+
+== SEE ALSO
+xelis_daemon(1), xelis_wallet(1)

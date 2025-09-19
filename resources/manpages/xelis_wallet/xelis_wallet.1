@@ -1,0 +1,298 @@
+'\" t
+.\"     Title: xelis_wallet
+.\"    Author: [see the "AUTHOR(S)" section]
+.\" Generator: Asciidoctor 2.0.20
+.\"      Date: 2025-09-21
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "XELIS_WALLET" "1" "2025-09-21" "\ \&" "\ \&"
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.ss \n[.ss] 0
+.nh
+.ad l
+.de URL
+\fI\\$2\fP <\\$1>\\$3
+..
+.als MTO URL
+.if \n[.g] \{\
+.  mso www.tmac
+.  am URL
+.    ad l
+.  .
+.  am MTO
+.    ad l
+.  .
+.  LINKSTYLE blue R < >
+.\}
+.SH "NAME"
+xelis_wallet \- run a XELIS wallet.
+.SH "SYNOPSIS"
+.sp
+xelis_wallet [OPTIONS]
+.SH "DESCRIPTION"
+.sp
+\fBxelis_wallet\fP is the application that allows you to \fBsecurely\fP store, send, and receive \fBXEL\fP (and any other asset available on the \fBXELIS\fP blockchain).
+.sp
+It connects to the blockchain through the daemon or a remote node, enabling you to manage your funds while maintaining full control of your private keys.
+.sp
+By default, the wallet operates in a \fBnon\-custodial\fP way only \- you hold the keys to your coins, ensuring that no third party can access or move your funds.
+.sp
+Beyond basic transfers, the XELIS wallet also supports \fBadvanced features\fP such as interacting with multisig, smart contracts, managing custom assets, and monitoring your transaction history.
+.sp
+For the highest level of privacy and security, it is \fBhighly recommended\fP to connect your wallet to a daemon you manage, making your setup fully trustless and independent while contributing to the health of the XELIS network.
+.sp
+A formatted and hyperlinked copy of the latest \f(CRxelis_wallet\fP documentation can be viewed at \c
+.br
+.URL "https://docs.xelis.io/getting\-started/configuration/xelis_wallet" "" ""
+or
+.br
+.URL "https://github.com/xelis\-project/xelis\-docs/resources/manpages/xelis_wallet/xelis_wallet.html" "" ""
+.SH "OPTIONS"
+.sp
+\f(CR\-h\fP, \f(CR\-\-help\fP
+.RS 4
+Print help (see a summary with \f(CR\-h\fP).
+.RE
+.sp
+\f(CR\-V\fP, \f(CR\-\-version\fP
+.RS 4
+Print version.
+.RE
+.sp
+\f(CR\-\-network\fP
+.RS 4
+Select the blockchain network the node will connect to.
+.sp
+Possible values: \f(CRmainnet\fP, \f(CRtestnet\fP, \f(CRdevnet\fP
+.sp
+Default: \f(CRmainnet\fP
+.RE
+.sp
+\f(CR\-\-rpc\-bind\-address <address>\fP
+.RS 4
+Set the bind \f(CR<address>\fP to use for the RPC server. By default, the bind address is set to \f(CR127.0.0.1:8080\fP.
+.RE
+.sp
+\f(CR\-\-rpc\-username <username>\fP
+.RS 4
+Set the \f(CR<username>\fP to use for RPC server authentication. By default, no username is set.
+.br
+NOTE: A username is required if a \f(CR\-\-rpc\-passweod\fP is provided.
+.RE
+.sp
+\f(CR\-\-rpc\-password <password>\fP
+.RS 4
+Set the \f(CR<password>\fP to use for RPC server authentication. By default, no password is set.
+.RE
+.if n .sp
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+.B Note
+.ps -1
+.br
+.sp
+A password is required if a \f(CR\-\-rpc\-username\fP is provided.
+.sp .5v
+.RE
+.sp
+\f(CR\-\-rpc\-threads <n>\fP
+.RS 4
+Set the number of workers to spawn for the HTTP server to <n>. If not provided, it will use the available parallelism.
+.RE
+.sp
+\f(CR\-\-daemon\-address <address>\fP
+.RS 4
+Set the address of the daemon to use.
+.sp
+Default: \c
+.br
+.URL "http://127.0.0.1:8080" "" ""
+.RE
+.sp
+\f(CR\-\-offline\-mode\fP
+.RS 4
+Enable offline mode. This will stop the wallet from connecting to the daemon, and it \fBwill not\fP be able to send transactions.
+.RE
+.sp
+\f(CR\-\-precomputed\-tables\-l1 <size>\fP
+.RS 4
+Sets the L1 \f(CR<size>\fP for precomputed tables. By default, it is set to 26 (L1_FULL).
+.br
+At each increment of 1, the size of the table is doubled \f(CRL1_FULL = 26\fP, \f(CRL1_MEDIUM = 18\fP, \f(CRL1_LOW = 13\fP.
+.RE
+.sp
+Default: \f(CR26\fP
+.sp
+\f(CR\-\-precomputed\-tables\-path <path>\fP
+.RS 4
+Set the path to use for precomputed tables to \f(CR<path>\fP
+.br
+By default, the current directory is used.
+.RE
+.sp
+\f(CR\-\-log\-level <level>\fP
+.RS 4
+Set the log level to \f(CR<level>\fP.
+.br
+Available values are \f(CRtrace\fP, \f(CRdebug\fP, \f(CRinfo\fP, \f(CRwarn\fP, \f(CRerror\fP.
+.br
+By default, the log level is set to \f(CRinfo\fP.
+.RE
+.sp
+\f(CR\-\-file\-log\-level <level>\fP
+.RS 4
+Set the file log level to \f(CR<level>\fP.
+.sp
+Available values are \f(CRtrace\fP, \f(CRdebug\fP, \f(CRinfo\fP, \f(CRwarn\fP, \f(CRerror\fP.
+.br
+This is useful for having a different log level for the file log than the console log.
+.sp
+By default, the file log level is set to value passed to \f(CR\-\-log\-level\fP (which is also \f(CRinfo\fP by default).
+.RE
+.sp
+\f(CR\-\-disable\-file\-logging\fP
+.RS 4
+Disable the wallet from writing logs to a log file.
+.RE
+.sp
+\f(CR\-\-disable\-file\-log\-date\-based\fP
+.RS 4
+Disable date\-based log filenames. If disabled, the log file will be named \f(CRxelis\-wallet.log\fP instead of \f(CRYYYY\-MM\-DD.xelis\-wallet.log\fP.
+.RE
+.sp
+\f(CR\-\-auto\-compress\-logs\fP
+.RS 4
+Enable the log file auto\-compression. If enabled, the log file will be compressed every day. This will only work if file logging is enabled.
+.RE
+.sp
+\f(CR\-\-disable\-log\-color\fP
+.RS 4
+Disable the usage of colors in the log display output.
+.RE
+.sp
+\f(CR\-\-disable\-interactive\-mode\fP
+.RS 4
+Disable terminal interactive mode. You will not be able to write CLI commands in it or have an updated prompt.
+.RE
+.sp
+\f(CR\-\-filename\-log <filename>\fP
+.RS 4
+Set log filename.
+.sp
+By default \f(CR<filename>\fP is xelis\-wallet.log. \f(CR<filename>\fP will be stored in \f(CRlogs\fP directory, this is only the filename, \fBnot\fP the full path. The log file is rotated every day and has the format \f(CRYYYY\-MM\-DD.xelis\-wallet.log\fP.
+.sp
+Default: \f(CRxelis\-wallet.log\fP
+.RE
+.sp
+\f(CR\-\-logs\-path <path>\fP
+.RS 4
+Set the directory \f(CR<path>\fP where log files are stored.
+.sp
+By default, it will be \f(CRlogs/\fP of the current directory. It must end with a \f(CR/\fP to be a valid folder.
+.sp
+Default: \f(CRlogs/\fP
+.RE
+.sp
+\f(CR\-\-logs\-modules <module>\fP
+.RS 4
+Module configuration for logs.
+.br
+A comma must separate each module name.
+.br
+Example: To disable logging for two modules \f(CRmod_1\fP and \f(CRmod_2\fP, use: \f(CR\-\-logs\-modules mod_1=off,mod_2=off\fP.
+.RE
+.sp
+\f(CR\-\-datetime\-format <format>\fP
+.RS 4
+Change the datetime format used by the logger.
+.sp
+Default: \f(CR[%Y\-%m\-%d] (%H:%M:%S%.3f)\fP
+.RE
+.sp
+`\-\-wallet\-path <path> `
+.RS 4
+Set the \f(CR<path>\fP for wallet storage to open/create a wallet at this location.
+.sp
+If not specified, the wallet will be created inside the \f(CRwallets/\fP folder of the current directory with its nam.
+.RE
+.sp
+\f(CR\-\-password <password>\fP
+.RS 4
+Set the password to use for the wallet file.
+.RE
+.sp
+\f(CR\-\-seed <seed>\fP
+.RS 4
+Restores a wallet using seed.
+.RE
+.sp
+\f(CR\-\-n\-decryption\-threads <n>\fP
+.RS 4
+Set the number of threads we want to use during ciphertext decryption to \f(CR<n>\fP.
+.sp
+Default: \f(CR16\fP
+.RE
+.sp
+\f(CR\-\-network\-concurrency <n>\fP
+.RS 4
+Set the concurrency configuration for the Network Handler to \f(CR<n>\fP.
+.sp
+Default: \f(CR16\fP
+.RE
+.sp
+\f(CR\-\-enable\-xswd\fP
+.RS 4
+Enable XSWD mode. This will enable the wallet to use the XSWD protocol to communicate with applications securely.
+.sp
+By default, the XSWD mode is disabled.
+.RE
+.sp
+\f(CR\-\-disable\-history\-scan\fP
+.RS 4
+Disable the history scan This will prevent syncing old TXs/blocks Only blocks / transactions caught by the network handler will be stored, not the old ones.
+.RE
+.sp
+\f(CR\-\-force\-stable\-balance\fP
+.RS 4
+Force the wallet to use a stable balance only during transaction creation. This will prevent the wallet from using unstable balances and prevent any orphaned transactions due to DAG reorg. This only works if the wallet is in online mode.
+.RE
+.sp
+\f(CR\-\-config\-file <file>\fP
+.RS 4
+Load the daemon configuration from <file>. JSON format.
+.RE
+.sp
+\f(CR\-\-generate\-config\-template\fP
+.RS 4
+Generate the template at the \f(CR\-\-config\-file\fP path.
+.RE
+.sp
+\f(CR\-\-disable\-ascii\-art\fP
+.RS 4
+Disable the ascii art at startup.
+.RE
+.SH "COPYRIGHT"
+.sp
+BSD 3\-Clause License
+.sp
+Copyright (c) 2025, XELIS
+.sp
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+.sp
+Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+.sp
+Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+.sp
+Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+.sp
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+.SH "SEE ALSO"
+.sp
+xelis_daemon(1), xelis_miner(1)

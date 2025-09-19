@@ -1,0 +1,279 @@
+---
+title: XELIS Wallet Configuration
+---
+
+## NAME
+
+**xelis_wallet** - run a xelis miner.
+
+## SYNOPSIS
+
+**xelis_wallet** \[OPTIONS\]
+
+## DESCRIPTION
+
+**xelis_wallet** is the application that allows you to **securely**
+store, send, and receive **XEL** (and any other asset available on the
+**XELIS** blockchain).
+
+It connects to the blockchain through the daemon or a remote node,
+enabling you to manage your funds while maintaining full control of your
+private keys.
+
+By default, the wallet operates in a **non-custodial** way only - you
+hold the keys to your coins, ensuring that no third party can access or
+move your funds.
+
+Beyond basic transfers, the XELIS wallet also supports **advanced
+features** such as interacting with multisig, smart contracts, managing
+custom assets, and monitoring your transaction history.
+
+For the highest level of privacy and security, it is **highly
+recommended** to connect your wallet to a daemon you manage, making your
+setup fully trustless and independent while contributing to the health
+of the XELIS network.
+
+A formatted and hyperlinked copy of the latest **xelis_wallet**
+documentation can be viewed at https://docs.xelis.io/getting-started/configuration/xelis_wallet or https://github.com/xelis-project/xelis-docs/resources/manpages/xelis_wallet/xelis_wallet.html
+
+# OPTIONS
+
+`-h`, `--help`
+
+> Print help (see a summary with `-h`).
+
+`-V`, `--version`
+
+> Print version.
+
+`--network`
+
+> Select the blockchain network the node will connect to.
+>
+> Possible values: `mainnet`, `testnet`, `devnet`
+>
+> Default: `mainnet`
+
+`--rpc-bind-address <address>`
+
+> Set the bind `<address>` to use for the RPC server. By default, the
+> bind address is set to `127.0.0.1:8080`.
+
+`--rpc-username <username>`
+
+> Set the `<username>` to use for RPC server authentication. By default,
+> no username is set.  
+> NOTE: A username is required if a `--rpc-passweod` is provided.
+
+`--rpc-password <password>`
+
+> Set the `<password>` to use for RPC server authentication. By default,
+> no password is set.
+
+>
+>
+> **Note**  
+> A password is required if a `--rpc-username` is provided.
+
+`--rpc-threads <n>`
+
+> Set the number of workers to spawn for the HTTP server to `<n>`.
+> If not provided, it will use the available parallelism.
+
+`--daemon-address <address>`
+
+> Set the address of the daemon to use.
+>
+> Default: `http://127.0.0.1:8080`
+
+`--offline-mode`
+
+> Enable offline mode. This will stop the wallet from connecting to the
+> daemon, and it **will not** be able to send transactions.
+
+`--precomputed-tables-l1 <size>`
+
+> Sets the L1 `<size>` for precomputed tables. By default, it is set to
+> 26 (L1\_FULL).  
+> At each increment of 1, the size of the table is doubled
+> `L1_FULL = 26`, `L1_MEDIUM = 18`, `L1_LOW = 13`.  
+> 
+> Default: `26`
+
+`--precomputed-tables-path <path>`
+
+> Set the path to use for precomputed tables to `<path>`  
+> By default, the current directory is used.
+
+`--log-level <level>`
+
+> Set the log level to `<level>`.  
+> Available values are `trace`, `debug`, `info`, `warn`, `error`.  
+> By default, the log level is set to `info`.
+
+`--file-log-level <level>`
+
+> Set the file log level to `<level>`.
+>
+> Available values are `trace`, `debug`, `info`, `warn`, `error`.  
+> This is useful for having a different log level for the file log than
+> the console log.
+>
+> By default, the file log level is set to value passed to `--log-level`
+> (which is also `info` by default).
+
+`--disable-file-logging`
+
+> Disable the wallet from writing logs to a log file.
+
+`--disable-file-log-date-based`
+
+> Disable date-based log filenames. If disabled, the log file will be
+> named `xelis-wallet.log` instead of `YYYY-MM-DD.xelis-wallet.log`.
+
+`--auto-compress-logs`
+
+> Enable the log file auto-compression. If enabled, the log file will be
+> compressed every day. This will only work if file logging is enabled.
+
+`--disable-log-color`
+
+> Disable the usage of colors in the log display output.
+
+`--disable-interactive-mode`
+
+> Disable terminal interactive mode. You will not be able to write CLI
+> commands in it or have an updated prompt.
+
+`--filename-log <filename>`
+
+> Set log filename.
+>
+> By default `<filename>` is xelis-wallet.log. `<filename>` will be
+> stored in `logs` directory, this is only the filename, **not** the
+> full path. The log file is rotated every day and has the format
+> `YYYY-MM-DD.xelis-wallet.log`.
+>
+> Default: `xelis-wallet.log`
+
+`--logs-path <path>`
+
+> Set the directory `<path>` where log files are stored.
+>
+> By default, it will be `logs/` of the current directory. It must end
+> with a `/` to be a valid folder.
+>
+> Default: `logs/`
+
+`--logs-modules <module>`
+
+> Module configuration for logs.  
+> A comma must separate each module name.  
+> Example: To disable logging for two modules `mod_1` and `mod_2`, use:
+> `--logs-modules mod_1=off,mod_2=off`.
+
+`--datetime-format <format>`
+
+> Change the datetime format used by the logger.
+>
+> Default: `[%Y-%m-%d] (%H:%M:%S%.3f)`
+
+`--wallet-path <path>`
+
+> Set the `<path>` for wallet storage to open/create a wallet at this
+> location.
+>
+> If not specified, the wallet will be created inside the `wallets`
+> folder of the current directory with its nam.
+
+`--password <password>`
+
+> Set the password to use for the wallet file.
+
+`--seed <seed>`
+
+> Restores a wallet using seed.
+
+`--n-decryption-threads <n>`
+
+> Set the number of threads we want to use during ciphertext decryption
+> to `<n>`.
+>
+> Default: `16`
+
+`--network-concurrency <n>`
+
+> Set the concurrency configuration for the Network Handler to `<n>`.
+>
+> Default: `16`
+
+`--enable-xswd`
+
+> Enable XSWD mode. This will enable the wallet to use the XSWD protocol
+> to communicate with applications securely.
+>
+> By default, the XSWD mode is disabled.
+
+`--disable-history-scan`
+
+> Disable the history scan This will prevent syncing old TXs/blocks Only
+> blocks / transactions caught by the network handler will be stored,
+> not the old ones.
+
+`--force-stable-balance`
+
+> Force the wallet to use a stable balance only during transaction
+> creation. This will prevent the wallet from using unstable balances
+> and prevent any orphaned transactions due to DAG reorg. This only
+> works if the wallet is in online mode.
+
+`--config-file <file>`
+
+> Load the daemon configuration from `<file>`. JSON format.
+
+`--generate-config-template`
+
+> Generate the template at the `--config-file` path.
+
+`--disable-ascii-art`
+
+> Disable the ascii art at startup.
+
+
+
+## COPYRIGHT
+
+BSD 3-Clause License
+
+Copyright (c) 2025, XELIS
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.
+
+Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+Neither the name of the copyright holder nor the names of its
+contributors may be used to endorse or promote products derived from
+this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRICOPYRIGHTGHT HOLDERS AND
+CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
+BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+## SEE ALSO
+
+xelis_daemon(1), xelis_miner(1)
