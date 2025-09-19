@@ -1,0 +1,48 @@
+---
+title: Download binaries
+---
+
+import { Callout } from 'nextra/components'
+
+## Introduction
+
+To give an easier way to install the software, we provide precompiled binaries for different platforms.
+
+The following platforms are currently supported during our releases:
+- Windows
+- Linux
+- MacOS
+
+**Precompiled binaries** are the compiled version of the source code by a third party (in this, case, the developers) which is ready to run on your system.
+
+It is a convenient way to install the software without the need to compile it from source code, but needs to trust the source of the binaries.
+
+<Callout type="warning" emoji="⚠️">
+  Running precompiled binaries from untrusted party can be a security risk.
+</Callout>
+
+## Download
+
+For each **new version release**, we provide a zip for the mentioned platforms containing the **daemon**, **wallet** and **miner** binaries along checksums, documentation and license files.
+
+To download the **latest version** available, please visit the [Releases page](https://github.com/xelis-project/xelis-blockchain/releases).
+
+<Callout type="info">
+  We recommended building our software from source code directly,
+  to be up-to-date but also to prevent having to trust a third party which could be a vector of attacks.
+</Callout>
+
+### Verification
+
+Once you've downloaded the zip file it is **recommended** to verify the correct checksums of these binaries.
+
+On Linux, you can achieve this by using the `sha256sum` and compare it to the provided checksums:
+```bash copy
+sha256sum <your_file>
+```
+
+### Unsupported platform
+
+If you don't see the precompiled binaries for your platform, it is required to build from source code.
+
+A comprehensive guide to build from source code is available [here](/getting-started/build-from-source-code).
