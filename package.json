@@ -5,8 +5,7 @@
     "start": "next dev",
     "build": "next build",
     "prod": "next start",
-    "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind",
-    "export": "next build && next export"
+    "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",

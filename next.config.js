@@ -5,6 +5,7 @@ const withNextra = nextra({
 })
 
 module.exports = withNextra({
+  output: "export",
   images: {
     unoptimized: true
   }
