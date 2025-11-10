@@ -83,6 +83,8 @@ else
 fi
 
 # Build project
+echo "Updating the repository..."
+git pull
 echo "Building the project..."
 cargo build --release
 
@@ -122,5 +124,5 @@ if [ ! -f "start.sh" ]; then
 fi
 
 echo ""
-echo "For future start, use ./start.sh"
+echo "For future start, use ./start.sh directly"
 ./start.sh
