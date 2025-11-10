@@ -7,7 +7,8 @@ echo "#  XELIS Blockchain Daemon Install  #"
 echo "#####################################"
 echo ""
 
-# Detect OS
+# Detect shell & OS
+CURRENT_SHELL=$(basename "$SHELL")
 OS="unknown"
 case "$(uname -s)" in
     Linux*)     OS="linux";;
@@ -61,14 +62,21 @@ install_deps() {
 install_deps
 
 # Rust setup
-if [ -d "$HOME/.cargo/env" ]; then
-  source "$HOME/.cargo/env"
-fi
-
 if ! command -v rustup &> /dev/null; then
   echo "Installing Rustup..."
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-  source "$HOME/.cargo/env"
+  if [ "$CURRENT_SHELL" = "fish" ]; then
+    if [ -f "$HOME/.cargo/env" ]; then
+        echo "Detected Fish shell. Loading Rust environment for Fish..."
+        source "$HOME/.cargo/env.fish"
+    fi
+  else
+    if [ -f "$HOME/.cargo/env" ]; then
+        echo "Detected $CURRENT_SHELL shell. Loading Rust environment..."
+        # Use '.' instead of source for POSIX compatibility
+        . "$HOME/.cargo/env"
+    fi
+  fi
 else
   echo "Updating Rust..."
   rustup update
