@@ -34,7 +34,7 @@ install_deps() {
             if ! command -v gcc &> /dev/null; then
                 echo "Installing GCC and build tools..."
                 sudo apt-get update
-                sudo apt-get install -y gcc cmake build-essential unzip curl
+                sudo apt-get install -y gcc cmake build-essential unzip curl llvm-dev libclang-dev clang
             fi
             ;;
         macos)
@@ -43,7 +43,7 @@ install_deps() {
                 echo "Installing Homebrew..."
                 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
             fi
-            brew install gcc cmake unzip curl || true
+            brew install gcc cmake unzip curl llvm || true
             ;;
         windows)
             echo "Checking Windows dependencies..."
