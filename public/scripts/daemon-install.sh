@@ -90,7 +90,7 @@ cargo build --release
 
 # Bootstrap option
 if [ ! -d "mainnet" ]; then
-  read -e -p "Do you want to bootstrap? Y: Download and use latest snapshot. N: Sync from scratch. (Y/N): " choice
+  read -p "Do you want to bootstrap? Y: Download and use latest snapshot. N: Sync from scratch. (Y/N): " choice
   if [[ "$choice" == [Yy]* ]]; then
     echo "Downloading mainnet snapshot..."
     curl -L -o mainnet.zip https://node.xelis.io/files/mainnet.zip
@@ -108,7 +108,7 @@ if [ ! -f "start.sh" ]; then
   echo ""
   echo "Recommended option: 1"
   echo ""
-  read -e -p "Enter your choice (0/1/2): " sync_choice
+  read -p "Enter your choice (0/1/2): " sync_choice
 
   SYNC_PARAM=""
   case "$sync_choice" in
