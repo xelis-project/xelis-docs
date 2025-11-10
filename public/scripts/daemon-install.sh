@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 echo "#####################################"
 echo "#  XELIS Blockchain Daemon Install  #"
 echo "#####################################"
