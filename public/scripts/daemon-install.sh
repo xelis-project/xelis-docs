@@ -24,6 +24,27 @@ fi
 
 cd xelis-blockchain
 
+# Function to detect Clang version and switch to GCC if too old
+detect_compiler() {
+    echo "Detecting Clang compatibility..."
+    local version
+    version=$(apt-cache policy clang 2>/dev/null | grep Candidate | grep -oP '\d+' || echo 0)
+
+    echo "APT candidate Clang version: $version"
+
+    if [[ "$version" -lt 14 || "$version" -eq 0 ]]; then
+        echo "Clang $version is too old or not available. Installing GCC instead."
+        export CC=gcc
+        export CXX=g++
+        sudo apt-get update -y
+        sudo apt-get install -y gcc g++
+    else
+        echo "Clang $version is sufficient."
+        export CC=clang
+        export CXX=clang++
+    fi
+}
+
 # Install dependencies
 install_deps() {
     case "$OS" in
@@ -33,6 +54,10 @@ install_deps() {
                 echo "Installing GCC and build tools..."
                 sudo apt-get update
                 sudo apt-get install -y gcc cmake build-essential unzip curl llvm-dev libclang-dev clang
+
+                # Because of aws-lc-rs dependency, we need at least Clang 14
+                # so we check the version and switch to GCC if Clang is too old
+                detect_compiler
             fi
             ;;
         macos)
@@ -57,6 +82,7 @@ install_deps() {
     esac
 }
 
+echo "Installing necessary dependencies..."
 install_deps
 
 # Rust setup
