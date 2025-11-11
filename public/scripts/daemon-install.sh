@@ -85,8 +85,8 @@ install_deps() {
     case "$OS" in
         linux)
             echo "Checking Linux dependencies..."
-            if ! command -v gcc &> /dev/null; then
-                echo "Installing GCC and build tools..."
+            if ! command -v clang &> /dev/null; then
+                echo "Installing Clang and build tools..."
 
                 # Detect package manager and install dependencies
                 if command -v dnf &>/dev/null; then
@@ -105,8 +105,9 @@ install_deps() {
 
                 # Because of aws-lc-rs dependency, we need at least Clang 14
                 # so we check the version and switch to GCC if Clang is too old
-                detect_compiler
             fi
+
+            detect_compiler
             ;;
         macos)
             echo "Checking macOS dependencies..."
