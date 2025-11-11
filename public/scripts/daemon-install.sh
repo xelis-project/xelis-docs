@@ -25,23 +25,58 @@ fi
 cd xelis-blockchain
 
 # Function to detect Clang version and switch to GCC if too old
+# see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95189
 detect_compiler() {
     echo "Detecting Clang compatibility..."
     local version
-    version=$(apt-cache policy clang 2>/dev/null | grep Candidate | grep -oP '\d+' || echo 0)
+    version=$(clang --version 2>/dev/null | sed -n 's/.*version \([0-9][0-9]*\).*/\1/p' | head -n1)
+
+    if [[ -z "$version" ]]; then
+        version=0
+    fi
 
     echo "APT candidate Clang version: $version"
 
     if [[ "$version" -lt 14 || "$version" -eq 0 ]]; then
         echo "Clang $version is too old or not available. Installing GCC instead."
-        export CC=gcc
-        export CXX=g++
-        sudo apt-get update -y
-        sudo apt-get install -y gcc g++
+        sudo apt-get install -y software-properties-common
+
+        # Install GCC 13 on Ubuntu if not already installed
+        if grep -qi ubuntu /etc/os-release 2>/dev/null; then
+          if ! grep -q "ubuntu-toolchain-r/test" /etc/apt/sources.list /etc/apt/sources.list.d/* 2>/dev/null; then
+              echo "Adding PPA for newer GCC versions..."
+              sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+              sudo apt-get update
+          fi
+
+          sudo apt-get install -y gcc-13 g++-13
+          export CC=gcc-13
+          export CXX=g++-13
+        else
+          echo "installing GCC from default repositories."
+          if command -v dnf &>/dev/null; then
+              # Fedora / RHEL / Rocky
+              sudo dnf install -y gcc gcc-c++
+          elif command -v yum &>/dev/null; then
+              # CentOS 7 / RHEL 7
+              sudo yum install -y gcc gcc-c++
+          elif command -v pacman &>/dev/null; then
+              # Arch Linux
+              sudo pacman -Syu --noconfirm gcc
+          elif command -v apt-get &>/dev/null; then
+              # Debian (no Ubuntu PPA)
+              sudo apt-get install -y gcc g++
+          else
+              echo "Unsupported package manager. Please install GCC 11+ manually."
+              return 1
+          fi
+          export CC=gcc
+          export CXX=g++
+        fi
     else
-        echo "Clang $version is sufficient."
         export CC=clang
         export CXX=clang++
+        echo "Clang $version is recent enough. Using Clang."
     fi
 }
 
@@ -52,8 +87,21 @@ install_deps() {
             echo "Checking Linux dependencies..."
             if ! command -v gcc &> /dev/null; then
                 echo "Installing GCC and build tools..."
-                sudo apt-get update
-                sudo apt-get install -y gcc cmake build-essential unzip curl llvm-dev libclang-dev clang
+
+                # Detect package manager and install dependencies
+                if command -v dnf &>/dev/null; then
+                    # Fedora / RHEL / Rocky
+                    sudo dnf install -y gcc gcc-c++ cmake make unzip curl llvm-devel clang
+                elif command -v yum &>/dev/null; then
+                    # CentOS 7 / RHEL 7
+                    sudo yum install -y gcc gcc-c++ cmake make unzip curl llvm-devel clang
+                elif command -v pacman &>/dev/null; then
+                    # Arch Linux
+                    sudo pacman -Syu --noconfirm gcc cmake make unzip curl llvm clang
+                else
+                  sudo apt-get update
+                  sudo apt-get install -y gcc cmake build-essential unzip curl llvm-dev libclang-dev clang
+                fi
 
                 # Because of aws-lc-rs dependency, we need at least Clang 14
                 # so we check the version and switch to GCC if Clang is too old
