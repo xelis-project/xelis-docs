@@ -85,28 +85,24 @@ install_deps() {
     case "$OS" in
         linux)
             echo "Checking Linux dependencies..."
-            if ! command -v clang &> /dev/null; then
-                echo "Installing Clang and build tools..."
 
-                # Detect package manager and install dependencies
-                if command -v dnf &>/dev/null; then
-                    # Fedora / RHEL / Rocky
-                    sudo dnf install -y gcc gcc-c++ cmake make unzip curl llvm-devel clang
-                elif command -v yum &>/dev/null; then
-                    # CentOS 7 / RHEL 7
-                    sudo yum install -y gcc gcc-c++ cmake make unzip curl llvm-devel clang
-                elif command -v pacman &>/dev/null; then
-                    # Arch Linux
-                    sudo pacman -Syu --noconfirm gcc cmake make unzip curl llvm clang
-                else
-                  sudo apt-get update
-                  sudo apt-get install -y gcc cmake build-essential unzip curl llvm-dev libclang-dev clang
-                fi
-
-                # Because of aws-lc-rs dependency, we need at least Clang 14
-                # so we check the version and switch to GCC if Clang is too old
+            # Detect package manager and install dependencies
+            if command -v dnf &>/dev/null; then
+                # Fedora / RHEL / Rocky
+                sudo dnf install -y git gcc gcc-c++ cmake make unzip curl llvm-devel clang
+            elif command -v yum &>/dev/null; then
+                # CentOS 7 / RHEL 7
+                sudo yum install -y git gcc gcc-c++ cmake make unzip curl llvm-devel clang
+            elif command -v pacman &>/dev/null; then
+                # Arch Linux
+                sudo pacman -Syu --noconfirm git gcc cmake make unzip curl llvm clang
+            else
+              sudo apt-get update
+              sudo apt-get install -y git gcc cmake build-essential unzip curl llvm-dev libclang-dev clang
             fi
 
+            # Because of aws-lc-rs dependency, we need at least Clang 14
+            # so we check the version and switch to GCC if Clang is too old
             detect_compiler
             ;;
         macos)
