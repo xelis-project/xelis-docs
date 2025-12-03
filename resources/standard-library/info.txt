@@ -1,0 +1,6 @@
+doc_out.json is used to generate the standard library documentation.
+
+UPDATE doc_out.json, not the .mdx file!
+
+The final output should standard-library.mdx in the smart-contracts folder.
+
