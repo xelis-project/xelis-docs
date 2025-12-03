@@ -2602,35 +2602,35 @@
             },
             {
                 "syscall_id": 352,
-                "signature": "next_u8()⟶ u8",
+                "signature": "next_u8() ⟶ u8",
                 "description": "Generates the next u8 random number.",
                 "example": "",
                 "gas_cost": 5
             },
             {
                 "syscall_id": 353,
-                "signature": "next_u16()⟶ u16",
+                "signature": "next_u16() ⟶ u16",
                 "description": "Generates the next u16 random number.",
                 "example": "",
                 "gas_cost": 5
             },
             {
                 "syscall_id": 354,
-                "signature": "next_u32()⟶ u32",
+                "signature": "next_u32() ⟶ u32",
                 "description": "Generates the next u32 random number.",
                 "example": "",
                 "gas_cost": 5
             },
             {
                 "syscall_id": 355,
-                "signature": "next_u64()⟶ u64",
+                "signature": "next_u64() ⟶ u64",
                 "description": "Generates the next u64 random number.",
                 "example": "",
                 "gas_cost": 5
             },
             {
                 "syscall_id": 356,
-                "signature": "next_u128()⟶ u128",
+                "signature": "next_u128() ⟶ u128",
                 "description": "Generates the next u128 random number.",
                 "example": "",
                 "gas_cost": 5
