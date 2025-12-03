@@ -2264,7 +2264,7 @@
             {
                 "syscall_id": 308,
                 "signature": "Block::current() ⟶ Block",
-                "description": "Returns the current block object in which the contract is executing.\nAfter obtaining a `Block` (e.g., <code>let blk = Block::current();)</code>, you can call <signature>blk.nonce() ⟶ u64</signature>",
+                "description": "Returns the current block object in which the contract is executing.\nAfter obtaining a `Block` (e.g., `let blk = Block::current();)`, you can call `blk.nonce() ⟶ u64`",
                 "example": "",
                 "gas_cost": 5
             },
@@ -2690,7 +2690,7 @@
             {
                 "syscall_id": 361,
                 "signature": "Asset::get_by_hash(hash: Hash) ⟶ optional<Asset>",
-                "description": "Looks up the asset by its `Hash`. Returns the asset or `null` if not found.<br/>Once you have an `Asset`, you can call <signature>asset.get_max_supply() ⟶ optional<u64></signature>:",
+                "description": "Looks up the asset by its `Hash`. Returns the asset or `null` if not found.<br/>Once you have an `Asset`, you can call `asset.get_max_supply() ⟶ optional<u64>`:",
                 "example": "",
                 "gas_cost": 500
             },
@@ -3023,7 +3023,7 @@
             {
                 "syscall_id": 406,
                 "signature": "Scalar::from_bytes(bytes: bytes) ⟶ optional<Scalar>",
-                "description": "Creates a `Scalar` from a byte array (usually 32 bytes). If the input is not exactly 32 bytes, it might be an incorrect representation for that specific curve's field size, hence the return type optional<Scalar>",
+                "description": "Creates a `Scalar` from a byte array (usually 32 bytes). If the input is not exactly 32 bytes, it might be an incorrect representation for that specific curve's field size, hence the return type `optional<Scalar>`",
                 "example": "",
                 "gas_cost": 150
             },

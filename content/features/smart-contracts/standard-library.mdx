@@ -2,8 +2,6 @@
 title: Silex Standard Library
 ---
 
-import standardLibraryData from '../../../resources/standard-library/doc_out.json'
-
 # Silex Standard Library (Built-in Functions)
 
 This document describes the built-in functions available in Silex. These functions are automatically available in your Silex code and can be invoked on the appropriate types (Arrays, Strings, Maps, etc.) or as static functions (e.g., `Block::current()`).
@@ -14,33 +12,3785 @@ Please note:
 - **Optional Return**: Some functions can return a value or `null` when the value is absent.
 - **Type Parameters**: Some functions use a type variable `T(0)`, `T(1)` (like in arrays or maps) simply meaning "whatever element type" your array or map uses.
 
-{standardLibraryData.map((category) => (
-  <div key={category.name}>
-    <h2>{category.name} Functions</h2>
-    {category.functions.map((func) => (
-      <div key={func.signature}>
-        <h3>{func.signature.split('(')[0].split('::').pop()}</h3>
-        <p>
-          <strong>Signature</strong>:
-        </p>
-        <pre><code className="language-rust">{func.signature}</code></pre>
-        <p>
-          <strong>Gas Cost</strong>: {func.gas_cost} lex
-        </p>
-        {func.description && (
-          <p>
-            <strong>Description</strong>: {func.description}
-          </p>
-        )}
-        {func.example && (
-          <>
-            <p>
-              <strong>Example</strong>:
-            </p>
-            <pre><code className="language-rust">{func.example}</code></pre>
-          </>
-        )}
-      </div>
-    ))}
-  </div>
-))}
+## Global Utility Functions
+
+### println
+**Signature**:
+```rust
+println(value: Any)
+```
+**Gas Cost**: 1 lex
+**Description**: Prints a string representation of `value` (only effective if in debug mode).
+
+### debug
+**Signature**:
+```rust
+debug(value: Any)
+```
+**Gas Cost**: 1 lex
+**Description**: Prints a debug-style (developer-friendly) representation of `value` (only effective if in debug mode).
+
+### panic
+**Signature**:
+```rust
+panic(value: Any) ⟶ Any
+```
+**Gas Cost**: 1 lex
+**Description**: Aborts execution with the provided `value` as a message. It never returns normally.
+
+### is_same_ptr
+**Signature**:
+```rust
+is_same_ptr(left: any, right: any) ⟶ bool
+```
+**Gas Cost**: 5 lex
+**Description**: Checks if `left` and `right` refer to the exact same internal reference.
+
+### require
+**Signature**:
+```rust
+require(condition: bool, msg: string)
+```
+**Gas Cost**: 1 lex
+**Description**: If `condition` is false, execution aborts with the provided message, `msg`.
+
+### get_contract_hash
+**Signature**:
+```rust
+get_contract_hash() ⟶ Hash
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the hash of the contract that is currently executing.
+
+### get_contract_entry
+**Signature**:
+```rust
+get_contract_entry() ⟶ Hash
+```
+**Gas Cost**: 5 lex
+
+### get_contract_caller
+**Signature**:
+```rust
+get_contract_caller() ⟶ optional<Hash>
+```
+**Gas Cost**: 5 lex
+
+### get_deposit_for_asset
+**Signature**:
+```rust
+get_deposit_for_asset(asset: Hash) ⟶ optional<u64>
+```
+**Gas Cost**: 5 lex
+**Description**: Returns how much of `asset` was deposited with the current contract call, or `null` if none.
+
+### get_balance_for_asset
+**Signature**:
+```rust
+get_balance_for_asset(asset: Hash) ⟶ u64
+```
+**Gas Cost**: 25 lex
+**Description**: Returns the contract’s current balance of `asset`.
+
+### get_contract_balance_for_asset
+**Signature**:
+```rust
+get_contract_balance_for_asset(contract: Hash, asset: Hash) ⟶ optional<u64>
+```
+**Gas Cost**: 250 lex
+
+### transfer
+**Signature**:
+```rust
+transfer(destination: Address, amount: u64, asset: Hash) ⟶ bool
+```
+**Gas Cost**: 500 lex
+**Description**: Moves `amount` of `asset` out of the contract to `destination`. Returns `true` if successful, `false` otherwise.
+
+### transfer_contract
+**Signature**:
+```rust
+transfer_contract(contract: Hash, amount: u64, asset: Hash) ⟶ bool
+```
+**Gas Cost**: 250 lex
+
+### burn
+**Signature**:
+```rust
+burn(amount: u64, asset: Hash) ⟶ bool
+```
+**Gas Cost**: 500 lex
+**Description**: Permanently removes `amount` of `asset` from the contract’s balance. Returns `true` if successful.
+
+### fire_event
+**Signature**:
+```rust
+fire_event(id: u64, data: any)
+```
+**Gas Cost**: 250 lex
+**Description**: Fires an event with the given `id` and `data`. Events can be tracked externally.
+
+### get_account_balance_for_asset
+**Signature**:
+```rust
+get_account_balance_for_asset(address: Address, asset: Hash) ⟶ optional<(u64, Ciphertext)>
+```
+**Gas Cost**: 1000 lex
+
+### get_gas_usage
+**Signature**:
+```rust
+get_gas_usage() ⟶ u64
+```
+**Gas Cost**: 1 lex
+
+### get_gas_limit
+**Signature**:
+```rust
+get_gas_limit() ⟶ u64
+```
+**Gas Cost**: 1 lex
+
+### increase_gas_limit
+**Signature**:
+```rust
+increase_gas_limit(amount: u64) ⟶ u64
+```
+**Gas Cost**: 250 lex
+
+### get_current_topoheight
+**Signature**:
+```rust
+get_current_topoheight() ⟶ u64
+```
+**Gas Cost**: 1 lex
+
+### get_caller
+**Signature**:
+```rust
+get_caller() ⟶ optional<Address>
+```
+**Gas Cost**: 20 lex
+
+### get_cost_per_asset
+**Signature**:
+```rust
+get_cost_per_asset() ⟶ u64
+```
+**Gas Cost**: 1 lex
+
+### get_cost_per_scheduled_execution
+**Signature**:
+```rust
+get_cost_per_scheduled_execution() ⟶ u64
+```
+**Gas Cost**: 1 lex
+
+### is_contract_callable
+**Signature**:
+```rust
+is_contract_callable(contract: Hash, chunk_id: u16) ⟶ bool
+```
+**Gas Cost**: 75 lex
+
+### assert
+**Signature**:
+```rust
+assert(value: bool)
+```
+**Gas Cost**: 1 lex
+
+### get_deposits
+**Signature**:
+```rust
+get_deposits() ⟶ map<Hash, u64>
+```
+**Gas Cost**: 15 lex
+
+## Array Functions
+
+### len
+**Signature**:
+```rust
+len() ⟶ u32
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the number of elements in `arr`.
+
+### push
+**Signature**:
+```rust
+push(value: T)
+```
+**Gas Cost**: 2 lex
+**Description**: Appends `value` to the end of `arr`.
+
+### remove
+**Signature**:
+```rust
+remove(index: u32) ⟶ T
+```
+**Gas Cost**: 5 lex
+**Description**: Removes and returns the element at `index`, shifting subsequent elements to the left.<br/>Throws an "OutOfBounds" error if `index` is invalid.
+
+### pop
+**Signature**:
+```rust
+pop() ⟶ optional<T>
+```
+**Gas Cost**: 1 lex
+**Description**: Removes and returns the last element if it exists, or `null` if `arr` is empty.
+
+### slice
+**Signature**:
+```rust
+slice(range: range<u32>) ⟶ T[]
+```
+**Gas Cost**: 5 lex
+**Description**: Returns a new array containing the elements in the given half-open range `[start, end)`. Throws an `InvalidRange` error if out of bounds or invalid.
+
+### contains
+**Signature**:
+```rust
+contains(value: T) ⟶ bool
+```
+**Gas Cost**: 10 lex
+**Description**: Returns true if `value` is in `arr`.
+
+### get
+**Signature**:
+```rust
+get(index: u32) ⟶ optional<T>
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the element at `index`, or `null` if out of bounds.
+
+### first
+**Signature**:
+```rust
+first() ⟶ optional<T>
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the first element of `arr`, or `null` if empty.
+
+### last
+**Signature**:
+```rust
+last() ⟶ optional<T>
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the last element of `arr`, or `null` if empty.
+
+### swap_remove
+**Signature**:
+```rust
+swap_remove(index: u32) ⟶ T0
+```
+**Gas Cost**: 8 lex
+
+### insert
+**Signature**:
+```rust
+insert(index: u32, value: T0)
+```
+**Gas Cost**: 5 lex
+
+### index_of
+**Signature**:
+```rust
+index_of(value: T0) ⟶ optional<u32>
+```
+**Gas Cost**: 5 lex
+
+### extend
+**Signature**:
+```rust
+extend(other: T0[])
+```
+**Gas Cost**: 5 lex
+
+### split_off
+**Signature**:
+```rust
+split_off(index: u32) ⟶ T0[]
+```
+**Gas Cost**: 5 lex
+
+### truncate
+**Signature**:
+```rust
+truncate(size: u32)
+```
+**Gas Cost**: 5 lex
+
+## Optional (T or null) Functions
+
+### is_none
+**Signature**:
+```rust
+is_none() ⟶ bool
+```
+**Gas Cost**: 1 lex
+**Description**: Returns true if `value` is `null`.
+
+### is_some
+**Signature**:
+```rust
+is_some() ⟶ bool
+```
+**Gas Cost**: 1 lex
+**Description**: Returns true if `value` is not `null`.
+
+### unwrap
+**Signature**:
+```rust
+unwrap() ⟶ T
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the underlying value if not `null`. Throws an error otherwise.
+
+### unwrap_or
+**Signature**:
+```rust
+unwrap_or(default: T0) ⟶ T0
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the underlying value if not `null`, or returns `default_value` if `null`.
+
+### expect
+**Signature**:
+```rust
+expect(msg: string) ⟶ T
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the underlying value if not `null`. If `null`, the execution panics with the provided message, `msg`.    
+
+### unwrap_or_else
+**Signature**:
+```rust
+unwrap_or_else(default: closure() ⟶ T0) ⟶ T0
+```
+**Gas Cost**: 2 lex
+**Description**: Returns the underlying value if not `null`, or computes it from a closure.
+
+## Map Functions
+
+### len
+**Signature**:
+```rust
+len() ⟶ u32
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the number of key-value pairs in `map`.
+
+### contains_key
+**Signature**:
+```rust
+contains_key(key: K) ⟶ bool
+```
+**Gas Cost**: 15 lex
+**Description**: Returns true if `map` contains `key`.
+
+### get
+**Signature**:
+```rust
+get(key: K) ⟶ optional<V>
+```
+**Gas Cost**: 15 lex
+**Description**: Returns the value for `key` or `null` if the key is not present.
+
+### insert
+**Signature**:
+```rust
+insert(key: K, value: V) ⟶ optional<V>
+```
+**Gas Cost**: 30 lex
+**Description**: Inserts or updates the key-value pair. Returns the old value if `key` was present, otherwise `null`.
+
+### shift_remove
+**Signature**:
+```rust
+shift_remove(key: T0) ⟶ optional<T1>
+```
+**Gas Cost**: 15 lex
+
+### swap_remove
+**Signature**:
+```rust
+swap_remove(key: T0) ⟶ optional<T1>
+```
+**Gas Cost**: 15 lex
+
+### clear
+**Signature**:
+```rust
+clear()
+```
+**Gas Cost**: 5 lex
+**Description**: Removes all key-value pairs.
+
+### keys
+**Signature**:
+```rust
+keys() ⟶ [K]
+```
+**Gas Cost**: 20 lex
+**Description**: Returns an array of all keys.
+
+### values
+**Signature**:
+```rust
+values() ⟶ [V]
+```
+**Gas Cost**: 20 lex
+**Description**: Returns an array of all values.
+
+### values
+**Signature**:
+```rust
+values() ⟶ [V]
+```
+**Gas Cost**: 20 lex
+**Description**: Returns an array of all values.
+
+### entries
+**Signature**:
+```rust
+entries() ⟶ (T0, T1)[]
+```
+**Gas Cost**: 40 lex
+
+## String Functions
+
+### len
+**Signature**:
+```rust
+len() ⟶ u32
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the length of the string in bytes (UTF-8 length).
+
+### trim
+**Signature**:
+```rust
+trim() ⟶ string
+```
+**Gas Cost**: 1 lex
+**Description**: Returns a new string with leading and trailing whitespace removed.
+
+### contains
+**Signature**:
+```rust
+contains(value: string) ⟶ bool
+```
+**Gas Cost**: 1 lex
+**Description**: Checks if `value` is a substring of `str`.
+
+### contains_ignore_case
+**Signature**:
+```rust
+contains_ignore_case(value: string) ⟶ bool
+```
+**Gas Cost**: 1 lex
+**Description**: Case-insensitive version of `contains`.
+
+### to_uppercase
+**Signature**:
+```rust
+to_uppercase() ⟶ string
+```
+**Gas Cost**: 1 lex
+**Description**: Returns `str` converted to uppercase.
+
+### to_lowercase
+**Signature**:
+```rust
+to_lowercase() ⟶ string
+```
+**Gas Cost**: 1 lex
+**Description**: Returns `str` converted to lowercase.
+
+### to_bytes
+**Signature**:
+```rust
+to_bytes() ⟶ u8[]
+```
+**Gas Cost**: 5 lex
+**Description**: Converts `str` into an array of its UTF-8 bytes.
+
+### index_of
+**Signature**:
+```rust
+index_of(value: string) ⟶ optional<u32>
+```
+**Gas Cost**: 3 lex
+**Description**: Finds the first index where `value` occurs. If not found, returns `null`.
+
+### last_index_of
+**Signature**:
+```rust
+last_index_of(value: string) ⟶ optional<u32>
+```
+**Gas Cost**: 3 lex
+**Description**: Finds the last index where `value` occurs. If not found, returns `null`.
+
+### replace
+**Signature**:
+```rust
+replace(from: string, to: string) ⟶ string
+```
+**Gas Cost**: 5 lex
+**Description**: Returns a copy of `str` with all occurrences of `from` replaced by `to`.
+
+### starts_with
+**Signature**:
+```rust
+starts_with(value: string) ⟶ bool
+```
+**Gas Cost**: 3 lex
+**Description**: Returns true if `str` begins with `value`.
+
+### ends_with
+**Signature**:
+```rust
+ends_with(value: string) ⟶ bool
+```
+**Gas Cost**: 3 lex
+**Description**: Returns true if `str` ends with `value`.
+
+### split
+**Signature**:
+```rust
+split(at: string) ⟶ [string]
+```
+**Gas Cost**: 5 lex
+**Description**: Splits `str` by the separator `at` and returns an array of substrings.
+
+### char_at
+**Signature**:
+```rust
+char_at(index: u32) ⟶ optional<string>
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the character (as a 1-char string) at position `index`, or `null` if out of range.
+
+### is_empty
+**Signature**:
+```rust
+is_empty() ⟶ bool
+```
+**Gas Cost**: 1 lex
+**Description**: Returns true if `str` is empty.
+
+### matches
+**Signature**:
+```rust
+matches(pattern: string) ⟶ [string]
+```
+**Gas Cost**: 50 lex
+**Description**: Returns all non-overlapping matches of `pattern` within `str` as an array of strings.
+
+### substring
+**Signature**:
+```rust
+substring(value: u32) ⟶ optional<string>
+```
+**Gas Cost**: 3 lex
+**Description**: Returns the substring from `value` index to the end, or `null` if out of range.
+
+### substring_range
+**Signature**:
+```rust
+substring_range(value: u32, value: u32) ⟶ optional<string>
+```
+**Gas Cost**: 3 lex
+**Description**: Returns the substring from `start` (inclusive) up to `end` (exclusive), or `null` if out of range.
+
+### from_utf8
+**Signature**:
+```rust
+string::from_utf8(bytes: bytes) ⟶ optional<string>
+```
+**Gas Cost**: 5 lex
+
+### from_utf8_lossy
+**Signature**:
+```rust
+string::from_utf8_lossy(bytes: bytes) ⟶ string
+```
+**Gas Cost**: 5 lex
+
+## Range Functions
+
+### contains
+**Signature**:
+```rust
+contains(value: T) ⟶ bool
+```
+**Gas Cost**: 5 lex
+**Description**: Checks if `value` is within `[start, end)`.
+
+### collect
+**Signature**:
+```rust
+collect() ⟶ T[]
+```
+**Gas Cost**: 20 lex
+**Description**: Creates an array of all values in `[start, end)`.
+
+### max
+**Signature**:
+```rust
+max() ⟶ T
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the `end` value of the range.
+
+### min
+**Signature**:
+```rust
+min() ⟶ T
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the `start` value of the range.
+
+### count
+**Signature**:
+```rust
+count() ⟶ T
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the number of elements in `[start, end)` as a `T`.
+
+## u8 Functions
+
+### checked_add
+**Signature**:
+```rust
+checked_add(other: u8) ⟶ optional<u8>
+```
+**Gas Cost**: 1 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_sub
+**Signature**:
+```rust
+checked_sub(other: u8) ⟶ optional<u8>
+```
+**Gas Cost**: 1 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_mul
+**Signature**:
+```rust
+checked_mul(other: u8) ⟶ optional<u8>
+```
+**Gas Cost**: 3 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_div
+**Signature**:
+```rust
+checked_div(other: u8) ⟶ optional<u8>
+```
+**Gas Cost**: 8 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_rem
+**Signature**:
+```rust
+checked_rem(other: u8) ⟶ optional<u8>
+```
+**Gas Cost**: 8 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_pow
+**Signature**:
+```rust
+checked_pow(other: u32) ⟶ optional<u8>
+```
+**Gas Cost**: 50 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_shr
+**Signature**:
+```rust
+checked_shr(other: u32) ⟶ optional<u8>
+```
+**Gas Cost**: 5 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_shl
+**Signature**:
+```rust
+checked_shl(other: u32) ⟶ optional<u8>
+```
+**Gas Cost**: 5 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### saturating_add
+**Signature**:
+```rust
+saturating_add(other: u8) ⟶ u8
+```
+**Gas Cost**: 1 lex
+**Description**: Computes the sum of two 8-bit unsigned integers (u8) using saturation arithmetic, and returns a u8 result.
+
+### saturating_sub
+**Signature**:
+```rust
+saturating_sub(other: u8) ⟶ u8
+```
+**Gas Cost**: 1 lex
+**Description**: Computes the subtraction of two 8-bit unsigned integers (u8) using saturation arithmetic, and returns a u8 result.
+
+### saturating_mul
+**Signature**:
+```rust
+saturating_mul(other: u8) ⟶ u8
+```
+**Gas Cost**: 3 lex
+**Description**: Computes the multiplication of two 8-bit unsigned integers (u8) using saturation arithmetic, and returns a u8 result.
+
+### saturating_div
+**Signature**:
+```rust
+saturating_div(other: u8) ⟶ u8
+```
+**Gas Cost**: 3 lex
+**Description**: Computes the division of two 8-bit unsigned integers (u8) using saturation arithmetic, and returns a u8 result.
+
+### saturating_pow
+**Signature**:
+```rust
+saturating_pow(other: u32) ⟶ u8
+```
+**Gas Cost**: 50 lex
+**Description**: Computes the 32-bit power on a 8-bit unsigned integer base (u8) using saturation arithmetic, and returns a u8 result.
+
+### leading_ones
+**Signature**:
+```rust
+leading_ones() ⟶ u32
+```
+**Gas Cost**: 3 lex
+
+### trailing_ones
+**Signature**:
+```rust
+trailing_ones() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 1 bits starting from the least significant bit (LSB) of an integer.
+
+### count_ones
+**Signature**:
+```rust
+count_ones() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Returns the number of set bits (bits with a value of 1) in the binary representation of a u8 integer.
+
+### leading_zeros
+**Signature**:
+```rust
+leading_zeros() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 0 bits starting from the most significant bit (MSB) of a u8 integer.
+
+### trailing_zeros
+**Signature**:
+```rust
+trailing_zeros() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 0 bits starting from the least significant bit (LSB) of a u8 integer.
+
+### count_zeros
+**Signature**:
+```rust
+count_zeros() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of unset bits (bits with a value of 0) in the binary representation of a u8 integer.
+
+### rotate_left
+**Signature**:
+```rust
+rotate_left(other: u32) ⟶ u8
+```
+**Gas Cost**: 20 lex
+**Description**: Performs a left rotation of the bits in the u8 value by the number of bits specified in the other: u32 argument.
+
+### rotate_right
+**Signature**:
+```rust
+rotate_right(other: u32) ⟶ u8
+```
+**Gas Cost**: 20 lex
+**Description**: Performs a right rotation of the bits in the u8 value by the number of bits specified in the other: u32 argument.
+
+### pow
+**Signature**:
+```rust
+pow(other: u32) ⟶ u8
+```
+**Gas Cost**: 50 lex
+**Description**: Raises the u8 base value it is called on to the power of the `other` u32 value. NOTE: If the power is too large, this function will overflow and return `0`.
+
+### reverse_bits
+**Signature**:
+```rust
+reverse_bits() ⟶ u8
+```
+**Gas Cost**: 10 lex
+**Description**: Reverses the bits of a u8 value.
+
+### min
+**Signature**:
+```rust
+min(other: u8) ⟶ u8
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the smaller (minimum) of two 8-bit unsigned integers.
+
+### max
+**Signature**:
+```rust
+max(other: u8) ⟶ u8
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the larger (maximum) of two 8-bit unsigned integers.
+
+### sqrt
+**Signature**:
+```rust
+sqrt() ⟶ u8
+```
+**Gas Cost**: 10 lex
+**Description**: Finds the square root of a u8 value. Note that this function will cause precision loss if the input value is not a perfect square.
+
+### wrapping_add
+**Signature**:
+```rust
+wrapping_add(other: u8) ⟶ u8
+```
+**Gas Cost**: 1 lex
+**Description**: Performs 8-bit addition that wraps around upon integer overflow, using modular arithmetic. This behavior ensures that the result is always a valid u8 value, effectively calculating (caller + other) mod 2^8.
+
+### wrapping_sub
+**Signature**:
+```rust
+wrapping_sub(other: u8) ⟶ u8
+```
+**Gas Cost**: 1 lex
+**Description**: Performs 8-bit wrapping (modular) subtraction that wraps around upon integer underflow, using modular arithmetic. This behavior ensures that the result is always a valid u8 value, effectively calculating (caller - other) mod 2^8.
+
+### wrapping_mul
+**Signature**:
+```rust
+wrapping_mul(other: u8) ⟶ u8
+```
+**Gas Cost**: 3 lex
+**Description**: Performs 8-bit multiplication that wraps around upon integer overflow, using modular arithmetic. This behavior ensures that the result is always a valid u8 value, effectively calculating (caller * other) mod 2^8.
+
+### wrapping_div
+**Signature**:
+```rust
+wrapping_div(other: u8) ⟶ u8
+```
+**Gas Cost**: 3 lex
+**Description**: Performs a division operation on a 8-bit unsigned integer type using modular arithmetic (wrapping) in case of overflow or underflow.
+
+### wrapping_rem
+**Signature**:
+```rust
+wrapping_rem(other: u8) ⟶ u8
+```
+**Gas Cost**: 3 lex
+**Description**: Calculates the remainder of a division, with the result automatically wrapping around the boundaries of the u8 integer type.
+
+### wrapping_pow
+**Signature**:
+```rust
+wrapping_pow(other: u32) ⟶ u8
+```
+**Gas Cost**: 50 lex
+**Description**: Computes the 32-bit power on a 8-bit unsigned integer base (u8) using overflow (modular) arithmetic, wrapping around the boundaries of the u8 integer type.
+
+### to_be_bytes
+**Signature**:
+```rust
+to_be_bytes() ⟶ bytes
+```
+**Gas Cost**: 10 lex
+
+### to_le_bytes
+**Signature**:
+```rust
+to_le_bytes() ⟶ bytes
+```
+**Gas Cost**: 10 lex
+
+### from_be_bytes
+**Signature**:
+```rust
+u8::from_be_bytes(bytes: bytes) ⟶ u8
+```
+**Gas Cost**: 10 lex
+**Description**: Constructs an unsigned 8-bit integer (u8) from a byte array provided in big-endian format.
+
+### from_le_bytes
+**Signature**:
+```rust
+u8::from_le_bytes(bytes: bytes) ⟶ u8
+```
+**Gas Cost**: 10 lex
+**Description**: Constructs an unsigned 8-bit integer (u8) from a byte array provided in little-endian format.
+
+### to_string
+**Signature**:
+```rust
+to_string(base: u32) ⟶ string
+```
+**Gas Cost**: 1 lex
+
+## u16 Functions
+
+### checked_add
+**Signature**:
+```rust
+checked_add(other: u16) ⟶ optional<u16>
+```
+**Gas Cost**: 1 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_sub
+**Signature**:
+```rust
+checked_sub(other: u16) ⟶ optional<u16>
+```
+**Gas Cost**: 1 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_mul
+**Signature**:
+```rust
+checked_mul(other: u16) ⟶ optional<u16>
+```
+**Gas Cost**: 3 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_div
+**Signature**:
+```rust
+checked_div(other: u16) ⟶ optional<u16>
+```
+**Gas Cost**: 8 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_rem
+**Signature**:
+```rust
+checked_rem(other: u16) ⟶ optional<u16>
+```
+**Gas Cost**: 8 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_pow
+**Signature**:
+```rust
+checked_pow(other: u32) ⟶ optional<u16>
+```
+**Gas Cost**: 50 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_shr
+**Signature**:
+```rust
+checked_shr(other: u32) ⟶ optional<u16>
+```
+**Gas Cost**: 5 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_shl
+**Signature**:
+```rust
+checked_shl(other: u32) ⟶ optional<u16>
+```
+**Gas Cost**: 5 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### saturating_add
+**Signature**:
+```rust
+saturating_add(other: u16) ⟶ u16
+```
+**Gas Cost**: 1 lex
+**Description**: Computes the sum of two 16-bit unsigned integers (u16) using saturation arithmetic, and returns a u16 result.
+
+### saturating_sub
+**Signature**:
+```rust
+saturating_sub(other: u16) ⟶ u16
+```
+**Gas Cost**: 1 lex
+**Description**: Computes the subtraction of two 16-bit unsigned integers (u16) using saturation arithmetic, and returns a u16 result.
+
+### saturating_mul
+**Signature**:
+```rust
+saturating_mul(other: u16) ⟶ u16
+```
+**Gas Cost**: 3 lex
+**Description**: Computes the multiplication of two 16-bit unsigned integers (u16) using saturation arithmetic, and returns a u16 result.
+
+### saturating_div
+**Signature**:
+```rust
+saturating_div(other: u16) ⟶ u16
+```
+**Gas Cost**: 3 lex
+**Description**: Computes the division of two 16-bit unsigned integers (u16) using saturation arithmetic, and returns a u16 result.
+
+### saturating_pow
+**Signature**:
+```rust
+saturating_pow(other: u32) ⟶ u16
+```
+**Gas Cost**: 50 lex
+**Description**: Computes the 32-bit power on a 16-bit unsigned integer base (u16) using saturation arithmetic, and returns a u16 result.
+
+### to_be_bytes
+**Signature**:
+```rust
+to_be_bytes() ⟶ bytes
+```
+**Gas Cost**: 10 lex
+**Description**: Converts the integer into a big-endian byte array. Typically, this returns the array (non-null).
+
+### to_le_bytes
+**Signature**:
+```rust
+to_le_bytes() ⟶ bytes
+```
+**Gas Cost**: 10 lex
+**Description**: Converts the integer into a little-endian byte array. Typically, this returns the array (non-null).
+
+### from_be_bytes
+**Signature**:
+```rust
+u16::from_be_bytes(bytes: bytes) ⟶ u16
+```
+**Gas Cost**: 10 lex
+**Description**: Constructs an unsigned 16-bit integer (u16) from a byte array provided in big-endian format.
+
+### from_le_bytes
+**Signature**:
+```rust
+u16::from_le_bytes(bytes: bytes) ⟶ u16
+```
+**Gas Cost**: 10 lex
+**Description**: Constructs an unsigned 16-bit integer (u16) from a byte array provided in little-endian format.
+
+### leading_ones
+**Signature**:
+```rust
+leading_ones() ⟶ u32
+```
+**Gas Cost**: 3 lex
+
+### trailing_ones
+**Signature**:
+```rust
+trailing_ones() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 1 bits starting from the least significant bit (LSB) of an integer.
+
+### count_ones
+**Signature**:
+```rust
+count_ones() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Returns the number of set bits (bits with a value of 1) in the binary representation of a u16 integer.
+
+### leading_zeros
+**Signature**:
+```rust
+leading_zeros() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 0 bits starting from the most significant bit (MSB) of a u16 integer.
+
+### trailing_zeros
+**Signature**:
+```rust
+trailing_zeros() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 0 bits starting from the least significant bit (LSB) of a u16 integer.
+
+### count_zeros
+**Signature**:
+```rust
+count_zeros() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of unset bits (bits with a value of 0) in the binary representation of a u16 integer.
+
+### rotate_left
+**Signature**:
+```rust
+rotate_left(other: u32) ⟶ u16
+```
+**Gas Cost**: 20 lex
+**Description**: Performs a left rotation of the bits in the u16 value by the number of bits specified in the other: u32 argument.
+
+### rotate_right
+**Signature**:
+```rust
+rotate_right(other: u32) ⟶ u16
+```
+**Gas Cost**: 20 lex
+**Description**: Performs a right rotation of the bits in the u16 value by the number of bits specified in the other: u32 argument.
+
+### pow
+**Signature**:
+```rust
+pow(other: u32) ⟶ u16
+```
+**Gas Cost**: 50 lex
+**Description**: Raises the u16 base value it is called on to the power of the `other` u32 value. NOTE: If the power is too large, this function will overflow and return `0`.
+
+### reverse_bits
+**Signature**:
+```rust
+reverse_bits() ⟶ u16
+```
+**Gas Cost**: 10 lex
+**Description**: Reverses the bits of a u16 value.
+
+### min
+**Signature**:
+```rust
+min(other: u16) ⟶ u16
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the smaller (minimum) of two 16-bit unsigned integers.
+
+### max
+**Signature**:
+```rust
+max(other: u16) ⟶ u16
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the larger (maximum) of two 16-bit unsigned integers.
+
+### sqrt
+**Signature**:
+```rust
+sqrt() ⟶ u16
+```
+**Gas Cost**: 10 lex
+**Description**: Finds the square root of a u16 value. Note that this function will cause precision loss if the input value is not a perfect square.
+
+### wrapping_add
+**Signature**:
+```rust
+wrapping_add(other: u16) ⟶ u16
+```
+**Gas Cost**: 1 lex
+**Description**: Performs 16-bit addition that wraps around upon integer overflow, using modular arithmetic. This behavior ensures that the result is always a valid u16 value, effectively calculating (caller + other) mod 2^16.
+
+### wrapping_sub
+**Signature**:
+```rust
+wrapping_sub(other: u16) ⟶ u16
+```
+**Gas Cost**: 1 lex
+**Description**: Performs 16-bit wrapping (modular) subtraction that wraps around upon integer underflow, using modular arithmetic. This behavior ensures that the result is always a valid u16 value, effectively calculating (caller - other) mod 2^16.
+
+### wrapping_mul
+**Signature**:
+```rust
+wrapping_mul(other: u16) ⟶ u16
+```
+**Gas Cost**: 3 lex
+**Description**: Performs 16-bit multiplication that wraps around upon integer overflow, using modular arithmetic. This behavior ensures that the result is always a valid u16 value, effectively calculating (caller * other) mod 2^16.
+
+### wrapping_div
+**Signature**:
+```rust
+wrapping_div(other: u16) ⟶ u16
+```
+**Gas Cost**: 3 lex
+**Description**: Performs a division operation on a 16-bit unsigned integer type using modular arithmetic (wrapping) in case of overflow or underflow.
+
+### wrapping_rem
+**Signature**:
+```rust
+wrapping_rem(other: u16) ⟶ u16
+```
+**Gas Cost**: 3 lex
+**Description**: Calculates the remainder of a division, with the result automatically wrapping around the boundaries of the u16 integer type
+
+### wrapping_pow
+**Signature**:
+```rust
+wrapping_pow(other: u32) ⟶ u16
+```
+**Gas Cost**: 50 lex
+**Description**: Computes the 32-bit power on a 16-bit unsigned integer base (u16) using overflow (modular) arithmetic, wrapping around the boundaries of the u16 integer type.
+
+### to_string
+**Signature**:
+```rust
+to_string(base: u32) ⟶ string
+```
+**Gas Cost**: 1 lex
+**Description**: Converts an 16-bit integer into a string representation using the specified base.
+
+## u32 Functions
+
+### checked_add
+**Signature**:
+```rust
+checked_add(other: u32) ⟶ optional<u32>
+```
+**Gas Cost**: 1 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_sub
+**Signature**:
+```rust
+checked_sub(other: u32) ⟶ optional<u32>
+```
+**Gas Cost**: 1 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_mul
+**Signature**:
+```rust
+checked_mul(other: u32) ⟶ optional<u32>
+```
+**Gas Cost**: 3 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_div
+**Signature**:
+```rust
+checked_div(other: u32) ⟶ optional<u32>
+```
+**Gas Cost**: 8 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_rem
+**Signature**:
+```rust
+checked_rem(other: u32) ⟶ optional<u32>
+```
+**Gas Cost**: 8 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_pow
+**Signature**:
+```rust
+checked_pow(other: u32) ⟶ optional<u32>
+```
+**Gas Cost**: 50 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_shr
+**Signature**:
+```rust
+checked_shr(other: u32) ⟶ optional<u32>
+```
+**Gas Cost**: 5 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_shl
+**Signature**:
+```rust
+checked_shl(other: u32) ⟶ optional<u32>
+```
+**Gas Cost**: 5 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### saturating_add
+**Signature**:
+```rust
+saturating_add(other: u32) ⟶ u32
+```
+**Gas Cost**: 1 lex
+**Description**: Computes the sum of two 32-bit unsigned integers (u32) using saturation arithmetic, and returns a u32 result.
+
+### saturating_sub
+**Signature**:
+```rust
+saturating_sub(other: u32) ⟶ u32
+```
+**Gas Cost**: 1 lex
+**Description**: Computes the subtraction of two 32-bit unsigned integers (u32) using saturation arithmetic, and returns a u32 result.
+
+### saturating_mul
+**Signature**:
+```rust
+saturating_mul(other: u32) ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Computes the multiplication of two 32-bit unsigned integers (u32) using saturation arithmetic, and returns a u32 result.
+
+### saturating_div
+**Signature**:
+```rust
+saturating_div(other: u32) ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Computes the division of two 32-bit unsigned integers (u32) using saturation arithmetic, and returns a u32 result.
+
+### saturating_pow
+**Signature**:
+```rust
+saturating_pow(other: u32) ⟶ u32
+```
+**Gas Cost**: 50 lex
+**Description**: Computes the 32-bit power on a 32-bit unsigned integer base (u32) using saturation arithmetic, and returns a u32 result.
+
+### to_be_bytes
+**Signature**:
+```rust
+to_be_bytes() ⟶ bytes
+```
+**Gas Cost**: 10 lex
+**Description**: Converts the integer into a big-endian byte array. Typically, this returns the array (non-null).
+
+### to_le_bytes
+**Signature**:
+```rust
+to_le_bytes() ⟶ bytes
+```
+**Gas Cost**: 10 lex
+**Description**: Converts the integer into a little-endian byte array. Typically, this returns the array (non-null).
+
+### from_be_bytes
+**Signature**:
+```rust
+u32::from_be_bytes(bytes: bytes) ⟶ u32
+```
+**Gas Cost**: 10 lex
+**Description**: Constructs an unsigned 32-bit integer (u32) from a byte array provided in big-endian format.
+
+### from_le_bytes
+**Signature**:
+```rust
+u32::from_le_bytes(bytes: bytes) ⟶ u32
+```
+**Gas Cost**: 10 lex
+**Description**: Constructs an unsigned 32-bit integer (u32) from a byte array provided in little-endian format.
+
+### leading_ones
+**Signature**:
+```rust
+leading_ones() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 1 bits starting from the most significant bit (MSB) of an integer.
+
+### trailing_ones
+**Signature**:
+```rust
+trailing_ones() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 1 bits starting from the least significant bit (LSB) of an integer.
+
+### count_ones
+**Signature**:
+```rust
+count_ones() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Returns the number of set bits (bits with a value of 1) in the binary representation of a u32 integer.
+
+### leading_zeros
+**Signature**:
+```rust
+leading_zeros() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 0 bits starting from the most significant bit (MSB) of a u32 integer.
+
+### trailing_zeros
+**Signature**:
+```rust
+trailing_zeros() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 0 bits starting from the least significant bit (LSB) of a u32 integer.
+
+### count_zeros
+**Signature**:
+```rust
+count_zeros() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of unset bits (bits with a value of 0) in the binary representation of a u32 integer.
+
+### rotate_left
+**Signature**:
+```rust
+rotate_left(other: u32) ⟶ u32
+```
+**Gas Cost**: 20 lex
+**Description**: Performs a left rotation of the bits in the u32 value by the number of bits specified in the other: u32 argument.
+
+### rotate_right
+**Signature**:
+```rust
+rotate_right(other: u32) ⟶ u32
+```
+**Gas Cost**: 20 lex
+**Description**: Performs a right rotation of the bits in the u32 value by the number of bits specified in the other: u32 argument.
+
+### pow
+**Signature**:
+```rust
+pow(other: u32) ⟶ u32
+```
+**Gas Cost**: 50 lex
+**Description**: Raises the u32 base value it is called on to the power of the `other` u32 value. NOTE: If the power is too large, this function will overflow and return `0`.
+
+### reverse_bits
+**Signature**:
+```rust
+reverse_bits() ⟶ u32
+```
+**Gas Cost**: 10 lex
+**Description**: Reverses the bits of a u32 value.
+
+### min
+**Signature**:
+```rust
+min(other: u32) ⟶ u32
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the smaller (minimum) of two 32-bit unsigned integers.
+
+### max
+**Signature**:
+```rust
+max(other: u32) ⟶ u32
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the larger (maximum) of two 32-bit unsigned integers.
+
+### sqrt
+**Signature**:
+```rust
+sqrt() ⟶ u32
+```
+**Gas Cost**: 10 lex
+**Description**: Finds the square root of a u32 value. Note that this function will cause precision loss if the input value is not a perfect square.
+
+### wrapping_add
+**Signature**:
+```rust
+wrapping_add(other: u32) ⟶ u32
+```
+**Gas Cost**: 1 lex
+**Description**: Performs 32-bit addition that wraps around upon integer overflow, using modular arithmetic. This behavior ensures that the result is always a valid u32 value, effectively calculating (caller + other) mod 2^32.
+
+### wrapping_sub
+**Signature**:
+```rust
+wrapping_sub(other: u32) ⟶ u32
+```
+**Gas Cost**: 1 lex
+**Description**: Performs 32-bit wrapping (modular) subtraction that wraps around upon integer underflow, using modular arithmetic. This behavior ensures that the result is always a valid u32 value, effectively calculating (caller - other) mod 2^32.
+
+### wrapping_mul
+**Signature**:
+```rust
+wrapping_mul(other: u32) ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Performs 32-bit multiplication that wraps around upon integer overflow, using modular arithmetic. This behavior ensures that the result is always a valid u32 value, effectively calculating (caller * other) mod 2^32.
+
+### wrapping_div
+**Signature**:
+```rust
+wrapping_div(other: u32) ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Performs a division operation on a 32-bit unsigned integer type using modular arithmetic (wrapping) in case of overflow or underflow.
+
+### wrapping_rem
+**Signature**:
+```rust
+wrapping_rem(other: u32) ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Calculates the remainder of a division, with the result automatically wrapping around the boundaries of the u32 integer type
+
+### wrapping_pow
+**Signature**:
+```rust
+wrapping_pow(other: u32) ⟶ u32
+```
+**Gas Cost**: 50 lex
+**Description**: Computes the 32-bit power on a 32-bit unsigned integer base (u32) using overflow (modular) arithmetic, wrapping around the boundaries of the u32 integer type.
+
+### to_string
+**Signature**:
+```rust
+to_string(base: u32) ⟶ string
+```
+**Gas Cost**: 1 lex
+**Description**: Converts a 32-bit integer into a string representation using the specified base.
+
+## u64 Functions
+
+### checked_add
+**Signature**:
+```rust
+checked_add(other: u64) ⟶ optional<u64>
+```
+**Gas Cost**: 1 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_sub
+**Signature**:
+```rust
+checked_sub(other: u64) ⟶ optional<u64>
+```
+**Gas Cost**: 1 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_mul
+**Signature**:
+```rust
+checked_mul(other: u64) ⟶ optional<u64>
+```
+**Gas Cost**: 3 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_div
+**Signature**:
+```rust
+checked_div(other: u64) ⟶ optional<u64>
+```
+**Gas Cost**: 8 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_rem
+**Signature**:
+```rust
+checked_rem(other: u64) ⟶ optional<u64>
+```
+**Gas Cost**: 8 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_pow
+**Signature**:
+```rust
+checked_pow(other: u32) ⟶ optional<u64>
+```
+**Gas Cost**: 50 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_shr
+**Signature**:
+```rust
+checked_shr(other: u32) ⟶ optional<u64>
+```
+**Gas Cost**: 5 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_shl
+**Signature**:
+```rust
+checked_shl(other: u32) ⟶ optional<u64>
+```
+**Gas Cost**: 5 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### saturating_add
+**Signature**:
+```rust
+saturating_add(other: u64) ⟶ u64
+```
+**Gas Cost**: 1 lex
+**Description**: Computes the sum of two 64-bit unsigned integers (u64) using saturation arithmetic, and returns a u64 result.
+
+### saturating_sub
+**Signature**:
+```rust
+saturating_sub(other: u64) ⟶ u64
+```
+**Gas Cost**: 1 lex
+**Description**: Computes the subtraction of two 64-bit unsigned integers (u64) using saturation arithmetic, and returns a u64 result.
+
+### saturating_mul
+**Signature**:
+```rust
+saturating_mul(other: u64) ⟶ u64
+```
+**Gas Cost**: 3 lex
+**Description**: Computes the multiplication of two 64-bit unsigned integers (u64) using saturation arithmetic, and returns a u64 result.
+
+### saturating_div
+**Signature**:
+```rust
+saturating_div(other: u64) ⟶ u64
+```
+**Gas Cost**: 3 lex
+**Description**: Computes the division of two 64-bit unsigned integers (u64) using saturation arithmetic, and returns a u64 result.
+
+### saturating_pow
+**Signature**:
+```rust
+saturating_pow(other: u32) ⟶ u64
+```
+**Gas Cost**: 50 lex
+**Description**: Computes the 32-bit power on a 64-bit unsigned integer base (u64) using saturation arithmetic, and returns a u64 result.
+
+### to_be_bytes
+**Signature**:
+```rust
+to_be_bytes() ⟶ bytes
+```
+**Gas Cost**: 10 lex
+**Description**: Converts the integer into a big-endian byte array. Typically, this returns the array (non-null).
+
+### to_le_bytes
+**Signature**:
+```rust
+to_le_bytes() ⟶ bytes
+```
+**Gas Cost**: 10 lex
+**Description**: Converts the integer into a little-endian byte array. Typically, this returns the array (non-null).
+
+### from_be_bytes
+**Signature**:
+```rust
+u64::from_be_bytes(bytes: bytes) ⟶ u64
+```
+**Gas Cost**: 10 lex
+**Description**: Constructs an unsigned 64-bit integer (u64) from a byte array provided in big-endian format.
+
+### from_le_bytes
+**Signature**:
+```rust
+u64::from_le_bytes(bytes: bytes) ⟶ u64
+```
+**Gas Cost**: 10 lex
+**Description**: Constructs an unsigned 64-bit integer (u64) from a byte array provided in little-endian format.
+
+### leading_ones
+**Signature**:
+```rust
+leading_ones() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 1 bits starting from the most significant bit (MSB) of an integer.
+
+### trailing_ones
+**Signature**:
+```rust
+trailing_ones() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 1 bits starting from the least significant bit (LSB) of an integer.
+
+### count_ones
+**Signature**:
+```rust
+count_ones() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Returns the number of set bits (bits with a value of 1) in the binary representation of a u64 integer.
+
+### leading_zeros
+**Signature**:
+```rust
+leading_zeros() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 0 bits starting from the most significant bit (MSB) of a u64 integer.
+
+### trailing_zeros
+**Signature**:
+```rust
+trailing_zeros() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 0 bits starting from the least significant bit (LSB) of a u64 integer.
+
+### count_zeros
+**Signature**:
+```rust
+count_zeros() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of unset bits (bits with a value of 0) in the binary representation of a u64 integer.
+
+### rotate_left
+**Signature**:
+```rust
+rotate_left(other: u32) ⟶ u64
+```
+**Gas Cost**: 20 lex
+**Description**: Performs a left rotation of the bits in the u64 value by the number of bits specified in the other: u32 argument.
+
+### rotate_right
+**Signature**:
+```rust
+rotate_right(other: u32) ⟶ u64
+```
+**Gas Cost**: 20 lex
+**Description**: Performs a right rotation of the bits in the u64 value by the number of bits specified in the other: u32 argument.
+
+### pow
+**Signature**:
+```rust
+pow(other: u32) ⟶ u64
+```
+**Gas Cost**: 50 lex
+**Description**: Raises the u8 base value it is called on to the power of the `other` u64 value. NOTE: If the power is too large, this function will overflow and return `0`.
+
+### reverse_bits
+**Signature**:
+```rust
+reverse_bits() ⟶ u64
+```
+**Gas Cost**: 10 lex
+**Description**: Reverses the bits of a u64 value.
+
+### min
+**Signature**:
+```rust
+min(other: u64) ⟶ u64
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the smaller (minimum) of two 64-bit unsigned integers.
+
+### max
+**Signature**:
+```rust
+max(other: u64) ⟶ u64
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the larger (maximum) of two 64-bit unsigned integers.
+
+### sqrt
+**Signature**:
+```rust
+sqrt() ⟶ u64
+```
+**Gas Cost**: 10 lex
+**Description**: Finds the square root of a u64 value. Note that this function will cause precision loss if the input value is not a perfect square.
+
+### wrapping_add
+**Signature**:
+```rust
+wrapping_add(other: u64) ⟶ u64
+```
+**Gas Cost**: 1 lex
+**Description**: Performs 64-bit addition that wraps around upon integer overflow, using modular arithmetic. This behavior ensures that the result is always a valid u64 value, effectively calculating (caller + other) mod 2^64.
+
+### wrapping_sub
+**Signature**:
+```rust
+wrapping_sub(other: u64) ⟶ u64
+```
+**Gas Cost**: 1 lex
+**Description**: Performs 64-bit wrapping (modular) subtraction that wraps around upon integer underflow, using modular arithmetic. This behavior ensures that the result is always a valid u64 value, effectively calculating (caller - other) mod 2^64.
+
+### wrapping_mul
+**Signature**:
+```rust
+wrapping_mul(other: u64) ⟶ u64
+```
+**Gas Cost**: 3 lex
+**Description**: Performs 64-bit multiplication that wraps around upon integer overflow, using modular arithmetic. This behavior ensures that the result is always a valid u64 value, effectively calculating (caller * other) mod 2^64.
+
+### wrapping_div
+**Signature**:
+```rust
+wrapping_div(other: u64) ⟶ u64
+```
+**Gas Cost**: 3 lex
+**Description**: Performs a division operation on a 64-bit unsigned integer type using modular arithmetic (wrapping) in case of overflow or underflow.
+
+### wrapping_rem
+**Signature**:
+```rust
+wrapping_rem(other: u64) ⟶ u64
+```
+**Gas Cost**: 3 lex
+**Description**: Calculates the remainder of a division, with the result automatically wrapping around the boundaries of the u64 integer type
+
+### wrapping_pow
+**Signature**:
+```rust
+wrapping_pow(other: u32) ⟶ u64
+```
+**Gas Cost**: 50 lex
+**Description**: Computes the 32-bit power on a 64-bit unsigned integer base (u64) using overflow (modular) arithmetic, wrapping around the boundaries of the u64 integer type.
+
+### to_string
+**Signature**:
+```rust
+to_string(base: u32) ⟶ string
+```
+**Gas Cost**: 1 lex
+**Description**: Converts 64-bit integer into a string representation using the specified base.
+
+## u128 Functions
+
+### checked_add
+**Signature**:
+```rust
+checked_add(other: u128) ⟶ optional<u128>
+```
+**Gas Cost**: 1 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_sub
+**Signature**:
+```rust
+checked_sub(other: u128) ⟶ optional<u128>
+```
+**Gas Cost**: 1 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_mul
+**Signature**:
+```rust
+checked_mul(other: u128) ⟶ optional<u128>
+```
+**Gas Cost**: 3 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_div
+**Signature**:
+```rust
+checked_div(other: u128) ⟶ optional<u128>
+```
+**Gas Cost**: 8 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_rem
+**Signature**:
+```rust
+checked_rem(other: u128) ⟶ optional<u128>
+```
+**Gas Cost**: 8 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_pow
+**Signature**:
+```rust
+checked_pow(other: u32) ⟶ optional<u128>
+```
+**Gas Cost**: 50 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_shr
+**Signature**:
+```rust
+checked_shr(other: u32) ⟶ optional<u128>
+```
+**Gas Cost**: 5 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_shl
+**Signature**:
+```rust
+checked_shl(other: u32) ⟶ optional<u128>
+```
+**Gas Cost**: 5 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### saturating_add
+**Signature**:
+```rust
+saturating_add(other: u128) ⟶ u128
+```
+**Gas Cost**: 1 lex
+**Description**: Computes the sum of two 128-bit unsigned integers (u128) using saturation arithmetic, and returns a u128 result.
+
+### saturating_sub
+**Signature**:
+```rust
+saturating_sub(other: u128) ⟶ u128
+```
+**Gas Cost**: 1 lex
+**Description**: Computes the subtraction of two 128-bit unsigned integers (u128) using saturation arithmetic, and returns a u128 result.
+
+### saturating_mul
+**Signature**:
+```rust
+saturating_mul(other: u128) ⟶ u128
+```
+**Gas Cost**: 3 lex
+**Description**: Computes the multiplication of two 128-bit unsigned integers (u128) using saturation arithmetic, and returns a u128 result.
+
+### saturating_div
+**Signature**:
+```rust
+saturating_div(other: u128) ⟶ u128
+```
+**Gas Cost**: 3 lex
+**Description**: Computes the division of two 128-bit unsigned integers (u128) using saturation arithmetic, and returns a u128 result.
+
+### saturating_pow
+**Signature**:
+```rust
+saturating_pow(other: u32) ⟶ u128
+```
+**Gas Cost**: 50 lex
+**Description**: Computes the 32-bit power on a 128-bit unsigned integer base (u128) using saturation arithmetic, and returns a u128 result.
+
+### to_be_bytes
+**Signature**:
+```rust
+to_be_bytes() ⟶ bytes
+```
+**Gas Cost**: 10 lex
+**Description**: Converts the integer into a big-endian byte array. Typically, this returns the array (non-null).
+
+### to_le_bytes
+**Signature**:
+```rust
+to_le_bytes() ⟶ bytes
+```
+**Gas Cost**: 10 lex
+**Description**: Converts the integer into a little-endian byte array. Typically, this returns the array (non-null).
+
+### from_be_bytes
+**Signature**:
+```rust
+u128::from_be_bytes(bytes: bytes) ⟶ u128
+```
+**Gas Cost**: 10 lex
+**Description**: Constructs an unsigned 128-bit integer (u128) from a byte array provided in big-endian format.
+
+### from_le_bytes
+**Signature**:
+```rust
+u128::from_le_bytes(bytes: bytes) ⟶ u128
+```
+**Gas Cost**: 10 lex
+**Description**: Constructs an unsigned 128-bit integer (u128) from a byte array provided in little-endian format.
+
+### leading_ones
+**Signature**:
+```rust
+leading_ones() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 1 bits starting from the most significant bit (MSB) of an integer.
+
+### trailing_ones
+**Signature**:
+```rust
+trailing_ones() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 1 bits starting from the least significant bit (LSB) of an integer.
+
+### count_ones
+**Signature**:
+```rust
+count_ones() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Returns the number of set bits (bits with a value of 1) in the binary representation of a u128 integer.
+
+### leading_zeros
+**Signature**:
+```rust
+leading_zeros() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 0 bits starting from the most significant bit (MSB) of a u128 integer.
+
+### trailing_zeros
+**Signature**:
+```rust
+trailing_zeros() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 0 bits starting from the least significant bit (LSB) of a u128 integer.
+
+### count_zeros
+**Signature**:
+```rust
+count_zeros() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of unset bits (bits with a value of 0) in the binary representation of a u128 integer.
+
+### rotate_left
+**Signature**:
+```rust
+rotate_left(other: u32) ⟶ u128
+```
+**Gas Cost**: 20 lex
+**Description**: Performs a left rotation of the bits in the u128 value by the number of bits specified in the other: u32 argument.
+
+### rotate_right
+**Signature**:
+```rust
+rotate_right(other: u32) ⟶ u128
+```
+**Gas Cost**: 20 lex
+**Description**: Performs a right rotation of the bits in the u128 value by the number of bits specified in the other: u32 argument.
+
+### pow
+**Signature**:
+```rust
+pow(other: u32) ⟶ u128
+```
+**Gas Cost**: 50 lex
+**Description**: Raises the u128 base value it is called on to the power of the `other` u32 value. NOTE: If the power is too large, this function will overflow and return `0`.
+
+### reverse_bits
+**Signature**:
+```rust
+reverse_bits() ⟶ u128
+```
+**Gas Cost**: 10 lex
+**Description**: Reverses the bits of a u128 value.
+
+### min
+**Signature**:
+```rust
+min(other: u128) ⟶ u128
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the smaller (minimum) of two 128-bit unsigned integers.
+
+### max
+**Signature**:
+```rust
+max(other: u128) ⟶ u128
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the larger (maximum) of two 128-bit unsigned integers.
+
+### sqrt
+**Signature**:
+```rust
+sqrt() ⟶ u128
+```
+**Gas Cost**: 10 lex
+**Description**: Finds the square root of a u128 value. Note that this function will cause precision loss if the input value is not a perfect square.
+
+### wrapping_add
+**Signature**:
+```rust
+wrapping_add(other: u128) ⟶ u128
+```
+**Gas Cost**: 1 lex
+**Description**: Performs 128-bit addition that wraps around upon integer overflow, using modular arithmetic. This behavior ensures that the result is always a valid u128 value, effectively calculating (caller + other) mod 2^128.
+
+### wrapping_sub
+**Signature**:
+```rust
+wrapping_sub(other: u128) ⟶ u128
+```
+**Gas Cost**: 1 lex
+**Description**: Performs 128-bit wrapping (modular) subtraction that wraps around upon integer underflow, using modular arithmetic. This behavior ensures that the result is always a valid u128 value, effectively calculating (caller - other) mod 2^128.
+
+### wrapping_mul
+**Signature**:
+```rust
+wrapping_mul(other: u128) ⟶ u128
+```
+**Gas Cost**: 3 lex
+**Description**: Performs 128-bit multiplication that wraps around upon integer overflow, using modular arithmetic. This behavior ensures that the result is always a valid u128 value, effectively calculating (caller * other) mod 2^128.
+
+### wrapping_div
+**Signature**:
+```rust
+wrapping_div(other: u128) ⟶ u128
+```
+**Gas Cost**: 3 lex
+**Description**: Performs a division operation on a 128-bit unsigned integer type using modular arithmetic (wrapping) in case of overflow or underflow.
+
+### wrapping_rem
+**Signature**:
+```rust
+wrapping_rem(other: u128) ⟶ u128
+```
+**Gas Cost**: 3 lex
+**Description**: Calculates the remainder of a division, with the result automatically wrapping around the boundaries of the u128 integer type
+
+### wrapping_pow
+**Signature**:
+```rust
+wrapping_pow(other: u32) ⟶ u128
+```
+**Gas Cost**: 50 lex
+**Description**: Computes the 32-bit power on a 128-bit unsigned integer base (u128) using overflow (modular) arithmetic, wrapping around the boundaries of the u128 integer type.
+
+### to_string
+**Signature**:
+```rust
+to_string(base: u32) ⟶ string
+```
+**Gas Cost**: 1 lex
+**Description**: Converts a 128-bit integer into a string representation using the specified base.
+
+## u256 Functions
+
+### checked_add
+**Signature**:
+```rust
+checked_add(other: u256) ⟶ optional<u256>
+```
+**Gas Cost**: 1 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_sub
+**Signature**:
+```rust
+checked_sub(other: u256) ⟶ optional<u256>
+```
+**Gas Cost**: 1 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_mul
+**Signature**:
+```rust
+checked_mul(other: u256) ⟶ optional<u256>
+```
+**Gas Cost**: 3 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_div
+**Signature**:
+```rust
+checked_div(other: u256) ⟶ optional<u256>
+```
+**Gas Cost**: 8 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_rem
+**Signature**:
+```rust
+checked_rem(other: u256) ⟶ optional<u256>
+```
+**Gas Cost**: 8 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_pow
+**Signature**:
+```rust
+checked_pow(other: u32) ⟶ optional<u256>
+```
+**Gas Cost**: 50 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_shr
+**Signature**:
+```rust
+checked_shr(other: u32) ⟶ optional<u256>
+```
+**Gas Cost**: 5 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### checked_shl
+**Signature**:
+```rust
+checked_shl(other: u32) ⟶ optional<u256>
+```
+**Gas Cost**: 5 lex
+**Description**: Performs the specified arithmetic operation. If an overflow occurs, returns `null`; otherwise returns the resulting value.
+
+### saturating_add
+**Signature**:
+```rust
+saturating_add(other: u256) ⟶ u256
+```
+**Gas Cost**: 1 lex
+**Description**: Computes the sum of two 256-bit unsigned integers (u256) using saturation arithmetic, and returns a u256 result.
+
+### saturating_sub
+**Signature**:
+```rust
+saturating_sub(other: u256) ⟶ u256
+```
+**Gas Cost**: 1 lex
+**Description**: Computes the subtraction of two 256-bit unsigned integers (u256) using saturation arithmetic, and returns a u256 result.
+
+### saturating_mul
+**Signature**:
+```rust
+saturating_mul(other: u256) ⟶ u256
+```
+**Gas Cost**: 3 lex
+**Description**: Computes the multiplication of two 256-bit unsigned integers (u256) using saturation arithmetic, and returns a u256 result.
+
+### saturating_div
+**Signature**:
+```rust
+saturating_div(other: u256) ⟶ u256
+```
+**Gas Cost**: 3 lex
+**Description**: Computes the division of two 256-bit unsigned integers (u256) using saturation arithmetic, and returns a u256 result.
+
+### saturating_pow
+**Signature**:
+```rust
+saturating_pow(other: u32) ⟶ u256
+```
+**Gas Cost**: 50 lex
+**Description**: Computes the 32-bit power on a 256-bit unsigned integer base (u256) using saturation arithmetic, and returns a u256 result.
+
+### to_be_bytes
+**Signature**:
+```rust
+to_be_bytes() ⟶ bytes
+```
+**Gas Cost**: 10 lex
+**Description**: Converts the integer into a big-endian byte array. Typically, this returns the array (non-null).
+
+### to_le_bytes
+**Signature**:
+```rust
+to_le_bytes() ⟶ bytes
+```
+**Gas Cost**: 10 lex
+**Description**: Converts the integer into a little-endian byte array. Typically, this returns the array (non-null).
+
+### from_be_bytes
+**Signature**:
+```rust
+u256::from_be_bytes(bytes: bytes) ⟶ u256
+```
+**Gas Cost**: 10 lex
+**Description**: Constructs an unsigned 256-bit integer (u256) from a byte array provided in big-endian format.
+
+### from_le_bytes
+**Signature**:
+```rust
+u256::from_le_bytes(bytes: bytes) ⟶ u256
+```
+**Gas Cost**: 10 lex
+**Description**: Constructs an unsigned 256-bit integer (u256) from a byte array provided in little-endian format.
+
+### leading_ones
+**Signature**:
+```rust
+leading_ones() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 1 bits starting from the most significant bit (MSB) of an integer.
+
+### trailing_ones
+**Signature**:
+```rust
+trailing_ones() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 1 bits starting from the least significant bit (LSB) of an integer.
+**Example**:
+```rust
+Counts the number of consecutive 1 bits starting from the least significant bit (LSB) of an integer.
+```
+
+### count_ones
+**Signature**:
+```rust
+count_ones() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of set bits (bits with a value of 1) in the binary representation of a u256 integer.
+
+### leading_zeros
+**Signature**:
+```rust
+leading_zeros() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 0 bits starting from the most significant bit (MSB) of a u256 integer.
+
+### trailing_zeros
+**Signature**:
+```rust
+trailing_zeros() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of consecutive 0 bits starting from the least significant bit (LSB) of a u256 integer.
+
+### count_zeros
+**Signature**:
+```rust
+count_zeros() ⟶ u32
+```
+**Gas Cost**: 3 lex
+**Description**: Counts the number of unset bits (bits with a value of 0) in the binary representation of a u256 integer.
+
+### rotate_left
+**Signature**:
+```rust
+rotate_left(other: u32) ⟶ u256
+```
+**Gas Cost**: 20 lex
+**Description**: Performs a left rotation of the bits in the u256 value by the number of bits specified in the other: u32 argument.
+
+### rotate_right
+**Signature**:
+```rust
+rotate_right(other: u32) ⟶ u256
+```
+**Gas Cost**: 20 lex
+**Description**: Performs a right rotation of the bits in the u256 value by the number of bits specified in the other: u32 argument.
+
+### pow
+**Signature**:
+```rust
+pow(other: u32) ⟶ u256
+```
+**Gas Cost**: 50 lex
+**Description**: Raises the u256 base value it is called on to the power of the `other` u32 value. NOTE: If the power is too large, this function will overflow and return `0`.
+
+### reverse_bits
+**Signature**:
+```rust
+reverse_bits() ⟶ u256
+```
+**Gas Cost**: 10 lex
+**Description**: Reverses the bits of a u256 value.
+
+### min
+**Signature**:
+```rust
+min(other: u256) ⟶ u256
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the smaller (minimum) of two 256-bit unsigned integers.
+
+### max
+**Signature**:
+```rust
+max(other: u256) ⟶ u256
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the larger (maximum) of two 256-bit unsigned integers.
+
+### sqrt
+**Signature**:
+```rust
+sqrt() ⟶ u256
+```
+**Gas Cost**: 10 lex
+**Description**: Finds the square root of a u256 value. Note that this function will cause precision loss if the input value is not a perfect square.
+
+### wrapping_add
+**Signature**:
+```rust
+wrapping_add(other: u256) ⟶ u256
+```
+**Gas Cost**: 1 lex
+**Description**: Performs 256-bit addition that wraps around upon integer overflow, using modular arithmetic. This behavior ensures that the result is always a valid u256 value, effectively calculating (caller + other) mod 2^256.
+
+### wrapping_sub
+**Signature**:
+```rust
+wrapping_sub(other: u256) ⟶ u256
+```
+**Gas Cost**: 1 lex
+**Description**: Performs 256-bit wrapping (modular) subtraction that wraps around upon integer underflow, using modular arithmetic. This behavior ensures that the result is always a valid u256 value, effectively calculating (caller - other) mod 2^256.
+
+### wrapping_mul
+**Signature**:
+```rust
+wrapping_mul(other: u256) ⟶ u256
+```
+**Gas Cost**: 3 lex
+**Description**: Performs 256-bit multiplication that wraps around upon integer overflow, using modular arithmetic. This behavior ensures that the result is always a valid u256 value, effectively calculating (caller * other) mod 2^256.
+
+### wrapping_div
+**Signature**:
+```rust
+wrapping_div(other: u256) ⟶ u256
+```
+**Gas Cost**: 3 lex
+**Description**: Performs a division operation on a 256-bit unsigned integer type using modular arithmetic (wrapping) in case of overflow or underflow.
+
+### wrapping_rem
+**Signature**:
+```rust
+wrapping_rem(other: u256) ⟶ u256
+```
+**Gas Cost**: 3 lex
+**Description**: Calculates the remainder of a division, with the result automatically wrapping around the boundaries of the u256 integer type
+
+### wrapping_pow
+**Signature**:
+```rust
+wrapping_pow(other: u32) ⟶ u256
+```
+**Gas Cost**: 50 lex
+**Description**: Computes the 32-bit power on a 256-bit unsigned integer base (u256) using overflow (modular) arithmetic, wrapping around the boundaries of the u256 integer type.
+
+### to_string
+**Signature**:
+```rust
+to_string(base: u32) ⟶ string
+```
+**Gas Cost**: 3 lex
+**Description**: Converts a 256-bit integer into a string representation using the specified base.
+
+## u8[] Functions
+
+### to_bytes
+**Signature**:
+```rust
+to_bytes() ⟶ bytes
+```
+**Gas Cost**: 1 lex
+
+## Transaction Functions
+
+### current
+**Signature**:
+```rust
+Transaction::current() ⟶ optional<Transaction>
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the current transaction object in which the smart contract is running.
+
+### nonce
+**Signature**:
+```rust
+nonce() ⟶ u64
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the `nonce` field of the current transaction.
+
+### hash
+**Signature**:
+```rust
+hash() ⟶ Hash
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the cryptographic hash of the transaction.
+
+### source
+**Signature**:
+```rust
+source() ⟶ Address
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the `Address` that originated the transaction.
+
+### fee
+**Signature**:
+```rust
+fee() ⟶ u64
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the transaction’s fee.
+
+### signature
+**Signature**:
+```rust
+signature() ⟶ Signature
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the signature object of the transaction.
+
+## Block Functions
+
+### current
+**Signature**:
+```rust
+Block::current() ⟶ Block
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the current block object in which the contract is executing.
+After obtaining a `Block` (e.g., `let blk = Block::current();)`, you can call `blk.nonce() ⟶ u64`
+
+### nonce
+**Signature**:
+```rust
+nonce() ⟶ u64
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the block's nonce.
+
+### timestamp
+**Signature**:
+```rust
+timestamp() ⟶ u64
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the block's timestamp.
+
+### height
+**Signature**:
+```rust
+height() ⟶ u64
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the chain height at this block.
+
+### extra_nonce
+**Signature**:
+```rust
+extra_nonce() ⟶ u8[]
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the block's extra nonce field as a byte array.
+
+### hash
+**Signature**:
+```rust
+hash() ⟶ Hash
+```
+**Gas Cost**: 5 lex
+**Description**: Returns this block's hash.
+
+### miner
+**Signature**:
+```rust
+miner() ⟶ Address
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the miner's address for the block.
+
+### version
+**Signature**:
+```rust
+version() ⟶ u8
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the version number of the block.
+
+### tips
+**Signature**:
+```rust
+tips() ⟶ Hash[]
+```
+**Gas Cost**: 5 lex
+**Description**: Returns an array of hash references this block depends on (the block tips).
+
+### transactions_hashes
+**Signature**:
+```rust
+transactions_hashes() ⟶ Hash[]
+```
+**Gas Cost**: 50 lex
+**Description**: Returns an array of all transaction hashes included in this block.
+
+### transactions
+**Signature**:
+```rust
+transactions() ⟶ Transaction[]
+```
+**Gas Cost**: 250 lex
+**Description**: Returns an array of all Transaction objects in this block.
+
+### transactions_count
+**Signature**:
+```rust
+transactions_count() ⟶ u32
+```
+**Gas Cost**: 1 lex
+**Description**: Returns how many transactions are in this block.
+
+## Storage Functions
+
+### new
+**Signature**:
+```rust
+Storage::new() ⟶ Storage
+```
+**Gas Cost**: 5 lex
+**Description**: Creates a `Storage` object referring to this contract’s persistent storage. Typically you just use this once.
+
+### load
+**Signature**:
+```rust
+load(key: Any) ⟶ optional<Any>
+```
+**Gas Cost**: 200 lex
+**Description**: Loads the stored value for `key`. Returns the value or `null` if not found.
+
+### has
+**Signature**:
+```rust
+has(key: Any) ⟶ bool
+```
+**Gas Cost**: 200 lex
+**Description**: Returns true if a value for `key` exists.
+
+### store
+**Signature**:
+```rust
+store(key: Any, value: Any) ⟶ optional<Any>
+```
+**Gas Cost**: 16384 lex
+**Description**: Stores `value` for `key`, returning the old value if it existed, otherwise `null`.
+
+### delete
+**Signature**:
+```rust
+delete(key: Any) ⟶ optional<Any>
+```
+**Gas Cost**: 16384 lex
+**Description**: Removes the `key` from storage, returning the old value if present, or `null`.
+
+## ReadOnlyStorage Functions
+
+### new
+**Signature**:
+```rust
+ReadOnlyStorage::new(contract: Hash) ⟶ optional<ReadOnlyStorage>
+```
+**Gas Cost**: 15 lex
+**Description**: Returns a read-only view of another contract's storage if it exists, otherwise `null`.
+
+### load
+**Signature**:
+```rust
+load(key: Any) ⟶ optional<Any>
+```
+**Gas Cost**: 50 lex
+**Description**: Reads the value for `key` in that contract's storage, or `null` if not found.
+
+### has
+**Signature**:
+```rust
+has(key: Any) ⟶ bool
+```
+**Gas Cost**: 25 lex
+**Description**: Returns true if a value for `key` exists in the read-only storage.
+
+## MemoryStorage Functions
+
+### new
+**Signature**:
+```rust
+MemoryStorage::new(shared: bool) ⟶ MemoryStorage
+```
+**Gas Cost**: 5 lex
+**Description**: Creates a temporary in-memory storage (non-persistent).
+
+### load
+**Signature**:
+```rust
+load(key: Any) ⟶ optional<Any>
+```
+**Gas Cost**: 5 lex
+**Description**: Loads a value for `key` from an in-memory map. Returns the value or `null` if not present.
+
+### has
+**Signature**:
+```rust
+has(key: Any) ⟶ bool
+```
+**Gas Cost**: 5 lex
+**Description**: Returns true if `key` is in the in-memory storage.
+
+### store
+**Signature**:
+```rust
+store(key: Any, value: Any) ⟶ optional<Any>
+```
+**Gas Cost**: 5 lex
+**Description**: Stores `value`, returning the old value if it existed, otherwise `null`.
+
+### delete
+**Signature**:
+```rust
+delete(key: Any) ⟶ optional<Any>
+```
+**Gas Cost**: 5 lex
+**Description**: Removes `key`, returning the old value if present, or `null`.
+
+## Address Functions
+
+### is_mainnet
+**Signature**:
+```rust
+is_mainnet() ⟶ bool
+```
+**Gas Cost**: 5 lex
+**Description**: Returns true if `addr` is a mainnet address.
+
+### to_bytes
+**Signature**:
+```rust
+to_bytes() ⟶ bytes
+```
+**Gas Cost**: 5 lex
+
+### to_point
+**Signature**:
+```rust
+to_point() ⟶ RistrettoPoint
+```
+**Gas Cost**: 10 lex
+
+### from_string
+**Signature**:
+```rust
+Address::from_string(address: string) ⟶ Address
+```
+**Gas Cost**: 350 lex
+**Description**: Constructs an `Address` from the given string representation. (If invalid, behavior may error or produce an invalid address.)
+
+### from_bytes
+**Signature**:
+```rust
+Address::from_bytes(bytes: bytes) ⟶ Address
+```
+**Gas Cost**: 75 lex
+
+### to_string
+**Signature**:
+```rust
+to_string() ⟶ string
+```
+**Gas Cost**: 100 lex
+
+## Hash Functions
+
+### to_bytes
+**Signature**:
+```rust
+to_bytes() ⟶ Bytes
+```
+**Gas Cost**: 5 lex
+**Description**: Converts the `Hash` to a 32-byte `Bytes`.
+
+### to_array
+**Signature**:
+```rust
+to_array() ⟶ u8[]
+```
+**Gas Cost**: 5 lex
+**Description**: Converts the `Hash` to an array of 32 `u8`.
+
+### to_u256
+**Signature**:
+```rust
+to_u256() ⟶ u256
+```
+**Gas Cost**: 5 lex
+**Description**: Interprets the Hash as a `u256`.
+
+### to_hex
+**Signature**:
+```rust
+to_hex() ⟶ string
+```
+**Gas Cost**: 20 lex
+**Description**: Returns a hex-encoded string of the hash (64 hex chars).
+
+### from_bytes
+**Signature**:
+```rust
+Hash::from_bytes(bytes: Bytes) ⟶ Hash
+```
+**Gas Cost**: 75 lex
+**Description**: Constructs a `Hash` from a 32-byte `Bytes`.
+
+### from_array
+**Signature**:
+```rust
+Hash::from_array(bytes: u8[]) ⟶ Hash
+```
+**Gas Cost**: 75 lex
+**Description**: Constructs a `Hash` from an array of 32 `u8`. Typically errors if the length is not 32.
+
+### from_u256
+**Signature**:
+```rust
+Hash::from_u256(value: u256) ⟶ Hash
+```
+**Gas Cost**: 75 lex
+**Description**: Constructs a 32-byte `Hash` from a `u256`.
+
+### from_hex
+**Signature**:
+```rust
+Hash::from_hex(hex: string) ⟶ Hash
+```
+**Gas Cost**: 75 lex
+**Description**: Parses a 64-char hex string into a 32-byte hash.
+
+### blake3
+**Signature**:
+```rust
+Hash::blake3(input: u8[]) ⟶ Hash
+```
+**Gas Cost**: 3000 lex
+**Description**: Computes the BLAKE3 hash of `input`.
+
+### sha256
+**Signature**:
+```rust
+Hash::sha256(input: u8[]) ⟶ Hash
+```
+**Gas Cost**: 7500 lex
+**Description**: Computes the SHA-256 hash of `input`.
+
+### zero
+**Signature**:
+```rust
+Hash::zero() ⟶ Hash
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the zeroed 32-byte hash.
+
+### max
+**Signature**:
+```rust
+Hash::max() ⟶ Hash
+```
+**Gas Cost**: 1 lex
+**Description**: Returns a hash of all 0xFF bytes (the `maximum` possible hash).
+
+## Random Functions
+
+### new
+**Signature**:
+```rust
+Random::new() ⟶ Random
+```
+**Gas Cost**: 5 lex
+**Description**: Creates a deterministic random generator object (seeded by the execution context).
+
+### next_u8
+**Signature**:
+```rust
+next_u8() ⟶ u8
+```
+**Gas Cost**: 5 lex
+**Description**: Generates the next u8 random number.
+
+### next_u16
+**Signature**:
+```rust
+next_u16() ⟶ u16
+```
+**Gas Cost**: 5 lex
+**Description**: Generates the next u16 random number.
+
+### next_u32
+**Signature**:
+```rust
+next_u32() ⟶ u32
+```
+**Gas Cost**: 5 lex
+**Description**: Generates the next u32 random number.
+
+### next_u64
+**Signature**:
+```rust
+next_u64() ⟶ u64
+```
+**Gas Cost**: 5 lex
+**Description**: Generates the next u64 random number.
+
+### next_u128
+**Signature**:
+```rust
+next_u128() ⟶ u128
+```
+**Gas Cost**: 5 lex
+**Description**: Generates the next u128 random number.
+
+### next_u256
+**Signature**:
+```rust
+next_u256() ⟶ u256
+```
+**Gas Cost**: 5 lex
+
+### next_bool
+**Signature**:
+```rust
+next_bool() ⟶ bool
+```
+**Gas Cost**: 5 lex
+**Description**: Generates a random boolean.
+
+## Signature Functions
+
+### verify
+**Signature**:
+```rust
+verify(data: bytes, point: RistrettoPoint) ⟶ bool
+```
+**Gas Cost**: 500 lex
+**Description**: Verifies that the signature `sig` is valid for the byte array `data` signed by `address`. Returns `true` if valid, `false` if invalid.
+
+### from_bytes
+**Signature**:
+```rust
+Signature::from_bytes(bytes: u8[]) ⟶ Signature
+```
+**Gas Cost**: 75 lex
+**Description**: Creates a `Signature` from a byte array (usually 64 bytes).
+
+## Asset Functions
+
+### get_by_id
+**Signature**:
+```rust
+Asset::get_by_id(id: u64) ⟶ optional<Asset>
+```
+**Gas Cost**: 1000 lex
+**Description**: Looks up the asset by a numeric ID. Returns the asset or `null` if not found.
+
+### create
+**Signature**:
+```rust
+Asset::create(id: u64, name: string, ticker: string, decimals: u8, max_supply: MaxSupplyMode) ⟶ optional<Asset>
+```
+**Gas Cost**: 2500 lex
+**Description**: Creates a new asset with the given parameters. `max_supply` can be `null` if unlimited. Returns the newly created asset or `null` if creation fails.
+
+### get_by_hash
+**Signature**:
+```rust
+Asset::get_by_hash(hash: Hash) ⟶ optional<Asset>
+```
+**Gas Cost**: 500 lex
+**Description**: Looks up the asset by its `Hash`. Returns the asset or `null` if not found.<br/>Once you have an `Asset`, you can call `asset.get_max_supply() ⟶ optional\<u64\>`:
+
+### get_max_supply
+**Signature**:
+```rust
+get_max_supply() ⟶ optional<u64>
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the maximum supply if any, otherwise `null`.
+
+### get_supply
+**Signature**:
+```rust
+get_supply() ⟶ u64
+```
+**Gas Cost**: 15 lex
+**Description**: Returns the current supply of the asset.
+
+### get_name
+**Signature**:
+```rust
+get_name() ⟶ string
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the asset’s full name (human-readable).
+
+### get_ticker
+**Signature**:
+```rust
+get_ticker() ⟶ string
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the short ticker symbol.
+
+### get_hash
+**Signature**:
+```rust
+get_hash() ⟶ Hash
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the unique `Hash` representing this asset.
+
+### get_owner
+**Signature**:
+```rust
+get_owner() ⟶ optional<Hash>
+```
+**Gas Cost**: 5 lex
+
+### get_creator_id
+**Signature**:
+```rust
+get_creator_id() ⟶ optional<u64>
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the unique `Hash` representing this asset.
+
+### get_creator
+**Signature**:
+```rust
+get_creator() ⟶ optional<Hash>
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the unique `Hash` representing this asset.
+
+### mint
+**Signature**:
+```rust
+mint(amount: u64) ⟶ bool
+```
+**Gas Cost**: 500 lex
+**Description**: Increases the asset’s supply by `amount`, if allowed. Returns `true` if successful, `false` otherwise.
+
+### is_read_only
+**Signature**:
+```rust
+is_read_only() ⟶ bool
+```
+**Gas Cost**: 5 lex
+**Description**: Returns `true` if the asset cannot be modified (e.g. a read-only context).
+
+### get_contract_hash
+**Signature**:
+```rust
+get_contract_hash() ⟶ Hash
+```
+**Gas Cost**: 5 lex
+**Description**: If the asset is contract-scoped, returns the owning contract hash. Otherwise `null`.
+
+### get_id
+**Signature**:
+```rust
+get_id() ⟶ optional<u64>
+```
+**Gas Cost**: 5 lex
+**Description**: If the asset is numeric-based, returns its numeric ID, otherwise `null`.
+
+### transfer_ownership
+**Signature**:
+```rust
+transfer_ownership(contract: Hash) ⟶ bool
+```
+**Gas Cost**: 250 lex
+**Description**: If the asset is owned by the current contract, transfers ownership to the contract hash passed in parameter. Returns `true` if successful.
+
+### is_mintable
+**Signature**:
+```rust
+is_mintable() ⟶ bool
+```
+**Gas Cost**: 5 lex
+
+## Contract Functions
+
+### new
+**Signature**:
+```rust
+Contract::new(contract: Hash) ⟶ optional<Contract>
+```
+**Gas Cost**: 1500 lex
+**Description**: Creates a new contract object from a contract hash. Returns `None` if the contract does not exist.
+
+### call
+**Signature**:
+```rust
+call(chunk_id: u16, args: any[], deposits: map<Hash, u64>) ⟶ void<any>
+```
+**Gas Cost**: 750 lex
+**Description**: Calls the contract with the given `chunk_id` and `args`. The `deposits` parameter is a map of `Hash` to `u64` that specifies the amount of tokens to deposit for each asset.
+
+### delegate
+**Signature**:
+```rust
+delegate(chunk_id: u16, args: any[]) ⟶ void<any>
+```
+**Gas Cost**: 100 lex
+
+### get_hash
+**Signature**:
+```rust
+get_hash() ⟶ Hash
+```
+**Gas Cost**: 5 lex
+**Description**: Returns the contract hash.
+
+## T Functions
+
+### clone
+**Signature**:
+```rust
+clone() ⟶ T
+```
+**Gas Cost**: 5 lex
+**Description**: Create a new, independent instance of a value, often referred to as a deep copy.
+
+## T0[][] Functions
+
+### concat
+**Signature**:
+```rust
+concat() ⟶ T0[]
+```
+**Gas Cost**: 5 lex
+**Description**: Concatenate a two dimensional array. The result is a one dimensional array.
+
+## Bytes Functions
+
+### len
+**Signature**:
+```rust
+len() ⟶ u32
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the length of the `Bytes` in bytes.
+
+### push
+**Signature**:
+```rust
+push(value: u8)
+```
+**Gas Cost**: 2 lex
+**Description**: Add a single byte (u8) to a collection of bytes.
+
+### remove
+**Signature**:
+```rust
+remove(index: u32) ⟶ u8
+```
+**Gas Cost**: 5 lex
+**Description**: Remove byte at `index`.
+
+### pop
+**Signature**:
+```rust
+pop() ⟶ optional<u8>
+```
+**Gas Cost**: 1 lex
+**Description**: Pop the last byte off the end of the `Bytes`.
+
+### slice
+**Signature**:
+```rust
+slice(range: range<u32>) ⟶ bytes
+```
+**Gas Cost**: 5 lex
+
+### contains
+**Signature**:
+```rust
+contains(value: u8) ⟶ bool
+```
+**Gas Cost**: 10 lex
+**Description**: Checks if a `Bytes` container holds a specific u8 (byte) value and returns a bool
+
+### get
+**Signature**:
+```rust
+get(index: u32) ⟶ optional<u8>
+```
+**Gas Cost**: 1 lex
+**Description**: Gets the byte at `index`. Returns `None` if it does not exist.
+
+### first
+**Signature**:
+```rust
+first() ⟶ optional<u8>
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the first byte in the `Bytes` or `None` if empty.
+
+### last
+**Signature**:
+```rust
+last() ⟶ optional<u8>
+```
+**Gas Cost**: 1 lex
+**Description**: Returns the last byte in the `Bytes` or `None` if empty.
+
+### to_array
+**Signature**:
+```rust
+to_array() ⟶ u8[]
+```
+**Gas Cost**: 1 lex
+**Description**: Converts the `Bytes` to an array of u8.
+
+### to_hex
+**Signature**:
+```rust
+to_hex() ⟶ string
+```
+**Gas Cost**: 1 lex
+**Description**: Converts the `Bytes` to a hex string.
+
+### from_hex
+**Signature**:
+```rust
+bytes::from_hex(value: string) ⟶ bytes
+```
+**Gas Cost**: 1 lex
+**Description**: Creates a `Bytes` from a hex string.
+
+### split_off
+**Signature**:
+```rust
+split_off(index: u32) ⟶ bytes
+```
+**Gas Cost**: 5 lex
+
+### extend
+**Signature**:
+```rust
+extend(other: bytes)
+```
+**Gas Cost**: 5 lex
+**Description**: Extends the `Bytes` with the contents of another `Bytes`.
+
+### truncate
+**Signature**:
+```rust
+truncate(size: u32)
+```
+**Gas Cost**: 5 lex
+
+## Scalar Functions
+
+### from_u64
+**Signature**:
+```rust
+Scalar::from_u64(value: u64) ⟶ Scalar
+```
+**Gas Cost**: 25 lex
+**Description**: Creates a `Scalar` from a `u64`.
+
+### invert
+**Signature**:
+```rust
+invert() ⟶ Scalar
+```
+**Gas Cost**: 2500 lex
+**Description**: Creates the inverse of the `Scalar`.
+
+### is_zero
+**Signature**:
+```rust
+is_zero() ⟶ bool
+```
+**Gas Cost**: 1 lex
+**Description**: Checks if the `Scalar` is zero.
+
+### mul_base
+**Signature**:
+```rust
+mul_base() ⟶ RistrettoPoint
+```
+**Gas Cost**: 2500 lex
+**Description**: Performs fixed-base scalar multiplication of a `Scalar` by the predefined `Ristretto` basepoint of the curve.
+
+### add
+**Signature**:
+```rust
+add(value: Scalar) ⟶ Scalar
+```
+**Gas Cost**: 2000 lex
+**Description**: Performs scalar addition of two `Scalar` values.
+
+### sub
+**Signature**:
+```rust
+sub(value: Scalar) ⟶ Scalar
+```
+**Gas Cost**: 2000 lex
+**Description**: Performs scalar subtraction of two `Scalar` values.
+
+### mul
+**Signature**:
+```rust
+mul(value: Scalar) ⟶ Scalar
+```
+**Gas Cost**: 4000 lex
+**Description**: Performs scalar multiplication of two `Scalar` values.
+
+### div
+**Signature**:
+```rust
+div(value: u64) ⟶ Scalar
+```
+**Gas Cost**: 6000 lex
+**Description**: Performs scalar division of two `Scalar` values.
+
+### from_bytes
+**Signature**:
+```rust
+Scalar::from_bytes(bytes: bytes) ⟶ optional<Scalar>
+```
+**Gas Cost**: 150 lex
+**Description**: Creates a `Scalar` from a byte array (usually 32 bytes). If the input is not exactly 32 bytes, it might be an incorrect representation for that specific curve's field size, hence the return type `optional\<Scalar\>`
+
+### to_bytes
+**Signature**:
+```rust
+to_bytes() ⟶ bytes
+```
+**Gas Cost**: 50 lex
+**Description**: Returns the Scalar as a fixed-size byte array ([u8; 32]). The representation is canonical (unique) for each scalar value. 
+
+## Transcript Functions
+
+### new
+**Signature**:
+```rust
+Transcript::new(label: bytes) ⟶ Transcript
+```
+**Gas Cost**: 500 lex
+
+### challenge_scalar
+**Signature**:
+```rust
+challenge_scalar(label: bytes) ⟶ Scalar
+```
+**Gas Cost**: 750 lex
+
+### challenge_bytes
+**Signature**:
+```rust
+challenge_bytes(label: bytes, n: u32) ⟶ bytes
+```
+**Gas Cost**: 700 lex
+
+### append_message
+**Signature**:
+```rust
+append_message(label: bytes, message: bytes)
+```
+**Gas Cost**: 500 lex
+
+### append_point
+**Signature**:
+```rust
+append_point(label: bytes, point: RistrettoPoint)
+```
+**Gas Cost**: 250 lex
+
+### validate_and_append_point
+**Signature**:
+```rust
+validate_and_append_point(label: bytes, point: RistrettoPoint)
+```
+**Gas Cost**: 250 lex
+
+### append_scalar
+**Signature**:
+```rust
+append_scalar(label: bytes, scalar: Scalar)
+```
+**Gas Cost**: 250 lex
+
+## ArbitraryRangeProof Functions
+
+### new
+**Signature**:
+```rust
+ArbitraryRangeProof::new(max_value: u64, delta_commitment: RistrettoPoint, eq_commitment_proof: CommitmentEqualityProof, range_proof: RangeProof) ⟶ ArbitraryRangeProof
+```
+**Gas Cost**: 500 lex
+
+### max_value
+**Signature**:
+```rust
+max_value() ⟶ u64
+```
+**Gas Cost**: 1 lex
+
+### delta_commitment
+**Signature**:
+```rust
+delta_commitment() ⟶ RistrettoPoint
+```
+**Gas Cost**: 50 lex
+
+### commitment_eq_proof
+**Signature**:
+```rust
+commitment_eq_proof() ⟶ CommitmentEqualityProof
+```
+**Gas Cost**: 250 lex
+
+### range_proof
+**Signature**:
+```rust
+range_proof() ⟶ RangeProof
+```
+**Gas Cost**: 250 lex
+
+### verify
+**Signature**:
+```rust
+verify(source_pubkey: RistrettoPoint, source_ciphertext: Ciphertext, transcript: Transcript) ⟶ bool
+```
+**Gas Cost**: 1600000 lex
+
+## BalanceProof Functions
+
+### new
+**Signature**:
+```rust
+BalanceProof::new(amount: u64, commitment_eq_proof: CommitmentEqualityProof) ⟶ BalanceProof
+```
+**Gas Cost**: 250 lex
+
+### amount
+**Signature**:
+```rust
+amount() ⟶ u64
+```
+**Gas Cost**: 1 lex
+
+### commitment_eq_proof
+**Signature**:
+```rust
+commitment_eq_proof() ⟶ CommitmentEqualityProof
+```
+**Gas Cost**: 250 lex
+
+### verify
+**Signature**:
+```rust
+verify(source_pubkey: RistrettoPoint, source_ciphertext: Ciphertext, transcript: Transcript) ⟶ bool
+```
+**Gas Cost**: 1600000 lex
+
+## CommitmentEqualityProof Functions
+
+### verify
+**Signature**:
+```rust
+verify(source_pubkey: RistrettoPoint, ciphertext: Ciphertext, commitment: RistrettoPoint, transcript: Transcript) ⟶ bool
+```
+**Gas Cost**: 150000 lex
+
+## OwnershipProof Functions
+
+### new
+**Signature**:
+```rust
+OwnershipProof::new(amount: u64, commitment: RistrettoPoint, eq_commitment_proof: CommitmentEqualityProof, range_proof: RangeProof) ⟶ OwnershipProof
+```
+**Gas Cost**: 500 lex
+
+### amount
+**Signature**:
+```rust
+amount() ⟶ u64
+```
+**Gas Cost**: 1 lex
+
+### commitment
+**Signature**:
+```rust
+commitment() ⟶ RistrettoPoint
+```
+**Gas Cost**: 50 lex
+
+### commitment_eq_proof
+**Signature**:
+```rust
+commitment_eq_proof() ⟶ CommitmentEqualityProof
+```
+**Gas Cost**: 250 lex
+
+### range_proof
+**Signature**:
+```rust
+range_proof() ⟶ RangeProof
+```
+**Gas Cost**: 250 lex
+
+### verify
+**Signature**:
+```rust
+verify(source_pubkey: RistrettoPoint, source_ciphertext: Ciphertext, transcript: Transcript) ⟶ bool
+```
+**Gas Cost**: 1600000 lex
+
+## RangeProof Functions
+
+### verify_single
+**Signature**:
+```rust
+verify_single(commitment: RistrettoPoint, transcript: Transcript, n: u64) ⟶ bool
+```
+**Gas Cost**: 1500000 lex
+
+### verify_multiple
+**Signature**:
+```rust
+verify_multiple(commitments: RistrettoPoint[], transcript: Transcript, n: u64) ⟶ bool
+```
+**Gas Cost**: 1515000 lex
+
+## RistrettoPoint Functions
+
+### is_identity
+**Signature**:
+```rust
+is_identity() ⟶ bool
+```
+**Gas Cost**: 5 lex
+
+### identity
+**Signature**:
+```rust
+RistrettoPoint::identity() ⟶ RistrettoPoint
+```
+**Gas Cost**: 50 lex
+
+### add_scalar
+**Signature**:
+```rust
+add_scalar(value: Scalar) ⟶ RistrettoPoint
+```
+**Gas Cost**: 14000 lex
+
+### sub_scalar
+**Signature**:
+```rust
+sub_scalar(value: Scalar) ⟶ RistrettoPoint
+```
+**Gas Cost**: 14000 lex
+
+### add
+**Signature**:
+```rust
+add(value: RistrettoPoint) ⟶ RistrettoPoint
+```
+**Gas Cost**: 5000 lex
+
+### sub
+**Signature**:
+```rust
+sub(value: RistrettoPoint) ⟶ RistrettoPoint
+```
+**Gas Cost**: 6000 lex
+
+### mul_scalar
+**Signature**:
+```rust
+mul_scalar(value: Scalar) ⟶ RistrettoPoint
+```
+**Gas Cost**: 20000 lex
+
+### div_scalar
+**Signature**:
+```rust
+div_scalar(value: Scalar) ⟶ RistrettoPoint
+```
+**Gas Cost**: 23000 lex
+
+### from_bytes
+**Signature**:
+```rust
+RistrettoPoint::from_bytes(bytes: bytes) ⟶ RistrettoPoint
+```
+**Gas Cost**: 1500 lex
+
+### to_bytes
+**Signature**:
+```rust
+to_bytes() ⟶ bytes
+```
+**Gas Cost**: 1500 lex
+
+## Ciphertext Functions
+
+### add
+**Signature**:
+```rust
+add(value: u64)
+```
+**Gas Cost**: 1500 lex
+
+### sub
+**Signature**:
+```rust
+sub(value: u64)
+```
+**Gas Cost**: 1500 lex
+
+### mul
+**Signature**:
+```rust
+mul(value: u64)
+```
+**Gas Cost**: 2000 lex
+
+### div
+**Signature**:
+```rust
+div(value: u64)
+```
+**Gas Cost**: 7500 lex
+
+### new
+**Signature**:
+```rust
+Ciphertext::new(address: Address, amount: u64) ⟶ Ciphertext
+```
+**Gas Cost**: 1000 lex
+
+### commitment
+**Signature**:
+```rust
+commitment() ⟶ RistrettoPoint
+```
+**Gas Cost**: 5 lex
+
+### handle
+**Signature**:
+```rust
+handle() ⟶ RistrettoPoint
+```
+**Gas Cost**: 5 lex
+
+### zero
+**Signature**:
+```rust
+Ciphertext::zero() ⟶ Ciphertext
+```
+**Gas Cost**: 10 lex
+
+## MaxSupplyMode Functions
+
+### get_max_supply
+**Signature**:
+```rust
+get_max_supply() ⟶ optional<u64>
+```
+**Gas Cost**: 5 lex
+
+### is_mintable
+**Signature**:
+```rust
+is_mintable() ⟶ bool
+```
+**Gas Cost**: 5 lex
+
+## ScheduledExecution Functions
+
+### new_at_topoheight
+**Signature**:
+```rust
+ScheduledExecution::new_at_topoheight(callback: fn(any[]) ⟶ u64, args: any[], max_gas: u64, topoheight: u64) ⟶ optional<ScheduledExecution>
+```
+**Gas Cost**: 3500 lex
+
+### new_at_block_end
+**Signature**:
+```rust
+ScheduledExecution::new_at_block_end(callback: fn(any[]) ⟶ u64, args: any[], max_gas: u64) ⟶ optional<ScheduledExecution>
+```
+**Gas Cost**: 3500 lex
+
+### get_hash
+**Signature**:
+```rust
+get_hash() ⟶ Hash
+```
+**Gas Cost**: 5 lex
+
+### get_topoheight
+**Signature**:
+```rust
+get_topoheight() ⟶ optional<u64>
+```
+**Gas Cost**: 5 lex
+
+### get_max_gas
+**Signature**:
+```rust
+get_max_gas() ⟶ u64
+```
+**Gas Cost**: 5 lex
+
+### get_pending
+**Signature**:
+```rust
+ScheduledExecution::get_pending(topoheight: optional<u64>) ⟶ optional<ScheduledExecution>
+```
+**Gas Cost**: 1500 lex
+
+### increase_max_gas
+**Signature**:
+```rust
+increase_max_gas(amount: u64) ⟶ bool
+```
+**Gas Cost**: 250 lex
+
+## CiphertextValidityProof Functions
+
+### verify
+**Signature**:
+```rust
+verify(commitment: RistrettoPoint, dest_pubkey: RistrettoPoint, source_pubkey: RistrettoPoint, dest_handle: RistrettoPoint, source_handle: RistrettoPoint, transcript: Transcript) ⟶ bool
+```
+**Gas Cost**: 150000 lex
+
+## BTreeCursor Functions
+
+### next
+**Signature**:
+```rust
+next() ⟶ optional<Entry>
+```
+**Gas Cost**: 15 lex
+
+### delete
+**Signature**:
+```rust
+delete() ⟶ bool
+```
+**Gas Cost**: 20 lex
+
+## BTreeStore Functions
+
+### new
+**Signature**:
+```rust
+BTreeStore::new(namespace: bytes) ⟶ BTreeStore
+```
+**Gas Cost**: 5 lex
+
+### insert
+**Signature**:
+```rust
+insert(key: bytes, value: any) ⟶ optional<any>
+```
+**Gas Cost**: 100 lex
+
+### get
+**Signature**:
+```rust
+get(key: bytes) ⟶ optional<any>
+```
+**Gas Cost**: 75 lex
+
+### delete
+**Signature**:
+```rust
+delete(key: bytes) ⟶ optional<any>
+```
+**Gas Cost**: 75 lex
+
+### seek
+**Signature**:
+```rust
+seek(key: bytes, bias: BTreeSeekBias, ascending: bool) ⟶ (BTreeCursor, optional<Entry>)
+```
+**Gas Cost**: 100 lex
+
+### len
+**Signature**:
+```rust
+len() ⟶ u64
+```
+**Gas Cost**: 25 lex
+
