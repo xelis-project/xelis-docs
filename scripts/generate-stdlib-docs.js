@@ -97,15 +97,15 @@ data.forEach(category => {
 	mdxContent += `### ${funcName}\n`;
 	mdxContent += `**Signature**:\n`;
 	mdxContent += `\`\`\`rust\n${func.signature}\n\`\`\`\n`;
-	mdxContent += `**Gas Cost**: ${func.gas_cost} lex\n`;
+	mdxContent += `**Gas Cost**: ${func.gas_cost} lex  \n`;
 	
 	if (func.description) {
 	  // Escape description text but preserve it outside of code blocks
-	  mdxContent += `**Description**: ${escapeForMDX(func.description)}\n`;
+	  mdxContent += `**Description**: ${escapeForMDX(func.description)}  \n`;
 	}
 	
 	if (func.example) {
-	  mdxContent += `**Example**:\n`;
+	  mdxContent += `**Example**:  \n`;
 	  mdxContent += `\`\`\`rust\n${func.example}\n\`\`\`\n`;
 	}
 	
