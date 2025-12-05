@@ -78,6 +78,20 @@ Client                                Server
 - [mining.print](#miningprint)
 - [mining.hashrate](#mininghashrate)
 
+### PoW Algorithms
+
+XELIS is using the [Xelis Hash](https://github.com/xelis-project/xelis-hash) as its Proof of Work algorithm.
+
+Pool operators, please support the following algorithm names for compatibility with miners:
+- `xel/v1` / `xel/0`: since block height `0`
+- `xel/v2` / `xel/1`: since block height `434 100`
+- `xel/v3` / `xel/2`: since block height `3 282 150`
+
+The most recent algorithm is `xel/v3`.
+
+The format `xel/v{version}` comes from the node protocol while `xel/{version}` comes from legacy stratum pools and/or miners.
+
+Pool operators and miners developers, for backwards compatibility, you should support both formats.
 
 ### Errors
 
@@ -138,12 +152,12 @@ This method call will only be executed by clients.
 - `method` : `string`: RPC method name
 - `params` : `[ string, [ string ] ]`
   1. MUST be the name and version of the mining software in the given format or an empty string.
-  2. OPTIONAL, specifies a list of supported mining algorithms. If omitted, a default algorithm `xel/v2` or the most recent algorithm will be used.
-  _As of 7/11/2024 XELIS only supports one algo `xel/v2`_
+  2. OPTIONAL, specifies a list of supported mining algorithms. If omitted, a default algorithm `xel/v3` or the most recent algorithm will be used.
 
-Miners please use `xel/v2`
+Miners please use `xel/v3`
 
-Pool operators, for backwards compatibility, you should also support `xel/1`.  The stratum protocol originally used `xel/0` and `xel/1` but the node uses `xel/v1` and `xel/v2`. As a pool operator, if a miner sends `xel/1` you should consider this to be `xel/v2`
+Pool operators, for backwards compatibility, you should also support `xel/1`.
+Please see [PoW Algorithms](#pow-algorithms) for more details.
 
 #### Response
 
