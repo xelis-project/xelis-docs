@@ -155,7 +155,27 @@ fi
 echo "Updating the repository..."
 git pull
 echo "Building the project..."
-cargo build --release
+
+# Ask which binaries to build, default to all
+echo ""
+echo "Select which binaries to build:"
+echo "1) Daemon (xelis_daemon)"
+echo "2) Wallet (xelis_wallet)"
+echo "3) Miner (xelis_miner)"
+echo "4) All (default)"
+echo ""
+read -p "Enter your choice (1/2/3/4) [default: 4]: " build_choice
+
+BUILD_PARAMS=""
+case "$build_choice" in
+  1) BUILD_PARAMS="--bin xelis_daemon" ;;
+  2) BUILD_PARAMS="--bin xelis_wallet" ;;
+  3) BUILD_PARAMS="--bin xelis_miner" ;;
+  *) BUILD_PARAMS="" ;;
+esac
+
+echo "Building with: cargo build --release $BUILD_PARAMS"
+cargo build --release $BUILD_PARAMS
 
 # Bootstrap option
 if [ ! -d "mainnet" ]; then
