@@ -16,6 +16,17 @@ esac
 
 echo "Detected OS: $OS"
 
+# Function to run commands with sudo if needed (only for package managers and system-level operations)
+run_with_sudo() {
+    if [[ $EUID -ne 0 ]]; then
+        # Not running as root, use sudo
+        sudo "$@"
+    else
+        # Already root, run directly
+        "$@"
+    fi
+}
+
 # Clone repo if missing
 if [ ! -d "xelis-blockchain" ]; then
   echo "Cloning the repository..."
@@ -25,59 +36,94 @@ fi
 cd xelis-blockchain
 
 # Function to detect Clang version and switch to GCC if too old
+# also handle a compiler bug
 # see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95189
 detect_compiler() {
-    echo "Detecting Clang compatibility..."
-    local version
-    version=$(clang --version 2>/dev/null | sed -n 's/.*version \([0-9][0-9]*\).*/\1/p' | head -n1)
+  echo "Detecting C compiler compatibility..."
+  local apply_fix=0
 
-    if [[ -z "$version" ]]; then
+  if [[ "$CC" == gcc* ]]; then
+    echo "Checking GCC version for bug 95189..."
+    local gcc_version
+    gcc_version=$($CC -dumpversion 2>/dev/null | cut -d. -f1)
+    
+    if [[ -n "$gcc_version" && "$gcc_version" -lt 11 ]]; then
+        echo "WARNING: GCC $gcc_version is affected by bug 95189 (https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95189)"
+        echo "Trying to apply workaround..."
+
+        apply_fix=1
+        # echo "This may cause build issues. Setting CXXFLAGS to work around the issue..."
+        # export CXXFLAGS="${CXXFLAGS} -fno-tree-dominator-opts"
+    fi
+  fi
+
+  # check for CLang
+  if [[ "$apply_fix" -eq 0 ]]; then
+    local version
+
+    if command -v clang >/dev/null; then
+        version=$(clang --version 2>/dev/null | sed -n 's/.*version \([0-9][0-9]*\).*/\1/p' | head -n1)
+    else
         version=0
     fi
 
     echo "APT candidate Clang version: $version"
 
     if [[ "$version" -lt 14 || "$version" -eq 0 ]]; then
-        echo "Clang $version is too old or not available. Installing GCC instead."
-        sudo apt-get install -y software-properties-common
+      echo "Clang version is less than 14. Checking for alternative Clang installations..."
+      apply_fix=1
 
-        # Install GCC 13 on Ubuntu if not already installed
-        if grep -qi ubuntu /etc/os-release 2>/dev/null; then
-          if ! grep -q "ubuntu-toolchain-r/test" /etc/apt/sources.list /etc/apt/sources.list.d/* 2>/dev/null; then
-              echo "Adding PPA for newer GCC versions..."
-              sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-              sudo apt-get update
+      for alt in /usr/lib/llvm-*/bin/clang; do
+          if [[ -x "$alt" ]]; then
+              v=$("$alt" --version | sed ...)
+              if [[ "$v" -ge 14 ]]; then
+                  export CC="$alt"
+                  export CXX="${alt/clang/clang++}"
+                  apply_fix=0
+                  break
+              fi
           fi
-
-          sudo apt-get install -y gcc-13 g++-13
-          export CC=gcc-13
-          export CXX=g++-13
-        else
-          echo "installing GCC from default repositories."
-          if command -v dnf &>/dev/null; then
-              # Fedora / RHEL / Rocky
-              sudo dnf install -y gcc gcc-c++
-          elif command -v yum &>/dev/null; then
-              # CentOS 7 / RHEL 7
-              sudo yum install -y gcc gcc-c++
-          elif command -v pacman &>/dev/null; then
-              # Arch Linux
-              sudo pacman -Syu --noconfirm gcc
-          elif command -v apt-get &>/dev/null; then
-              # Debian (no Ubuntu PPA)
-              sudo apt-get install -y gcc g++
-          else
-              echo "Unsupported package manager. Please install GCC 11+ manually."
-              return 1
-          fi
-          export CC=gcc
-          export CXX=g++
-        fi
-    else
-        export CC=clang
-        export CXX=clang++
-        echo "Clang $version is recent enough. Using Clang."
+      done
     fi
+  fi
+
+  if [[ "$apply_fix" -eq 1 ]]; then
+    echo "Trying to find a compatible compiler due to compatibility issues..."
+    run_with_sudo apt-get install -y software-properties-common
+
+    # Install GCC 13 on Ubuntu if not already installed
+    if grep -qi ubuntu /etc/os-release 2>/dev/null; then
+      if ! grep -Rq "ubuntu-toolchain-r/test" /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null; then
+          echo "Adding PPA for newer GCC versions..."
+          run_with_sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+          run_with_sudo apt-get update
+      fi
+
+      run_with_sudo apt-get install -y gcc-13 g++-13
+      export CC=gcc-13
+      export CXX=g++-13
+    else
+      echo "installing GCC from default repositories."
+      if command -v dnf &>/dev/null; then
+          # Fedora / RHEL / Rocky
+          run_with_sudo dnf install -y gcc gcc-c++
+      elif command -v yum &>/dev/null; then
+          # CentOS 7 / RHEL 7
+          run_with_sudo yum install -y gcc gcc-c++
+      elif command -v pacman &>/dev/null; then
+          # Arch Linux
+          run_with_sudo pacman -Syu --noconfirm gcc
+      elif command -v apt-get &>/dev/null; then
+          # Debian (no Ubuntu PPA)
+          run_with_sudo apt-get install -y gcc g++
+      else
+          echo "Unsupported package manager. Please install GCC 11+ manually."
+          return 1
+      fi
+      export CC=gcc
+      export CXX=g++
+    fi
+  fi
 }
 
 # Install dependencies
@@ -89,16 +135,16 @@ install_deps() {
             # Detect package manager and install dependencies
             if command -v dnf &>/dev/null; then
                 # Fedora / RHEL / Rocky
-                sudo dnf install -y git gcc gcc-c++ cmake make unzip curl llvm-devel clang
+                run_with_sudo dnf install -y git gcc gcc-c++ cmake make unzip curl llvm-devel clang
             elif command -v yum &>/dev/null; then
                 # CentOS 7 / RHEL 7
-                sudo yum install -y git gcc gcc-c++ cmake make unzip curl llvm-devel clang
+                run_with_sudo yum install -y git gcc gcc-c++ cmake make unzip curl llvm-devel clang
             elif command -v pacman &>/dev/null; then
                 # Arch Linux
-                sudo pacman -Syu --noconfirm git gcc cmake make unzip curl llvm clang
+                run_with_sudo pacman -Syu --noconfirm git gcc cmake make unzip curl llvm clang
             else
-              sudo apt-get update
-              sudo apt-get install -y git gcc cmake build-essential unzip curl llvm-dev libclang-dev clang
+              run_with_sudo apt-get update
+              run_with_sudo apt-get install -y git gcc cmake build-essential unzip curl llvm-dev libclang-dev clang g++ gcc
             fi
 
             # Because of aws-lc-rs dependency, we need at least Clang 14
