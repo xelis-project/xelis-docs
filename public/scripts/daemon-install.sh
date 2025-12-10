@@ -210,7 +210,7 @@ echo "2) Wallet (xelis_wallet)"
 echo "3) Miner (xelis_miner)"
 echo "4) All (default)"
 echo ""
-read -p "Enter your choice (1/2/3/4) [default: 4]: " build_choice
+read -p "Enter your choice (1/2/3/4) [default: 4]: " build_choice </dev/tty
 
 BUILD_PARAMS=""
 case "$build_choice" in
@@ -225,7 +225,7 @@ cargo build --release $BUILD_PARAMS
 
 # Bootstrap option
 if [ ! -d "mainnet" ]; then
-  read -p "Do you want to bootstrap? Y: Download and use latest snapshot. N: Sync from scratch. (Y/N): " choice
+  read -p "Do you want to bootstrap? Y: Download and use latest snapshot. N: Sync from scratch. (Y/N): " choice </dev/tty
   if [[ "$choice" == [Yy]* ]]; then
     echo "Downloading mainnet snapshot..."
     curl -L -o mainnet.zip https://node.xelis.io/files/mainnet.zip
@@ -243,7 +243,7 @@ if [ ! -f "start.sh" ]; then
   echo ""
   echo "Recommended option: 1"
   echo ""
-  read -p "Enter your choice (0/1/2): " sync_choice
+  read -p "Enter your choice (0/1/2): " sync_choice </dev/tty
 
   SYNC_PARAM=""
   case "$sync_choice" in
