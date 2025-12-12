@@ -254,7 +254,9 @@ if [ ! -f "start.sh" ]; then
 
   echo "Creating the script for easier startup..."
   echo "#!/bin/bash" > start.sh
-  echo "./target/release/xelis_daemon $SYNC_PARAM" >> start.sh
+  # Automatically git pull before starting & run from sources
+  # this allows easy updates
+  echo "git pull && cargo run --bin xelis_daemon --release -- $SYNC_PARAM" >> start.sh
   chmod +x start.sh
 fi
 
