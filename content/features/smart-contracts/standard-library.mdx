@@ -2960,7 +2960,7 @@ Asset::get_by_id(id: u64) ⟶ optional<Asset>
 Asset::create(id: u64, name: string, ticker: string, decimals: u8, max_supply: MaxSupplyMode) ⟶ optional<Asset>
 ```
 **Gas Cost**: 2500 lex  
-**Description**: Creates a new asset with the given parameters. `max_supply` can be `null` if unlimited. Returns the newly created asset or `null` if creation fails.  
+**Description**: Creates a new asset with the given parameters. `max_supply` can be either `MaxSupplyMode::None`, `MaxSupplyMode::Fixed(u64)` , `MaxSupplyMode::Mintable(u64)`  . Returns the newly created asset or `null` if creation fails.  
 
 ### get_by_hash
 **Signature**:
