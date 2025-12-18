@@ -17,26 +17,26 @@ Please note:
 ### println
 **Signature**:
 ```rust
-println(value: Any)
+println(message: any)
 ```
 **Gas Cost**: 1 lex  
-**Description**: Prints a string representation of `value` (only effective if in debug mode).  
+**Description**: Prints a string representation of `message` (only effective if in debug mode).  
 
 ### debug
 **Signature**:
 ```rust
-debug(value: Any)
+debug(message: any)
 ```
 **Gas Cost**: 1 lex  
-**Description**: Prints a debug-style (developer-friendly) representation of `value` (only effective if in debug mode).  
+**Description**: Prints a debug-style (developer-friendly) representation of `message` (only effective if in debug mode).  
 
 ### panic
 **Signature**:
 ```rust
-panic(value: Any) ⟶ Any
+panic(message: any) ⟶ any
 ```
 **Gas Cost**: 1 lex  
-**Description**: Aborts execution with the provided `value` as a message. It never returns normally.  
+**Description**: Aborts execution with the provided `message` as a message. It never returns normally.  
 
 ### is_same_ptr
 **Signature**:
@@ -49,10 +49,10 @@ is_same_ptr(left: any, right: any) ⟶ bool
 ### require
 **Signature**:
 ```rust
-require(condition: bool, msg: string)
+require(condition: bool, message: string)
 ```
 **Gas Cost**: 1 lex  
-**Description**: If `condition` is false, execution aborts with the provided message, `msg`.  
+**Description**: If `condition` is false, execution aborts with the provided `message`.  
 
 ### get_contract_hash
 **Signature**:
@@ -87,7 +87,7 @@ get_deposit_for_asset(asset: Hash) ⟶ optional<u64>
 ### get_balance_for_asset
 **Signature**:
 ```rust
-get_balance_for_asset(asset: Hash) ⟶ u64
+get_balance_for_asset(asset: Hash) ⟶ optional<u64>
 ```
 **Gas Cost**: 25 lex  
 **Description**: Returns the contract’s current balance of `asset`.  
@@ -154,9 +154,10 @@ get_gas_limit() ⟶ u64
 ### increase_gas_limit
 **Signature**:
 ```rust
-increase_gas_limit(amount: u64) ⟶ u64
+increase_gas_limit(amount: u64) ⟶ bool
 ```
 **Gas Cost**: 250 lex  
+**Description**: Increases the gas limit by `amount`. Returns `true` if successful.  
 
 ### get_current_topoheight
 **Signature**:
@@ -196,7 +197,7 @@ is_contract_callable(contract: Hash, chunk_id: u16) ⟶ bool
 ### assert
 **Signature**:
 ```rust
-assert(value: bool)
+assert(condition: bool)
 ```
 **Gas Cost**: 1 lex  
 
@@ -207,6 +208,14 @@ get_deposits() ⟶ map<Hash, u64>
 ```
 **Gas Cost**: 15 lex  
 
+### xor_hashes
+**Signature**:
+```rust
+xor_hashes(hash1: Hash, hash2: Hash) ⟶ Hash
+```
+**Gas Cost**: 50 lex  
+**Description**: Performs a bitwise XOR operation on two hashes and returns the result.  
+
 ## Array Functions
 
 ### len
@@ -215,15 +224,15 @@ get_deposits() ⟶ map<Hash, u64>
 len() ⟶ u32
 ```
 **Gas Cost**: 1 lex  
-**Description**: Returns the number of elements in `arr`.  
+**Description**: Returns the number of elements in the array.  
 
 ### push
 **Signature**:
 ```rust
-push(value: T)
+push(element: T0)
 ```
 **Gas Cost**: 2 lex  
-**Description**: Appends `value` to the end of `arr`.  
+**Description**: Appends `element` to the end of the array.  
 
 ### remove
 **Signature**:
@@ -239,7 +248,7 @@ remove(index: u32) ⟶ T
 pop() ⟶ optional<T>
 ```
 **Gas Cost**: 1 lex  
-**Description**: Removes and returns the last element if it exists, or `null` if `arr` is empty.  
+**Description**: Removes and returns the last element if it exists, or `null` if the array is empty.  
 
 ### slice
 **Signature**:
@@ -252,10 +261,10 @@ slice(range: range<u32>) ⟶ T[]
 ### contains
 **Signature**:
 ```rust
-contains(value: T) ⟶ bool
+contains(element: T0) ⟶ bool
 ```
 **Gas Cost**: 10 lex  
-**Description**: Returns true if `value` is in `arr`.  
+**Description**: Returns true if `element` is in the array.  
 
 ### get
 **Signature**:
@@ -271,7 +280,7 @@ get(index: u32) ⟶ optional<T>
 first() ⟶ optional<T>
 ```
 **Gas Cost**: 1 lex  
-**Description**: Returns the first element of `arr`, or `null` if empty.  
+**Description**: Returns the first element of the array, or `null` if the array is empty.  
 
 ### last
 **Signature**:
@@ -279,7 +288,7 @@ first() ⟶ optional<T>
 last() ⟶ optional<T>
 ```
 **Gas Cost**: 1 lex  
-**Description**: Returns the last element of `arr`, or `null` if empty.  
+**Description**: Returns the last element of the array, or `null` if empty.  
 
 ### swap_remove
 **Signature**:
@@ -291,16 +300,18 @@ swap_remove(index: u32) ⟶ T0
 ### insert
 **Signature**:
 ```rust
-insert(index: u32, value: T0)
+insert(index: u32, element: T0)
 ```
 **Gas Cost**: 5 lex  
+**Description**: Inserts `element` at `index`, shifting subsequent elements to the right.  
 
 ### index_of
 **Signature**:
 ```rust
-index_of(value: T0) ⟶ optional<u32>
+index_of(element: T0) ⟶ optional<u32>
 ```
 **Gas Cost**: 5 lex  
+**Description**: Returns the index of the first occurrence of `element` in the array, or `null` if not found.  
 
 ### extend
 **Signature**:
@@ -322,6 +333,38 @@ split_off(index: u32) ⟶ T0[]
 truncate(size: u32)
 ```
 **Gas Cost**: 5 lex  
+
+### sort
+**Signature**:
+```rust
+sort(ascending: bool)
+```
+**Gas Cost**: 20 lex  
+**Description**: Sorts the array in ascending order if `ascending` is true, or descending order if false.  
+
+### reverse
+**Signature**:
+```rust
+reverse()
+```
+**Gas Cost**: 10 lex  
+**Description**: Reverses the order of elements in the array.  
+
+### map
+**Signature**:
+```rust
+map(mapper: closure(T0) -> any) ⟶ any[]
+```
+**Gas Cost**: 10 lex  
+**Description**: Applies the `mapper` function to each element of the array and returns a new array containing the results.  
+
+### sort_by_key
+**Signature**:
+```rust
+sort_by_key(key_fn: closure(T0) -> any, ascending: bool)
+```
+**Gas Cost**: 30 lex  
+**Description**: Sorts the array based on the key returned by `key_fn`.  
 
 ## Optional (T or null) Functions
 
@@ -357,21 +400,21 @@ unwrap_or(default: T0) ⟶ T0
 **Gas Cost**: 1 lex  
 **Description**: Returns the underlying value if not `null`, or returns `default_value` if `null`.  
 
-### expect
-**Signature**:
-```rust
-expect(msg: string) ⟶ T
-```
-**Gas Cost**: 1 lex  
-**Description**: Returns the underlying value if not `null`. If `null`, the execution panics with the provided message, `msg`.      
-
 ### unwrap_or_else
 **Signature**:
 ```rust
-unwrap_or_else(default: closure() ⟶ T0) ⟶ T0
+unwrap_or_else(fn: closure() -> T0) ⟶ T0
 ```
 **Gas Cost**: 2 lex  
 **Description**: Returns the underlying value if not `null`, or computes it from a closure.  
+
+### expect
+**Signature**:
+```rust
+expect(message: string) ⟶ T0
+```
+**Gas Cost**: 1 lex  
+**Description**: Returns the underlying value if not `null`. If `null`, the execution panics with the provided `message`.  
 
 ## Map Functions
 
@@ -481,15 +524,15 @@ trim() ⟶ string
 ### contains
 **Signature**:
 ```rust
-contains(value: string) ⟶ bool
+contains(substring: string) ⟶ bool
 ```
 **Gas Cost**: 1 lex  
-**Description**: Checks if `value` is a substring of `str`.  
+**Description**: Checks if `substring` is contained within the string.  
 
 ### contains_ignore_case
 **Signature**:
 ```rust
-contains_ignore_case(value: string) ⟶ bool
+contains_ignore_case(substring: string) ⟶ bool
 ```
 **Gas Cost**: 1 lex  
 **Description**: Case-insensitive version of `contains`.  
@@ -500,7 +543,7 @@ contains_ignore_case(value: string) ⟶ bool
 to_uppercase() ⟶ string
 ```
 **Gas Cost**: 1 lex  
-**Description**: Returns `str` converted to uppercase.  
+**Description**: Returns the string converted to uppercase.  
 
 ### to_lowercase
 **Signature**:
@@ -508,31 +551,31 @@ to_uppercase() ⟶ string
 to_lowercase() ⟶ string
 ```
 **Gas Cost**: 1 lex  
-**Description**: Returns `str` converted to lowercase.  
+**Description**: Returns the string converted to lowercase.  
 
 ### to_bytes
 **Signature**:
 ```rust
-to_bytes() ⟶ u8[]
+to_bytes() ⟶ bytes
 ```
 **Gas Cost**: 5 lex  
-**Description**: Converts `str` into an array of its UTF-8 bytes.  
+**Description**: Converts the string into an array of its UTF-8 bytes.  
 
 ### index_of
 **Signature**:
 ```rust
-index_of(value: string) ⟶ optional<u32>
+index_of(substring: string) ⟶ optional<u32>
 ```
 **Gas Cost**: 3 lex  
-**Description**: Finds the first index where `value` occurs. If not found, returns `null`.  
+**Description**: Finds the first index where `substring` occurs. If not found, returns `null`.  
 
 ### last_index_of
 **Signature**:
 ```rust
-last_index_of(value: string) ⟶ optional<u32>
+last_index_of(substring: string) ⟶ optional<u32>
 ```
 **Gas Cost**: 3 lex  
-**Description**: Finds the last index where `value` occurs. If not found, returns `null`.  
+**Description**: Finds the last index where `substring` occurs. If not found, returns `null`.  
 
 ### replace
 **Signature**:
@@ -540,31 +583,31 @@ last_index_of(value: string) ⟶ optional<u32>
 replace(from: string, to: string) ⟶ string
 ```
 **Gas Cost**: 5 lex  
-**Description**: Returns a copy of `str` with all occurrences of `from` replaced by `to`.  
+**Description**: Returns a copy of the string with all occurrences of `from` replaced by `to`.  
 
 ### starts_with
 **Signature**:
 ```rust
-starts_with(value: string) ⟶ bool
+starts_with(prefix: string) ⟶ bool
 ```
 **Gas Cost**: 3 lex  
-**Description**: Returns true if `str` begins with `value`.  
+**Description**: Returns true if the string begins with `prefix`.  
 
 ### ends_with
 **Signature**:
 ```rust
-ends_with(value: string) ⟶ bool
+ends_with(suffix: string) ⟶ bool
 ```
 **Gas Cost**: 3 lex  
-**Description**: Returns true if `str` ends with `value`.  
+**Description**: Returns true if the calling string ends with `suffix`.  
 
 ### split
 **Signature**:
 ```rust
-split(at: string) ⟶ [string]
+split(separator: string) ⟶ string[]
 ```
 **Gas Cost**: 5 lex  
-**Description**: Splits `str` by the separator `at` and returns an array of substrings.  
+**Description**: Splits the string by the `separator` and returns an array of substrings.  
 
 ### char_at
 **Signature**:
@@ -580,12 +623,12 @@ char_at(index: u32) ⟶ optional<string>
 is_empty() ⟶ bool
 ```
 **Gas Cost**: 1 lex  
-**Description**: Returns true if `str` is empty.  
+**Description**: Returns true if the string is empty.  
 
 ### matches
 **Signature**:
 ```rust
-matches(pattern: string) ⟶ [string]
+matches(pattern: string) ⟶ string[]
 ```
 **Gas Cost**: 50 lex  
 **Description**: Returns all non-overlapping matches of `pattern` within `str` as an array of strings.  
@@ -593,15 +636,15 @@ matches(pattern: string) ⟶ [string]
 ### substring
 **Signature**:
 ```rust
-substring(value: u32) ⟶ optional<string>
+substring(start: u32) ⟶ optional<string>
 ```
 **Gas Cost**: 3 lex  
-**Description**: Returns the substring from `value` index to the end, or `null` if out of range.  
+**Description**: Returns the substring from `start` index to the end, or `null` if out of range.  
 
 ### substring_range
 **Signature**:
 ```rust
-substring_range(value: u32, value: u32) ⟶ optional<string>
+substring_range(start: u32, end: u32) ⟶ optional<string>
 ```
 **Gas Cost**: 3 lex  
 **Description**: Returns the substring from `start` (inclusive) up to `end` (exclusive), or `null` if out of range.  
@@ -609,14 +652,14 @@ substring_range(value: u32, value: u32) ⟶ optional<string>
 ### from_utf8
 **Signature**:
 ```rust
-string::from_utf8(bytes: bytes) ⟶ optional<string>
+String::from_utf8(bytes: bytes) ⟶ optional<string>
 ```
 **Gas Cost**: 5 lex  
 
 ### from_utf8_lossy
 **Signature**:
 ```rust
-string::from_utf8_lossy(bytes: bytes) ⟶ string
+String::from_utf8_lossy(bytes: bytes) ⟶ string
 ```
 **Gas Cost**: 5 lex  
 
@@ -625,10 +668,10 @@ string::from_utf8_lossy(bytes: bytes) ⟶ string
 ### contains
 **Signature**:
 ```rust
-contains(value: T) ⟶ bool
+contains(element: T0) ⟶ bool
 ```
 **Gas Cost**: 5 lex  
-**Description**: Checks if `value` is within `[start, end)`.  
+**Description**: Checks if `element` is within `[start, end)`.  
 
 ### collect
 **Signature**:
@@ -3052,7 +3095,7 @@ is_read_only() ⟶ bool
 ### get_contract_hash
 **Signature**:
 ```rust
-get_contract_hash() ⟶ Hash
+get_contract_hash() ⟶ optional<Hash>
 ```
 **Gas Cost**: 5 lex  
 **Description**: If the asset is contract-scoped, returns the owning contract hash. Otherwise `null`.  
@@ -3146,7 +3189,7 @@ len() ⟶ u32
 ### push
 **Signature**:
 ```rust
-push(value: u8)
+push(byte: u8)
 ```
 **Gas Cost**: 2 lex  
 **Description**: Add a single byte (u8) to a collection of bytes.  
@@ -3177,7 +3220,7 @@ slice(range: range<u32>) ⟶ bytes
 ### contains
 **Signature**:
 ```rust
-contains(value: u8) ⟶ bool
+contains(byte: u8) ⟶ bool
 ```
 **Gas Cost**: 10 lex  
 **Description**: Checks if a `Bytes` container holds a specific u8 (byte) value and returns a bool  
@@ -3225,7 +3268,7 @@ to_hex() ⟶ string
 ### from_hex
 **Signature**:
 ```rust
-bytes::from_hex(value: string) ⟶ bytes
+Bytes::from_hex(hex_string: string) ⟶ bytes
 ```
 **Gas Cost**: 1 lex  
 **Description**: Creates a `Bytes` from a hex string.  
@@ -3313,7 +3356,7 @@ mul(value: Scalar) ⟶ Scalar
 ### div
 **Signature**:
 ```rust
-div(value: u64) ⟶ Scalar
+div(value: Scalar) ⟶ Scalar
 ```
 **Gas Cost**: 6000 lex  
 **Description**: Performs scalar division of two `Scalar` values.  
@@ -3679,14 +3722,14 @@ is_mintable() ⟶ bool
 ### new_at_topoheight
 **Signature**:
 ```rust
-ScheduledExecution::new_at_topoheight(callback: fn(any[]) ⟶ u64, args: any[], max_gas: u64, topoheight: u64) ⟶ optional<ScheduledExecution>
+ScheduledExecution::new_at_topoheight(callback: fn(any[]) -> u64, args: any[], max_gas: u64, use_contract_balance: bool, topoheight: u64) ⟶ optional<ScheduledExecution>
 ```
 **Gas Cost**: 3500 lex  
 
 ### new_at_block_end
 **Signature**:
 ```rust
-ScheduledExecution::new_at_block_end(callback: fn(any[]) ⟶ u64, args: any[], max_gas: u64) ⟶ optional<ScheduledExecution>
+ScheduledExecution::new_at_block_end(callback: fn(any[]) -> u64, args: any[], max_gas: u64, use_contract_balance: bool) ⟶ optional<ScheduledExecution>
 ```
 **Gas Cost**: 3500 lex  
 
@@ -3721,9 +3764,9 @@ ScheduledExecution::get_pending(topoheight: optional<u64>) ⟶ optional<Schedule
 ### increase_max_gas
 **Signature**:
 ```rust
-increase_max_gas(amount: u64) ⟶ bool
+increase_max_gas(amount: u64, use_contract_balance: bool) ⟶ bool
 ```
-**Gas Cost**: 250 lex  
+**Gas Cost**: 500 lex  
 
 ## CiphertextValidityProof Functions
 
