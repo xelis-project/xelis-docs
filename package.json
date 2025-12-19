@@ -3,9 +3,11 @@
   "version": "0.0.1",
   "scripts": {
     "start": "next dev",
+    "prebuild": "node scripts/generate-stdlib-docs.js",
     "build": "next build",
     "prod": "next start",
     "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind && cp -r public/_pagefind out",
+    "generate:stdlib": "node scripts/generate-stdlib-docs.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
