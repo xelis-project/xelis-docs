@@ -237,7 +237,7 @@ push(element: T0)
 ### remove
 **Signature**:
 ```rust
-remove(index: u32) ⟶ T
+remove(index: u32) ⟶ T0
 ```
 **Gas Cost**: 5 lex  
 **Description**: Removes and returns the element at `index`, shifting subsequent elements to the left.<br/>Throws an "OutOfBounds" error if `index` is invalid.  
@@ -245,7 +245,7 @@ remove(index: u32) ⟶ T
 ### pop
 **Signature**:
 ```rust
-pop() ⟶ optional<T>
+pop() ⟶ optional<T0>
 ```
 **Gas Cost**: 1 lex  
 **Description**: Removes and returns the last element if it exists, or `null` if the array is empty.  
@@ -253,7 +253,7 @@ pop() ⟶ optional<T>
 ### slice
 **Signature**:
 ```rust
-slice(range: range<u32>) ⟶ T[]
+slice(range: range<u32>) ⟶ T0[]
 ```
 **Gas Cost**: 5 lex  
 **Description**: Returns a new array containing the elements in the given half-open range `[start, end)`. Throws an `InvalidRange` error if out of bounds or invalid.  
@@ -269,7 +269,7 @@ contains(element: T0) ⟶ bool
 ### get
 **Signature**:
 ```rust
-get(index: u32) ⟶ optional<T>
+get(index: u32) ⟶ optional<T0>
 ```
 **Gas Cost**: 1 lex  
 **Description**: Returns the element at `index`, or `null` if out of bounds.  
@@ -277,7 +277,7 @@ get(index: u32) ⟶ optional<T>
 ### first
 **Signature**:
 ```rust
-first() ⟶ optional<T>
+first() ⟶ optional<T0>
 ```
 **Gas Cost**: 1 lex  
 **Description**: Returns the first element of the array, or `null` if the array is empty.  
@@ -285,7 +285,7 @@ first() ⟶ optional<T>
 ### last
 **Signature**:
 ```rust
-last() ⟶ optional<T>
+last() ⟶ optional<T0>
 ```
 **Gas Cost**: 1 lex  
 **Description**: Returns the last element of the array, or `null` if empty.  
@@ -366,6 +366,54 @@ sort_by_key(key_fn: closure(T0) -> any, ascending: bool)
 **Gas Cost**: 30 lex  
 **Description**: Sorts the array based on the key returned by `key_fn`.  
 
+### remove
+**Signature**:
+```rust
+remove(index: u32) ⟶ T0
+```
+**Gas Cost**: 5 lex  
+**Description**: [Documentation Required]  
+
+### pop
+**Signature**:
+```rust
+pop() ⟶ optional<T0>
+```
+**Gas Cost**: 1 lex  
+**Description**: [Documentation Required]  
+
+### slice
+**Signature**:
+```rust
+slice(range: range<u32>) ⟶ T0[]
+```
+**Gas Cost**: 5 lex  
+**Description**: [Documentation Required]  
+
+### get
+**Signature**:
+```rust
+get(index: u32) ⟶ optional<T0>
+```
+**Gas Cost**: 1 lex  
+**Description**: [Documentation Required]  
+
+### first
+**Signature**:
+```rust
+first() ⟶ optional<T0>
+```
+**Gas Cost**: 1 lex  
+**Description**: [Documentation Required]  
+
+### last
+**Signature**:
+```rust
+last() ⟶ optional<T0>
+```
+**Gas Cost**: 1 lex  
+**Description**: [Documentation Required]  
+
 ## Optional (T or null) Functions
 
 ### is_none
@@ -387,7 +435,7 @@ is_some() ⟶ bool
 ### unwrap
 **Signature**:
 ```rust
-unwrap() ⟶ T
+unwrap() ⟶ T0
 ```
 **Gas Cost**: 1 lex  
 **Description**: Returns the underlying value if not `null`. Throws an error otherwise.  
@@ -416,6 +464,14 @@ expect(message: string) ⟶ T0
 **Gas Cost**: 1 lex  
 **Description**: Returns the underlying value if not `null`. If `null`, the execution panics with the provided `message`.  
 
+### unwrap
+**Signature**:
+```rust
+unwrap() ⟶ T0
+```
+**Gas Cost**: 1 lex  
+**Description**: [Documentation Required]  
+
 ## Map Functions
 
 ### len
@@ -429,7 +485,7 @@ len() ⟶ u32
 ### contains_key
 **Signature**:
 ```rust
-contains_key(key: K) ⟶ bool
+contains_key(key: T0) ⟶ bool
 ```
 **Gas Cost**: 15 lex  
 **Description**: Returns true if `map` contains `key`.  
@@ -437,7 +493,7 @@ contains_key(key: K) ⟶ bool
 ### get
 **Signature**:
 ```rust
-get(key: K) ⟶ optional<V>
+get(key: T0) ⟶ optional<T1>
 ```
 **Gas Cost**: 15 lex  
 **Description**: Returns the value for `key` or `null` if the key is not present.  
@@ -445,7 +501,7 @@ get(key: K) ⟶ optional<V>
 ### insert
 **Signature**:
 ```rust
-insert(key: K, value: V) ⟶ optional<V>
+insert(key: T0, value: T1) ⟶ optional<T1>
 ```
 **Gas Cost**: 30 lex  
 **Description**: Inserts or updates the key-value pair. Returns the old value if `key` was present, otherwise `null`.  
@@ -475,7 +531,7 @@ clear()
 ### keys
 **Signature**:
 ```rust
-keys() ⟶ [K]
+keys() ⟶ T0[]
 ```
 **Gas Cost**: 20 lex  
 **Description**: Returns an array of all keys.  
@@ -483,15 +539,7 @@ keys() ⟶ [K]
 ### values
 **Signature**:
 ```rust
-values() ⟶ [V]
-```
-**Gas Cost**: 20 lex  
-**Description**: Returns an array of all values.  
-
-### values
-**Signature**:
-```rust
-values() ⟶ [V]
+values() ⟶ T1[]
 ```
 **Gas Cost**: 20 lex  
 **Description**: Returns an array of all values.  
@@ -502,6 +550,46 @@ values() ⟶ [V]
 entries() ⟶ (T0, T1)[]
 ```
 **Gas Cost**: 40 lex  
+
+### contains_key
+**Signature**:
+```rust
+contains_key(key: T0) ⟶ bool
+```
+**Gas Cost**: 15 lex  
+**Description**: [Documentation Required]  
+
+### get
+**Signature**:
+```rust
+get(key: T0) ⟶ optional<T1>
+```
+**Gas Cost**: 15 lex  
+**Description**: [Documentation Required]  
+
+### insert
+**Signature**:
+```rust
+insert(key: T0, value: T1) ⟶ optional<T1>
+```
+**Gas Cost**: 30 lex  
+**Description**: [Documentation Required]  
+
+### keys
+**Signature**:
+```rust
+keys() ⟶ T0[]
+```
+**Gas Cost**: 20 lex  
+**Description**: [Documentation Required]  
+
+### values
+**Signature**:
+```rust
+values() ⟶ T1[]
+```
+**Gas Cost**: 20 lex  
+**Description**: [Documentation Required]  
 
 ## String Functions
 
@@ -676,7 +764,7 @@ contains(element: T0) ⟶ bool
 ### collect
 **Signature**:
 ```rust
-collect() ⟶ T[]
+collect() ⟶ T0[]
 ```
 **Gas Cost**: 20 lex  
 **Description**: Creates an array of all values in `[start, end)`.  
@@ -684,7 +772,7 @@ collect() ⟶ T[]
 ### max
 **Signature**:
 ```rust
-max() ⟶ T
+max() ⟶ T0
 ```
 **Gas Cost**: 1 lex  
 **Description**: Returns the `end` value of the range.  
@@ -692,7 +780,7 @@ max() ⟶ T
 ### min
 **Signature**:
 ```rust
-min() ⟶ T
+min() ⟶ T0
 ```
 **Gas Cost**: 1 lex  
 **Description**: Returns the `start` value of the range.  
@@ -700,10 +788,42 @@ min() ⟶ T
 ### count
 **Signature**:
 ```rust
-count() ⟶ T
+count() ⟶ T0
 ```
 **Gas Cost**: 5 lex  
 **Description**: Returns the number of elements in `[start, end)` as a `T`.  
+
+### collect
+**Signature**:
+```rust
+collect() ⟶ T0[]
+```
+**Gas Cost**: 20 lex  
+**Description**: [Documentation Required]  
+
+### max
+**Signature**:
+```rust
+max() ⟶ T0
+```
+**Gas Cost**: 1 lex  
+**Description**: [Documentation Required]  
+
+### min
+**Signature**:
+```rust
+min() ⟶ T0
+```
+**Gas Cost**: 1 lex  
+**Description**: [Documentation Required]  
+
+### count
+**Signature**:
+```rust
+count() ⟶ T0
+```
+**Gas Cost**: 5 lex  
+**Description**: [Documentation Required]  
 
 ## u8 Functions
 
@@ -2589,7 +2709,7 @@ height() ⟶ u64
 ### extra_nonce
 **Signature**:
 ```rust
-extra_nonce() ⟶ u8[]
+extra_nonce() ⟶ bytes
 ```
 **Gas Cost**: 5 lex  
 **Description**: Returns the block's extra nonce field as a byte array.  
@@ -2650,6 +2770,14 @@ transactions_count() ⟶ u32
 **Gas Cost**: 1 lex  
 **Description**: Returns how many transactions are in this block.  
 
+### extra_nonce
+**Signature**:
+```rust
+extra_nonce() ⟶ bytes
+```
+**Gas Cost**: 5 lex  
+**Description**: [Documentation Required]  
+
 ## Storage Functions
 
 ### new
@@ -2663,7 +2791,7 @@ Storage::new() ⟶ Storage
 ### load
 **Signature**:
 ```rust
-load(key: Any) ⟶ optional<Any>
+load(key: any) ⟶ optional<any>
 ```
 **Gas Cost**: 200 lex  
 **Description**: Loads the stored value for `key`. Returns the value or `null` if not found.  
@@ -2671,7 +2799,7 @@ load(key: Any) ⟶ optional<Any>
 ### has
 **Signature**:
 ```rust
-has(key: Any) ⟶ bool
+has(key: any) ⟶ bool
 ```
 **Gas Cost**: 200 lex  
 **Description**: Returns true if a value for `key` exists.  
@@ -2679,7 +2807,7 @@ has(key: Any) ⟶ bool
 ### store
 **Signature**:
 ```rust
-store(key: Any, value: Any) ⟶ optional<Any>
+store(key: any, value: any) ⟶ optional<any>
 ```
 **Gas Cost**: 16384 lex  
 **Description**: Stores `value` for `key`, returning the old value if it existed, otherwise `null`.  
@@ -2687,10 +2815,42 @@ store(key: Any, value: Any) ⟶ optional<Any>
 ### delete
 **Signature**:
 ```rust
-delete(key: Any) ⟶ optional<Any>
+delete(key: any) ⟶ optional<any>
 ```
 **Gas Cost**: 16384 lex  
 **Description**: Removes the `key` from storage, returning the old value if present, or `null`.  
+
+### load
+**Signature**:
+```rust
+load(key: any) ⟶ optional<any>
+```
+**Gas Cost**: 200 lex  
+**Description**: [Documentation Required]  
+
+### has
+**Signature**:
+```rust
+has(key: any) ⟶ bool
+```
+**Gas Cost**: 200 lex  
+**Description**: [Documentation Required]  
+
+### store
+**Signature**:
+```rust
+store(key: any, value: any) ⟶ optional<any>
+```
+**Gas Cost**: 16384 lex  
+**Description**: [Documentation Required]  
+
+### delete
+**Signature**:
+```rust
+delete(key: any) ⟶ optional<any>
+```
+**Gas Cost**: 16384 lex  
+**Description**: [Documentation Required]  
 
 ## ReadOnlyStorage Functions
 
@@ -2705,7 +2865,7 @@ ReadOnlyStorage::new(contract: Hash) ⟶ optional<ReadOnlyStorage>
 ### load
 **Signature**:
 ```rust
-load(key: Any) ⟶ optional<Any>
+load(key: any) ⟶ optional<any>
 ```
 **Gas Cost**: 50 lex  
 **Description**: Reads the value for `key` in that contract's storage, or `null` if not found.  
@@ -2713,10 +2873,26 @@ load(key: Any) ⟶ optional<Any>
 ### has
 **Signature**:
 ```rust
-has(key: Any) ⟶ bool
+has(key: any) ⟶ bool
 ```
 **Gas Cost**: 25 lex  
 **Description**: Returns true if a value for `key` exists in the read-only storage.  
+
+### load
+**Signature**:
+```rust
+load(key: any) ⟶ optional<any>
+```
+**Gas Cost**: 50 lex  
+**Description**: [Documentation Required]  
+
+### has
+**Signature**:
+```rust
+has(key: any) ⟶ bool
+```
+**Gas Cost**: 25 lex  
+**Description**: [Documentation Required]  
 
 ## MemoryStorage Functions
 
@@ -2731,7 +2907,7 @@ MemoryStorage::new(shared: bool) ⟶ MemoryStorage
 ### load
 **Signature**:
 ```rust
-load(key: Any) ⟶ optional<Any>
+load(key: any) ⟶ optional<any>
 ```
 **Gas Cost**: 5 lex  
 **Description**: Loads a value for `key` from an in-memory map. Returns the value or `null` if not present.  
@@ -2739,7 +2915,7 @@ load(key: Any) ⟶ optional<Any>
 ### has
 **Signature**:
 ```rust
-has(key: Any) ⟶ bool
+has(key: any) ⟶ bool
 ```
 **Gas Cost**: 5 lex  
 **Description**: Returns true if `key` is in the in-memory storage.  
@@ -2747,7 +2923,7 @@ has(key: Any) ⟶ bool
 ### store
 **Signature**:
 ```rust
-store(key: Any, value: Any) ⟶ optional<Any>
+store(key: any, value: any) ⟶ optional<any>
 ```
 **Gas Cost**: 5 lex  
 **Description**: Stores `value`, returning the old value if it existed, otherwise `null`.  
@@ -2755,10 +2931,42 @@ store(key: Any, value: Any) ⟶ optional<Any>
 ### delete
 **Signature**:
 ```rust
-delete(key: Any) ⟶ optional<Any>
+delete(key: any) ⟶ optional<any>
 ```
 **Gas Cost**: 5 lex  
 **Description**: Removes `key`, returning the old value if present, or `null`.  
+
+### load
+**Signature**:
+```rust
+load(key: any) ⟶ optional<any>
+```
+**Gas Cost**: 5 lex  
+**Description**: [Documentation Required]  
+
+### has
+**Signature**:
+```rust
+has(key: any) ⟶ bool
+```
+**Gas Cost**: 5 lex  
+**Description**: [Documentation Required]  
+
+### store
+**Signature**:
+```rust
+store(key: any, value: any) ⟶ optional<any>
+```
+**Gas Cost**: 5 lex  
+**Description**: [Documentation Required]  
+
+### delete
+**Signature**:
+```rust
+delete(key: any) ⟶ optional<any>
+```
+**Gas Cost**: 5 lex  
+**Description**: [Documentation Required]  
 
 ## Address Functions
 
@@ -2811,7 +3019,7 @@ to_string() ⟶ string
 ### to_bytes
 **Signature**:
 ```rust
-to_bytes() ⟶ Bytes
+to_bytes() ⟶ bytes
 ```
 **Gas Cost**: 5 lex  
 **Description**: Converts the `Hash` to a 32-byte `Bytes`.  
@@ -2843,7 +3051,7 @@ to_hex() ⟶ string
 ### from_bytes
 **Signature**:
 ```rust
-Hash::from_bytes(bytes: Bytes) ⟶ Hash
+Hash::from_bytes(bytes: bytes) ⟶ Hash
 ```
 **Gas Cost**: 75 lex  
 **Description**: Constructs a `Hash` from a 32-byte `Bytes`.  
@@ -2875,7 +3083,7 @@ Hash::from_hex(hex: string) ⟶ Hash
 ### blake3
 **Signature**:
 ```rust
-Hash::blake3(input: u8[]) ⟶ Hash
+Hash::blake3(input: bytes) ⟶ Hash
 ```
 **Gas Cost**: 3000 lex  
 **Description**: Computes the BLAKE3 hash of `input`.  
@@ -2883,7 +3091,7 @@ Hash::blake3(input: u8[]) ⟶ Hash
 ### sha256
 **Signature**:
 ```rust
-Hash::sha256(input: u8[]) ⟶ Hash
+Hash::sha256(input: bytes) ⟶ Hash
 ```
 **Gas Cost**: 7500 lex  
 **Description**: Computes the SHA-256 hash of `input`.  
@@ -2903,6 +3111,38 @@ Hash::max() ⟶ Hash
 ```
 **Gas Cost**: 1 lex  
 **Description**: Returns a hash of all 0xFF bytes (the `maximum` possible hash).  
+
+### to_bytes
+**Signature**:
+```rust
+to_bytes() ⟶ bytes
+```
+**Gas Cost**: 5 lex  
+**Description**: [Documentation Required]  
+
+### from_bytes
+**Signature**:
+```rust
+Hash::from_bytes(bytes: bytes) ⟶ Hash
+```
+**Gas Cost**: 75 lex  
+**Description**: [Documentation Required]  
+
+### blake3
+**Signature**:
+```rust
+Hash::blake3(input: bytes) ⟶ Hash
+```
+**Gas Cost**: 3000 lex  
+**Description**: [Documentation Required]  
+
+### sha256
+**Signature**:
+```rust
+Hash::sha256(input: bytes) ⟶ Hash
+```
+**Gas Cost**: 7500 lex  
+**Description**: [Documentation Required]  
 
 ## Random Functions
 
@@ -2982,10 +3222,18 @@ verify(data: bytes, point: RistrettoPoint) ⟶ bool
 ### from_bytes
 **Signature**:
 ```rust
-Signature::from_bytes(bytes: u8[]) ⟶ Signature
+Signature::from_bytes(bytes: bytes) ⟶ Signature
 ```
 **Gas Cost**: 75 lex  
 **Description**: Creates a `Signature` from a byte array (usually 64 bytes).  
+
+### from_bytes
+**Signature**:
+```rust
+Signature::from_bytes(bytes: bytes) ⟶ Signature
+```
+**Gas Cost**: 75 lex  
+**Description**: [Documentation Required]  
 
 ## Asset Functions
 

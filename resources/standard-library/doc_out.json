@@ -212,21 +212,21 @@
             },
             {
                 "syscall_id": 2,
-                "signature": "remove(index: u32) ⟶ T",
+                "signature": "remove(index: u32) ⟶ T0",
                 "description": "Removes and returns the element at `index`, shifting subsequent elements to the left.<br/>Throws an \"OutOfBounds\" error if `index` is invalid.",
                 "example": "",
                 "gas_cost": 5
             },
             {
                 "syscall_id": 6,
-                "signature": "pop() ⟶ optional<T>",
+                "signature": "pop() ⟶ optional<T0>",
                 "description": "Removes and returns the last element if it exists, or `null` if the array is empty.",
                 "example": "",
                 "gas_cost": 1
             },
             {
                 "syscall_id": 7,
-                "signature": "slice(range: range<u32>) ⟶ T[]",
+                "signature": "slice(range: range<u32>) ⟶ T0[]",
                 "description": "Returns a new array containing the elements in the given half-open range `[start, end)`. Throws an `InvalidRange` error if out of bounds or invalid.",
                 "example": "",
                 "gas_cost": 5
@@ -240,21 +240,21 @@
             },
             {
                 "syscall_id": 9,
-                "signature": "get(index: u32) ⟶ optional<T>",
+                "signature": "get(index: u32) ⟶ optional<T0>",
                 "description": "Returns the element at `index`, or `null` if out of bounds.",
                 "example": "",
                 "gas_cost": 1
             },
             {
                 "syscall_id": 10,
-                "signature": "first() ⟶ optional<T>",
+                "signature": "first() ⟶ optional<T0>",
                 "description": "Returns the first element of the array, or `null` if the array is empty.",
                 "example": "",
                 "gas_cost": 1
             },
             {
                 "syscall_id": 11,
-                "signature": "last() ⟶ optional<T>",
+                "signature": "last() ⟶ optional<T0>",
                 "description": "Returns the last element of the array, or `null` if empty.",
                 "example": "",
                 "gas_cost": 1
@@ -328,6 +328,48 @@
                 "description": "Sorts the array based on the key returned by `key_fn`.",
                 "example": "",
                 "gas_cost": 30
+            },
+            {
+                "syscall_id": 2,
+                "signature": "remove(index: u32) ⟶ T0",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 5
+            },
+            {
+                "syscall_id": 6,
+                "signature": "pop() ⟶ optional<T0>",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 1
+            },
+            {
+                "syscall_id": 7,
+                "signature": "slice(range: range<u32>) ⟶ T0[]",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 5
+            },
+            {
+                "syscall_id": 9,
+                "signature": "get(index: u32) ⟶ optional<T0>",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 1
+            },
+            {
+                "syscall_id": 10,
+                "signature": "first() ⟶ optional<T0>",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 1
+            },
+            {
+                "syscall_id": 11,
+                "signature": "last() ⟶ optional<T0>",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 1
             }
         ]
     },
@@ -350,7 +392,7 @@
             },
             {
                 "syscall_id": 38,
-                "signature": "unwrap() ⟶ T",
+                "signature": "unwrap() ⟶ T0",
                 "description": "Returns the underlying value if not `null`. Throws an error otherwise.",
                 "example": "",
                 "gas_cost": 1
@@ -375,6 +417,13 @@
                 "description": "Returns the underlying value if not `null`. If `null`, the execution panics with the provided `message`.",
                 "example": "",
                 "gas_cost": 1
+            },
+            {
+                "syscall_id": 38,
+                "signature": "unwrap() ⟶ T0",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 1
             }
         ],
         "category_notes": "These functions are invoked on a value that might be `T` or `null`."
@@ -391,21 +440,21 @@
             },
             {
                 "syscall_id": 284,
-                "signature": "contains_key(key: K) ⟶ bool",
+                "signature": "contains_key(key: T0) ⟶ bool",
                 "description": "Returns true if `map` contains `key`.",
                 "example": "",
                 "gas_cost": 15
             },
             {
                 "syscall_id": 285,
-                "signature": "get(key: K) ⟶ optional<V>",
+                "signature": "get(key: T0) ⟶ optional<T1>",
                 "description": "Returns the value for `key` or `null` if the key is not present.",
                 "example": "",
                 "gas_cost": 15
             },
             {
                 "syscall_id": 286,
-                "signature": "insert(key: K, value: V) ⟶ optional<V>",
+                "signature": "insert(key: T0, value: T1) ⟶ optional<T1>",
                 "description": "Inserts or updates the key-value pair. Returns the old value if `key` was present, otherwise `null`.",
                 "example": "",
                 "gas_cost": 30
@@ -433,21 +482,14 @@
             },
             {
                 "syscall_id": 290,
-                "signature": "keys() ⟶ [K]",
+                "signature": "keys() ⟶ T0[]",
                 "description": "Returns an array of all keys.",
                 "example": "",
                 "gas_cost": 20
             },
             {
                 "syscall_id": 291,
-                "signature": "values() ⟶ [V]",
-                "description": "Returns an array of all values.",
-                "example": "",
-                "gas_cost": 20
-            },
-            {
-                "syscall_id": 291,
-                "signature": "values() ⟶ [V]",
+                "signature": "values() ⟶ T1[]",
                 "description": "Returns an array of all values.",
                 "example": "",
                 "gas_cost": 20
@@ -458,6 +500,41 @@
                 "description": "",
                 "example": "",
                 "gas_cost": 40
+            },
+            {
+                "syscall_id": 284,
+                "signature": "contains_key(key: T0) ⟶ bool",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 15
+            },
+            {
+                "syscall_id": 285,
+                "signature": "get(key: T0) ⟶ optional<T1>",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 15
+            },
+            {
+                "syscall_id": 286,
+                "signature": "insert(key: T0, value: T1) ⟶ optional<T1>",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 30
+            },
+            {
+                "syscall_id": 290,
+                "signature": "keys() ⟶ T0[]",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 20
+            },
+            {
+                "syscall_id": 291,
+                "signature": "values() ⟶ T1[]",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 20
             }
         ],
         "category_notes": "Let `map` be of type `Map<K, V>`."
@@ -619,29 +696,57 @@
             },
             {
                 "syscall_id": 279,
-                "signature": "collect() ⟶ T[]",
+                "signature": "collect() ⟶ T0[]",
                 "description": "Creates an array of all values in `[start, end)`.",
                 "example": "",
                 "gas_cost": 20
             },
             {
                 "syscall_id": 280,
-                "signature": "max() ⟶ T",
+                "signature": "max() ⟶ T0",
                 "description": "Returns the `end` value of the range.",
                 "example": "",
                 "gas_cost": 1
             },
             {
                 "syscall_id": 281,
-                "signature": "min() ⟶ T",
+                "signature": "min() ⟶ T0",
                 "description": "Returns the `start` value of the range.",
                 "example": "",
                 "gas_cost": 1
             },
             {
                 "syscall_id": 282,
-                "signature": "count() ⟶ T",
+                "signature": "count() ⟶ T0",
                 "description": "Returns the number of elements in `[start, end)` as a `T`.",
+                "example": "",
+                "gas_cost": 5
+            },
+            {
+                "syscall_id": 279,
+                "signature": "collect() ⟶ T0[]",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 20
+            },
+            {
+                "syscall_id": 280,
+                "signature": "max() ⟶ T0",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 1
+            },
+            {
+                "syscall_id": 281,
+                "signature": "min() ⟶ T0",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 1
+            },
+            {
+                "syscall_id": 282,
+                "signature": "count() ⟶ T0",
+                "description": "[Documentation Required]",
                 "example": "",
                 "gas_cost": 5
             }
@@ -2325,7 +2430,7 @@
             },
             {
                 "syscall_id": 316,
-                "signature": "extra_nonce() ⟶ u8[]",
+                "signature": "extra_nonce() ⟶ bytes",
                 "description": "Returns the block's extra nonce field as a byte array.",
                 "example": "",
                 "gas_cost": 5
@@ -2378,6 +2483,13 @@
                 "description": "Returns how many transactions are in this block.",
                 "example": "",
                 "gas_cost": 1
+            },
+            {
+                "syscall_id": 316,
+                "signature": "extra_nonce() ⟶ bytes",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 5
             }
         ],
         "category_notes": "Use these via the `Block` opaque type:"
@@ -2394,29 +2506,57 @@
             },
             {
                 "syscall_id": 325,
-                "signature": "load(key: Any) ⟶ optional<Any>",
+                "signature": "load(key: any) ⟶ optional<any>",
                 "description": "Loads the stored value for `key`. Returns the value or `null` if not found.",
                 "example": "",
                 "gas_cost": 200
             },
             {
                 "syscall_id": 326,
-                "signature": "has(key: Any) ⟶ bool",
+                "signature": "has(key: any) ⟶ bool",
                 "description": "Returns true if a value for `key` exists.",
                 "example": "",
                 "gas_cost": 200
             },
             {
                 "syscall_id": 327,
-                "signature": "store(key: Any, value: Any) ⟶ optional<Any>",
+                "signature": "store(key: any, value: any) ⟶ optional<any>",
                 "description": "Stores `value` for `key`, returning the old value if it existed, otherwise `null`.",
                 "example": "",
                 "gas_cost": 16384
             },
             {
                 "syscall_id": 328,
-                "signature": "delete(key: Any) ⟶ optional<Any>",
+                "signature": "delete(key: any) ⟶ optional<any>",
                 "description": "Removes the `key` from storage, returning the old value if present, or `null`.",
+                "example": "",
+                "gas_cost": 16384
+            },
+            {
+                "syscall_id": 325,
+                "signature": "load(key: any) ⟶ optional<any>",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 200
+            },
+            {
+                "syscall_id": 326,
+                "signature": "has(key: any) ⟶ bool",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 200
+            },
+            {
+                "syscall_id": 327,
+                "signature": "store(key: any, value: any) ⟶ optional<any>",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 16384
+            },
+            {
+                "syscall_id": 328,
+                "signature": "delete(key: any) ⟶ optional<any>",
+                "description": "[Documentation Required]",
                 "example": "",
                 "gas_cost": 16384
             }
@@ -2434,15 +2574,29 @@
             },
             {
                 "syscall_id": 330,
-                "signature": "load(key: Any) ⟶ optional<Any>",
+                "signature": "load(key: any) ⟶ optional<any>",
                 "description": "Reads the value for `key` in that contract's storage, or `null` if not found.",
                 "example": "",
                 "gas_cost": 50
             },
             {
                 "syscall_id": 331,
-                "signature": "has(key: Any) ⟶ bool",
+                "signature": "has(key: any) ⟶ bool",
                 "description": "Returns true if a value for `key` exists in the read-only storage.",
+                "example": "",
+                "gas_cost": 25
+            },
+            {
+                "syscall_id": 330,
+                "signature": "load(key: any) ⟶ optional<any>",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 50
+            },
+            {
+                "syscall_id": 331,
+                "signature": "has(key: any) ⟶ bool",
+                "description": "[Documentation Required]",
                 "example": "",
                 "gas_cost": 25
             }
@@ -2460,29 +2614,57 @@
             },
             {
                 "syscall_id": 333,
-                "signature": "load(key: Any) ⟶ optional<Any>",
+                "signature": "load(key: any) ⟶ optional<any>",
                 "description": "Loads a value for `key` from an in-memory map. Returns the value or `null` if not present.",
                 "example": "",
                 "gas_cost": 5
             },
             {
                 "syscall_id": 334,
-                "signature": "has(key: Any) ⟶ bool",
+                "signature": "has(key: any) ⟶ bool",
                 "description": "Returns true if `key` is in the in-memory storage.",
                 "example": "",
                 "gas_cost": 5
             },
             {
                 "syscall_id": 335,
-                "signature": "store(key: Any, value: Any) ⟶ optional<Any>",
+                "signature": "store(key: any, value: any) ⟶ optional<any>",
                 "description": "Stores `value`, returning the old value if it existed, otherwise `null`.",
                 "example": "",
                 "gas_cost": 5
             },
             {
                 "syscall_id": 336,
-                "signature": "delete(key: Any) ⟶ optional<Any>",
+                "signature": "delete(key: any) ⟶ optional<any>",
                 "description": "Removes `key`, returning the old value if present, or `null`.",
+                "example": "",
+                "gas_cost": 5
+            },
+            {
+                "syscall_id": 333,
+                "signature": "load(key: any) ⟶ optional<any>",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 5
+            },
+            {
+                "syscall_id": 334,
+                "signature": "has(key: any) ⟶ bool",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 5
+            },
+            {
+                "syscall_id": 335,
+                "signature": "store(key: any, value: any) ⟶ optional<any>",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 5
+            },
+            {
+                "syscall_id": 336,
+                "signature": "delete(key: any) ⟶ optional<any>",
+                "description": "[Documentation Required]",
                 "example": "",
                 "gas_cost": 5
             }
@@ -2540,7 +2722,7 @@
         "functions": [
             {
                 "syscall_id": 343,
-                "signature": "to_bytes() ⟶ Bytes",
+                "signature": "to_bytes() ⟶ bytes",
                 "description": "Converts the `Hash` to a 32-byte `Bytes`.",
                 "example": "",
                 "gas_cost": 5
@@ -2568,7 +2750,7 @@
             },
             {
                 "syscall_id": 347,
-                "signature": "Hash::from_bytes(bytes: Bytes) ⟶ Hash",
+                "signature": "Hash::from_bytes(bytes: bytes) ⟶ Hash",
                 "description": "Constructs a `Hash` from a 32-byte `Bytes`.",
                 "example": "",
                 "gas_cost": 75
@@ -2596,14 +2778,14 @@
             },
             {
                 "syscall_id": 351,
-                "signature": "Hash::blake3(input: u8[]) ⟶ Hash",
+                "signature": "Hash::blake3(input: bytes) ⟶ Hash",
                 "description": "Computes the BLAKE3 hash of `input`.",
                 "example": "",
                 "gas_cost": 3000
             },
             {
                 "syscall_id": 352,
-                "signature": "Hash::sha256(input: u8[]) ⟶ Hash",
+                "signature": "Hash::sha256(input: bytes) ⟶ Hash",
                 "description": "Computes the SHA-256 hash of `input`.",
                 "example": "",
                 "gas_cost": 7500
@@ -2621,6 +2803,34 @@
                 "description": "Returns a hash of all 0xFF bytes (the `maximum` possible hash).",
                 "example": "",
                 "gas_cost": 1
+            },
+            {
+                "syscall_id": 343,
+                "signature": "to_bytes() ⟶ bytes",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 5
+            },
+            {
+                "syscall_id": 347,
+                "signature": "Hash::from_bytes(bytes: bytes) ⟶ Hash",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 75
+            },
+            {
+                "syscall_id": 351,
+                "signature": "Hash::blake3(input: bytes) ⟶ Hash",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 3000
+            },
+            {
+                "syscall_id": 352,
+                "signature": "Hash::sha256(input: bytes) ⟶ Hash",
+                "description": "[Documentation Required]",
+                "example": "",
+                "gas_cost": 7500
             }
         ]
     },
@@ -2697,8 +2907,15 @@
             },
             {
                 "syscall_id": 383,
-                "signature": "Signature::from_bytes(bytes: u8[]) ⟶ Signature",
+                "signature": "Signature::from_bytes(bytes: bytes) ⟶ Signature",
                 "description": "Creates a `Signature` from a byte array (usually 64 bytes).",
+                "example": "",
+                "gas_cost": 75
+            },
+            {
+                "syscall_id": 383,
+                "signature": "Signature::from_bytes(bytes: bytes) ⟶ Signature",
+                "description": "[Documentation Required]",
                 "example": "",
                 "gas_cost": 75
             }

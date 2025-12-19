@@ -57,28 +57,10 @@ function verify_std_lib(filePath) {
             totalFunctions++;
             const signature = silexFunc.signature;
 
-            // We expect exact match now since generate_docs.ts handles normalization/addition
-            // But we can try normalized match if exact match fails, just to be sure what's happening
             let docFunc = docCategory.functions.find((f) => f.signature === signature);
 
             if (!docFunc) {
-                // Try to find a match by normalizing doc signatures
-                docFunc = docCategory.functions.find((f) => {
-                    let normalized = f.signature.replace(/Any/g, 'any');
-                    normalized = normalized.replace(/\[([a-zA-Z0-9_]+)\]/g, '$1[]');
-                    normalized = normalized.replace(/u8\[\]/g, 'bytes');
-                    normalized = normalized.replace(/Bytes/g, 'bytes');
-                    normalized = normalized.replace(/\)⟶/g, ') ⟶');
-
-                    if (categoryName === 'Array' || categoryName === 'Range' || categoryName === 'Optional (T or null)') {
-                        normalized = normalized.replace(/\bT\b/g, 'T0');
-                    } else if (categoryName === 'Map') {
-                        normalized = normalized.replace(/\bK\b/g, 'T0');
-                        normalized = normalized.replace(/\bV\b/g, 'T1');
-                    }
-
-                    return normalized === signature;
-                });
+                docFunc = docCategory.functions.find((f) => f.signature === signature);
             }
 
             if (docFunc) {

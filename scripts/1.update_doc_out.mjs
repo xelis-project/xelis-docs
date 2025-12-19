@@ -9,6 +9,7 @@ const __dirname = path.dirname(__filename);
 
 // Read the JSON file
 const docOutPath = path.join(__dirname, '../resources/standard-library/doc_out.json');
+const docOutDir = path.join(__dirname, '../resources/standard-library/');
 const stdLibDataPath = path.join(__dirname, '../resources/standard-library/std_lib_data.json');
 
 // This is the format of the doc_out.json file
@@ -73,31 +74,7 @@ export function generate_doc_as_json() {
         for (const func of category.functions) {
             let signature = func.signature;
 
-            // Normalization
-            // 1. Any -> any
-            signature = signature.replace(/Any/g, 'any');
-
-            // 2. Array syntax [Type] -> Type[]
-            // Handles [string], [K], [V] etc.
-            signature = signature.replace(/\[([a-zA-Z0-9_]+)\]/g, '$1[]');
-
-            // 2b. u8[] -> bytes, Bytes -> bytes
-            signature = signature.replace(/u8\[\]/g, 'bytes');
-            signature = signature.replace(/Bytes/g, 'bytes');
-
-            // 2c. Fix missing space before arrow
-            signature = signature.replace(/\)⟶/g, ') ⟶');
-
-            // 3. Category specific type mapping
-            if (categoryName === 'Array' || categoryName === 'Range' || categoryName === 'Optional (T or null)') {
-                signature = signature.replace(/\bT\b/g, 'T0');
-            } else if (categoryName === 'Map') {
-                signature = signature.replace(/\bK\b/g, 'T0');
-                signature = signature.replace(/\bV\b/g, 'T1');
-            }
-
             // Find matching function in silexCategory
-            // Try exact match first, then normalized
             let silexFunc = silexCategory.find(f => f.signature === func.signature);
 
             if (!silexFunc) {
@@ -109,7 +86,7 @@ export function generate_doc_as_json() {
                 func.gas_cost = silexFunc.gas_cost;
                 matchedSyscallIds.add(silexFunc.syscall_id);
             } else {
-                console.warn(`Function not found in silex library data for this category ${categoryName}: ${func.signature} (normalized: ${signature})`);
+                console.warn(`Function not found in silex library data for this category ${categoryName}: ${func.signature} ${signature}`);
             }
         }
     }
@@ -147,17 +124,16 @@ export function generate_doc_as_json() {
 export function save_doc_json() {
     const jsonOutput = generate_doc_as_json();
     // Target the file in the subdirectory
-    const outputPath = '../resources/standard-library/doc_out.json';
 
-    if (fs.existsSync(outputPath)) {
+    if (fs.existsSync(docOutPath)) {
         const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-        const backupPath = `../resources/standard-library/doc_out_${timestamp}.json`;
-        fs.copyFileSync(outputPath, backupPath);
+        const backupPath = `${docOutDir}/doc_out_${timestamp}.json`;
+        fs.copyFileSync(docOutPath, backupPath);
         console.log(`Backup created at ${backupPath}`);
     }
 
-    fs.writeFileSync(outputPath, JSON.stringify(jsonOutput, null, 4));
-    console.log(`Documentation saved to ${outputPath}`);
+    fs.writeFileSync(docOutPath, JSON.stringify(jsonOutput, null, 4));
+    console.log(`Documentation saved to ${docOutPath}`);
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
