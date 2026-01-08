@@ -1,0 +1,37 @@
+### `rewind_chain`
+
+> Rewind the chain by a specific count of blocks.
+
+Parameters
+
+|        Name        |   Type  | Required |                         Note                        |
+|:------------------:|:-------:|:--------:|:---------------------------------------------------:|
+|        count       | Integer | Required |                Count of blocks to pop               |
+|until_stable_height | Boolean | Optional |Rewind max to stable height if possible. Default false|
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "rewind_chain",
+  "params": {
+    "count": 1,
+    "until_stable_height": false
+  }
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "topoheight": 18,
+    "txs": ["011a3af694cf821e39e694baf533f4cb323785519a593e952a3e43e59250d4ea"]
+  }
+}
+```

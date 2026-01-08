@@ -49,6 +49,8 @@ import GetStableBalance from '../../definitions/daemon/methods/get_stable_balanc
 import SplitAddress from '../../definitions/daemon/methods/split_address.mdx'
 import IsAccountRegistered from '../../definitions/daemon/methods/is_account_registered.mdx'
 import GetTransactionExecutor from '../../definitions/daemon/methods/get_transaction_executor.mdx'
+import RewindChain from '../../definitions/daemon/methods/rewind_chain.mdx'
+import ClearCaches from '../../definitions/daemon/methods/clear_caches.mdx'
 
 import NewBlock from '../../definitions/daemon/events/new_block.mdx'
 import TransactionAddedInMempool from '../../definitions/daemon/events/transaction_added_in_mempool.mdx'
@@ -161,6 +163,13 @@ It includes a lof of methods to manage transactions, query details and monitor t
 <ValidateAddress />
 <SplitAddress />
 <ExtractKeyFromAddress />
+
+## (Private) Methods
+
+These methods must be enabled by starting the daemon with `--rpc-allow-private-methods` flag.
+
+<RewindChain />
+<ClearCaches />
 
 ## Events
 
