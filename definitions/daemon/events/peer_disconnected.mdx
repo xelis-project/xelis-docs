@@ -1,3 +1,30 @@
 ### `peer_disconnected`
 
 > When a peer is disconnected from the node.
+
+On Event
+
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "addr": "127.0.0.1:9999",
+        "bytes_recv": 224,
+        "bytes_sent": 200,
+        "connected_on": 1723503355,
+        "cumulative_difficulty": "195612980025169136041",
+        "event": "peer_disconnected",
+        "height": 583755,
+        "id": 19831114311557978,
+        "last_ping": 0,
+        "local_port": 2125,
+        "peers": {},
+        "pruned_topoheight": null,
+        "tag": null,
+        "top_block_hash": "14e037f9bcf2ef932b51fffdacdb0e40f5c13cbc8c213fad108f6f1c7508be6e",
+        "topoheight": 612269,
+        "version": "1.13.3-55810cc"
+    }
+}
+```

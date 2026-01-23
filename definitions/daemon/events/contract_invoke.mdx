@@ -1,0 +1,19 @@
+### `contract_invoke`
+
+> When the contract has been invoked, it allows to track all the contract invocations happening in the network.
+
+On Event
+
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "event": "contract_invoke",
+        "tx_hash": "d4f7e8c3b2a1e6f5c4b3a2d1e0f9f8e7d6c5b4a3a2b1c0d9e8f7e6d5c4b3a2b1",
+        "block_hash": "a1b2c3d4e5f60718273645566778899aabbccddeeff00112233445566778899",
+        "topoheight": 642000,
+        "contract_logs": [...]
+    }
+}
+```

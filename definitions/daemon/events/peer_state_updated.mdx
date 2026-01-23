@@ -1,3 +1,32 @@
 ### `peer_state_updated`
 
 > When a peer state is updated.
+
+On Event
+
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "addr": "0.0.0.0:35202",
+        "bytes_recv": 20227736,
+        "bytes_sent": 23927245,
+        "connected_on": 1722433223,
+        "cumulative_difficulty": "195614728296525524836",
+        "event": "peer_state_updated",
+        "height": 611867,
+        "id": 7542674138406502028,
+        "last_ping": 1723503479,
+        "local_port": 2125,
+        "peers": {
+            "0.0.0.0:2125": "Out",
+        },
+        "pruned_topoheight": 449592,
+        "tag": null,
+        "top_block_hash": "284dc3a7be770bf7b630df83d614aebbddb6a6e69b4a6c33b8cd42860aa13d7d",
+        "topoheight": 641967,
+        "version": "1.13.2-0027ba5"
+    }
+}
+```

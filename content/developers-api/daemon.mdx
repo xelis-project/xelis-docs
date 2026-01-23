@@ -53,10 +53,17 @@ import RewindChain from '../../definitions/daemon/methods/rewind_chain.mdx'
 import ClearCaches from '../../definitions/daemon/methods/clear_caches.mdx'
 
 import NewBlock from '../../definitions/daemon/events/new_block.mdx'
+import BlockOrdered from '../../definitions/daemon/events/block_ordered.mdx'
+import BlockOrphaned from '../../definitions/daemon/events/block_orphaned.mdx'
+import StableHeightChanged from '../../definitions/daemon/events/stable_height_changed.mdx'
+import StableTopoheightChanged from '../../definitions/daemon/events/stable_topoheight_changed.mdx'
+import TransactionOrphaned from '../../definitions/daemon/events/transaction_orphaned.mdx'
 import TransactionAddedInMempool from '../../definitions/daemon/events/transaction_added_in_mempool.mdx'
 import TransactionExecuted from '../../definitions/daemon/events/transaction_executed.mdx'
-import BlockOrdered from '../../definitions/daemon/events/block_ordered.mdx'
-import TransactionSCResult from '../../definitions/daemon/events/transaction_sc_result.mdx'
+import ContractInvoke from '../../definitions/daemon/events/contract_invoke.mdx'
+import ContractTransfers from '../../definitions/daemon/events/contract_transfers.mdx'
+import ContractEvent from '../../definitions/daemon/events/contract_event.mdx'
+import ContractDeploy from '../../definitions/daemon/events/contract_deploy.mdx'
 import NewAsset from '../../definitions/daemon/events/new_asset.mdx'
 import PeerConnected from '../../definitions/daemon/events/peer_connected.mdx'
 import PeerDisconnected from '../../definitions/daemon/events/peer_disconnected.mdx'
@@ -68,8 +75,6 @@ import PeerPeerDisconnected from '../../definitions/daemon/events/peer_peer_disc
 
 You can use this API to retrieve information about the blockchain like block height, network difficulty, etc.  
 It includes a lof of methods to manage transactions, query details and monitor the network.  
-
-## Setup
 
 <Tabs items={['HTTP', 'WebSocket']}>
   <Tabs.Tab>
@@ -186,7 +191,7 @@ const message = {
   jsonrpc: '2.0',
   method: 'subscribe',
   params: {
-    notify: 'NewBlock'
+    notify: 'new_block'
   }
 }
 
@@ -198,10 +203,17 @@ ws.send(JSON.stringify(message))
 ```
 
 <NewBlock />
+<BlockOrdered />
+<BlockOrphaned />
+<StableHeightChanged />
+<StableTopoheightChanged />
+<TransactionOrphaned />
 <TransactionAddedInMempool />
 <TransactionExecuted />
-<BlockOrdered />
-<TransactionSCResult />
+<ContractInvoke />
+<ContractTransfers />
+<ContractEvent />
+<ContractDeploy />
 <NewAsset />
 <PeerConnected />
 <PeerDisconnected />
