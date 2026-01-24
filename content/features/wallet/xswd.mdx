@@ -109,6 +109,17 @@ Same for the daemon, you must set the prefix `node.` for each RPC method that ar
 
 You can also listen to any wallet event available in the traditional RPC-API through XSWD.
 
+## Relayer
+
+**XSWD Relayer** is a lightweight, high-performance WebSocket tunnel designed to connect exactly two peers via a temporary secure channel.
+It forwards messages in both directions, with zero inspection or transformation.
+This makes it ideal for building **trustless communication layers**, encrypted tunnels, or peer-to-peer protocols over WebSocket.
+
+It is useful for applications that cannot directly connect to the XSWD server, such as web applications running in a browser or mobile applications.
+The relayer acts as a trustless bridge between the application and the XSWD server, forwarding messages in both directions.
+
+You can find the source code of the relayer on our [GitHub repository](https://github.com/xelis-project/xswd-relayer).
+
 ## Future Features
 
 Because you can only use one XSWD per device, we are planning to make a proxy system that would distribute the requests to multiple wallets and allow managing multiple wallets at the same time.
