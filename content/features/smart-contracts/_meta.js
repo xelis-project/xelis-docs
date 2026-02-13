@@ -3,4 +3,5 @@ export default {
     "standard-library": "Standard Library",
     "opcodes": "OpCodes",
     "scheduled-executions": "Scheduled Executions",
+    "memory-storage": "Memory Storage",
 }

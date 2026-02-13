@@ -1,0 +1,90 @@
+## Introduction
+
+**MemoryStorage** is a temporary, in-memory key/value store for Silex contracts. It is **non-persistent** and is designed for short-lived data during a contract execution.
+
+Use it for:
+- **Scratch space** (temporary buffers, intermediate results)
+- **Batch aggregation** within a single call
+- **Memoization** to avoid recomputation
+
+Because it does not touch persistent contract storage, MemoryStorage is lightweight and fast.
+
+## How it works
+
+MemoryStorage behaves like a map with `load`, `has`, `store`, and `delete`. Values are kept in memory only and are discarded when the execution ends.
+
+You create it with:
+
+```rust
+let mem: MemoryStorage = MemoryStorage::new(shared)
+```
+
+The `shared` flag controls whether the memory storage is shared or isolated. If `shared` is `true`, it is available across different TX executions of the same contract, **but only within the same block**. Use `false` when you want isolated temporary state.
+
+**NOTE**: MemoryStorage shared is different from the one non-shared.
+They do not see each other's data.
+The shared flag only controls whether the storage is shared across executions, not whether different instances see each other's data.
+
+## Advantages
+
+- **Low gas**: operations are very cheap compared to persistent storage.
+- **No permanent state**: nothing is written to chain storage.
+- **Great for temporary data**: ideal for batching and caching inside a call.
+
+## API overview
+
+```rust
+MemoryStorage::new(shared: bool) ⟶ MemoryStorage
+load(key: any) ⟶ optional<any>
+has(key: any) ⟶ bool
+store(key: any, value: any) ⟶ optional<any>
+delete(key: any) ⟶ optional<any>
+```
+
+## Examples
+
+### Temporary batch aggregation
+
+Aggregate values in-memory during differents calls in the same block.
+
+```rust
+entry aggregate(values: u64[]) -> u64 {
+    // Shared is set to true, any TX calling this contract in the same block
+    // will see the same MemoryStorage instance and can aggregate values together.
+	let mem: MemoryStorage = MemoryStorage::new(true)
+
+	let items: u64[] = mem.load("values").unwrap_or([])
+    items.extend(values)
+	mem.store("values", items)
+
+	return 0
+}
+```
+
+### Memoization inside one execution
+
+Cache results of expensive computations during one execution.
+
+```rust
+fn compute_score(x: u64) -> u64 {
+    // dummy expensive computation
+	return (x * x) + 42
+}
+
+entry get_scores(a: u64, b: u64) -> u64 {
+    // MemoryStorage is cleared at the end of the execution.
+	let mem: MemoryStorage = MemoryStorage::new(false)
+
+	let key_a: string = "score_a"
+	let key_b: string = "score_b"
+
+    require(!mem.has(key_a) && !mem.has(key_b), "scores should not be cached yet")
+	mem.store(key_a, compute_score(a))
+	mem.store(key_b, compute_score(b))
+
+	let score_a: u64 = mem.load(key_a).unwrap_or(0)
+	let score_b: u64 = mem.load(key_b).unwrap_or(0)
+
+	return 0
+}
+```
