@@ -1,0 +1,115 @@
+## Introduction
+
+Scheduled Executions let a contract schedule a future contract call that is executed by the protocol itself, without requiring a new user transaction at that moment. They are **unique per contract and topoheight**, which prevents multiple competing schedules at the same slot.
+
+This feature enables:
+- **Async transactions** (pay later or on a fixed date/topoheight).
+- **MEV-resistant flows**, by aggregating and processing data once at a controlled time.
+- **Deterministic execution order**, because scheduled calls run before any user TXs at the target topoheight.
+
+## Why it is unique in blockchain
+
+Most chains require a user transaction (or an off-chain bot) to trigger deferred execution. Scheduled Executions are native and enforced by the protocol, which means:
+- **No external keeper** or cron service is needed.
+- **Guaranteed execution timing** (at block end or at a specific topoheight).
+- **One schedule per contract per topoheight**, avoiding race conditions or duplicate calls.
+- **Built-in permissions and asset model** prevent drainer patterns.
+
+## How it works
+
+Each scheduled execution is uniquely identified by a hash derived from the contract and topoheight.
+This ensures that a contract can only register one scheduled execution per topoheight.
+
+All executions are sorted by hash to ensure deterministic ordering.
+At the target topoheight, the protocol executes the scheduled call before processing any user transactions, guaranteeing a predictable state for all subsequent TXs.
+
+### Execution timing
+
+Scheduled executions can be created in two ways:
+
+1. **At block end**: executed at the end of the current block, after all TXs executed in that block.
+2. **At a specific topoheight**: executed before any TXs at that topoheight.
+
+These modes provide strong guarantees about ordering and make advanced coordination patterns possible.
+
+## Advantages
+
+- **Deterministic batch processing**: Aggregate updates during a block and process them in one call at block end.
+- **MEV resistance**: Move sensitive order matching or settlement to a scheduled call that executes before any user TXs at the target topoheight.
+- **Async workflows**: Schedule contract actions for a future topoheight without external automation.
+- **Gas control**: A maximum gas limit is locked for the call; unused gas is refunded to the contract balance and to others sources that paid for the execution.
+
+## Examples
+
+### Block-end batch processing (MEV-resistant)
+
+This contract aggregates submitted prices during the block and schedules a **single** batch execution at block end. The batch execution sorts the prices and emits an event, ensuring deterministic ordering and preventing intra-block reordering.
+
+```rust
+const MAX_GAS: u64 = 200_000
+const ORDERS_KEY: string = "orders"
+
+fn process_batch(args: any[]) -> u64 {
+	let storage: MemoryStorage = MemoryStorage::new(true)
+	let orders: u64[] = storage.load(ORDERS_KEY).expect("orders")
+	orders.sort(true)
+
+	// Emit sorted batch for off-chain indexers or dApps
+	fire_rpc_event(1, orders)
+	return 0
+}
+
+entry submit_order(price: u64) -> u64 {
+	let storage: MemoryStorage = MemoryStorage::new(true)
+	let orders: u64[] = storage.load(ORDERS_KEY).unwrap_or([])
+
+	orders.push(price)
+	storage.store(ORDERS_KEY, orders)
+
+	// Schedule exactly one batch execution at block end
+	let pending: optional<ScheduledExecution> = ScheduledExecution::get_pending(null)
+	if pending == null {
+		ScheduledExecution::new_at_block_end(
+			process_batch,
+			[],
+			MAX_GAS,
+			true
+		)
+	}
+
+	return 0
+}
+```
+
+### Prepaid execution at a fixed topoheight
+
+This contract schedules a transfer to run at a future topoheight.
+The execution is **paid in advance** when scheduled, and the prepaid gas is **consumed at execution**.
+The scheduled execution runs **before any user TXs** at that topoheight.
+
+```rust
+const MAX_GAS: u64 = 150_000
+
+fn execute_payment(to: Address, amount: u64, asset: Hash) -> u64 {
+	let ok = transfer(to, amount, asset)
+	require(ok, "transfer failed")
+	return 0
+}
+
+entry schedule_payment(to: Address, amount: u64, asset: Hash, delay: u64) -> u64 {
+	let target = get_current_topoheight() + delay
+	let args: any[] = [to, amount, asset]
+
+	let scheduled: optional<ScheduledExecution> = ScheduledExecution::new_at_topoheight(
+		execute_payment,
+		args,
+		MAX_GAS,
+		true,
+		target
+	)
+
+	require(scheduled != null, "schedule failed")
+	return 0
+}
+```
+
