@@ -4,6 +4,7 @@ export default {
   "scalability": "Scalability",
   "wallet": "Wallet",
   "smart-contracts": "Smart Contracts",
+  "p2p": "P2P",
   "transaction-fees": "Transaction Fees",
-  "p2p": "P2P"
+  "ownership-proof": "Ownership Proof"
 }

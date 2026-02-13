@@ -1,0 +1,93 @@
+## Introduction
+
+An **Ownership Proof** is a cryptographic proof that demonstrates the prover owns a specific amount of an asset, **without revealing their full balance**.
+
+This is a privacy-preserving mechanism that allows you to selectively disclose only the amount you choose, making it ideal for scenarios like:
+- Proving sufficient funds for a purchase or loan
+- KYC/AML compliance (proving minimum balance threshold)
+- Selective sharing of balance information with third parties
+
+Ownership proofs are encoded as **bech32 strings** with the prefix `proof:`, making them easy to share with other parties.
+
+These Ownership Proofs are generated locally by the user and do not require an on-chain transaction, ensuring privacy and convenience.
+
+An Ownership Proof is valid only for a specific topoheight, as it is tied to the balance ciphertext stored at that topoheight.
+
+## How it works
+
+When you create an ownership proof, you specify a target amount.
+
+The proof demonstrates that you own **at least that amount** of a given asset, without disclosing your actual balance.
+
+### Topoheight specificity
+
+Ownership proofs are created **against a specific topoheight** because they are validated against the balance ciphertext stored at that topoheight. This means:
+- A proof is only valid for the topoheight it was created against
+- If you check the same asset balance at a later topoheight, you must generate a new proof
+- This ensures **temporal integrity** and prevents replay attacks
+
+### Privacy preservation
+
+The proof only reveals the amount you specified when creating it. Your actual balance remains hidden:
+
+- You prove you own **≥ amount** of asset X
+- The verifier learns only that you meet the threshold
+- Your true balance is never disclosed
+- It is only valid for a specific time (topoheight), ensuring freshness
+
+## Advantages
+
+- **Selective disclosure**: Share balance information on your terms
+- **Privacy-preserving**: Full balance remains confidential
+- **Temporary validity**: Tied to a specific topoheight for freshness
+- **Easy sharing**: Bech32 format for convenient transmission
+- **No transaction required**: Proof generation is local and doesn't create a blockchain transaction
+- **Complete assets support**: Supports any asset available in the user wallet.
+- **Contract compatibility**: Ownership Proofs can also be shared to a smart contract for various use cases, as it is directly supported by the protocol.
+
+## Use cases
+
+### KYC/AML verification
+
+A user proves they have a minimum balance (e.g., 1000 XELIS) without revealing their total holdings:
+
+```
+User generates proof for 1000 XELIS at topoheight 50000
+↓
+Shares proof: proof:1qyqszqgpq...
+↓
+Service verifies proof against the ciphertext at topoheight 50000
+↓
+Verification passes, KYC requirement met ✓
+```
+
+### Collateral verification
+
+A lending protocol verifies a user has sufficient collateral without knowing their total balance:
+
+```
+User proof: "I own ≥ 500 XELIS at topoheight 50050"
+↓
+Protocol verifies proof ✓
+↓
+User can borrow against their collateral without full balance disclosure
+```
+
+### Multi-party settlement
+
+Multiple parties prove they have sufficient funds for a transaction without revealing balances to each other:
+
+```
+Alice: proof for 100 XELIS at topoheight 50100
+Bob:   proof for 50 XELIS at topoheight 50100
+↓
+Both proofs verified at the same topoheight
+↓
+Settlement can proceed with privacy intact
+```
+
+## Limitations
+
+- **Temporary validity**: Only valid against the topoheight it was created for
+- **Forward-only**: After balance changes (new blocks), you need a new proof
+- **No backward proof**: Cannot use an old proof against a future (or older) topoheight
