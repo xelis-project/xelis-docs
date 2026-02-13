@@ -6,5 +6,6 @@ export default {
   "smart-contracts": "Smart Contracts",
   "p2p": "P2P",
   "transaction-fees": "Transaction Fees",
-  "ownership-proof": "Ownership Proof"
+  "ownership-proof": "Ownership Proof",
+  "balance-proof": "Balance Proof",
 }

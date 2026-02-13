@@ -1,0 +1,98 @@
+# Balance Proof
+
+A **Balance Proof** is a cryptographic proof that reveals the **exact total balance** of an asset owned by the prover.
+
+Unlike Ownership Proof which only proves a minimum threshold, Balance Proof discloses the **complete balance** while still being privacy-preserving through zero-knowledge cryptography.
+
+This is useful for scenarios like:
+- Full transparency audits
+- Complete financial disclosure when required
+- Verifying exact asset holdings without revealing transaction history
+- Settlement protocols that require full balance visibility
+
+Balance proofs are encoded as **bech32 strings** with the prefix `proof:`, making them easy to share with other parties.
+
+## How it works
+
+When you create a balance proof, the proof demonstrates your **exact asset balance** without revealing how you acquired it or any transaction history.
+
+It enable third-parties to verify your exact balance of the specified asset at that topoheight.
+
+### Topoheight specificity
+
+Balance proofs are created **against a specific topoheight** because they are validated against the balance ciphertext stored at that topoheight. This means:
+- A proof is only valid for the topoheight it was created against
+- If you check the same asset balance at a later topoheight, you must generate a new proof
+- This ensures **temporal integrity** and prevents replay attacks
+
+## Advantages
+
+- **Complete transparency**: When you need to prove your exact holdings
+- **Privacy-preserving**: Transaction amounts history and other assets remain hidden
+- **Temporary validity**: Tied to a specific topoheight for freshness
+- **Easy sharing**: Bech32 format for convenient transmission
+- **No transaction required**: Proof generation is local and doesn't create a blockchain transaction
+- **Complete assets support**: Supports any asset available in the user wallet
+- **Contract compatibility**: Balance Proofs can also be shared to a smart contract for various use cases, as it is directly supported by the protocol
+
+## Use cases
+
+### Regulatory compliance
+
+A user fully discloses their exact balance of an asset to a regulator without revealing transaction history:
+
+```
+User generates balance proof for 50000 XELIS at topoheight 50000
+↓
+Shares proof: proof:1qyqszqgpq...
+↓
+Regulator verifies proof against the ciphertext at topoheight 50000
+↓
+Verification passes, exact balance confirmed: 50000 XELIS ✓
+```
+
+### Insurance or bonding requirement
+
+A service requires exact proof of balance for insurance purposes:
+
+```
+User proof: "I own exactly 1000 XELIS at topoheight 50050"
+↓
+Insurance protocol verifies proof ✓
+↓
+User qualifies for service based on proven balance
+```
+
+### Audit or financial reporting
+
+An auditor verifies a user's exact asset holdings at a specific time:
+
+```
+Auditor requests balance proof at topoheight 50100
+↓
+User generates proof: "exact balance: 2500 XELIS"
+↓
+Auditor verifies and records exact balance
+↓
+Transaction history remains private ✓
+```
+
+### Multi-asset settlement
+
+Multiple parties reveal their exact balances for a settlement without transaction history disclosure:
+
+```
+Alice: "I own exactly 100 XELIS at topoheight 50100"
+Bob:   "I own exactly 50 XELIS at topoheight 50100"
+↓
+Both proofs verified at the same topoheight
+↓
+Settlement proceeds with known exact amounts
+```
+
+## Limitations
+
+- **Complete disclosure**: Your exact balance is revealed (cannot partially disclose)
+- **Temporary validity**: Only valid against the topoheight it was created for
+- **Forward-only**: After balance changes (new blocks), you need a new proof
+- **No backward proof**: Cannot use an old proof against a future (or older) topoheight
