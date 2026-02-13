@@ -122,10 +122,10 @@ burn(amount: u64, asset: Hash) ⟶ bool
 **Gas Cost**: 500 lex  
 **Description**: Permanently removes `amount` of `asset` from the contract’s balance. Returns `true` if successful.  
 
-### fire_event
+### fire_rpc_event
 **Signature**:
 ```rust
-fire_event(id: u64, data: any)
+fire_rpc_event(id: u64, data: any)
 ```
 **Gas Cost**: 250 lex  
 **Description**: Fires an event with the given `id` and `data`. Events can be tracked externally.  

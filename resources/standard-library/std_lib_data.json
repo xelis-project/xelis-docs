@@ -16,7 +16,7 @@
 {"syscall_id": 457, "signature": "transfer(destination: Address, amount: u64, asset: Hash) ⟶ bool", "gas_cost": 500},
 {"syscall_id": 458, "signature": "transfer_contract(contract: Hash, amount: u64, asset: Hash) ⟶ bool", "gas_cost": 250},
 {"syscall_id": 459, "signature": "burn(amount: u64, asset: Hash) ⟶ bool", "gas_cost": 500},
-{"syscall_id": 460, "signature": "fire_event(id: u64, data: any)", "gas_cost": 250},
+{"syscall_id": 460, "signature": "fire_rpc_event(id: u64, data: any)", "gas_cost": 250},
 {"syscall_id": 461, "signature": "get_account_balance_for_asset(address: Address, asset: Hash) ⟶ optional<(u64, Ciphertext)>", "gas_cost": 1000},
 {"syscall_id": 462, "signature": "get_gas_usage() ⟶ u64", "gas_cost": 1},
 {"syscall_id": 463, "signature": "get_gas_limit() ⟶ u64", "gas_cost": 1},

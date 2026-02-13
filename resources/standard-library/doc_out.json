@@ -102,7 +102,7 @@
             },
             {
                 "syscall_id": 460,
-                "signature": "fire_event(id: u64, data: any)",
+                "signature": "fire_rpc_event(id: u64, data: any)",
                 "description": "Fires an event with the given `id` and `data`. Events can be tracked externally.",
                 "example": "",
                 "gas_cost": 250
