@@ -1,0 +1,34 @@
+### `verify_human_readable_proof`
+
+> Verify a cryptographic proof (ownership or balance) against an address.
+
+The wallet must be in online mode to fetch the on-chain balance at the proof's topoheight.
+
+Parameters
+
+|   Name  |   Type  | Required |                          Note                         |
+|:-------:|:-------:|:--------:|:-----------------------------------------------------:|
+|  proof  | String  | Required | Bech32-encoded proof string (ownership or balance)    |
+| address | Address | Required | Address of the prover to verify against               |
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "verify_human_readable_proof",
+  "id": 1,
+  "params": {
+    "proof": "proof:...",
+    "address": "xel:..."
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": true
+}
+```

@@ -1,0 +1,32 @@
+### `track_asset`
+
+> Track a new asset on the wallet.
+
+If the wallet is in online mode it will fetch the balance for this asset from the daemon.
+
+Parameters
+
+|  Name | Type | Required |     Note     |
+|:-----:|:----:|:--------:|:------------:|
+| asset | Hash | Required | Asset to track |
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "track_asset",
+  "id": 1,
+  "params": {
+    "asset": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": true
+}
+```

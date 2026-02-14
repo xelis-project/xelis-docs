@@ -1,0 +1,36 @@
+### `get_asset`
+
+> Retrieve an asset data from the wallet storage using its hash.
+
+Parameters
+
+|  Name | Type | Required |    Note     |
+|:-----:|:----:|:--------:|:-----------:|
+| asset | Hash | Required | Asset hash to use |
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "get_asset",
+  "id": 1,
+  "params": {
+    "asset": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "decimals": 8,
+    "name": "XELIS",
+    "ticker": "XEL",
+    "max_supply": 1840000000000000,
+    "owner": "none"
+  }
+}
+```

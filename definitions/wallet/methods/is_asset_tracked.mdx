@@ -1,0 +1,30 @@
+### `is_asset_tracked`
+
+> Verify if the requested asset is tracked by the wallet.
+
+Parameters
+
+|  Name | Type | Required |     Note      |
+|:-----:|:----:|:--------:|:-------------:|
+| asset | Hash | Required | Asset to check |
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "is_asset_tracked",
+  "id": 1,
+  "params": {
+    "asset": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": true
+}
+```

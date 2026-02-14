@@ -1,0 +1,24 @@
+### `count_matching_entries`
+
+> Count all entries available in the selected tree, with optional query filters on key and value.
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "count_matching_entries",
+  "id": 1,
+  "params": {
+    "tree": "test"
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": 5
+}
+```

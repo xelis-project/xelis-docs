@@ -1,0 +1,34 @@
+### `prune_chain`
+
+> Prune the chain up to a specific topoheight. This reduces disk usage by removing old block data.
+
+Parameters
+
+|    Name    |   Type  | Required |                   Note                   |
+|:----------:|:-------:|:--------:|:----------------------------------------:|
+| topoheight | Integer | Required | Topoheight until which to prune          |
+
+Request
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "prune_chain",
+  "id": 1,
+  "params": {
+    "topoheight": 1000
+  }
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "pruned_topoheight": 1000
+  }
+}
+```

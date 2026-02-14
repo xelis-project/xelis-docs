@@ -1,0 +1,37 @@
+### `sign_unsigned_transaction`
+
+> Sign an unsigned transaction hash with the wallet key pair.
+
+This is useful in case you are a part of the multisig of another wallet and you need to sign a transaction.
+
+Parameters
+
+|   Name    |  Type  | Required |                        Note                         |
+|:---------:|:------:|:--------:|:---------------------------------------------------:|
+|   hash    |  Hash  | Required | Hash of the unsigned transaction to sign            |
+| signer_id | Integer| Required | Index of the signer in the multisig setup to use    |
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "sign_unsigned_transaction",
+  "id": 1,
+  "params": {
+    "hash": "f8bd7c15e3a94085f8130cc67e1fefd89192cdd208b68b10e1cc6e1a83afe5d6",
+    "signer_id": 0
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "signature": "6731b973cb5c06c7e4e6fa9135acf4ea7c1b2e2bd0a63e41110aad3b39174204067bf7de87f3c3e2042cbcf6899a307e480d80e7c7f96638eabbf1fe6cfded09",
+    "id": 0
+  }
+}
+```

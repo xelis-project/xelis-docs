@@ -1,0 +1,35 @@
+### `create_ownership_proof`
+
+> Create a cryptographic proof that you own at least a certain amount of an asset.
+
+The proof is returned as a bech32-encoded string that can be shared with other parties for verification.
+
+Parameters
+
+|     Name    |   Type   | Required |                         Note                          |
+|:-----------:|:--------:|:--------:|:-----------------------------------------------------:|
+|    asset    |   Hash   | Required | Asset to create the proof for                         |
+| topoheight  | Integer  | Optional | Topoheight to use for the balance (defaults to current) |
+|   amount    | Integer  | Required | Amount to prove ownership of                          |
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "create_ownership_proof",
+  "id": 1,
+  "params": {
+    "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+    "amount": 10000
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": "proof:..."
+}
+```

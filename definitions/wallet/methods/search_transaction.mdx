@@ -1,0 +1,51 @@
+### `search_transaction`
+
+> Perform a debug search across all entries for a transaction from the wallet storage using its hash.
+
+This is useful when a transaction may not be directly found but exists in the raw storage.
+
+Parameters
+
+| Name | Type | Required |                Note                |
+|:----:|:----:|:--------:|:-----------------------------------:|
+| hash | Hash | Required | Transaction hash to search from wallet |
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "search_transaction",
+  "id": 1,
+  "params": {
+    "hash": "6e4bbd77b305fb68e2cc7576b4846d2db3617e3cbc2eb851cb2ae69b879e9d0f"
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "transaction": {
+      "hash": "6e4bbd77b305fb68e2cc7576b4846d2db3617e3cbc2eb851cb2ae69b879e9d0f",
+      "outgoing": {
+        "fee": 25000,
+        "nonce": 1458,
+        "transfers": [
+          {
+            "amount": 1,
+            "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+            "destination": "xet:t23w8pp90zsj04sp5r3r9sjpz3vq7rxcwhydf5ztlk6efhnusersqvf8sny",
+            "extra_data": null
+          }
+        ]
+      },
+      "topoheight": 11982
+    },
+    "index": 1458,
+    "is_raw_search": false
+  }
+}
+```

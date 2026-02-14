@@ -1,0 +1,27 @@
+### `get_matching_keys`
+
+> Retrieve all keys available in the selected tree, with optional query filter.
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "get_matching_keys",
+  "id": 1,
+  "params": {
+    "tree": "test"
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [
+    "my_list",
+    "my_key"
+  ]
+}
+```

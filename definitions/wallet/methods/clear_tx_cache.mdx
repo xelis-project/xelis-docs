@@ -1,0 +1,27 @@
+### `clear_tx_cache`
+
+> Clear the transaction cache stored in the wallet.
+
+This is useful if a broadcast failed and you want to reset the cached transaction.
+
+Parameters
+
+No parameters
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "clear_tx_cache",
+  "id": 1
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": true
+}
+```

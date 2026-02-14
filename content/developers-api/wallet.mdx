@@ -10,16 +10,35 @@ import Rescan from '../../definitions/wallet/methods/rescan.mdx'
 import GetBalance from '../../definitions/wallet/methods/get_balance.mdx'
 import HasBalance from '../../definitions/wallet/methods/has_balance.mdx'
 import GetTrackedAssets from '../../definitions/wallet/methods/get_tracked_assets.mdx'
+import IsAssetTracked from '../../definitions/wallet/methods/is_asset_tracked.mdx'
+import TrackAsset from '../../definitions/wallet/methods/track_asset.mdx'
+import UntrackAsset from '../../definitions/wallet/methods/untrack_asset.mdx'
 import GetAssetPrecision from '../../definitions/wallet/methods/get_asset_precision.mdx'
+import GetAssets from '../../definitions/wallet/methods/get_assets.mdx'
+import GetAsset from '../../definitions/wallet/methods/get_asset.mdx'
 import GetTransaction from '../../definitions/wallet/methods/get_transaction.mdx'
+import SearchTransaction from '../../definitions/wallet/methods/search_transaction.mdx'
+import DumpTransaction from '../../definitions/wallet/methods/dump_transaction.mdx'
 import BuildTransaction from '../../definitions/wallet/methods/build_transaction.mdx'
+import BuildTransactionOffline from '../../definitions/wallet/methods/build_transaction_offline.mdx'
+import BuildUnsignedTransaction from '../../definitions/wallet/methods/build_unsigned_transaction.mdx'
+import FinalizeUnsignedTransaction from '../../definitions/wallet/methods/finalize_unsigned_transaction.mdx'
+import SignUnsignedTransaction from '../../definitions/wallet/methods/sign_unsigned_transaction.mdx'
 import ListTransaction from '../../definitions/wallet/methods/list_transaction.mdx'
+import ClearTxCache from '../../definitions/wallet/methods/clear_tx_cache.mdx'
 import IsOnline from '../../definitions/wallet/methods/is_online.mdx'
 import SetOnlineMode from '../../definitions/wallet/methods/set_online_mode.mdx'
 import SetOfflineMode from '../../definitions/wallet/methods/set_offline_mode.mdx'
+import NetworkInfo from '../../definitions/wallet/methods/network_info.mdx'
 import EstimateFee from '../../definitions/wallet/methods/estimate_fee.mdx'
 import EstimateExtraDataSize from '../../definitions/wallet/methods/estimate_extra_data_size.mdx'
 import SignData from '../../definitions/wallet/methods/sign_data.mdx'
+import VerifySignedData from '../../definitions/wallet/methods/verify_signed_data.mdx'
+import DecryptExtraData from '../../definitions/wallet/methods/decrypt_extra_data.mdx'
+import DecryptCiphertext from '../../definitions/wallet/methods/decrypt_ciphertext.mdx'
+import CreateOwnershipProof from '../../definitions/wallet/methods/create_ownership_proof.mdx'
+import CreateBalanceProof from '../../definitions/wallet/methods/create_balance_proof.mdx'
+import VerifyHumanReadableProof from '../../definitions/wallet/methods/verify_human_readable_proof.mdx'
 
 import BalanceChanged from '../../definitions/wallet/events/balance_changed.mdx'
 import NewAsset from '../../definitions/wallet/events/new_asset.mdx'
@@ -34,6 +53,9 @@ import Delete from '../../definitions/wallet/storage/delete.mdx'
 import HasKey from '../../definitions/wallet/storage/has_key.mdx'
 import QueryDB from '../../definitions/wallet/storage/query_db.mdx'
 import GetValueFromKey from '../../definitions/wallet/storage/get_value_from_key.mdx'
+import GetMatchingKeys from '../../definitions/wallet/storage/get_matching_keys.mdx'
+import CountMatchingEntries from '../../definitions/wallet/storage/count_matching_entries.mdx'
+import DeleteTreeEntries from '../../definitions/wallet/storage/delete_tree_entries.mdx'
 
 # Wallet API
 
@@ -113,16 +135,35 @@ Concatenating both username and password with `:` gives `QWxhZGRpbjpvcGVuIHNlc2F
 <GetBalance />
 <HasBalance />
 <GetTrackedAssets />
+<IsAssetTracked />
+<TrackAsset />
+<UntrackAsset />
 <GetAssetPrecision />
+<GetAssets />
+<GetAsset />
 <GetTransaction />
+<SearchTransaction />
+<DumpTransaction />
 <BuildTransaction />
+<BuildTransactionOffline />
+<BuildUnsignedTransaction />
+<FinalizeUnsignedTransaction />
+<SignUnsignedTransaction />
 <ListTransaction />
+<ClearTxCache />
 <IsOnline />
 <SetOnlineMode />
 <SetOfflineMode />
+<NetworkInfo />
 <EstimateFee />
 <EstimateExtraDataSize />
 <SignData />
+<VerifySignedData />
+<DecryptExtraData />
+<DecryptCiphertext />
+<CreateOwnershipProof />
+<CreateBalanceProof />
+<VerifyHumanReadableProof />
 
 ## Events
 
@@ -197,4 +238,7 @@ This query system will also be used in daemon once Smart Contracts are deployed 
 <Delete />
 <HasKey />
 <GetValueFromKey />
+<GetMatchingKeys />
+<CountMatchingEntries />
+<DeleteTreeEntries />
 <QueryDB />

@@ -1,0 +1,40 @@
+### `get_assets`
+
+> Retrieve all assets with their data that the wallet is aware of.
+
+Parameters
+
+|   Name  |  Type   | Required |                 Note                  |
+|:-------:|:-------:|:--------:|:-------------------------------------:|
+|  skip   | Integer | Optional | Skip the first N assets               |
+| maximum | Integer | Optional | Maximum number of assets to return (max 100) |
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "get_assets",
+  "id": 1,
+  "params": {}
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": [
+    {
+      "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+      "data": {
+        "decimals": 8,
+        "name": "XELIS",
+        "ticker": "XEL",
+        "max_supply": 1840000000000000,
+        "owner": "none"
+      }
+    }
+  ]
+}
+```

@@ -1,0 +1,30 @@
+### `dump_transaction`
+
+> Dump a transaction in hex format from the wallet storage using its hash.
+
+Parameters
+
+| Name | Type | Required |               Note               |
+|:----:|:----:|:--------:|:--------------------------------:|
+| hash | Hash | Required | Transaction hash to dump from wallet |
+
+Request
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "dump_transaction",
+  "id": 1,
+  "params": {
+    "hash": "6e4bbd77b305fb68e2cc7576b4846d2db3617e3cbc2eb851cb2ae69b879e9d0f"
+  }
+}
+```
+
+Response
+```json
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": "00a8e2f001..."
+}
+```
