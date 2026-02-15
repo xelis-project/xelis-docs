@@ -14,6 +14,14 @@ It allows to have fully private balances and transferred amounts just like XELIS
 
 As an example, XELIS is a confidential asset itself with the asset ID `0000000000000000000000000000000000000000000000000000000000000000`.
 
+For creating a new asset, the supply policy is set at creation and cannot be changed later. It can be either:
+- **Fixed supply**: the total supply is fixed at creation and cannot be changed later.
+- **Mintable**: the circulating supply can be increased by minting new tokens but can't exceed the `max_supply` set at creation.
+- **None**: the supply has no limit and can be fully managed by the owner if any.
+
+Each asset can have a metadata with `name`, `ticker` and `decimals` being the precision.
+These metadata helps for wallet assets identification and display, which make them mandatory.
+
 ## Advantages
 
 - **Privacy**: Confidential Assets allow to have fully private balances and transferred amounts.
@@ -21,6 +29,8 @@ As an example, XELIS is a confidential asset itself with the asset ID `000000000
 - **Security**: Confidential Assets are implemented in base layer of the blockchain, and not as a second layer solution.
 - **Decentralized**: Confidential Assets are fully decentralized and trustless, nobody can freeze or censor your assets.
 - **Management**: if deployed by a Smart Contract, it can be minted (example: a stablecoin based on a mint/burn mechanism).
+- **Immutable supply rules**: `max_supply` is part of the asset data, so the supply policy is set at creation and cannot be changed later.
+- **Stable metadata**: `decimals`, `name`, and `ticker` are part of the asset data, preventing post-creation metadata drift.
 
 ## Limitations
 
