@@ -56,7 +56,7 @@ hook constructor() -> u64 {
 
 **Signature:**
 ```rust
-listen_event(event_id: u64, callback: fn, max_gas: u64)
+listen_event(event_id: u64, callback: fn, max_gas: u64) -> bool
 ```
 
 - `event_id`: The event identifier to listen for
