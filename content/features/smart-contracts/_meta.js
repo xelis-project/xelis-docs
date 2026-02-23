@@ -4,4 +4,5 @@ export default {
     "opcodes": "OpCodes",
     "scheduled-executions": "Scheduled Executions",
     "memory-storage": "Memory Storage",
+    "contract-events": "Contract Events",
 }

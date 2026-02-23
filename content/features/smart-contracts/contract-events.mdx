@@ -1,0 +1,233 @@
+---
+title: Contract Events
+---
+
+import { Callout } from 'nextra/components';
+
+## Introduction
+
+**Contract Events** enable powerful on-chain communication between smart contracts through an event-driven architecture. Contracts can emit events with custom data, while other contracts can register persistent listeners that automatically execute when specific events are triggered.
+
+This creates a decentralized pub/sub (publish-subscribe) pattern directly on the blockchain, enabling real-time contract-to-contract signaling without requiring direct coupling between contracts.
+
+## How It Works
+
+Contract events operate through two main mechanisms:
+
+### 1. Emitting Events
+
+Any contract can emit an event using the `emit_event()` function:
+
+```rust
+entry call_event() {
+    emit_event(42, ["hello", "world!"]);
+    return 0
+}
+```
+
+**Signature:**
+```rust
+emit_event(event_id: u64, data: any[])
+```
+
+- `event_id`: A numeric identifier for the event type (chosen by the contract developer)
+- `data`: An array of values to pass to listeners (can be any serializable types)
+
+### 2. Listening to Events
+
+Contracts can register persistent listeners for events emitted by other contracts:
+
+```rust
+fn on_contract_event(a: string, b: string) -> u64 {
+    assert(a == "hello");
+    assert(b == "world!");
+    println(a + " " + b + " !");
+    return 0
+}
+
+hook constructor() -> u64 {
+    let contract_hash = Hash::from_hex("CONTRACT_HASH");
+    let contract = Contract::new(contract_hash).expect("load contract");
+    contract.listen_event(42, on_contract_event, 500);
+    
+    return 0
+}
+```
+
+**Signature:**
+```rust
+listen_event(event_id: u64, callback: fn, max_gas: u64)
+```
+
+- `event_id`: The event identifier to listen for
+- `callback`: The function to execute when the event is emitted
+- `max_gas`: Maximum gas allocated for the callback execution
+
+## Execution Model
+
+<Callout type="info">
+Event listener callbacks are executed **automatically** after the emitting contract's transaction completes successfully, within the same block but as a **separate transaction**.
+</Callout>
+
+### Execution Flow
+
+1. Contract A emits an event with `emit_event(event_id, data)`
+2. Contract A's transaction completes successfully
+3. The blockchain identifies all registered listeners for that event from Contract A
+4. Each listener callback is executed as a separate transaction in the same block
+5. The callback receives the emitted data as parameters
+
+### Transaction Context
+
+- The **contract caller** for the listener callback is the same hash as the transaction that initiated the event (or the scheduled execution hash)
+- This allows listener contracts to identify the originating transaction
+- Callbacks execute with their allocated `max_gas` limit
+
+## Listener Characteristics
+
+### Persistence
+- Event listeners are **stored on-chain** permanently
+- Once registered, they cannot be unregistered or modified
+- Listeners survive as long as the contract exists or until they are executed.
+
+You can still register the listener again from the same callback execution to ensure it remains active for future events.
+
+### Uniqueness
+- **One listener per contract/event key**: Each contract can register only one listener for a specific `event_id` from a specific contract
+- Attempting to register a second listener for the same event from the same contract will fail or overwrite the existing one
+
+### Permissions
+- **No permission restrictions**: Any contract can listen to events from any other contract
+- This creates an open ecosystem for cross-contract communication
+
+## Use Cases
+
+### 1. Decentralized Oracle Networks
+
+Contracts can listen to oracle price feed events:
+
+```rust
+fn on_price_update(asset: string, price: u64) -> u64 {
+    let storage = Storage::new();
+    storage.store("price_" + asset, price);
+    storage.store("last_update", Block::current().timestamp());
+    return 0
+}
+
+hook constructor() -> u64 {
+    let oracle_hash = Hash::from_hex("ORACLE_CONTRACT_HASH");
+    let oracle = Contract::new(oracle_hash).expect("load oracle");
+    oracle.listen_event(1, on_price_update, 1000);
+    return 0
+}
+```
+
+### 2. Automated Market Makers (AMM)
+
+Listen to liquidity pool events to update aggregated data:
+
+```rust
+fn on_swap_executed(token_in: Hash, token_out: Hash, amount: u64) -> u64 {
+    let storage = Storage::new();
+    let total_volume = storage.load("total_volume").unwrap_or(0);
+    storage.store("total_volume", total_volume + amount);
+    
+    // Emit analytics event
+    emit_event(100, [token_in, token_out, amount]);
+    return 0
+}
+```
+
+### 3. DAO Proposal Execution
+
+Execute actions when governance proposals pass:
+
+```rust
+fn on_proposal_passed(proposal_id: u64, action: string) -> u64 {
+    let storage = Storage::new();
+    
+    if action == "upgrade" {
+        storage.store("pending_upgrade", proposal_id);
+        emit_event(200, ["upgrade_scheduled", proposal_id]);
+    }
+    
+    return 0
+}
+```
+
+### 4. NFT Marketplaces
+
+Track NFT sales and update marketplace statistics:
+
+```rust
+fn on_nft_sold(token_id: u64, price: u64, buyer: Address) -> u64 {
+    let storage = Storage::new();
+    
+    // Update floor price
+    let current_floor = storage.load("floor_price").unwrap_or(price);
+    if price < current_floor {
+        storage.store("floor_price", price);
+    }
+    
+    // Track total sales
+    let total_sales = storage.load("total_sales").unwrap_or(0);
+    storage.store("total_sales", total_sales + 1);
+    
+    return 0
+}
+```
+
+### 5. Gaming Leaderboards
+
+Automatically update leaderboards when game events occur:
+
+```rust
+fn on_game_completed(player: Address, score: u64) -> u64 {
+    let storage = Storage::new();
+    
+    let current_high_score = storage.load("high_score").unwrap_or(0);
+    if score > current_high_score {
+        storage.store("high_score", score);
+        storage.store("high_score_holder", player);
+        
+        // Notify achievement contract
+        emit_event(300, [player, score]);
+    }
+    
+    return 0
+}
+```
+
+### 6. Event Chains & Cascading Logic
+
+Events can trigger other events, creating complex workflows:
+
+```rust
+fn on_deposit_detected(user: Address, amount: u64) -> u64 {
+    let storage = Storage::new();
+    
+    // Update user balance
+    let balance = storage.load(user).unwrap_or(0);
+    storage.store(user, balance + amount);
+    
+    // Check if user reached milestone
+    if balance + amount >= 1000000 {
+        emit_event(500, [user, "milestone_reached"]);
+    }
+    
+    return 0
+}
+```
+
+## Limitations
+
+- **Cannot unregister**: Once a listener is registered, it persists indefinitely
+- **One listener per key**: Only one callback can be registered per contract/event combination
+- **Gas limits**: Callbacks must complete within their allocated gas
+- **Same block execution**: All listeners execute in the same block as the event, which may impact block processing time
+
+## Conclusion
+
+Contract Events provide a powerful mechanism for building complex, decentralized applications with loosely coupled components. By enabling contracts to signal state changes and react to external events automatically, they unlock new patterns for composability, scalability, and modularity in blockchain development.
+
+Whether you're building DeFi protocols, NFT marketplaces, gaming systems, or DAOs, contract events enable sophisticated on-chain coordination while maintaining clean separation of concerns.
