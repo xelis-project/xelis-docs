@@ -6,17 +6,17 @@ Amount set are in atomic units, for XELIS it would be `100000000` to represents 
 
 Parameters
 
-|        Name       |       Type      | Required |                                         Note                                         |
-|:-----------------:|:---------------:|:--------:|:------------------------------------------------------------------------------------:|
-|        fee        |    FeeBuilder   | Optional |                       Set an exact fee value or a multiplier                         |
-|       nonce       |     Integer     | Optional |     Set the nonce to use by the transaction. By default its provided by wallet       |
-|     tx_version    |     Integer     | Optional |  Set the transaction version to use. By default take the version from wallet         |
-|     broadcast     |     Boolean     | Optional |                   Broadcast TX to daemon. By default set to true                     |
-|     tx_as_hex     |     Boolean     | Optional |              Serialize TX to hexadecimal. By default set to false                    |
-|     fee_limit     |     Integer     | Optional |  Set a maximum fee limit to pay. If fee estimation is higher, TX fails.              |
-|     base_fee      |     Integer     | Optional |  Set a base fee to use for fee estimation instead of querying daemon.                |
-|      signers      |      Array      | Optional |         List of signers to use for the transaction multisig.                         |
-|<transaction_type> | TransactionType | Required |                       Transaction Type parameter                                     |
+|         Name       |       Type      | Required |                                         Note                                         |
+|:------------------:|:---------------:|:--------:|:------------------------------------------------------------------------------------:|
+|         fee        |    FeeBuilder   | Optional |                       Set an exact fee value or a multiplier                         |
+|        nonce       |     Integer     | Optional |     Set the nonce to use by the transaction. By default its provided by wallet       |
+|      tx_version    |     Integer     | Optional |  Set the transaction version to use. By default take the version from wallet         |
+|      broadcast     |     Boolean     | Optional |                   Broadcast TX to daemon. By default set to true                     |
+|      tx_as_hex     |     Boolean     | Optional |              Serialize TX to hexadecimal. By default set to false                    |
+|      fee_limit     |     Integer     | Optional |  Set a maximum fee limit to pay. If fee estimation is higher, TX fails.              |
+|      base_fee      |     Integer     | Optional |  Set a base fee to use for fee estimation instead of querying daemon.                |
+|       signers      |      Array      | Optional |         List of signers to use for the transaction multisig.                         |
+|`<transaction_type>`| TransactionType | Required |                       Transaction Type parameter                                     |
 
 #### FeeBuilder
 
