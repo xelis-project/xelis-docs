@@ -6,12 +6,147 @@ Amount set are in atomic units, for XELIS it would be `100000000` to represents 
 
 Parameters
 
-|        Name       |       Type      | Required |                         Note                         |
-|:-----------------:|:---------------:|:--------:|:----------------------------------------------------:|
-|        fee        |    FeeBuilder   | Optional |        Set an exact fee value or a multiplier        |
-|     broadcast     |     Boolean     | Optional |    Broadcast TX to daemon. By default set to true    |
-|     tx_as_hex     |     Boolean     | Optional | Serialize TX to hexadecimal. By default set to false |
-| transfers OR burn | TransactionType | Required |              Transaction Type parameters             |
+|        Name       |       Type      | Required |                                         Note                                         |
+|:-----------------:|:---------------:|:--------:|:------------------------------------------------------------------------------------:|
+|        fee        |    FeeBuilder   | Optional |                       Set an exact fee value or a multiplier                         |
+|       nonce       |     Integer     | Optional |     Set the nonce to use by the transaction. By default its provided by wallet       |
+|     tx_version    |     Integer     | Optional |  Set the transaction version to use. By default take the version from wallet         |
+|     broadcast     |     Boolean     | Optional |                   Broadcast TX to daemon. By default set to true                     |
+|     tx_as_hex     |     Boolean     | Optional |              Serialize TX to hexadecimal. By default set to false                    |
+|     fee_limit     |     Integer     | Optional |  Set a maximum fee limit to pay. If fee estimation is higher, TX fails.              |
+|     base_fee      |     Integer     | Optional |  Set a base fee to use for fee estimation instead of querying daemon.                |
+|      signers      |      Array      | Optional |         List of signers to use for the transaction multisig.                         |
+|<transaction_type> | TransactionType | Required |                       Transaction Type parameter                                     |
+
+#### FeeBuilder
+
+The `fee` field supports the following variants:
+
+- Default — let the wallet estimate the fee (multiplier `1`):
+```json
+{ "extra": "none" }
+```
+- Apply a multiplier on the estimated fee:
+```json
+{ "extra": { "multiplier": 2.5 } }
+```
+- Pay an extra tip on top of the estimated fee:
+```json
+{ "extra": { "tip": 5000 } }
+```
+- Pay a fixed fee amount:
+```json
+{ "fixed": 100 }
+```
+
+When `fee` is not provided it defaults to a multiplier of `1`.
+
+#### Transaction Types
+
+Replace `<transaction_type>` with one of the following:
+
+##### Transfers
+
+Send one or more transfers in a single transaction (up to 255).
+
+```json
+{
+  "transfers": [
+    {
+      "amount": 1000,
+      "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+      "destination": "xet:t23w8pp90zsj04sp5r3r9sjpz3vq7rxcwhydf5ztlk6efhnusersqvf8sny"
+    }
+  ]
+}
+```
+
+Each transfer requires `destination` (address), `asset` (hash) and `amount` (atomic units).  
+An optional `extra_data` JSON field (up to 1 KB) can be added per transfer — it is encrypted for the recipient by default. Set `encrypt_extra_data` to `false` to skip encryption.
+
+##### Burn
+
+Irreversibly burn an amount of an asset.
+
+```json
+{
+  "burn": {
+    "amount": 1000,
+    "asset": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}
+```
+
+##### Multisig
+
+Set up or update a multisig configuration on the account.
+
+```json
+{
+  "multisig": {
+    "participants": [
+      "xet:yfxcjh7aua5lmpvmyh4fmhrjzlg9xx9p6uvel0248hxc42yja9usq27dz7s"
+    ],
+    "threshold": 1
+  }
+}
+```
+
+`threshold` is the minimum number of participant signatures required to authorize a transaction. Up to 255 participants are supported.
+
+##### Invoke Contract
+
+Call an entry point of a deployed contract.
+
+```json
+{
+  "invoke_contract": {
+    "contract": "b756566452b2c7bfea785f1b87b90d7bf075cb45a0dc33fb524e5e25f7e85fb4",
+    "entry_id": 0,
+    "parameters": [
+      {
+        "type": "primitive",
+        "value": {
+          "type": "string",
+          "value": "Hello, World!"
+        }
+      }
+    ],
+    "max_gas": 1000000,
+    "deposits": {
+      "0000000000000000000000000000000000000000000000000000000000000000": {
+        "amount": 1000000000
+      }
+    }
+  }
+}
+```
+
+`max_gas` is the maximum gas the contract may consume. Unused gas is refunded. `deposits` sends assets to the contract alongside the call.
+
+##### Deploy Contract
+
+Deploy a new contract on the network.
+
+```json
+{
+  "deploy_contract": {
+    "module": "<contract bytecode in hexadecimal>",
+    "invoke": {
+      "max_gas": 1000000,
+      "deposits": {
+        "0000000000000000000000000000000000000000000000000000000000000000": {
+          "amount": 1000000000
+        }
+      }
+    }
+  }
+}
+```
+
+`module` is the compiled contract bytecode in hex. The optional `invoke` field calls the constructor hook during deployment.
+
+---
 
 Request
 ```json
@@ -28,7 +163,7 @@ Request
       }
     ],
     "broadcast": true,
-    "tx_as_hex": false,
+    "tx_as_hex": false
   }
 }
 ```
