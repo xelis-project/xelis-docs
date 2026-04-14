@@ -25,6 +25,20 @@ The source code of the POW algorithm is available on [GitHub](https://github.com
 
 It is released under the [MIT license](https://github.com/xelis-project/xelis-hash/blob/master/LICENSE), so you can freely use it in your project if you want to have a fair distribution of your network.
 
+## XELIS Hash v3
+
+XELIS Hash v3 is a new variant of the algorithm that is released on mainnet since the 14th December 2025 at block height 3 282 150.
+
+The algorithm uses a scratchpad of 544 KB.
+It has been increased to reduce the parallelism of GPUs and FPGAs and to increase the memory accesses in stage 3.
+
+Stage 1 and stage 4 are exactly the same as in the version 2.
+
+Stage 3 has been modified to increase memory accesses while having a random memory access pattern instead of the previous deterministic one.
+It also create chained memory accesses which makes it latency dependent.
+
+The time per hash has been reduced to around ~1.20 ms on a CPU.
+
 ## XELIS Hash v2
 
 XELIS HASH v2 is using a scratchpad of ~440 kB per hash, enough to fit in CPUs cache and limit the number workers running in parallel on GPU and FPGA due to the VRAM / device memory bandwidth.
