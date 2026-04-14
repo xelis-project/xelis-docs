@@ -7,21 +7,46 @@ or [Git commits](https://github.com/xelis-project/xelis-blockchain/commits/dev).
 
 | Version | Date       | Block Height | Goal                              |                                   |
 |---------|------------|--------------|-----------------------------------|-----------------------------------|
-| V4      | 2024-12-18 | 3 357 500    | Bug fixes, DAG improvements       | [More Info](#v4)                  |
-| V3      | 2024-12-14 | 3 282 150    | Smart Contracts, 5s block time, new dynamic base fee system, and PoW V3 | [More Info](#v3)                  |
+| V6      | ?          | ?            | Contract Events, DAG improvements | [More Info](#v6)                  |
+| V5      | 2026-06-15 | 3 373 000    | TX Base fee improvements          | [More Info](#v5)                  |
+| V4      | 2025-12-18 | 3 357 500    | Bug fixes, DAG improvements       | [More Info](#v4)                  |
+| V3      | 2024-12-14 | 3 282 150    | Smart Contracts, 5s block time, new dynamic base fee system, and PoW V3 | [More Info](#v3)|
 | V2      | 2024-12-30 | 1 376 000    | MultiSig, P2P DH & Security Patch | [More Info](#v2)                  |
 | V1      | 2024-07-11 | 434 100      | XelisHashV2 & bug fixes           | [More Info](#v1)                  |
 | V0      | 2024-04-20 | 0            | Launch                            | [More Info](#v0)                  |
+
+## V6
+
+This upgrade focuses on improving the smart contract system with new features and the BlockDAG structure to enhance the overall performance and scalability of the network.
+
+Contract Events will be introduced to allow smart contracts to emit events that can be easily tracked and consumed by other contracts.
+This will enable more complex interactions between contracts and allow developers to build more sophisticated applications on top of the XELIS blockchain.
+
+BlockDAG will see optimizations, including a new algorithm to compute the cumulative difficulty for better chain selection and improved handling of orphaned blocks to enhance network stability and reduce the chances of forks.
+
+Side blocks rewards are also updated to match main blocks rewards, which will incentivize miners to include honest blocks in the DAG and improve the overall security and decentralization of the network.
+
+## V5
+
+This upgrade focuses on improving the transaction base fee system to make it more efficient and fair for users.
+The new system will be more dynamic and responsive to network conditions, ensuring that users pay a fair fee for their transactions while also preventing fee spikes during periods of high demand.
 
 ## V4
 
 BlockDAG improvements and various bug fixes. More security checks added to enhance network stability.
 
+Reference TX from a miner in the unstable height is now rejected from being spend until the block is stable, increasing the stability of the network
+during DAG ordering and reducing the risk of orphaned blocks.
+
 ## V3
 
-Smart Contracts, 5s block time, new dynamic base fee system, and PoW V3 for a better egalitarian algorithm.
+Smart Contracts have been enabled on the network along a reduction from 15s to 5s in average block time.
+The new dynamic base fee system has been enabled partially.
+
+Mining has been improved with PoW V3 for a better egalitarian algorithm increasing CPU performance and reducing GPU and FPGA parallelism.
 
 ## V2
+
 A short notice important network upgrade. Introduces several key improvements and a security patch.
 
 **MultiSig**
