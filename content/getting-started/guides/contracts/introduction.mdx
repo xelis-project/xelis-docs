@@ -1,21 +1,21 @@
 ---
-title: Creating & Deploying Smart Contracts with Xelis Playground
+title: Create your first Smart Contract
 description: A comprehensive tutorial on creating, testing, and deploying a Silex smart contract on the Xelis blockchain using Xelis Playground.
 ---
 
 import { Callout } from 'nextra/components'
 
-# Creating & Deploying Smart Contracts with Xelis Playground
+# Create your first Smart Contract
 
 A comprehensive tutorial on creating, testing, and deploying a Silex smart contract on the Xelis blockchain using Xelis Playground.
 
-## Just tell me how in ten seconds bro...
+## TLDR
 
 1. Go to [playground.xelis.io](https://playground.xelis.io/).
 2. Use the edit window to create your contract.
 3. Click the **Compile** button.
 4. Copy the hex data from the **Export** window.
-5. Type `deploy_contract` in `xelis_wallet` and paste in the hex data.
+5. Type `deploy_contract` in `xelis_wallet` (or use Playground's RPC client - easier) and paste in the hex data.
 6. Done.
 
 <p style={{ fontSize: '1.3rem', fontWeight: 'bold', marginTop: '1rem' }}>Prefer a more detailed walkthrough? Read on...</p>
@@ -28,34 +28,17 @@ The playground web application at [playground.xelis.io](https://playground.xelis
 
 Before creating a contract, the following should be installed on your workstation.
 
-**External Tools:**
-* [Rust](https://www.rust-lang.org/tools/install) — Language toolchain
-* [Node.js & npm](https://nodejs.org/en/download) — Required to run Playground locally
-
 **Xelis Project Tools:**
-* [xelis_daemon](https://github.com/xelis-project/xelis-blockchain) — Blockchain node
-* [xelis_wallet](https://github.com/xelis-project/xelis-blockchain) — CLI wallet & RPC server
-* [xelis_miner](https://github.com/xelis-project/xelis-blockchain) — Block miner
+* [xelis_daemon](../../configuration/xelis_daemon) — Blockchain node
+* [xelis_wallet](../../configuration/xelis_wallet) — CLI wallet
+* [xelis_miner](../../configuration/xelis_miner) — Block miner
+
+You can install the daemon, wallet, and miner [from source](/getting-started/build-from-source-code) or [precompiled binaries](/getting-started/precompiled-binaries).
+
+**Xelis Playground:**
 * [xelis_playground](https://github.com/xelis-project/xelis-playground) — Contract IDE
 
-### Installing the Xelis Project Tools
-
-Get the latest release from [github.com/xelis-project/xelis-blockchain/tags](https://github.com/xelis-project/xelis-blockchain/tags). In your downloaded and unzipped `xelis-blockchain` directory, build the tools:
-
-```bash
-cargo build --release
-```
-
-### Installing Xelis Playground
-
-This tutorial works just fine using the live [playground.xelis.io](https://playground.xelis.io/). However, for complete offline development, clone and build it locally. In your preferred directory (outside of the `xelis-blockchain` directory), run each of the following commands:
-
-```bash
-git clone https://github.com/xelis-project/xelis-playground && cd xelis-playground
-./build_wasm.sh
-npm install vite
-npx vite
-```
+It bears repeating that this tutorial works just fine using the live [playground.xelis.io](https://playground.xelis.io/). However, for complete offline development, you can get the source code from [github.com/xelis-project/xelis-playground](https://github.com/xelis-project/xelis-playground) and build it locally.
 
 ## Using The Xelis CLI Tools
 
@@ -217,8 +200,13 @@ Test `add_artist` by clicking **ARGUMENTS**, entering an artist name and a song 
 
 Test `remove_artist` by clicking **ARGUMENTS**, entering an artist name, clicking **DONE**, then **RUN**. There were no artists stored, so the function will run and exit cleanly.
 
-> [!NOTE]
-> Every call to RUN resets Playground to a default state, so the storage due to `add_artist` performed before the `remove_artist` was no longer present. There will be times where you will need to test entries in the contract with some default state. You could initialize the constructor with some test storage values, but this is somewhat clumsy. It can also be done with the **STORAGE MAP** Editor, where you can create storage presets. Currently, primitive types like, numbers, strings, and booleans are supported. Unfortunately, complex types like maps are not yet supported in the Storage Editor — this will be added in a future update.
+<Callout type="info">
+Every call to RUN resets Playground to a default state, so the stored value from `add_artist` performed before the `remove_artist` call is no longer present.  
+
+There will be times where you will need to test entries in the contract with some default state. You could initialize the constructor with some test storage values, but this is somewhat clumsy. It can also be done with the **STORAGE MAP** Editor, where you can create storage presets. 
+
+Currently, primitive types like, numbers, strings, and booleans are supported. Unfortunately, complex types like maps are not yet supported in the Storage Editor — this will be added in a future update.
+</Callout>
 
 ### Exporting the Contract
 
@@ -234,6 +222,9 @@ Click the **EXPORT** button in the top-right of the contract panel. This opens t
   </div>
 
 The compiled contract (or more precisely, program) is what XVM runs. This is what we need to deploy. There are two ways to deploy it: directly via the wallet CLI, or via an application that can make rpc calls to a Xelis wallet, such as the RPC Inspector in Playground.
+
+## Deploying the Contract
+To deploy the contract, there are two options: using `deploy_contract` in the `xelis_wallet` directly, or using the wallet RPC client in Playground. Pasting formatted json into a terminal is not ideal - you are free to experiment with doing it, however, we will focus on using the RPC Inspector in Playground to perform the task.
 
 ### The RPC Inspector
 
