@@ -17,6 +17,7 @@ export default {
       "breadcrumb": false
     }
   },
+  "tutorials": "Tutorials",
   "-- Resources": {
     "title": "Resources",
     "type": "separator"
