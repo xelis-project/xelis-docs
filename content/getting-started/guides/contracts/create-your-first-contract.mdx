@@ -81,15 +81,6 @@ Inside the wallet console, you must run the following command to start the RPC s
 start_rpc_server 127.0.0.1:8081 [username] [password]
 ```
 
-<Callout type="info">
-Before deploying/invoking contracts, decide how blocks will be produced on your environment:
-
-- Automatic mode: run `xelis_miner` continuously so blocks are mined automatically. See [CPU Miner](/getting-started/guides/miner-cpu).
-- Manual mode: keep miner off and call `mine_block [address]` in daemon console exactly when you need transaction confirmation.
-
-Both approaches are valid. Manual mode is often more convenient during development because you control when blocks are produced.
-</Callout>
-
 Result: Playground can connect to wallet RPC and you can sign/broadcast transactions.
 
 Why this step matters:
@@ -97,6 +88,15 @@ Why this step matters:
 - Daemon provides blockchain access and daemon RPC methods.
 - Wallet signs transactions and exposes wallet RPC used by Playground.
 - Matching `devnet` on both sides avoids connection/network mismatch issues.
+
+<Callout type="important">
+Before deploying/invoking contracts, decide how blocks will be produced on your environment:
+
+- Automatic mode: run `xelis_miner` continuously so blocks are mined automatically. See [CPU Miner](/getting-started/guides/miner-cpu).
+- Manual mode: keep miner off and call `mine_block [address]` in daemon console exactly when you need transaction confirmation.
+
+Both approaches are valid. Manual mode is often more convenient during development because you control when blocks are produced.
+</Callout>
 
 ### Validate Playground runtime
 
@@ -121,13 +121,11 @@ Playground can reuse previous argument values between runs, which is useful duri
 
 ### Build your contract
 
-<Callout type="info">
 If you want to explore the language syntax before writing your own contract, refer to the [Silex language reference](/features/smart-contracts/silex) and the [Standard Library](/features/smart-contracts/standard-library) which lists all built-in types, methods, and their gas costs.
-</Callout>
 
 Replace the editor content with the contract below:
 
-```rust filename="number_one_songs.slx"
+```rust filename="number_one_songs.slx" copy
 hook constructor() -> u64 {
     let storage: Storage = Storage::new();
     storage.store("name", "number_one_songs");
@@ -168,7 +166,7 @@ What each part does:
 - `remove_artist`: deletes an artist entry.
 - `require(...)`: enforces access control so only the owner can mutate storage.
 
-<Callout type="info">
+<Callout type="important">
 The `constructor` hook is executed automatically by the network at deployment time. Once the contract is deployed, it can never be invoked again, not by users, not by other entry functions, and not by the contract itself. All one-time setup logic (initial storage values, ownership, configuration) must go here.
 </Callout>
 
@@ -238,13 +236,9 @@ Default wallet RPC URL format:
 ws://{username}:{password}@localhost:8081/json_rpc
 ```
 
-<Callout type="info">
-RPC Wallet Tab Connection
-
-
-If connection fails, the **WALLET** tab will show an error, verify wallet RPC credentials and endpoint used when running `start_rpc_server` in wallet.
-
-Change the username and password values and reconnect. Playground remembers your settings for future sessions.
+<Callout>
+- If connection fails, verify wallet RPC credentials and endpoint used when running `start_rpc_server` in wallet.
+- Playground remembers your settings for future sessions.
 </Callout>
 
 ### Deploy to chain
