@@ -1,0 +1,95 @@
+---
+title: Offline development
+description: Build and run XELIS Playground locally, then connect it to a local devnet daemon and wallet for contract development.
+---
+
+import { Steps, Callout } from 'nextra/components'
+
+## Introduction
+
+This guide shows a complete offline workflow for smart contract development:
+
+- Build and run [XELIS Playground](https://github.com/xelis-project/xelis-playground/) locally (dev server).
+- Run `xelis_daemon` in `devnet`.
+- Run `xelis_wallet` in `devnet` and expose wallet RPC.
+- Mine blocks on demand with `mine_block [address]` to confirm transactions quickly.
+
+This is ideal for fast contract iteration without touching mainnet.
+
+## Prerequisites
+
+Before starting:
+
+- Install the XELIS binaries (`xelis_daemon`, `xelis_wallet`) from [build from source](/getting-started/build-from-source-code) or [precompiled binaries](/getting-started/precompiled-binaries).
+- Install Git.
+- Install Node.js + npm.
+- Install Rust toolchain (Cargo), required by Playground to build the WebAssembly module.
+
+## Build and run XELIS Playground locally
+
+<Steps>
+### Clone the repository
+
+```bash copy
+git clone https://github.com/xelis-project/xelis-playground.git
+cd xelis-playground
+```
+
+### Install JavaScript dependencies
+
+```bash copy
+npm install
+```
+
+### Build the WebAssembly module
+
+```bash copy
+./build_wasm.sh
+```
+
+This compiles the library written in Rust to a WebAssembly module (`.wasm`), used by the UI.
+
+### Start the dev server
+
+```bash copy
+npm run dev
+```
+
+Open the URL shown in your terminal (usually `http://localhost:5173`).
+
+</Steps>
+
+## Run your environment locally
+
+Using the network `devnet`, it creates you a local blockchain environment where you can deploy and test contracts without real funds or affecting mainnet/testnet.
+
+<Callout type="warning">
+- Make sure to use `--network=devnet` for both daemon and wallet, otherwise they won't connect to each other.
+- To interact with smart contracts, your local chain must be **at least** at height `30`, so mine some blocks if you just started the daemon.
+</Callout>
+
+### Mine blocks using daemon console
+
+When testing contracts, you often need a block immediately (to confirm deploy/invoke transactions).
+
+In the daemon console, use:
+
+```text
+mine_block [address] [count]
+```
+
+- If `[address]` is provided, block reward goes to that address. By default, it goes to the hardcoded default public key.
+- If `[count]` is provided, that many blocks will be mined. By default, it mines 1 block.
+
+<Callout type="info">
+It is recomended to specify your wallet address to receive block rewards, so you have funds to deploy/invoke contracts.
+</Callout>
+
+## End-to-end local contract workflow
+
+- Keep daemon, wallet, and Playground dev server running.
+- Write contract code in Playground editor.
+- Compile and export module/ABI.
+- Use Playground Wallet RPC (or wallet CLI) to deploy/invoke.
+- Run `mine_block [address] [count]` in daemon to confirm transactions quickly.
+- Repeat.
