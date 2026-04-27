@@ -1,0 +1,199 @@
+---
+title: BTreeStore
+---
+
+## Introduction
+
+`BTreeStore` is a **persistent, sorted key/value store** built on top of contract storage. It keeps keys in lexicographic byte order and provides efficient point lookups, insertions, deletions, and ordered cursor-based traversal.
+
+This is different from a `Storage` map (which is unordered and only supports direct key access) and from `MemoryStorage` (which is ephemeral). `BTreeStore` persists across blocks and exposes ordering, making range queries and leaderboard-style patterns possible.
+
+## Why it matters
+
+Most on-chain maps only support `load`/`store` by exact key. As soon as you need:
+- **Sorted iteration** (leaderboards, orderbooks, ranking systems)
+- **Range scans** (find all keys between A and B)
+- **Efficient minimum/maximum** lookups
+- **Pagination** (skip N, read the rest)
+
+...a flat map falls short. `BTreeStore` solves this by maintaining order natively on-chain, without loading and sorting the entire dataset.
+
+## How it works
+
+A `BTreeStore` is scoped to a **namespace**: a `bytes` value that prevents key collisions when multiple stores live inside the same contract.
+
+```rust
+let store: BTreeStore = BTreeStore::new("scores".to_bytes())
+```
+
+All keys and values are stored in persistent contract storage. `seek` returns a `BTreeCursor` positioned at — or near — a given key according to a `BTreeSeekBias`. From there, you step through entries with `cursor.next()` without paying the cost of a full scan upfront.
+
+### Seek bias
+
+```rust
+enum BTreeSeekBias {
+    Exact,
+    GreaterOrEqual,
+    Greater,
+    LessOrEqual,
+    Less,
+    First,
+    Last
+}
+```
+
+| Bias | Behaviour |
+|------|-----------|
+| `BTreeSeekBias::Exact` | Exact match only |
+| `BTreeSeekBias::GreaterOrEqual` | First key ≥ given key |
+| `BTreeSeekBias::Greater` | First key strictly > given key |
+| `BTreeSeekBias::LessOrEqual` | Last key ≤ given key |
+| `BTreeSeekBias::Less` | Last key strictly < given key |
+| `BTreeSeekBias::First` | First entry in the tree |
+| `BTreeSeekBias::Last` | Last entry in the tree |
+
+## API Overview
+
+```rust
+BTreeStore::new(namespace: bytes) ⟶ BTreeStore
+insert(key: bytes, value: any) ⟶ optional<any>
+get(key: bytes) ⟶ optional<any>
+delete(key: bytes) ⟶ optional<any>
+seek(key: bytes, bias: BTreeSeekBias, ascending: bool) ⟶ (BTreeCursor, optional<Entry>)
+len() ⟶ u64
+```
+
+### Cursor API
+
+`seek` returns a `(BTreeCursor, optional<Entry>)` tuple. The cursor keeps its position across calls.
+
+```rust
+next() ⟶ optional<Entry>
+delete() ⟶ bool
+```
+
+## Advantages
+
+- **Ordered storage**: keys are always kept sorted — no off-chain sort needed.
+- **Cheap range scans**: only the visited entries are loaded via the cursor.
+- **Bidirectional traversal**: pass `ascending: false` to `seek` to walk backwards.
+- **Atomic mutations**: `insert` and `delete` return the displaced value atomically.
+- **Multi-store isolation**: namespaces prevent cross-store key collisions in the same contract.
+
+## Examples
+
+### Leaderboard
+
+Keep a sorted top-score list. Encode the score in the key so that lexicographic and numeric order coincide (big-endian `u64` bytes).
+
+```rust
+fn score_key(score: u64, player: Address) -> bytes {
+    // Big-endian u64 prefix keeps scores sorted high→low when reading descending.
+    let key: bytes = score.to_be_bytes()
+    key.extend(player.to_bytes())
+    return key
+}
+
+entry submit_score(player: Address, score: u64) -> u64 {
+    let store: BTreeStore = BTreeStore::new("leaderboard".to_bytes())
+
+    store.insert(score_key(score, player), player)
+    return 0
+}
+
+// Read the top-3 scores (descending = highest first).
+entry get_top3() -> u64 {
+    let store: BTreeStore = BTreeStore::new("leaderboard".to_bytes())
+
+    // Seek to the maximum possible key with descending traversal.
+    let (cursor, first): (BTreeCursor, optional<Entry>) = store.seek(
+        u64::MAX.to_be_bytes(),
+        BTreeSeekBias::LessOrEqual,
+        false
+    )
+
+    let shown: u32 = 0
+    let entry: optional<Entry> = first
+    while shown < 3 && entry != null {
+        fire_rpc_event(1, [entry])
+        entry = cursor.next()
+        shown += 1
+    }
+
+    return 0
+}
+```
+
+### Orderbook (price-sorted asks)
+
+```rust
+const ASK_NS: bytes = "asks".to_bytes()
+
+fn ask_key(price: u64, nonce: u64) -> bytes {
+    let k: bytes = price.to_be_bytes()
+    k.extend(nonce.to_be_bytes())
+    return k
+}
+
+entry place_ask(price: u64, nonce: u64, amount: u64) -> u64 {
+    let store: BTreeStore = BTreeStore::new(ASK_NS)
+    store.insert(ask_key(price, nonce), amount)
+    return 0
+}
+
+// Match asks at or below `max_price`.
+entry fill_bids(max_price: u64) -> u64 {
+    let store: BTreeStore = BTreeStore::new(ASK_NS)
+
+    let (cursor, entry): (BTreeCursor, optional<Entry>) = store.seek(
+        0u64.to_be_bytes(),
+        BTreeSeekBias::GreaterOrEqual,
+        true
+    )
+
+    while entry != null {
+        // Decode the price prefix (first 8 bytes of the key).
+        // If this ask is too expensive, stop iterating.
+        // In a real contract you would decode and compare the key properly.
+        cursor.delete()
+        entry = cursor.next()
+    }
+
+    return 0
+}
+```
+
+### Paginated range query
+
+```rust
+entry get_page(start_key: bytes, page_size: u32) -> u64 {
+    let store: BTreeStore = BTreeStore::new("data".to_bytes())
+
+    let (cursor, first): (BTreeCursor, optional<Entry>) = store.seek(
+        start_key,
+        BTreeSeekBias::GreaterOrEqual,
+        true
+    )
+
+    let count: u32 = 0
+    let entry: optional<Entry> = first
+    let results: any[] = []
+
+    while count < page_size && entry != null {
+        results.push(entry)
+        entry = cursor.next()
+        count += 1
+    }
+
+    fire_rpc_event(2, results)
+    return 0
+}
+```
+
+## Notes
+
+- Namespaces should be stable constants — changing them leaves orphaned data.
+- `insert` and `delete` return the previous value if one existed, `null` otherwise.
+- `seek` with `ascending: false` lets you traverse from high to low.
+- Cursor mutations (`delete`) are reflected immediately; calling `next()` after a delete moves past the deleted entry.
+- `len()` returns the total count of entries in the store.
