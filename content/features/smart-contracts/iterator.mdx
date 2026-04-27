@@ -28,8 +28,8 @@ That approach is verbose and usually allocates more than necessary. `Iterator` g
 ```rust
 let result = values
     .iter()
-    .filter(|v| v > 0)
-    .map(|v| v * 2)
+    .filter(|v: u64| { return v > 0 })
+    .map(|v: u64| { return v * 2 })
     .take(10)
     .collect()
 ```
