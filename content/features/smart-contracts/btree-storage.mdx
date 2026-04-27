@@ -1,10 +1,10 @@
 ---
-title: BTreeStore
+title: BTree Storage
 ---
 
 ## Introduction
 
-`BTreeStore` is a **persistent, sorted key/value store** built on top of contract storage. It keeps keys in lexicographic byte order and provides efficient point lookups, insertions, deletions, and ordered cursor-based traversal.
+`BTree Storage` is a **persistent, sorted key/value store** built on top of contract storage. It keeps keys in lexicographic byte order and provides efficient point lookups, insertions, deletions, and ordered cursor-based traversal.
 
 This is different from a `Storage` map (which is unordered and only supports direct key access) and from `MemoryStorage` (which is ephemeral). `BTreeStore` persists across blocks and exposes ordering, making range queries and leaderboard-style patterns possible.
 
