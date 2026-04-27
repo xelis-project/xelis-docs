@@ -1,0 +1,215 @@
+---
+title: Iterator
+---
+
+## Introduction
+
+`Iterator` provides a **lazy, composable, and allocation-friendly** way to process sequences in Silex smart contracts.
+
+Use it when you want to:
+- Transform values (`map`, `filter`)
+- Combine streams (`chain`, `zip`, `flatten`)
+- Consume results (`collect`, `sum`, `count`, `fold`)
+
+Most methods return a new `Iterator`, which lets you build pipelines without materializing intermediate arrays after every step.
+
+This matters in smart contracts because each extra allocation and loop has a gas cost. Iterators let you describe a sequence of operations first, then consume it once at the end.
+
+## Why it matters
+
+Without iterators, sequence processing often becomes:
+- Create an array
+- Loop manually
+- Push transformed values into another array
+- Loop again to filter or aggregate
+
+That approach is verbose and usually allocates more than necessary. `Iterator` gives you a more direct model:
+
+```rust
+let result = values
+    .iter()
+    .filter(|v| v > 0)
+    .map(|v| v * 2)
+    .take(10)
+    .collect()
+```
+
+This is easier to read and makes it clear that the data is being processed as a pipeline.
+
+## How it works
+
+An iterator is a sequence that yields items one by one through `next()`.
+
+```rust
+next() ⟶ optional<T0>
+```
+
+If there is a next value, `next()` returns it. Otherwise it returns `null`.
+
+Most iterator methods fall into two categories:
+
+1. **Adapters**: return another iterator.
+Examples: `map`, `filter`, `skip`, `take`, `chain`, `zip`, `enumerate`, `rev`, `flatten`
+
+2. **Consumers**: exhaust the iterator and produce a final result.
+Examples: `collect`, `sum`, `count`, `find`, `any`, `all`, `fold`, `position`, `for_each`
+
+This distinction is important: once an iterator is consumed, you should treat it as exhausted.
+
+### Construction patterns
+
+Iterators are usually produced from other collections, but the type also provides constructors for common cases:
+
+- `Iterator::once(value)` for a single-element stream
+- `Iterator::empty()` for an empty stream
+- `Iterator::unfold(seed, f)` for stateful generation
+
+## API Overview
+
+```rust
+next() ⟶ optional<T0>
+count() ⟶ u32
+skip(n: u32) ⟶ Iterator
+take(n: u32) ⟶ Iterator
+chain(other: Iterator) ⟶ Iterator
+enumerate() ⟶ Iterator
+rev() ⟶ Iterator
+collect() ⟶ T0[]
+zip(other: Iterator) ⟶ Iterator
+sum() ⟶ T0
+map(mapper: closure(T0) -> T1) ⟶ Iterator
+filter(predicate: closure(T0) -> bool) ⟶ Iterator
+for_each(f: closure(T0))
+find(predicate: closure(T0) -> bool) ⟶ optional<T0>
+any(predicate: closure(T0) -> bool) ⟶ bool
+all(predicate: closure(T0) -> bool) ⟶ bool
+fold(init: T0, f: closure(T0, T0) -> T0) ⟶ T0
+position(predicate: closure(T0) -> bool) ⟶ optional<u32>
+Iterator::once(value: T0) ⟶ Iterator
+Iterator::empty() ⟶ Iterator
+Iterator::unfold(seed: T0, f: closure(T0) -> optional<(T1, T0)>) ⟶ Iterator
+flatten() ⟶ Iterator
+```
+
+## Advantages
+
+- **Lower intermediate allocation pressure**: compose transformations before collecting.
+- **Readable data pipelines**: the sequence of operations is explicit and linear.
+- **Built-in short-circuiting**: `find`, `any`, `all`, and `position` can stop early.
+- **Easy batching**: `take`, `skip`, and `chain` make pagination and chunking straightforward.
+- **Stateful generation**: `unfold` lets you generate values without a prebuilt array.
+
+## Examples
+
+### Build from a single value or empty stream
+
+```rust
+let single: Iterator = Iterator::once(42)
+let none: Iterator = Iterator::empty()
+```
+
+### Transform and filter
+
+Double each value, keep only those above a threshold, then materialize the result.
+
+```rust
+let values: u64[] = [1, 2, 3, 4, 5]
+let out: u64[] = values
+    .iter()
+    .map(|v: u64| { return v * 2 })
+    .filter(|v: u64| { return v > 5 })
+    .collect()
+```
+
+### Combine iterators
+
+Merge two sequences into one without creating a temporary array yourself.
+
+```rust
+let a: u64[] = [1, 2]
+let b: u64[] = [3, 4]
+
+let merged: u64[] = a.iter().chain(b.iter()).collect()
+```
+
+### Aggregate
+
+Use consumers when you only need a final answer, not another sequence.
+
+```rust
+let values: u64[] = [10, 20, 30]
+
+let total: u64 = values.iter().sum()
+let cnt: u32 = values.iter().count()
+let first_pos: optional<u32> = values.iter().position(|x: u64| { return x == 20 })
+```
+
+### Early-exit checks
+
+These operations stop as soon as the answer is known.
+
+```rust
+let values: u64[] = [2, 4, 6, 7, 8]
+
+let has_odd: bool = values.iter().any(|x: u64| { return x % 2 == 1 })
+let all_positive: bool = values.iter().all(|x: u64| { return x > 0 })
+let first_big: optional<u64> = values.iter().find(|x: u64| { return x >= 6 })
+```
+
+### Enumerate and zip
+
+Attach indices or pair values from two streams.
+
+```rust
+let names: string[] = ["alice", "bob", "carol"]
+let scores: u64[] = [10, 20, 30]
+
+let indexed_names: (u32, string)[] = names.iter().enumerate().collect()
+let paired: (string, u64)[] = names.iter().zip(scores.iter()).collect()
+```
+
+### Fold for custom aggregation
+
+Use `fold` when `sum()` is not enough.
+
+```rust
+let values: u64[] = [1, 2, 3, 4]
+let total: u64 = values.iter().fold(0, |acc: u64, x: u64| { return acc + x })
+```
+
+### Bounded processing
+
+Use `skip` and `take` to page through data or cap work.
+
+```rust
+let values: u64[] = [10, 20, 30, 40, 50]
+let page: u64[] = values.iter().skip(1).take(2).collect()
+```
+
+### Stateful generator with `unfold`
+
+Generate a sequence from a seed without storing the whole progression in advance.
+
+```rust
+// Produces: 1, 2, 4, 8, 16
+let powers: u64[] = Iterator::unfold(1, |state: u64| {
+    return state <= 16 ? (state, state * 2) : null
+}).collect()
+```
+
+### Flatten nested sequences
+
+Flatten an iterator of arrays into one stream of values.
+
+```rust
+let groups: u64[][] = [[1, 2], [3], [4, 5]]
+let flat: u64[] = groups.iter().flatten().collect()
+```
+
+## Notes
+
+- `next()` returns `optional<T0>` and advances the iterator.
+- Methods like `for_each`, `count`, `sum`, `collect`, `find`, and `fold` consume the iterator.
+- Adapters such as `map` and `filter` are lazy; they do not do useful work until the iterator is consumed.
+- Use `take(n)` to bound work and keep execution predictable.
+- Prefer consumer methods like `any` or `find` over collecting into an array when you only need one answer.

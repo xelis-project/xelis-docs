@@ -6,4 +6,5 @@ export default {
     "memory-storage": "Memory Storage",
     "btree-storage": "BTree Storage",
     "contract-events": "Contract Events",
+    "iterator": "Iterator",
 }
