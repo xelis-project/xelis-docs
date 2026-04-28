@@ -23,19 +23,19 @@ When defining a closure inline, the syntax is:
 The parameter list is enclosed in `|...|` instead of `(...)`, and the body is a regular block:
 
 ```rust
-let double = |x: u64| { return x * 2 }
+let double = |x: u64| -> u64 { return x * 2 }
 ```
 
 A closure with no parameters uses empty pipes:
 
 ```rust
-let greet = || { return "hello" }
+let greet = || -> string { return "hello" }
 ```
 
 Multiple parameters are separated by commas:
 
 ```rust
-let add = |a: u64, b: u64| { return a + b }
+let add = |a: u64, b: u64| -> u64 { return a + b }
 ```
 
 ## Return Type
