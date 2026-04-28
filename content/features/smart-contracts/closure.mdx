@@ -1,0 +1,101 @@
+---
+title: Closure
+---
+
+## Introduction
+
+A **closure** is an anonymous function that can capture variables from its surrounding scope. In Silex, closures are first-class values — they can be stored in variables, passed as arguments to functions, and returned from functions.
+
+They are most commonly used as callbacks in iterator pipelines, but can appear anywhere a function value is expected.
+
+## Syntax
+
+For the type signature of a closure parameter in a function, use the `closure` keyword:
+```
+closure(<param types, ...>) -> <return type>
+```
+
+When defining a closure inline, the syntax is:
+```
+|<param>: <type>, ...| <return type> { <body> }
+```
+
+The parameter list is enclosed in `|...|` instead of `(...)`, and the body is a regular block:
+
+```rust
+let double = |x: u64| { return x * 2 }
+```
+
+A closure with no parameters uses empty pipes:
+
+```rust
+let greet = || { return "hello" }
+```
+
+Multiple parameters are separated by commas:
+
+```rust
+let add = |a: u64, b: u64| { return a + b }
+```
+
+## Return Type
+
+Closures infer their return type from the `return` expression (or the last expression when used in a context that expects a specific type). You do not declare the return type explicitly in the closure syntax.
+
+```rust
+// returns u64 — inferred from context (map expects closure(u64) -> u64 here)
+let doubled = values.iter().map(|v: u64| { return v * 2 }).collect()
+```
+
+## Capturing Variables
+
+Closures can read variables from the enclosing scope at the point where the closure is created:
+
+```rust
+let threshold: u64 = 100
+let above = values
+    .iter()
+    .filter(|v: u64| { return v > threshold })
+    .collect()
+```
+
+Here `threshold` is **captured** by the closure even though it is not one of its parameters.
+
+## Closures as Function Arguments
+
+The type annotation for a closure parameter in a function signature uses the `closure` keyword:
+
+```
+closure(<param types, ...>) -> <return type>
+```
+
+For example, a function that accepts a transformation:
+
+```rust
+fn apply(values: u64[], f: closure(u64) -> u64) -> u64[] {
+    return values.iter().map(f).collect()
+}
+
+entry main() -> u64 {
+    let result: u64[] = apply([1, 2, 3], |x: u64| { return x * 10 })
+    return 0
+}
+```
+
+A closure that returns nothing simply omits the `-> <type>` part in the signature:
+
+```rust
+fn each(values: u64[], f: closure(u64)) {
+    values.iter().for_each(f)
+}
+```
+
+## Notes
+
+- Closures are not recursive — they cannot call themselves by name.
+- A closure captures variables by value at the time it is created; mutations to the original variable after closure creation are not visible inside the closure.
+- The `_` identifier can be used to ignore a parameter you do not need:
+
+```rust
+values.iter().for_each(|_: u64| { /* side-effect only */ })
+```

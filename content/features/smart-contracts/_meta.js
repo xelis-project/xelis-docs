@@ -7,4 +7,5 @@ export default {
     "btree-storage": "BTree Storage",
     "contract-events": "Contract Events",
     "iterator": "Iterator",
+    "closure": "Closure",
 }
