@@ -8,4 +8,5 @@ export default {
     "contract-events": "Contract Events",
     "iterator": "Iterator",
     "closure": "Closure",
+    "cryptography": "Cryptography",
 }

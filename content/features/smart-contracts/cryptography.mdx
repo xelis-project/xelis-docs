@@ -1,0 +1,305 @@
+---
+title: Cryptography
+---
+
+import { Callout } from 'nextra/components';
+
+## Introduction
+
+Silex smart contracts have access to a rich set of cryptographic primitives built directly into the standard library. These cover:
+
+- **Hashing** — BLAKE3 and SHA-256
+- **Signatures** — Ed25519 / Ristretto signature verification
+- **Elliptic-curve arithmetic** — `Scalar` and `RistrettoPoint` operations
+- **Threshold commitments / Ciphertext** — ElGamal ciphertext arithmetic
+- **Transcripts** — Merlin-style Fiat-Shamir transcript for ZK proof integration
+- **Zero-knowledge proof verification** — balance, ownership, range, and ciphertext-validity proofs
+
+All functions have a fixed gas cost billed in **lex**.
+
+---
+
+## Hashing
+
+Two hash functions are available. Both accept a `bytes` value and return a `Hash` (32 bytes).
+
+| Function | Algorithm | Gas |
+|---|---|---|
+| `Hash::blake3(input)` | BLAKE3 | 3 000 lex |
+| `Hash::sha256(input)` | SHA-256 | 7 500 lex |
+
+```rust
+// Hash a UTF-8 message with BLAKE3
+let msg: bytes = "hello world".to_bytes()
+let digest: Hash = Hash::blake3(msg)
+println(digest.to_hex()) // 64-char lowercase hex string
+
+// Hash the same message with SHA-256
+let sha_digest: Hash = Hash::sha256(msg)
+```
+
+### XOR two hashes
+
+```rust
+let h1: Hash = Hash::blake3("left".to_bytes())
+let h2: Hash = Hash::blake3("right".to_bytes())
+let combined: Hash = xor_hashes(h1, h2)
+```
+
+### Hash construction helpers
+
+```rust
+let from_hex: Hash = Hash::from_hex("abcd...64chars...")
+let from_bytes: Hash = Hash::from_bytes(some_bytes)
+let zero_hash: Hash = Hash::zero()
+let max_hash: Hash = Hash::max()
+```
+
+### Serialising a hash back to text/bytes
+
+```rust
+let h: Hash = Hash::blake3("data".to_bytes())
+let hex_str: string = h.to_hex() // "abcd...64chars"
+let raw: bytes = h.to_bytes() // 32 raw bytes
+let as_u256: u256 = h.to_u256()
+```
+
+---
+
+## Encoding Helpers
+
+The `bytes` type and `Bytes::` namespace provide hex and UTF-8 helpers.
+
+```rust
+// bytes ↔ hex string
+let raw: bytes = Bytes::from_hex("deadbeef")
+let hex_str: string = raw.to_hex() // "deadbeef"
+
+// string ↔ bytes
+let as_bytes: bytes = "hello".to_bytes()
+let back: optional<string> = String::from_utf8(as_bytes)
+let lossy: string = String::from_utf8_lossy(raw) // replaces invalid sequences
+```
+
+---
+
+## Signature Verification
+
+The `Signature` type provides Ed25519 / Ristretto signature verification.
+This is the same signature scheme used by user wallets to sign transactions, so you can verify signatures on-chain without needing to trust an external oracle.
+
+```rust
+entry verify_signature(data: bytes, sig: Signature) -> u64 {
+    let tx: Transaction = Transaction::current().unwrap()
+    // The signer's public key is a RistrettoPoint
+    let pubkey: RistrettoPoint = tx.source().to_point()
+
+    let valid: bool = sig.verify(data, pubkey)
+    require(valid, "invalid signature")
+    return 0
+}
+```
+
+### Constructing a Signature from raw bytes
+
+If you receive a 64-byte signature externally (e.g. passed as a contract argument):
+
+```rust
+entry check_external_sig(sig_bytes: bytes, msg: bytes, pubkey_bytes: bytes) -> u64 {
+    let sig: Signature = Signature::from_bytes(sig_bytes)
+    let pubkey: RistrettoPoint = RistrettoPoint::from_bytes(pubkey_bytes)
+    require(sig.verify(msg, pubkey), "bad signature")
+    return 0
+}
+```
+
+---
+
+## Elliptic-Curve Arithmetic
+
+The VM exposes the **Ristretto255** group — a prime-order group built on Curve25519 — through the `Scalar` and `RistrettoPoint` types. These are the building blocks for all ZK proof constructions.
+
+### Scalar
+
+A `Scalar` is an element of the 252-bit scalar field of Ristretto255.
+
+```rust
+// Create from a plain integer
+let s: Scalar = Scalar::from_u64(42)
+
+// Arithmetic
+let s2: Scalar = Scalar::from_u64(10)
+let sum: Scalar = s.add(s2)
+let diff: Scalar = s.sub(s2)
+let prod: Scalar = s.mul(s2)
+let quot: Scalar = s.div(s2)
+let inv: Scalar = s.invert()
+
+// Fixed-base scalar multiplication (scalar × basepoint)
+let point: RistrettoPoint = s.mul_base()
+
+// Serialisation (32 bytes, canonical)
+let raw: bytes = s.to_bytes()
+let back: optional<Scalar> = Scalar::from_bytes(raw)
+```
+
+### RistrettoPoint
+
+Two well-known curve points are available as constants:
+
+- `RistrettoPoint::G` — the primary basepoint (same as `Scalar::mul_base`)
+- `RistrettoPoint::H` — an independent secondary basepoint used in Pedersen commitments
+
+```rust
+// Well-known basepoints
+let g: RistrettoPoint = RistrettoPoint::G
+
+// Group arithmetic
+let s: Scalar = Scalar::from_u64(7)
+let p: RistrettoPoint = s.mul_base() // equivalent to G.mul_scalar(s)
+
+let p2: RistrettoPoint = p.add(g)
+let p3: RistrettoPoint = p.sub(g)
+let p4: RistrettoPoint = p.mul_scalar(s)
+let p5: RistrettoPoint = p.add_scalar(s)
+
+// Serialisation
+let raw: bytes = p.to_bytes()
+let p6: RistrettoPoint = RistrettoPoint::from_bytes(raw)
+```
+
+---
+
+## Ciphertext
+
+XELIS uses **ElGamal-style ciphertexts** for confidential asset balances.
+A `Ciphertext` holds two Ristretto points — a *commitment* and a *handle*.
+
+```rust
+// Encrypt a known amount for a given address (e.g. yourself)
+let addr: Address = Transaction::current().source()
+let ct: Ciphertext = Ciphertext::new(addr, 100)
+
+// Homomorphic arithmetic (in-place)
+ct.add(50) // ciphertext now encrypts 150
+ct.sub(20) // ciphertext now encrypts 130
+ct.mul(2)  // ciphertext now encrypts 260
+
+// Extract the two underlying curve points
+let commitment: RistrettoPoint = ct.commitment()
+let handle: RistrettoPoint = ct.handle()
+
+// Zero ciphertext
+let zero: Ciphertext = Ciphertext::zero()
+```
+
+---
+
+## Transcript
+
+A `Transcript` is a Merlin-style sponge transcript (STROBE-based). It is used to derive challenge scalars for non-interactive zero-knowledge proofs via the Fiat-Shamir heuristic.
+
+You will typically create a transcript, bind the relevant public data to it, and then pass it to a proof verifier.
+
+```rust
+// Create a new transcript with a domain separator
+let t: Transcript = Transcript::new("my-protocol".to_bytes())
+
+// Bind public data
+t.append_message("context".to_bytes(), "transfer-v1".to_bytes())
+t.append_point("pubkey".to_bytes(), some_ristretto_point)
+t.append_scalar("nonce".to_bytes(), some_scalar)
+
+// Derive challenges
+let challenge: Scalar = t.challenge_scalar("c".to_bytes())
+let rand_bytes: bytes = t.challenge_bytes("r".to_bytes(), 32u32)
+```
+
+<Callout type="info">
+`validate_and_append_point` checks that the point is not the identity before appending it, which is required by many ZK constructions to prevent trivial forgeries.
+</Callout>
+
+---
+
+## Zero-Knowledge Proof Verification
+
+The VM can verify several types of ZK proofs that are generated off-chain by user wallets. All verifiers require a `Transcript` for domain separation — use the **same transcript setup** that the prover used, or verification will always fail.
+
+<Callout type="warning">
+ZK proof verification is expensive. These calls are intended for high-value operations such as private transfers. Make sure your contract's gas limit is set accordingly.
+</Callout>
+
+### Balance Proof
+
+Proves that the sender's encrypted balance is ≥ the amount being spent, without revealing the balance.
+
+```rust
+/*
+  BalanceProof verifies:
+    - The prover knows the plaintext value inside source_ciphertext.
+    - That value equals amount() inside the proof.
+*/
+let t: Transcript = Transcript::new("balance-proof".to_bytes())
+t.append_message("version".to_bytes(), "1".to_bytes())
+
+// proof and pubkey come from the caller's transaction or arguments
+let valid: bool = balance_proof.verify(source_pubkey, source_ciphertext, t)
+require(valid, "balance proof invalid")
+```
+
+### Ownership Proof
+
+Proves that the caller owns (can decrypt) the given ciphertext.
+
+```rust
+let t: Transcript = Transcript::new("ownership-proof".to_bytes())
+let valid: bool = ownership_proof.verify(source_pubkey, source_ciphertext, t)
+```
+
+### Ciphertext Validity Proof
+
+Proves that a ciphertext was correctly encrypted for two recipients (source and destination) under the same plaintext.
+
+```rust
+let t: Transcript = Transcript::new("ciphertext-validity".to_bytes())
+let valid: bool = ciphertext_validity_proof.verify(
+    commitment,
+    dest_pubkey,
+    source_pubkey,
+    dest_handle,
+    source_handle,
+    t
+)
+```
+
+### Commitment Equality Proof
+
+Proves that a Pedersen commitment and an ElGamal ciphertext encode the same value.
+
+```rust
+let t: Transcript = Transcript::new("commitment-eq".to_bytes())
+let valid: bool = commitment_eq_proof.verify(source_pubkey, ciphertext, commitment, t)
+```
+
+### Range Proof
+
+Proves that a committed value lies within a specific bit range (e.g. [0, 2^64)).
+
+```rust
+let t: Transcript = Transcript::new("range-proof".to_bytes())
+
+// Single commitment
+let valid: bool = range_proof.verify_single(commitment, t, 64u64)
+
+// Batch — more efficient than verifying individually
+let valid_batch: bool = range_proof.verify_multiple([c1, c2, c3], t, 64u64)
+```
+
+### Arbitrary Range Proof
+
+Extends `RangeProof` to prove that a value is within an arbitrary `[0, max_value]` range (not just a power of two).
+
+```rust
+let t: Transcript = Transcript::new("arbitrary-range".to_bytes())
+let valid: bool = arb_range_proof.verify(source_pubkey, source_ciphertext, t)
+```
