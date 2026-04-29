@@ -26,7 +26,7 @@ Two hash functions are available. Both accept a `bytes` value and return a `Hash
 | Function | Algorithm | Gas |
 |---|---|---|
 | `Hash::blake3(input)` | BLAKE3 | 3 000 lex |
-| `Hash::sha256(input)` | SHA-256 | 7 500 lex |
+| `Hash::sha3(input)` | SHA-3 | 7 500 lex |
 
 ```rust
 // Hash a UTF-8 message with BLAKE3
@@ -34,8 +34,8 @@ let msg: bytes = "hello world".to_bytes()
 let digest: Hash = Hash::blake3(msg)
 println(digest.to_hex()) // 64-char lowercase hex string
 
-// Hash the same message with SHA-256
-let sha_digest: Hash = Hash::sha256(msg)
+// Hash the same message with SHA-3
+let sha_digest: Hash = Hash::sha3(msg)
 ```
 
 ### XOR two hashes

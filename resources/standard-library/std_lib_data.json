@@ -310,7 +310,7 @@
 {"syscall_id": 349, "signature": "Hash::from_u256(value: u256) ⟶ Hash", "gas_cost": 75},
 {"syscall_id": 350, "signature": "Hash::from_hex(hex: string) ⟶ Hash", "gas_cost": 75},
 {"syscall_id": 351, "signature": "Hash::blake3(input: bytes) ⟶ Hash", "gas_cost": 3000},
-{"syscall_id": 352, "signature": "Hash::sha256(input: bytes) ⟶ Hash", "gas_cost": 7500},
+{"syscall_id": 352, "signature": "Hash::sha3(input: bytes) ⟶ Hash", "gas_cost": 7500},
 {"syscall_id": 353, "signature": "Hash::zero() ⟶ Hash", "gas_cost": 1},
 {"syscall_id": 354, "signature": "Hash::max() ⟶ Hash", "gas_cost": 1}]], 
 ["Random", [

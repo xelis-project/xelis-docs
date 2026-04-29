@@ -2785,8 +2785,8 @@
             },
             {
                 "syscall_id": 352,
-                "signature": "Hash::sha256(input: bytes) ⟶ Hash",
-                "description": "Computes the SHA-256 hash of `input`.",
+                "signature": "Hash::sha3(input: bytes) ⟶ Hash",
+                "description": "Computes the SHA-3 hash of `input`.",
                 "example": "",
                 "gas_cost": 7500
             },
@@ -2827,7 +2827,7 @@
             },
             {
                 "syscall_id": 352,
-                "signature": "Hash::sha256(input: bytes) ⟶ Hash",
+                "signature": "Hash::sha3(input: bytes) ⟶ Hash",
                 "description": "[Documentation Required]",
                 "example": "",
                 "gas_cost": 7500
