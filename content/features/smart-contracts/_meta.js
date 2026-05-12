@@ -9,4 +9,5 @@ export default {
     "iterator": "Iterator",
     "closure": "Closure",
     "cryptography": "Cryptography",
+    "permissions": "Permissions",
 }

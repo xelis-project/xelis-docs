@@ -1,0 +1,148 @@
+---
+title: Permissions
+---
+
+import { Callout } from 'nextra/components';
+
+## Introduction
+
+XELIS implements a protocol-level permission system that governs how smart contracts may call one another. Each transaction invoking a contract includes an `InterContractPermission` value that the sender chooses and that the consensus layer evaluates before any inter-contract call is executed.
+
+The system operates on two levels of granularity:
+
+- **Contract level** — which external contracts the invoked contract is allowed to call during this transaction.
+- **Chunk level** — which entry-points (chunks) within those contracts are permitted.
+
+A *chunk* is a numbered entry-point (`u16` identifier) inside a smart contract. By controlling access at the chunk level, callers can expose only the precise surface area they intend rather than granting blanket access to an entire contract.
+
+Because the permission is carried in the transaction itself, callers have full, dynamic control: they can adjust the permission on every invocation without any on-chain reconfiguration.
+
+<Callout type="info">
+When a transaction does not specify a permission, the default is `None`, meaning inter-contract calls are denied. Delegation calls (where the callee runs in the caller's storage context) are always allowed regardless of the permission value.
+</Callout>
+
+## Permission Variants
+
+### `InterContractPermission`
+
+| Variant | Behaviour |
+|---|---|
+| `None` | No external contract may be called. Delegation calls remain allowed. |
+| `All` | Any external contract and any chunk may be called freely. |
+| `Specific(set)` | Only the contracts listed in the set may be called, each with its own chunk policy. |
+| `Exclude(set)` | Any contract may be called **except** those listed, each with its own chunk policy. |
+
+### `ContractCallChunk`
+
+Each entry in a `Specific` or `Exclude` set pairs a contract `Hash` with a `ContractCallChunk` that further restricts which entry-points are reachable:
+
+| Variant | Behaviour |
+|---|---|
+| `All` | Every chunk of the target contract is accessible. |
+| `Specific(set)` | Only the listed chunk IDs are accessible. |
+| `Exclude(set)` | Every chunk is accessible except the listed ones. |
+
+## Examples
+
+All examples use the JSON representation. Contract hashes are lowercase hex-encoded 32-byte values. Chunk IDs are plain unsigned integers.
+
+### Deny all (default)
+
+```json
+"none"
+```
+
+No external contract may be called. This is the default when no permission is specified in the transaction.
+
+### Allow all inter-contract calls
+
+```json
+"all"
+```
+
+Suitable for utility contracts that are expected to compose freely with any other contract.
+
+### Allowlist specific contracts
+
+```json
+{
+  "specific": [
+    {
+      "contract": "0101010101010101010101010101010101010101010101010101010101010101",
+      "chunk": "all"
+    },
+    {
+      "contract": "0202020202020202020202020202020202020202020202020202020202020202",
+      "chunk": {
+        "specific": [0, 1, 2]
+      }
+    }
+  ]
+}
+```
+
+- Contract `0101…` may be called at any chunk.
+- Contract `0202…` may only be called at chunks 0, 1, and 2.
+
+Use this pattern when the caller wants to tightly scope which contracts can be reached during a specific invocation.
+
+### Denylist specific contracts
+
+```json
+{
+  "exclude": [
+    {
+      "contract": "0303030303030303030303030303030303030303030303030303030303030303",
+      "chunk": "all"
+    },
+    {
+      "contract": "0404040404040404040404040404040404040404040404040404040404040404",
+      "chunk": {
+        "specific": [5, 6]
+      }
+    }
+  ]
+}
+```
+
+- Contract `0303…` is fully blocked (all chunks denied).
+- Contract `0404…` is reachable at every chunk except 5 and 6.
+- All other contracts may be called freely.
+
+<Callout type="warning">
+The chunk rule inside an `exclude` entry is evaluated with an extra negation: a chunk is **blocked** when `chunk.allows()` returns `true`. This means `"specific": [5, 6]` correctly marks those two chunks as denied. Avoid nesting `exclude` at both the contract and chunk level unless you specifically want that double-negation effect.
+</Callout>
+
+## Advantages
+
+- **Deny-by-default security.** When no permission is specified, the default is `None`. A contract can only reach other contracts if the caller explicitly grants it.
+- **Fully dynamic.** The caller chooses the permission per transaction and can change it freely on every invocation — no on-chain reconfiguration is needed.
+- **Protocol-level enforcement.** Permissions are checked by the consensus layer before execution — they cannot be bypassed by a bug or omission in contract code.
+- **Chunk-level granularity.** Access control extends to individual entry-points, not just whole contracts.
+- **Allowlist and denylist modes.** Both `Specific` and `Exclude` variants exist at both levels, accommodating different trust models.
+- **Auditable per transaction.** The permission is recorded in the transaction, so the exact call surface granted for any historical invocation is always verifiable on-chain.
+
+## Comparison with Ethereum
+
+Ethereum does not have a protocol-level inter-contract permission system. Access control there is implemented entirely inside contract code — typically through `approve`/`allowance` patterns (ERC-20) or role-based libraries (OpenZeppelin `AccessControl`). When a user signs an approval transaction, they grant persistent, open-ended rights to another contract. Those rights remain active indefinitely until an explicit revocation transaction is mined, and there is nothing at the consensus layer preventing the approved contract from acting on them at any future point.
+
+XELIS takes the opposite approach. Permissions are enforced by the protocol before execution and are **scoped to a single transaction**. Once the transaction is finalized, the granted permission ceases to exist — there is no persistent approval state to revoke. The caller specifies exactly what is allowed for that invocation and no more.
+
+| Aspect | XELIS | Ethereum |
+|---|---|---|
+| **Enforcement layer** | Consensus / protocol | Application (contract code) |
+| **Permission lifetime** | Current transaction only | Persistent until revoked |
+| **Default stance** | Deny — no inter-contract calls unless the caller grants them | Permissive — any contract can call any other |
+| **Revocation needed** | Never — permissions expire automatically | Yes — requires an explicit revocation transaction |
+| **Granularity** | Contract + chunk (entry-point) | Contract + function selector (manually checked via `msg.sig`) |
+| **Bypass risk** | Cannot be bypassed; checked before execution | Developer must add guards in every function |
+
+Implementing a custom, contract-managed permission system on top of XELIS is still possible for use cases that require persistent roles, timelocks, or multi-signature workflows.
+
+The protocol-level permission system is not a replacement for application logic — it is a baseline security guarantee that exists regardless of what the contract code does or fails to do, offering a more robust foundation than purely application-level enforcement.
+
+## Limitations
+
+- **Collection size cap.** Collection lengths are encoded as a single `u8`, so `Specific` and `Exclude` sets are limited to **255** entries each.
+- **No caller-based conditions.** Permissions are evaluated from the calling contract's perspective only. There is no mechanism to express "contract A may call me only if contract B initiated the transaction."
+- **No value or state guards.** Permissions are binary (allow / deny) with no built-in conditions on transferred amounts, block height, or other state.
