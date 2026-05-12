@@ -124,9 +124,14 @@ The chunk rule inside an `exclude` entry is evaluated with an extra negation: a 
 
 ## Comparison with Ethereum
 
-Ethereum does not have a protocol-level inter-contract permission system. Access control there is implemented entirely inside contract code — typically through `approve`/`allowance` patterns (ERC-20) or role-based libraries (OpenZeppelin `AccessControl`). When a user signs an approval transaction, they grant persistent, open-ended rights to another contract. Those rights remain active indefinitely until an explicit revocation transaction is mined, and there is nothing at the consensus layer preventing the approved contract from acting on them at any future point.
+Ethereum does not have a protocol-level inter-contract permission system. Access control there is implemented entirely inside contract code — typically through `approve`/`allowance` patterns (ERC-20) or role-based libraries (OpenZeppelin `AccessControl`).
 
-XELIS takes the opposite approach. Permissions are enforced by the protocol before execution and are **scoped to a single transaction**. Once the transaction is finalized, the granted permission ceases to exist — there is no persistent approval state to revoke. The caller specifies exactly what is allowed for that invocation and no more.
+When a user signs an approval transaction, they grant persistent, open-ended rights to another contract. Those rights remain active indefinitely until an explicit revocation transaction is mined, and there is nothing at the consensus layer preventing the approved contract from acting on them at any future point.
+
+XELIS takes the opposite approach.
+Permissions are enforced by the protocol before execution and are **scoped to a single transaction**.
+
+Once the transaction is finalized, the granted permission ceases to exist — there is no persistent approval state to revoke. The caller specifies exactly what is allowed for that invocation and no more.
 
 | Aspect | XELIS | Ethereum |
 |---|---|---|
