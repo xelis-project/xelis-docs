@@ -189,7 +189,10 @@ fn add(a: u64, b: u64) -> u64 {
 
 ### Entry Functions
 
-Marked by `entry`; there can be at most one or a limited number of them in a contract (depending on the environment). Typically, an entry function returns `u64`, though the parser can be configured to allow other types or no return type.
+Marked by `entry`; they are the main entry points for external calls to the contract.
+
+The return type is optional but is set by default to `u64` to indicate success (0) or failure (non-zero).
+It can be set to any type, this will lead to the return value being stored in the contract logs of the execution.
 
 ```rust
 entry main() -> u64 {
