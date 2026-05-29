@@ -220,8 +220,26 @@ case "$build_choice" in
   *) BUILD_PARAMS="" ;;
 esac
 
-echo "Building with: cargo build --release $BUILD_PARAMS"
-cargo build --release $BUILD_PARAMS
+# Detect available RAM and suggest --jobs=1 for low-resource nodes (<= 4GB)
+JOBS_PARAM=""
+TOTAL_RAM_KB=0
+if [[ -r /proc/meminfo ]]; then
+  TOTAL_RAM_KB=$(awk '/^MemTotal:/ { print $2 }' /proc/meminfo)
+elif command -v sysctl &>/dev/null; then
+  TOTAL_RAM_KB=$(( $(sysctl -n hw.memsize 2>/dev/null || echo 0) / 1024 ))
+fi
+TOTAL_RAM_GB=$(( TOTAL_RAM_KB / 1024 / 1024 ))
+
+if [[ "$TOTAL_RAM_GB" -le 4 ]]; then
+  echo "Detected ${TOTAL_RAM_GB}GB of RAM (<= 4GB). Limiting cargo to 1 parallel job is recommended."
+  read -p "Use --jobs=1 to reduce memory usage during build? (Y/N) [default: Y]: " low_resources </dev/tty
+  if [[ "$low_resources" != [Nn]* ]]; then
+    JOBS_PARAM="--jobs=1"
+  fi
+fi
+
+echo "Building with: cargo build --release $JOBS_PARAM $BUILD_PARAMS"
+cargo build --release $JOBS_PARAM $BUILD_PARAMS
 
 # Bootstrap option
 if [ ! -d "mainnet" ]; then
@@ -256,7 +274,7 @@ if [ ! -f "start.sh" ]; then
   echo "#!/bin/bash" > start.sh
   # Automatically git pull before starting & run from sources
   # this allows easy updates
-  echo "git pull && cargo run --bin xelis_daemon --release -- $SYNC_PARAM" >> start.sh
+  echo "git pull && cargo run --bin xelis_daemon --release $JOBS_PARAM -- $SYNC_PARAM" >> start.sh
   chmod +x start.sh
 fi
 
