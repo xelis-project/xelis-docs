@@ -4,4 +4,4 @@ out
 _pagefind/
 .idea/
 /.idea/
-/home/randi/Development/third-party/xelis-project/xelis-docs/.idea
+**/target/
