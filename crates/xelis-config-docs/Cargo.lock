@@ -548,7 +548,7 @@ dependencies = [
  "bitflags 2.13.0",
  "cexpr",
  "clang-sys",
- "itertools 0.12.1",
+ "itertools 0.13.0",
  "proc-macro2",
  "quote",
  "regex",
@@ -844,9 +844,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "clap-markdown"
+name = "clap-markdown-generator"
 version = "0.1.0"
-source = "git+https://github.com/xelis-project/clap-markdown#b603697ff962cc4c611620772d7b49ca01df4c49"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d0f59c7b39d6fdbeee0deb8b99801c1ddfe75bb11f97a6e5d6cb43015c96da6e"
 dependencies = [
  "clap",
 ]
@@ -1178,9 +1179,6 @@ name = "deranged"
 version = "0.5.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7cd812cc2bc1d69d4764bd80df88b4317eaef9e773c75226407d9bc0876b211c"
-dependencies = [
- "powerfmt",
-]
 
 [[package]]
 name = "derive_arbitrary"
@@ -2069,6 +2067,15 @@ name = "itertools"
 version = "0.12.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ba291022dbbd398a455acf126c1e341954079855bc60dfdda641363bd6922569"
+dependencies = [
+ "either",
+]
+
+[[package]]
+name = "itertools"
+version = "0.13.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "413ee7dfc52ee1a4949ceeb7dbc8a33f2d6c088194d9f922fb8318faf1f01186"
 dependencies = [
  "either",
 ]
@@ -3501,12 +3508,11 @@ dependencies = [
 
 [[package]]
 name = "time"
-version = "0.3.47"
+version = "0.3.49"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "743bd48c283afc0388f9b8827b976905fb217ad9e647fae3a379a9283c4def2c"
+checksum = "711a53c2d47bbd818258c498c8dbfe186a2526c631495cfe7e078567f86b8469"
 dependencies = [
  "deranged",
- "itoa",
  "num-conv",
  "powerfmt",
  "serde_core",
@@ -3516,15 +3522,15 @@ dependencies = [
 
 [[package]]
 name = "time-core"
-version = "0.1.8"
+version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7694e1cfe791f8d31026952abf09c69ca6f6fa4e1a1229e18988f06a04a12dca"
+checksum = "9e1c906769ad99c88eaa54e728060edef082f8e358ff32030cb7c7d315e81109"
 
 [[package]]
 name = "time-macros"
-version = "0.2.27"
+version = "0.2.29"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2e70e4c5a0e0a8a4823ad65dfe1a6930e4f4d756dcd9dd7939022b5e8c501215"
+checksum = "71c652a3727a9cbb9a02f707f530b618ce00d0ccd762009c8c23bd191df3c17d"
 dependencies = [
  "num-conv",
  "time-core",
@@ -4472,7 +4478,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "clap",
- "clap-markdown",
+ "clap-markdown-generator",
  "xelis_daemon",
  "xelis_wallet",
 ]
@@ -4540,7 +4546,7 @@ dependencies = [
 [[package]]
 name = "xelis_common"
 version = "1.22.1"
-source = "git+https://github.com/xelis-project/xelis-blockchain?branch=dev#c4b862886436be79cfe00a678964dd7c6885fe5f"
+source = "git+https://github.com/xelis-project/xelis-blockchain?branch=dev#98f247eda2112b495af36dae04ca2472f3a2b567"
 dependencies = [
  "actix-rt",
  "actix-web",
@@ -4601,7 +4607,7 @@ dependencies = [
 [[package]]
 name = "xelis_daemon"
 version = "1.22.1"
-source = "git+https://github.com/xelis-project/xelis-blockchain?branch=dev#c4b862886436be79cfe00a678964dd7c6885fe5f"
+source = "git+https://github.com/xelis-project/xelis-blockchain?branch=dev#98f247eda2112b495af36dae04ca2472f3a2b567"
 dependencies = [
  "actix-cors",
  "actix-web",
@@ -4645,7 +4651,7 @@ dependencies = [
 [[package]]
 name = "xelis_wallet"
 version = "1.22.1"
-source = "git+https://github.com/xelis-project/xelis-blockchain?branch=dev#c4b862886436be79cfe00a678964dd7c6885fe5f"
+source = "git+https://github.com/xelis-project/xelis-blockchain?branch=dev#98f247eda2112b495af36dae04ca2472f3a2b567"
 dependencies = [
  "actix-web",
  "actix-web-httpauth",
