@@ -4,13 +4,12 @@
   "scripts": {
     "prestart": "npm run generate:config-docs",
     "start": "next dev",
-    "prebuild": "npm run generate:config-docs && npm run generate:stdlib",
+    "prebuild": "npm run generate:config-docs",
     "build": "next build",
     "preprod": "npm run generate:config-docs",
     "prod": "next start",
     "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind && cp -r public/_pagefind out",
-    "generate:config-docs": "cargo run --release --manifest-path crates/xelis-config-docs/Cargo.toml",
-    "generate:stdlib": "node scripts/generate-stdlib-docs.js"
+    "generate:config-docs": "cargo run --release --manifest-path crates/xelis-config-docs/Cargo.toml"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",

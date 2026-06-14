@@ -1,17 +1,17 @@
 use std::{
+    collections::BTreeMap,
     fs,
     path::{Path, PathBuf},
 };
 
 use anyhow::{Context, Result};
 use clap::{CommandFactory, Parser};
-use clap_markdown_generator::{
-    MarkdownOptions,
-    ParameterHeadingStyle,
-};
+use clap_markdown_generator::{MarkdownOptions, ParameterHeadingStyle};
+use serde::Serialize;
+use xelis_common::{contract::ContractVersion, transaction::mock::MockChainState};
 use xelis_daemon::cli_config::CliConfig as DaemonConfig;
-use xelis_wallet::config::Config as WalletConfig;
 use xelis_miner::Config as MinerConfig;
+use xelis_wallet::config::Config as WalletConfig;
 
 #[derive(Parser)]
 #[command(about = "Generate XELIS CLI configuration documentation.")]
@@ -19,6 +19,17 @@ struct Cli {
     /// Directory where the generated MDX files will be written.
     #[arg(long, default_value = "definitions/configuration")]
     output_dir: PathBuf,
+
+    /// Path where the generated standard library JSON will be written.
+    #[arg(long, default_value = "resources/standard-library/xvm-stdlib.generated.json")]
+    stdlib_json: PathBuf,
+
+    /// Path where the generated standard library MDX will be written.
+    #[arg(
+        long,
+        default_value = "definitions/standard-library/xvm-stdlib.generated.mdx"
+    )]
+    stdlib_mdx: PathBuf,
 }
 
 fn main() -> Result<()> {
@@ -31,7 +42,11 @@ fn main() -> Result<()> {
 
     write_config_docs::<DaemonConfig>(&output_dir, "xelis_daemon", "xelis_daemon.generated.mdx")?;
     write_config_docs::<WalletConfig>(&output_dir, "xelis_wallet", "xelis_wallet.generated.mdx")?;
-    write_config_docs::<MinerConfig>(&output_dir, "xelis_miner", "xelis_miner.generated.mdx")
+    write_config_docs::<MinerConfig>(&output_dir, "xelis_miner", "xelis_miner.generated.mdx")?;
+    write_standard_library_docs(
+        &repo_root.join(cli.stdlib_json),
+        &repo_root.join(cli.stdlib_mdx),
+    )
 }
 
 fn repo_root() -> Result<PathBuf> {
@@ -70,4 +85,195 @@ fn as_embedded_reference(markdown: String, command_name: &str) -> String {
         .replace(&format!("# `{command_name}`"), "## Configuration")
         .replace("## Parameters", "### Parameters")
         .replace("\n### `", "\n#### `")
+}
+
+#[derive(Debug, Clone, Serialize)]
+struct StandardLibraryFunction {
+    syscall_id: u16,
+    signature: String,
+    gas_cost: u64,
+}
+
+type StandardLibraryCategory = (String, Vec<StandardLibraryFunction>);
+
+fn write_standard_library_docs(json_path: &Path, mdx_path: &Path) -> Result<()> {
+    let categories = collect_standard_library()?;
+
+    write_parent_dir(json_path)?;
+    let json =
+        serde_json::to_string_pretty(&categories).context("serializing standard library JSON")?;
+    fs::write(json_path, format!("{json}\n"))
+        .with_context(|| format!("writing {}", json_path.display()))?;
+    println!("generated {}", json_path.display());
+
+    write_parent_dir(mdx_path)?;
+    fs::write(mdx_path, render_standard_library_mdx(&categories))
+        .with_context(|| format!("writing {}", mdx_path.display()))?;
+    println!("generated {}", mdx_path.display());
+
+    Ok(())
+}
+
+fn collect_standard_library() -> Result<Vec<StandardLibraryCategory>> {
+    let selected = ContractVersion::variants()
+        .last()
+        .copied()
+        .expect("at least one contract version must be available");
+
+    let state = MockChainState::new();
+    let builder = state
+        .env_builders
+        .get(&selected)
+        .context("loading v1 contract environment from mock chain state")?;
+    let mapper = builder.get_functions_mapper();
+    let mut categories: BTreeMap<String, Vec<StandardLibraryFunction>> = BTreeMap::new();
+
+    for syscall_id in 0..builder.get_functions().len() {
+        let syscall_id = syscall_id as u16;
+        let function = mapper
+            .get_function(&syscall_id)
+            .with_context(|| format!("loading function mapper entry for syscall {syscall_id}"))?;
+        let on_type = function.on_type.as_ref().map(ToString::to_string);
+        let category = function_category(on_type.as_deref());
+        let signature = function_signature(
+            function.name,
+            on_type.as_deref(),
+            function.require_instance,
+            &function.parameters,
+            function.return_type.as_ref().map(ToString::to_string),
+        );
+
+        categories
+            .entry(category)
+            .or_default()
+            .push(StandardLibraryFunction {
+                syscall_id,
+                signature,
+                gas_cost: function.cost,
+            });
+    }
+
+    let mut categories: Vec<_> = categories.into_iter().collect();
+    categories.sort_by(|(left, _), (right, _)| {
+        category_rank(left)
+            .cmp(&category_rank(right))
+            .then_with(|| left.cmp(right))
+    });
+
+    Ok(categories)
+}
+
+fn function_category(on_type: Option<&str>) -> String {
+    let Some(on_type) = on_type else {
+        return "Global Utility".to_owned();
+    };
+
+    match on_type {
+        "string" => "String".to_owned(),
+        "bytes" => "Bytes".to_owned(),
+        "T0[]" => "Array".to_owned(),
+        category if category.starts_with("map<") => "Map".to_owned(),
+        category if category.starts_with("range<") => "Range".to_owned(),
+        category if category.starts_with("optional<") => "Optional".to_owned(),
+        category => category.to_owned(),
+    }
+}
+
+fn function_signature(
+    name: &str,
+    on_type: Option<&str>,
+    require_instance: bool,
+    parameters: &[(&str, impl std::fmt::Display)],
+    return_type: Option<String>,
+) -> String {
+    let mut signature = String::new();
+
+    if let Some(on_type) = on_type {
+        if !require_instance {
+            signature.push_str(&function_category(Some(on_type)));
+            signature.push_str("::");
+        }
+    }
+
+    signature.push_str(name);
+    signature.push('(');
+    signature.push_str(
+        &parameters
+            .iter()
+            .map(|(name, ty)| format!("{name}: {ty}"))
+            .collect::<Vec<_>>()
+            .join(", "),
+    );
+    signature.push(')');
+
+    if let Some(return_type) = return_type {
+        signature.push_str(" ⟶ ");
+        signature.push_str(&return_type);
+    }
+
+    signature
+}
+
+fn category_rank(category: &str) -> usize {
+    match category {
+        "Global Utility" => 0,
+        "u8" => 1,
+        "u16" => 2,
+        "u32" => 3,
+        "u64" => 4,
+        "u128" => 5,
+        "u256" => 6,
+        "u8[]" => 7,
+        "String" => 8,
+        "Bytes" => 9,
+        "Array" => 10,
+        "Map" => 11,
+        "Range" => 12,
+        "Optional" => 13,
+        _ => 100,
+    }
+}
+
+fn render_standard_library_mdx(categories: &[StandardLibraryCategory]) -> String {
+    let mut output =
+        String::from("{/* This file is @generated by crates/xelis-config-docs. */}\n\n");
+
+    for (category, functions) in categories {
+        output.push_str("## ");
+        output.push_str(category);
+        output.push_str(" Functions\n\n");
+
+        for function in functions {
+            output.push_str("### ");
+            output.push_str(function_name(&function.signature));
+            output.push_str("\n\n");
+            output.push_str("**Signature**:\n");
+            output.push_str("```rust\n");
+            output.push_str(&function.signature);
+            output.push_str("\n```\n");
+            output.push_str("**Gas Cost**: ");
+            output.push_str(&function.gas_cost.to_string());
+            output.push_str(" lex\n\n");
+        }
+    }
+
+    output
+}
+
+fn function_name(signature: &str) -> &str {
+    let name = signature
+        .split_once('(')
+        .map(|(name, _)| name)
+        .unwrap_or(signature);
+
+    name.rsplit_once("::").map(|(_, name)| name).unwrap_or(name)
+}
+
+fn write_parent_dir(path: &Path) -> Result<()> {
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent)
+            .with_context(|| format!("creating output directory {}", parent.display()))?;
+    }
+
+    Ok(())
 }
