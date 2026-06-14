@@ -27,13 +27,13 @@ fn main() -> Result<()> {
     write_config_docs(
         &output_dir,
         "xelis_daemon",
-        "xelis_daemon.config.mdx",
+        "xelis_daemon.generated.mdx",
         DaemonConfig::command(),
     )?;
     write_config_docs(
         &output_dir,
         "xelis_wallet",
-        "xelis_wallet.config.mdx",
+        "xelis_wallet.generated.mdx",
         WalletConfig::command(),
     )
 }

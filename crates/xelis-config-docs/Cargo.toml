@@ -9,4 +9,4 @@ anyhow = "1"
 clap = { version = "4.5.2", features = ["derive"] }
 clap-markdown = { git = "https://github.com/xelis-project/clap-markdown" }
 xelis_wallet = { git = "https://github.com/xelis-project/xelis-blockchain", branch = "dev" }
-xelis_daemon = { git = "https://github.com/xelis-project/xelis-blockchain", branch = "dev", default-features = false, features = ["cli", "sled"] }
+xelis_daemon = { git = "https://github.com/xelis-project/xelis-blockchain", branch = "dev" }

@@ -9,7 +9,7 @@
     "preprod": "npm run generate:config-docs",
     "prod": "next start",
     "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind && cp -r public/_pagefind out",
-    "generate:config-docs": "cargo run --manifest-path crates/xelis-config-docs/Cargo.toml",
+    "generate:config-docs": "cargo run --release --manifest-path crates/xelis-config-docs/Cargo.toml",
     "generate:stdlib": "node scripts/generate-stdlib-docs.js"
   },
   "dependencies": {
