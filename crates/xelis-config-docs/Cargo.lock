@@ -845,9 +845,9 @@ dependencies = [
 
 [[package]]
 name = "clap-markdown-generator"
-version = "0.1.0"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d0f59c7b39d6fdbeee0deb8b99801c1ddfe75bb11f97a6e5d6cb43015c96da6e"
+checksum = "10838979281797a31e2d103f544aa287e7723db452cb8aa62149ee0e38784eb3"
 dependencies = [
  "clap",
 ]
@@ -3607,6 +3607,22 @@ dependencies = [
 
 [[package]]
 name = "tokio-tungstenite"
+version = "0.27.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "489a59b6730eda1b0171fcfda8b121f4bee2b35cba8645ca35c5f7ba3eb736c1"
+dependencies = [
+ "futures-util",
+ "log",
+ "rustls",
+ "rustls-native-certs",
+ "rustls-pki-types",
+ "tokio",
+ "tokio-rustls",
+ "tungstenite 0.27.0",
+]
+
+[[package]]
+name = "tokio-tungstenite"
 version = "0.28.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d25a406cddcc431a75d3d9afc6a7c0f7428d4891dd973e4d54c56b46127bf857"
@@ -3617,7 +3633,7 @@ dependencies = [
  "rustls-pki-types",
  "tokio",
  "tokio-rustls",
- "tungstenite",
+ "tungstenite 0.28.0",
  "webpki-roots 0.26.11",
 ]
 
@@ -3636,7 +3652,7 @@ dependencies = [
  "rustls",
  "thiserror 2.0.18",
  "tokio",
- "tokio-tungstenite",
+ "tokio-tungstenite 0.28.0",
  "wasm-bindgen",
  "web-sys",
 ]
@@ -3751,6 +3767,25 @@ name = "try-lock"
 version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e421abadd41a4225275504ea4d6566923418b7f05506fbc9c0fe86ba7396114b"
+
+[[package]]
+name = "tungstenite"
+version = "0.27.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "eadc29d668c91fcc564941132e17b28a7ceb2f3ebf0b9dae3e03fd7a6748eb0d"
+dependencies = [
+ "bytes",
+ "data-encoding",
+ "http 1.4.2",
+ "httparse",
+ "log",
+ "rand 0.9.4",
+ "rustls",
+ "rustls-pki-types",
+ "sha1 0.10.6",
+ "thiserror 2.0.18",
+ "utf-8",
+]
 
 [[package]]
 name = "tungstenite"
@@ -4480,6 +4515,7 @@ dependencies = [
  "clap",
  "clap-markdown-generator",
  "xelis_daemon",
+ "xelis_miner",
  "xelis_wallet",
 ]
 
@@ -4546,7 +4582,7 @@ dependencies = [
 [[package]]
 name = "xelis_common"
 version = "1.22.1"
-source = "git+https://github.com/xelis-project/xelis-blockchain?branch=dev#98f247eda2112b495af36dae04ca2472f3a2b567"
+source = "git+https://github.com/xelis-project/xelis-blockchain?branch=dev#77fe57ffa897c7083dfaac784a553f7842e1ba13"
 dependencies = [
  "actix-rt",
  "actix-web",
@@ -4607,7 +4643,7 @@ dependencies = [
 [[package]]
 name = "xelis_daemon"
 version = "1.22.1"
-source = "git+https://github.com/xelis-project/xelis-blockchain?branch=dev#98f247eda2112b495af36dae04ca2472f3a2b567"
+source = "git+https://github.com/xelis-project/xelis-blockchain?branch=dev#77fe57ffa897c7083dfaac784a553f7842e1ba13"
 dependencies = [
  "actix-cors",
  "actix-web",
@@ -4649,9 +4685,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "xelis_miner"
+version = "1.22.1"
+source = "git+https://github.com/xelis-project/xelis-blockchain?branch=dev#77fe57ffa897c7083dfaac784a553f7842e1ba13"
+dependencies = [
+ "anyhow",
+ "clap",
+ "futures-util",
+ "lazy_static",
+ "log",
+ "rand 0.8.6",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tokio-tungstenite 0.27.0",
+ "xelis_common",
+]
+
+[[package]]
 name = "xelis_wallet"
 version = "1.22.1"
-source = "git+https://github.com/xelis-project/xelis-blockchain?branch=dev#98f247eda2112b495af36dae04ca2472f3a2b567"
+source = "git+https://github.com/xelis-project/xelis-blockchain?branch=dev#77fe57ffa897c7083dfaac784a553f7842e1ba13"
 dependencies = [
  "actix-web",
  "actix-web-httpauth",

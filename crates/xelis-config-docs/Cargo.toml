@@ -7,6 +7,7 @@ publish = false
 [dependencies]
 anyhow = "1"
 clap = { version = "4.5.2", features = ["derive"] }
-clap-markdown-generator = "0.1.0"
+clap-markdown-generator = "0.2.0"
 xelis_wallet = { git = "https://github.com/xelis-project/xelis-blockchain", branch = "dev" }
 xelis_daemon = { git = "https://github.com/xelis-project/xelis-blockchain", branch = "dev" }
+xelis_miner = { git = "https://github.com/xelis-project/xelis-blockchain", branch = "dev" }

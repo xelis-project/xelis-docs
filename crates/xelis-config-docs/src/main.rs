@@ -11,6 +11,7 @@ use clap_markdown_generator::{
 };
 use xelis_daemon::cli_config::CliConfig as DaemonConfig;
 use xelis_wallet::config::Config as WalletConfig;
+use xelis_miner::Config as MinerConfig;
 
 #[derive(Parser)]
 #[command(about = "Generate XELIS CLI configuration documentation.")]
@@ -29,7 +30,8 @@ fn main() -> Result<()> {
         .with_context(|| format!("creating output directory {}", output_dir.display()))?;
 
     write_config_docs::<DaemonConfig>(&output_dir, "xelis_daemon", "xelis_daemon.generated.mdx")?;
-    write_config_docs::<WalletConfig>(&output_dir, "xelis_wallet", "xelis_wallet.generated.mdx")
+    write_config_docs::<WalletConfig>(&output_dir, "xelis_wallet", "xelis_wallet.generated.mdx")?;
+    write_config_docs::<MinerConfig>(&output_dir, "xelis_miner", "xelis_miner.generated.mdx")
 }
 
 fn repo_root() -> Result<PathBuf> {
