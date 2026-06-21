@@ -4,14 +4,15 @@ title: Silex Standard Library
 
 import StandardLibrary from '../../../definitions/standard-library/xvm-stdlib.generated.mdx'
 
-# Silex Standard Library (Built-in Functions)
+## Introduction
 
-This document describes the built-in functions available in Silex. These functions are automatically available in your Silex code and can be invoked on the appropriate types (Arrays, Strings, Maps, etc.) or as static functions (e.g., `Block::current()`).
+**Silex** is the smart contract language used by XELIS. It is statically typed, compact, and designed for deterministic execution: contracts declare typed data, functions, entry points, hooks, structs, and enums, then compile into bytecode executed by the XELIS Virtual Machine.
 
-Please note:
+**XVM** is the sandboxed runtime behind Silex contracts. It provides a controlled execution environment where every operation is metered, contract state is isolated, and host features are exposed through explicit system calls. This lets contracts interact with blockchain data and built-in primitives without giving them unrestricted access to the node.
 
-- **Gas Cost**: Each function consumes a certain amount of gas when invoked. The gas cost is indicated below next to each function. But some functions can apply an additional dynamic gas.
-- **Optional Return**: Some functions can return a value or `null` when the value is absent.
-- **Type Parameters**: Some functions use a type variable `T0`, `T1` (like in arrays or maps) simply meaning "whatever element type" your array or map uses.
+The standard library is the bridge between Silex code and the VM environment. It includes core utilities, numeric helpers, collection operations, iterators, persistent and in-memory storage, asset management, transfers, contract calls, scheduled executions, events, and cryptographic types such as hashes, signatures, ciphertexts, scalars, Ristretto points, transcripts, and zero-knowledge proof helpers.
+
+Each entry below shows the available Silex type or function, its signature, a short description when available, and the gas/syscall metadata used by XVM.
+
 
 <StandardLibrary />

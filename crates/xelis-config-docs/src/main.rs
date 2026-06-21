@@ -7,7 +7,8 @@ use std::{
 use anyhow::{Context, Result};
 use clap::{CommandFactory, Parser};
 use clap_markdown_generator::{MarkdownOptions, ParameterHeadingStyle};
-use serde::Serialize;
+use serde::{ser::SerializeMap, Serialize, Serializer};
+use xelis_builder::Builder;
 use xelis_common::{contract::ContractVersion, transaction::mock::MockChainState};
 use xelis_daemon::cli_config::CliConfig as DaemonConfig;
 use xelis_miner::Config as MinerConfig;
@@ -21,7 +22,10 @@ struct Cli {
     output_dir: PathBuf,
 
     /// Path where the generated standard library JSON will be written.
-    #[arg(long, default_value = "resources/standard-library/xvm-stdlib.generated.json")]
+    #[arg(
+        long,
+        default_value = "resources/standard-library/xvm-stdlib.generated.json"
+    )]
     stdlib_json: PathBuf,
 
     /// Path where the generated standard library MDX will be written.
@@ -88,33 +92,122 @@ fn as_embedded_reference(markdown: String, command_name: &str) -> String {
 }
 
 #[derive(Debug, Clone, Serialize)]
-struct StandardLibraryFunction {
-    syscall_id: u16,
-    signature: String,
-    gas_cost: u64,
+struct StandardLibraryDocument {
+    generated_from_contract_version: String,
+    types: StandardLibraryTypes,
+    categories: Vec<StandardLibraryCategory>,
 }
 
-type StandardLibraryCategory = (String, Vec<StandardLibraryFunction>);
+#[derive(Debug, Clone, Serialize, Default)]
+struct StandardLibraryTypes {
+    structs: Vec<StandardLibraryStruct>,
+    enums: Vec<StandardLibraryEnum>,
+}
+
+#[derive(Debug, Clone, Serialize)]
+struct StandardLibraryStruct {
+    id: u16,
+    name: String,
+    generics: Vec<String>,
+    fields: Vec<StandardLibraryField>,
+    definition: String,
+}
+
+#[derive(Debug, Clone, Serialize)]
+struct StandardLibraryEnum {
+    id: u16,
+    name: String,
+    generics: Vec<String>,
+    variants: Vec<StandardLibraryEnumVariant>,
+    definition: String,
+}
+
+#[derive(Debug, Clone, Serialize)]
+struct StandardLibraryEnumVariant {
+    name: String,
+    is_tuple: bool,
+    fields: Vec<StandardLibraryField>,
+}
+
+#[derive(Debug, Clone, Serialize)]
+struct StandardLibraryCategory {
+    name: String,
+    functions: Vec<StandardLibraryFunction>,
+}
+
+#[derive(Debug, Clone, Serialize)]
+struct StandardLibraryFunction {
+    syscall_id: u16,
+    name: String,
+    kind: StandardLibraryFunctionKind,
+    receiver: Option<StandardLibraryType>,
+    parameters: Vec<StandardLibraryParameter>,
+    return_type: Option<StandardLibraryType>,
+    gas_cost: u64,
+    signature: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    comment: Option<String>,
+}
+
+#[derive(Debug, Clone, Copy, Serialize)]
+#[serde(rename_all = "snake_case")]
+enum StandardLibraryFunctionKind {
+    Function,
+    Method,
+    AssociatedFunction,
+}
+
+#[derive(Debug, Clone, Serialize)]
+struct StandardLibraryParameter {
+    name: String,
+    #[serde(flatten)]
+    type_info: StandardLibraryType,
+}
+
+#[derive(Debug, Clone, Serialize)]
+struct StandardLibraryField {
+    name: String,
+    #[serde(flatten)]
+    type_info: StandardLibraryType,
+}
+
+#[derive(Debug, Clone)]
+struct StandardLibraryType {
+    display: String,
+    schema: serde_json::Value,
+}
+
+impl Serialize for StandardLibraryType {
+    fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut map = serializer.serialize_map(Some(2))?;
+        map.serialize_entry("type_name", &self.display)?;
+        map.serialize_entry("type", &self.schema)?;
+        map.end()
+    }
+}
 
 fn write_standard_library_docs(json_path: &Path, mdx_path: &Path) -> Result<()> {
-    let categories = collect_standard_library()?;
+    let document = collect_standard_library()?;
 
     write_parent_dir(json_path)?;
     let json =
-        serde_json::to_string_pretty(&categories).context("serializing standard library JSON")?;
+        serde_json::to_string_pretty(&document).context("serializing standard library JSON")?;
     fs::write(json_path, format!("{json}\n"))
         .with_context(|| format!("writing {}", json_path.display()))?;
     println!("generated {}", json_path.display());
 
     write_parent_dir(mdx_path)?;
-    fs::write(mdx_path, render_standard_library_mdx(&categories))
+    fs::write(mdx_path, render_standard_library_mdx(&document))
         .with_context(|| format!("writing {}", mdx_path.display()))?;
     println!("generated {}", mdx_path.display());
 
     Ok(())
 }
 
-fn collect_standard_library() -> Result<Vec<StandardLibraryCategory>> {
+fn collect_standard_library() -> Result<StandardLibraryDocument> {
     let selected = ContractVersion::variants()
         .last()
         .copied()
@@ -125,6 +218,7 @@ fn collect_standard_library() -> Result<Vec<StandardLibraryCategory>> {
         .env_builders
         .get(&selected)
         .context("loading v1 contract environment from mock chain state")?;
+    let types = collect_standard_library_types(builder)?;
     let mapper = builder.get_functions_mapper();
     let mut categories: BTreeMap<String, Vec<StandardLibraryFunction>> = BTreeMap::new();
 
@@ -133,14 +227,42 @@ fn collect_standard_library() -> Result<Vec<StandardLibraryCategory>> {
         let function = mapper
             .get_function(&syscall_id)
             .with_context(|| format!("loading function mapper entry for syscall {syscall_id}"))?;
-        let on_type = function.on_type.as_ref().map(ToString::to_string);
-        let category = function_category(on_type.as_deref());
+        let receiver = function
+            .on_type
+            .as_ref()
+            .map(standard_library_type)
+            .transpose()
+            .with_context(|| format!("serializing receiver type for syscall {syscall_id}"))?;
+        let category = function_category(receiver.as_ref().map(|ty| ty.display.as_str()));
+        let parameters = function
+            .parameters
+            .iter()
+            .map(|(name, ty)| {
+                Ok(StandardLibraryParameter {
+                    name: (*name).to_owned(),
+                    type_info: standard_library_type(ty).with_context(|| {
+                        format!("serializing parameter {name} type for syscall {syscall_id}")
+                    })?,
+                })
+            })
+            .collect::<Result<Vec<_>>>()?;
+        let return_type = function
+            .return_type
+            .as_ref()
+            .map(standard_library_type)
+            .transpose()
+            .with_context(|| format!("serializing return type for syscall {syscall_id}"))?;
+        let kind = match (receiver.as_ref(), function.require_instance) {
+            (Some(_), true) => StandardLibraryFunctionKind::Method,
+            (Some(_), false) => StandardLibraryFunctionKind::AssociatedFunction,
+            (None, _) => StandardLibraryFunctionKind::Function,
+        };
         let signature = function_signature(
             function.name,
-            on_type.as_deref(),
+            receiver.as_ref().map(|ty| ty.display.as_str()),
             function.require_instance,
-            &function.parameters,
-            function.return_type.as_ref().map(ToString::to_string),
+            &parameters,
+            return_type.as_ref().map(|ty| ty.display.as_str()),
         );
 
         categories
@@ -148,19 +270,155 @@ fn collect_standard_library() -> Result<Vec<StandardLibraryCategory>> {
             .or_default()
             .push(StandardLibraryFunction {
                 syscall_id,
-                signature,
+                name: function.name.to_owned(),
+                kind,
+                receiver,
+                parameters,
+                return_type,
                 gas_cost: function.cost,
+                signature,
+                comment: function.comment.and_then(normalize_comment),
             });
     }
 
-    let mut categories: Vec<_> = categories.into_iter().collect();
-    categories.sort_by(|(left, _), (right, _)| {
-        category_rank(left)
-            .cmp(&category_rank(right))
-            .then_with(|| left.cmp(right))
+    let mut categories = categories
+        .into_iter()
+        .map(|(name, mut functions)| {
+            functions.sort_by(|left, right| {
+                function_kind_rank(left.kind)
+                    .cmp(&function_kind_rank(right.kind))
+                    .then_with(|| left.name.cmp(&right.name))
+                    .then_with(|| left.syscall_id.cmp(&right.syscall_id))
+            });
+
+            StandardLibraryCategory { name, functions }
+        })
+        .collect::<Vec<_>>();
+
+    categories.sort_by(|left, right| {
+        category_rank(&left.name)
+            .cmp(&category_rank(&right.name))
+            .then_with(|| left.name.cmp(&right.name))
     });
 
-    Ok(categories)
+    Ok(StandardLibraryDocument {
+        generated_from_contract_version: selected.to_string(),
+        types,
+        categories,
+    })
+}
+
+fn collect_standard_library_types<M>(
+    builder: &xelis_builder::EnvironmentBuilder<'_, M>,
+) -> Result<StandardLibraryTypes> {
+    let mut structs = builder
+        .get_structs()
+        .map(|struct_builder| {
+            let struct_type = struct_builder.get_type();
+            let generics = struct_type
+                .generics()
+                .iter()
+                .map(ToString::to_string)
+                .collect::<Vec<_>>();
+            let fields = struct_type
+                .fields()
+                .iter()
+                .map(|(name, ty)| {
+                    Ok(StandardLibraryField {
+                        name: name.to_string(),
+                        type_info: standard_library_type(ty).with_context(|| {
+                            format!(
+                                "serializing field {name} type for struct {}",
+                                struct_type.name()
+                            )
+                        })?,
+                    })
+                })
+                .collect::<Result<Vec<_>>>()?;
+            let definition = render_struct_definition(struct_type.name(), &generics, &fields);
+
+            Ok(StandardLibraryStruct {
+                id: struct_type.id(),
+                name: struct_type.name().to_owned(),
+                generics,
+                fields,
+                definition,
+            })
+        })
+        .collect::<Result<Vec<_>>>()?;
+
+    let mut enums = builder
+        .get_enums()
+        .map(|enum_builder| {
+            let enum_type = enum_builder.get_type();
+            let generics = enum_type
+                .generics()
+                .iter()
+                .map(ToString::to_string)
+                .collect::<Vec<_>>();
+            let variants = enum_type
+                .variants()
+                .iter()
+                .map(|(name, variant)| {
+                    let fields = variant
+                        .fields()
+                        .iter()
+                        .map(|(field_name, ty)| {
+                            Ok(StandardLibraryField {
+                                name: field_name.to_string(),
+                                type_info: standard_library_type(ty).with_context(|| {
+                                    format!(
+                                        "serializing field {field_name} type for enum {}::{name}",
+                                        enum_type.name()
+                                    )
+                                })?,
+                            })
+                        })
+                        .collect::<Result<Vec<_>>>()?;
+
+                    Ok(StandardLibraryEnumVariant {
+                        name: name.to_string(),
+                        is_tuple: variant.is_tuple(),
+                        fields,
+                    })
+                })
+                .collect::<Result<Vec<_>>>()?;
+            let definition = render_enum_definition(enum_type.name(), &generics, &variants);
+
+            Ok(StandardLibraryEnum {
+                id: enum_type.id(),
+                name: enum_type.name().to_owned(),
+                generics,
+                variants,
+                definition,
+            })
+        })
+        .collect::<Result<Vec<_>>>()?;
+
+    structs.sort_by(|left, right| left.name.cmp(&right.name));
+    enums.sort_by(|left, right| left.name.cmp(&right.name));
+
+    Ok(StandardLibraryTypes { structs, enums })
+}
+
+fn standard_library_type<T>(ty: &T) -> Result<StandardLibraryType>
+where
+    T: Serialize + ToString,
+{
+    Ok(StandardLibraryType {
+        display: ty.to_string(),
+        schema: serde_json::to_value(ty).context("serializing standard library type")?,
+    })
+}
+
+fn normalize_comment(comment: &str) -> Option<String> {
+    let comment = comment.trim();
+
+    if comment.is_empty() {
+        None
+    } else {
+        Some(comment.to_owned())
+    }
 }
 
 fn function_category(on_type: Option<&str>) -> String {
@@ -183,8 +441,8 @@ fn function_signature(
     name: &str,
     on_type: Option<&str>,
     require_instance: bool,
-    parameters: &[(&str, impl std::fmt::Display)],
-    return_type: Option<String>,
+    parameters: &[StandardLibraryParameter],
+    return_type: Option<&str>,
 ) -> String {
     let mut signature = String::new();
 
@@ -200,7 +458,7 @@ fn function_signature(
     signature.push_str(
         &parameters
             .iter()
-            .map(|(name, ty)| format!("{name}: {ty}"))
+            .map(|parameter| format!("{}: {}", parameter.name, parameter.type_info.display))
             .collect::<Vec<_>>()
             .join(", "),
     );
@@ -208,10 +466,107 @@ fn function_signature(
 
     if let Some(return_type) = return_type {
         signature.push_str(" ⟶ ");
-        signature.push_str(&return_type);
+        signature.push_str(return_type);
     }
 
     signature
+}
+
+fn render_struct_definition(
+    name: &str,
+    generics: &[String],
+    fields: &[StandardLibraryField],
+) -> String {
+    let mut definition = format!("struct {}{}", name, render_generics(generics));
+
+    if fields.is_empty() {
+        definition.push_str(" {}");
+        return definition;
+    }
+
+    definition.push_str(" {\n");
+    for (index, field) in fields.iter().enumerate() {
+        definition.push_str("    ");
+        definition.push_str(&field.name);
+        definition.push_str(": ");
+        definition.push_str(&field.type_info.display);
+        if index + 1 < fields.len() {
+            definition.push(',');
+        }
+        definition.push('\n');
+    }
+    definition.push('}');
+
+    definition
+}
+
+fn render_enum_definition(
+    name: &str,
+    generics: &[String],
+    variants: &[StandardLibraryEnumVariant],
+) -> String {
+    let mut definition = format!("enum {}{}", name, render_generics(generics));
+
+    if variants.is_empty() {
+        definition.push_str(" {}");
+        return definition;
+    }
+
+    definition.push_str(" {\n");
+    for (index, variant) in variants.iter().enumerate() {
+        definition.push_str("    ");
+        definition.push_str(&variant.name);
+
+        if !variant.fields.is_empty() {
+            if variant.is_tuple {
+                definition.push('(');
+                definition.push_str(
+                    &variant
+                        .fields
+                        .iter()
+                        .map(|field| field.type_info.display.as_str())
+                        .collect::<Vec<_>>()
+                        .join(", "),
+                );
+                definition.push(')');
+            } else {
+                definition.push_str(" { ");
+                definition.push_str(
+                    &variant
+                        .fields
+                        .iter()
+                        .map(|field| format!("{}: {}", field.name, field.type_info.display))
+                        .collect::<Vec<_>>()
+                        .join(", "),
+                );
+                definition.push_str(" }");
+            }
+        }
+
+        if index + 1 < variants.len() {
+            definition.push(',');
+        }
+        definition.push('\n');
+    }
+    definition.push('}');
+
+    definition
+}
+
+fn render_generics(generics: &[String]) -> String {
+    if generics.is_empty() {
+        String::new()
+    } else {
+        format!("<{}>", generics.join(", "))
+    }
+}
+
+fn function_kind_rank(kind: StandardLibraryFunctionKind) -> usize {
+    match kind {
+        StandardLibraryFunctionKind::AssociatedFunction => 0,
+        StandardLibraryFunctionKind::Function => 1,
+        StandardLibraryFunctionKind::Method => 2,
+    }
 }
 
 fn category_rank(category: &str) -> usize {
@@ -234,39 +589,173 @@ fn category_rank(category: &str) -> usize {
     }
 }
 
-fn render_standard_library_mdx(categories: &[StandardLibraryCategory]) -> String {
+fn render_standard_library_mdx(document: &StandardLibraryDocument) -> String {
     let mut output =
         String::from("{/* This file is @generated by crates/xelis-config-docs. */}\n\n");
 
-    for (category, functions) in categories {
-        output.push_str("## ");
-        output.push_str(category);
-        output.push_str(" Functions\n\n");
+    output.push_str("## Types\n\n");
+    render_types_mdx(&mut output, &document.types);
 
-        for function in functions {
-            output.push_str("### ");
-            output.push_str(function_name(&function.signature));
-            output.push_str("\n\n");
-            output.push_str("**Signature**:\n");
+    output.push_str("## Functions\n\n");
+    output.push_str("Function groups:\n\n");
+    for category in &document.categories {
+        output.push_str("- [");
+        output.push_str(&category.name);
+        output.push_str("](#");
+        output.push_str(&heading_anchor(&category.name));
+        output.push_str(") (");
+        output.push_str(&category.functions.len().to_string());
+        output.push_str(")\n");
+    }
+    output.push('\n');
+
+    for category in &document.categories {
+        output.push_str("### ");
+        output.push_str(&category.name);
+        output.push('\n');
+        output.push('\n');
+
+        for function in &category.functions {
+            output.push_str("#### `");
+            output.push_str(&callable_name(function));
+            output.push_str("`\n\n");
+
+            if let Some(comment) = &function.comment {
+                output.push_str(&escape_mdx_text(comment));
+                output.push_str("\n\n");
+            }
+
             output.push_str("```rust\n");
             output.push_str(&function.signature);
-            output.push_str("\n```\n");
-            output.push_str("**Gas Cost**: ");
+            output.push_str("\n```\n\n");
+
+            output.push_str("Gas: `");
             output.push_str(&function.gas_cost.to_string());
-            output.push_str(" lex\n\n");
+            output.push_str("`\n");
+            output.push_str("Syscall: `");
+            output.push_str(&function.syscall_id.to_string());
+            output.push('`');
+            output.push_str("\n\n");
         }
     }
 
     output
 }
 
-fn function_name(signature: &str) -> &str {
-    let name = signature
-        .split_once('(')
-        .map(|(name, _)| name)
-        .unwrap_or(signature);
+fn render_types_mdx(output: &mut String, types: &StandardLibraryTypes) {
+    if types.structs.is_empty() && types.enums.is_empty() {
+        output.push_str("No structs or enums are registered in this environment.\n\n");
+        return;
+    }
 
-    name.rsplit_once("::").map(|(_, name)| name).unwrap_or(name)
+    if !types.structs.is_empty() {
+        output.push_str("Structs: ");
+        push_type_links(
+            output,
+            types
+                .structs
+                .iter()
+                .map(|registered_type| registered_type.name.as_str()),
+        );
+        output.push_str("\n\n");
+    }
+
+    if !types.enums.is_empty() {
+        output.push_str("Enums: ");
+        push_type_links(
+            output,
+            types
+                .enums
+                .iter()
+                .map(|registered_type| registered_type.name.as_str()),
+        );
+        output.push_str("\n\n");
+    }
+
+    if !types.structs.is_empty() {
+        output.push_str("### Structs\n\n");
+        for registered_struct in &types.structs {
+            output.push_str("#### `");
+            output.push_str(&registered_struct.name);
+            output.push_str("`\n\n");
+            output.push_str("```rust\n");
+            output.push_str(&registered_struct.definition);
+            output.push_str("\n```\n\n");
+        }
+    }
+
+    if !types.enums.is_empty() {
+        output.push_str("### Enums\n\n");
+        for registered_enum in &types.enums {
+            output.push_str("#### `");
+            output.push_str(&registered_enum.name);
+            output.push_str("`\n\n");
+            output.push_str("```rust\n");
+            output.push_str(&registered_enum.definition);
+            output.push_str("\n```\n\n");
+        }
+    }
+}
+
+fn push_type_links<'a>(output: &mut String, names: impl Iterator<Item = &'a str>) {
+    for (index, name) in names.enumerate() {
+        if index > 0 {
+            output.push_str(", ");
+        }
+
+        output.push('[');
+        output.push_str(name);
+        output.push_str("](#");
+        output.push_str(&heading_anchor(name));
+        output.push(')');
+    }
+}
+
+fn callable_name(function: &StandardLibraryFunction) -> String {
+    if matches!(
+        function.kind,
+        StandardLibraryFunctionKind::AssociatedFunction
+    ) {
+        if let Some(receiver) = &function.receiver {
+            return format!(
+                "{}::{}",
+                function_category(Some(&receiver.display)),
+                function.name
+            );
+        }
+    }
+
+    function.name.clone()
+}
+
+fn escape_mdx_text(value: &str) -> String {
+    value
+        .replace('&', "&amp;")
+        .replace('<', "&lt;")
+        .replace('>', "&gt;")
+        .replace('{', "&#123;")
+        .replace('}', "&#125;")
+}
+
+fn heading_anchor(heading: &str) -> String {
+    slugify_heading(heading)
+}
+
+fn slugify_heading(value: &str) -> String {
+    let mut slug = String::new();
+    let mut previous_dash = false;
+
+    for character in value.chars().flat_map(char::to_lowercase) {
+        if character.is_ascii_alphanumeric() {
+            slug.push(character);
+            previous_dash = false;
+        } else if !previous_dash {
+            slug.push('-');
+            previous_dash = true;
+        }
+    }
+
+    slug.trim_matches('-').to_owned()
 }
 
 fn write_parent_dir(path: &Path) -> Result<()> {
