@@ -1,0 +1,56 @@
+---
+title: RPC events
+description: Watch contract deployments, invocations, transfers, and RPC events over daemon WebSocket.
+---
+
+## Watching contract activity over RPC
+
+Daemon WebSocket events let applications observe deployments, invocations, transfers, and `fire_rpc_event` payloads. Use a dedicated struct for the contract-side payload so off-chain clients receive named fields instead of a positional `any[]`.
+
+[Open in Playground](https://playground.xelis.io/?code=c3RydWN0IFJwY1RyYW5zZmVyTm90aWNlIHsKICAgIGNhbGxlcjogQWRkcmVzcywKICAgIGFtb3VudDogdTY0LAogICAgYXNzZXQ6IEhhc2gsCiAgICBoZWlnaHQ6IHU2NAp9CgplbnRyeSBub3RpZnlfdHJhbnNmZXIoYW1vdW50OiB1NjQsIGFzc2V0OiBIYXNoKSAtPiB1NjQgewogICAgZmlyZV9ycGNfZXZlbnQoOTAsIFJwY1RyYW5zZmVyTm90aWNlIHsKICAgICAgICBjYWxsZXI6IFRyYW5zYWN0aW9uOjpjdXJyZW50KCkudW53cmFwKCkuc291cmNlKCksCiAgICAgICAgYW1vdW50LAogICAgICAgIGFzc2V0LAogICAgICAgIGhlaWdodDogQmxvY2s6OmN1cnJlbnQoKS5oZWlnaHQoKQogICAgfSkKICAgIHJldHVybiAwCn0%3D)
+
+```rust filename="rpc_notice.slx" copy
+struct RpcTransferNotice {
+    caller: Address,
+    amount: u64,
+    asset: Hash,
+    height: u64
+}
+
+entry notify_transfer(amount: u64, asset: Hash) -> u64 {
+    fire_rpc_event(90, RpcTransferNotice {
+        caller: Transaction::current().unwrap().source(),
+        amount,
+        asset,
+        height: Block::current().height()
+    })
+    return 0
+}
+```
+
+Subscribe once per event name:
+
+```js copy
+const ws = new WebSocket('ws://127.0.0.1:8080/json_rpc')
+
+ws.send(JSON.stringify({
+  id: 1,
+  jsonrpc: '2.0',
+  method: 'subscribe',
+  params: {
+    notify: 'contract_event'
+  }
+}))
+
+ws.onmessage = (message) => {
+  console.log(message.data)
+}
+```
+
+Useful event names for contract development:
+
+- `contract_deploy`: a contract was deployed.
+- `contract_invoke`: a contract entry was invoked.
+- `contract_event`: a contract called `fire_rpc_event`.
+- `contract_transfers`: a contract transferred assets.
+- `new_asset`: a new asset was created.

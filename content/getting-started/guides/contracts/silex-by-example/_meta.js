@@ -1,0 +1,16 @@
+export default {
+    "index": "Overview",
+    "hello-entry": "Hello entry",
+    "structs-methods": "Structs and methods",
+    "constructor-storage": "Constructor and storage",
+    "iterators-closures": "Iterators and closures",
+    "memory-scheduled-flush": "Memory and scheduled flush",
+    "btree-leaderboard": "BTree leaderboard",
+    "deposits-transfers": "Deposits and transfers",
+    "asset-creation-minting": "Asset creation and minting",
+    "cryptography-signatures": "Cryptography and signatures",
+    "contract-events-publisher": "Contract events publisher",
+    "contract-events-listener": "Contract events listener",
+    "inter-contract-calls": "Inter-contract calls",
+    "rpc-events": "RPC events",
+}

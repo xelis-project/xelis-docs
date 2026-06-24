@@ -1,5 +1,9 @@
 export default {
     "silex": "Silex Lang",
+    "silex-by-example": {
+        "title": "Silex by Example",
+        "display": "hidden",
+    },
     "standard-library": "Standard Library",
     "opcodes": "OpCodes",
     "scheduled-executions": "Scheduled Executions",

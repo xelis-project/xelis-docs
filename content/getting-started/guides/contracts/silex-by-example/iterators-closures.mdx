@@ -1,0 +1,36 @@
+---
+title: Iterators and closures
+description: Build lazy iterator pipelines and consume them safely.
+---
+
+## Iterators and closures
+
+[Open in Playground](https://playground.xelis.io/?code=c3RydWN0IFRvcFNjb3Jlc1JwY0V2ZW50IHsKICAgIHNlbGVjdGVkOiB1NjRbXSwKICAgIHRvdGFsOiB1NjQKfQoKZW50cnkgdG9wX3Njb3JlcyhzY29yZXM6IHU2NFtdLCBtaW5fc2NvcmU6IHU2NCwgbGltaXQ6IHUzMikgLT4gdTY0W10gewogICAgbGV0IHNlbGVjdGVkOiB1NjRbXSA9IHNjb3JlcwogICAgICAgIC5pdGVyKCkKICAgICAgICAuZmlsdGVyKHxzY29yZTogdTY0fCB7IHJldHVybiBzY29yZSA%2BPSBtaW5fc2NvcmUgfSkKICAgICAgICAubWFwKHxzY29yZTogdTY0fCB7IHJldHVybiBzY29yZSAqIDEwIH0pCiAgICAgICAgLnRha2UobGltaXQpCiAgICAgICAgLmNvbGxlY3QoKQoKICAgIGxldCB0b3RhbDogdTY0ID0gc2VsZWN0ZWQuaXRlcigpLnN1bSgpCiAgICBmaXJlX3JwY19ldmVudCgxMCwgVG9wU2NvcmVzUnBjRXZlbnQgeyBzZWxlY3RlZCwgdG90YWwgfSkKICAgIHJldHVybiBzZWxlY3RlZAp9CgplbnRyeSBmaXJzdF9tYXRjaChzY29yZXM6IHU2NFtdLCBtaW5fc2NvcmU6IHU2NCkgLT4gb3B0aW9uYWw8dTY0PiB7CiAgICByZXR1cm4gc2NvcmVzLml0ZXIoKS5maW5kKHxzY29yZTogdTY0fCB7IHJldHVybiBzY29yZSA%2BPSBtaW5fc2NvcmUgfSkKfQ%3D%3D)
+
+Iterators are lazy until consumed by methods such as `collect`, `sum`, or `find`.
+
+```rust filename="iterators.slx" copy
+struct TopScoresRpcEvent {
+    selected: u64[],
+    total: u64
+}
+
+entry top_scores(scores: u64[], min_score: u64, limit: u32) -> u64[] {
+    let selected: u64[] = scores
+        .iter()
+        .filter(|score: u64| { return score >= min_score })
+        .map(|score: u64| { return score * 10 })
+        .take(limit)
+        .collect()
+
+    let total: u64 = selected.iter().sum()
+    fire_rpc_event(10, TopScoresRpcEvent { selected, total })
+    return selected
+}
+
+entry first_match(scores: u64[], min_score: u64) -> optional<u64> {
+    return scores.iter().find(|score: u64| { return score >= min_score })
+}
+```
+
+Use `take` or `find` to bound work and avoid scanning more values than needed.

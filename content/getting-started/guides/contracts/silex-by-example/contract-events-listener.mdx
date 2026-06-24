@@ -1,0 +1,39 @@
+---
+title: Contract events listener
+description: Register a persistent listener for another contract's event.
+---
+
+## Contract events: listener
+
+[Open in Playground](https://playground.xelis.io/?code=Y29uc3QgUFJJQ0VfRVZFTlQ6IHU2NCA9IDEwMApjb25zdCBMQVNUX1BSSUNFX0tFWTogc3RyaW5nID0gImxhc3RfcHJpY2UiCgpzdHJ1Y3QgUHJpY2VPYnNlcnZlZFJwY0V2ZW50IHsKICAgIGFyZ3M6IGFueVtdCn0KCmZuIG9uX3ByaWNlKGFyZ3M6IGFueVtdKSAtPiB1NjQgewogICAgbGV0IHN0b3JhZ2U6IFN0b3JhZ2UgPSBTdG9yYWdlOjpuZXcoKQogICAgc3RvcmFnZS5zdG9yZShMQVNUX1BSSUNFX0tFWSwgYXJncykKICAgIGZpcmVfcnBjX2V2ZW50KDcxLCBQcmljZU9ic2VydmVkUnBjRXZlbnQgeyBhcmdzIH0pCiAgICByZXR1cm4gMAp9CgplbnRyeSBsaXN0ZW5fdG8ob3JhY2xlX2hhc2g6IEhhc2gpIC0%2BIHU2NCB7CiAgICBsZXQgb3JhY2xlOiBDb250cmFjdCA9IENvbnRyYWN0OjpuZXcob3JhY2xlX2hhc2gpLmV4cGVjdCgib3JhY2xlIGNvbnRyYWN0IG5vdCBmb3VuZCIpCiAgICByZXF1aXJlKG9yYWNsZS5saXN0ZW5fZXZlbnQoUFJJQ0VfRVZFTlQsIG9uX3ByaWNlLCAxMDAwMDApLCAibGlzdGVuIGZhaWxlZCIpCiAgICByZXR1cm4gMAp9CgplbnRyeSBsYXN0X3ByaWNlKCkgLT4gYW55W10gewogICAgbGV0IHN0b3JhZ2U6IFN0b3JhZ2UgPSBTdG9yYWdlOjpuZXcoKQogICAgcmV0dXJuIHN0b3JhZ2UubG9hZChMQVNUX1BSSUNFX0tFWSkudW53cmFwX29yKFtdKQp9)
+
+The listener registers a callback against the publisher contract. The callback stores the last event payload and also emits an RPC event.
+
+```rust filename="price_listener.slx" copy
+const PRICE_EVENT: u64 = 100
+const LAST_PRICE_KEY: string = "last_price"
+
+struct PriceObservedRpcEvent {
+    args: any[]
+}
+
+fn on_price(args: any[]) -> u64 {
+    let storage: Storage = Storage::new()
+    storage.store(LAST_PRICE_KEY, args)
+    fire_rpc_event(71, PriceObservedRpcEvent { args })
+    return 0
+}
+
+entry listen_to(oracle_hash: Hash) -> u64 {
+    let oracle: Contract = Contract::new(oracle_hash).expect("oracle contract not found")
+    require(oracle.listen_event(PRICE_EVENT, on_price, 100000), "listen failed")
+    return 0
+}
+
+entry last_price() -> any[] {
+    let storage: Storage = Storage::new()
+    return storage.load(LAST_PRICE_KEY).unwrap_or([])
+}
+```
+
+Run `listen_to` once with the publisher hash, then invoke `publish_price` on the publisher.

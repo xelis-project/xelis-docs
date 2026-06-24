@@ -1,0 +1,46 @@
+---
+title: Silex by Example
+description: A guided tour of Silex smart contracts through small, runnable examples.
+---
+
+import { Callout } from 'nextra/components';
+
+## Introduction
+
+This guide is a hands-on Silex tour inspired by the "by example" style. Each page introduces one idea, gives you a complete contract snippet, and links directly to Playground with the code preloaded.
+
+<Callout type="info">
+Examples that only use pure language features can be compiled and run directly in Playground. Examples that use constructors, deposits, transfers, asset creation, scheduled executions, contract events, or inter-contract calls need wallet/daemon RPC and an on-chain deployment on `devnet`.
+</Callout>
+
+## Tour
+
+1. [Hello entry](/getting-started/guides/contracts/silex-by-example/hello-entry)
+2. [Structs and methods](/getting-started/guides/contracts/silex-by-example/structs-methods)
+3. [Constructor and storage](/getting-started/guides/contracts/silex-by-example/constructor-storage)
+4. [Iterators and closures](/getting-started/guides/contracts/silex-by-example/iterators-closures)
+5. [Memory storage and scheduled block-end flush](/getting-started/guides/contracts/silex-by-example/memory-scheduled-flush)
+6. [BTreeStore leaderboard](/getting-started/guides/contracts/silex-by-example/btree-leaderboard)
+7. [Deposits, balances, and transfers](/getting-started/guides/contracts/silex-by-example/deposits-transfers)
+8. [Asset creation and minting](/getting-started/guides/contracts/silex-by-example/asset-creation-minting)
+9. [Cryptography and signatures](/getting-started/guides/contracts/silex-by-example/cryptography-signatures)
+10. [Contract events: publisher](/getting-started/guides/contracts/silex-by-example/contract-events-publisher)
+11. [Contract events: listener](/getting-started/guides/contracts/silex-by-example/contract-events-listener)
+12. [Inter-contract calls and permissions](/getting-started/guides/contracts/silex-by-example/inter-contract-calls)
+13. [Watching contract activity over RPC](/getting-started/guides/contracts/silex-by-example/rpc-events)
+
+## Useful references
+
+- [Create your first contract](/getting-started/guides/contracts/create-your-first-contract)
+- [Silex language reference](/features/smart-contracts/silex)
+- [Standard Library](/features/smart-contracts/standard-library)
+- [Wallet `build_transaction`](/developers-api/wallet#build_transaction)
+- [Daemon events](/developers-api/daemon#events)
+
+## What to try next
+
+- Add pagination to the BTree leaderboard by passing `start_key` and `page_size`.
+- Extend the vault to support any deposited asset with `get_deposits()`.
+- Combine the publisher/listener examples with scheduled executions to batch oracle updates.
+- Add signature checks to owner-only admin entries.
+- Create an asset, mint it to users, then accept it as a deposit in another contract.

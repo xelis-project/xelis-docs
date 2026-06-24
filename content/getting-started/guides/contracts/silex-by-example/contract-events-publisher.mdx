@@ -1,0 +1,33 @@
+---
+title: Contract events publisher
+description: Emit contract-to-contract events and off-chain RPC events.
+---
+
+## Contract events: publisher
+
+[Open in Playground](https://playground.xelis.io/?code=Y29uc3QgUFJJQ0VfRVZFTlQ6IHU2NCA9IDEwMAoKc3RydWN0IFByaWNlUnBjRXZlbnQgewogICAgc3ltYm9sOiBzdHJpbmcsCiAgICBwcmljZTogdTY0LAogICAgaGVpZ2h0OiB1NjQKfQoKZW50cnkgcHVibGlzaF9wcmljZShzeW1ib2w6IHN0cmluZywgcHJpY2U6IHU2NCkgLT4gdTY0IHsKICAgIGxldCBibG9jazogQmxvY2sgPSBCbG9jazo6Y3VycmVudCgpCiAgICBlbWl0X2V2ZW50KFBSSUNFX0VWRU5ULCBbc3ltYm9sLCBwcmljZSwgYmxvY2sudGltZXN0YW1wKCldKQogICAgZmlyZV9ycGNfZXZlbnQoNzAsIFByaWNlUnBjRXZlbnQgewogICAgICAgIHN5bWJvbCwKICAgICAgICBwcmljZSwKICAgICAgICBoZWlnaHQ6IGJsb2NrLmhlaWdodCgpCiAgICB9KQogICAgcmV0dXJuIDAKfQ%3D%3D)
+
+`emit_event` is for contract-to-contract listeners. `fire_rpc_event` is for off-chain clients watching daemon WebSocket events.
+
+```rust filename="price_publisher.slx" copy
+const PRICE_EVENT: u64 = 100
+
+struct PriceRpcEvent {
+    symbol: string,
+    price: u64,
+    height: u64
+}
+
+entry publish_price(symbol: string, price: u64) -> u64 {
+    let block: Block = Block::current()
+    emit_event(PRICE_EVENT, [symbol, price, block.timestamp()])
+    fire_rpc_event(70, PriceRpcEvent {
+        symbol,
+        price,
+        height: block.height()
+    })
+    return 0
+}
+```
+
+Deploy this first, then pass its contract hash to the listener in the next example.

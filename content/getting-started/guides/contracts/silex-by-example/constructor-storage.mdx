@@ -1,0 +1,56 @@
+---
+title: Constructor and storage
+description: Initialize contract state and persist values with Storage.
+---
+
+## Constructor and persistent storage
+
+[Open in Playground](https://playground.xelis.io/?code=Y29uc3QgT1dORVJfS0VZOiBzdHJpbmcgPSAib3duZXIiCmNvbnN0IENPVU5UX0tFWTogc3RyaW5nID0gImNvdW50IgoKc3RydWN0IENvdW50ZXJScGNFdmVudCB7CiAgICBhY3Rpb246IHN0cmluZywKICAgIGNvdW50OiB1NjQKfQoKaG9vayBjb25zdHJ1Y3RvcigpIC0%2BIHU2NCB7CiAgICBsZXQgc3RvcmFnZTogU3RvcmFnZSA9IFN0b3JhZ2U6Om5ldygpCiAgICBzdG9yYWdlLnN0b3JlKE9XTkVSX0tFWSwgVHJhbnNhY3Rpb246OmN1cnJlbnQoKS51bndyYXAoKS5zb3VyY2UoKSkKICAgIHN0b3JhZ2Uuc3RvcmUoQ09VTlRfS0VZLCAwKQogICAgcmV0dXJuIDAKfQoKZm4gcmVxdWlyZV9vd25lcigpIHsKICAgIGxldCBzdG9yYWdlOiBTdG9yYWdlID0gU3RvcmFnZTo6bmV3KCkKICAgIGxldCBvd25lcjogQWRkcmVzcyA9IHN0b3JhZ2UubG9hZChPV05FUl9LRVkpLmV4cGVjdCgib3duZXIgbWlzc2luZyIpCiAgICByZXF1aXJlKFRyYW5zYWN0aW9uOjpjdXJyZW50KCkudW53cmFwKCkuc291cmNlKCkgPT0gb3duZXIsICJvd25lciBvbmx5IikKfQoKZW50cnkgaW5jcmVtZW50KGJ5OiB1NjQpIC0%2BIHU2NCB7CiAgICByZXF1aXJlKGJ5ID4gMCwgInplcm8gaW5jcmVtZW50IikKCiAgICBsZXQgc3RvcmFnZTogU3RvcmFnZSA9IFN0b3JhZ2U6Om5ldygpCiAgICBsZXQgY291bnQ6IHU2NCA9IHN0b3JhZ2UubG9hZChDT1VOVF9LRVkpLnVud3JhcF9vcigwKQogICAgbGV0IG5leHQ6IHU2NCA9IGNvdW50ICsgYnkKCiAgICBzdG9yYWdlLnN0b3JlKENPVU5UX0tFWSwgbmV4dCkKICAgIGZpcmVfcnBjX2V2ZW50KDMsIENvdW50ZXJScGNFdmVudCB7IGFjdGlvbjogImluY3JlbWVudCIsIGNvdW50OiBuZXh0IH0pCiAgICByZXR1cm4gbmV4dAp9CgplbnRyeSByZXNldCgpIC0%2BIHU2NCB7CiAgICByZXF1aXJlX293bmVyKCkKCiAgICBsZXQgc3RvcmFnZTogU3RvcmFnZSA9IFN0b3JhZ2U6Om5ldygpCiAgICBzdG9yYWdlLnN0b3JlKENPVU5UX0tFWSwgMCkKICAgIGZpcmVfcnBjX2V2ZW50KDQsIENvdW50ZXJScGNFdmVudCB7IGFjdGlvbjogInJlc2V0IiwgY291bnQ6IDAgfSkKICAgIHJldHVybiAwCn0%3D)
+
+`Storage` persists across blocks. Use `constructor` for one-time setup, and store owner/configuration there.
+
+```rust filename="counter_storage.slx" copy
+const OWNER_KEY: string = "owner"
+const COUNT_KEY: string = "count"
+
+struct CounterRpcEvent {
+    action: string,
+    count: u64
+}
+
+hook constructor() -> u64 {
+    let storage: Storage = Storage::new()
+    storage.store(OWNER_KEY, Transaction::current().unwrap().source())
+    storage.store(COUNT_KEY, 0)
+    return 0
+}
+
+fn require_owner() {
+    let storage: Storage = Storage::new()
+    let owner: Address = storage.load(OWNER_KEY).expect("owner missing")
+    require(Transaction::current().unwrap().source() == owner, "owner only")
+}
+
+entry increment(by: u64) -> u64 {
+    require(by > 0, "zero increment")
+
+    let storage: Storage = Storage::new()
+    let count: u64 = storage.load(COUNT_KEY).unwrap_or(0)
+    let next: u64 = count + by
+
+    storage.store(COUNT_KEY, next)
+    fire_rpc_event(3, CounterRpcEvent { action: "increment", count: next })
+    return next
+}
+
+entry reset() -> u64 {
+    require_owner()
+
+    let storage: Storage = Storage::new()
+    storage.store(COUNT_KEY, 0)
+    fire_rpc_event(4, CounterRpcEvent { action: "reset", count: 0 })
+    return 0
+}
+```
+
+Read the stored count with daemon RPC `get_contract_data` using key `"count"`.
