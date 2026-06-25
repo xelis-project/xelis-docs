@@ -6,9 +6,9 @@
     "start": "next dev",
     "prebuild": "npm run generate:config-docs",
     "build": "next build",
-    "preprod": "npm run generate:config-docs",
-    "prod": "next start",
     "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind && cp -r public/_pagefind out",
+    "build-cloudflare": "next build",
+    "postbuild-cloudflare": "npm run postbuild",
     "generate:config-docs": "cargo run --release --manifest-path crates/xelis-config-docs/Cargo.toml"
   },
   "dependencies": {
