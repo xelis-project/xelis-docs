@@ -5,9 +5,3 @@ _pagefind/
 .idea/
 /.idea/
 **/target/
-*generated*
-!definitions/configuration/*.generated.mdx
-!definitions/standard-library/
-!definitions/standard-library/*.generated.mdx
-!resources/standard-library/
-!resources/standard-library/*.generated.json

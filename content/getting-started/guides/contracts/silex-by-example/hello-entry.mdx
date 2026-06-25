@@ -5,9 +5,9 @@ description: Write a minimal Silex entry function and emit an RPC event.
 
 ## Hello entry and RPC event
 
-[Open in Playground](https://playground.xelis.io/?code=c3RydWN0IEhlbGxvUnBjRXZlbnQgewogICAgbmFtZTogc3RyaW5nLAogICAgbWVzc2FnZTogc3RyaW5nCn0KCmVudHJ5IGhlbGxvKG5hbWU6IHN0cmluZykgLT4gc3RyaW5nIHsKICAgIGxldCBtZXNzYWdlOiBzdHJpbmcgPSAiSGVsbG8sICIgKyBuYW1lCiAgICBmaXJlX3JwY19ldmVudCgxLCBIZWxsb1JwY0V2ZW50IHsgbmFtZSwgbWVzc2FnZSB9KQogICAgcmV0dXJuIG1lc3NhZ2UKfQ%3D%3D)
+**Focus:** one callable `hello` entry that returns a greeting and emits one typed RPC event.
 
-This is the smallest useful contract shape: one callable `entry`, a typed argument, a return value, and a `fire_rpc_event` for off-chain clients.
+[Open in Playground](https://playground.xelis.io/?code=c3RydWN0IEhlbGxvUnBjRXZlbnQgewogICAgbmFtZTogc3RyaW5nLAogICAgbWVzc2FnZTogc3RyaW5nCn0KCmVudHJ5IGhlbGxvKG5hbWU6IHN0cmluZykgLT4gc3RyaW5nIHsKICAgIGxldCBtZXNzYWdlOiBzdHJpbmcgPSAiSGVsbG8sICIgKyBuYW1lCiAgICBmaXJlX3JwY19ldmVudCgxLCBIZWxsb1JwY0V2ZW50IHsgbmFtZSwgbWVzc2FnZSB9KQogICAgcmV0dXJuIG1lc3NhZ2UKfQ%3D%3D)
 
 ```rust filename="hello.slx" copy
 struct HelloRpcEvent {
@@ -22,4 +22,9 @@ entry hello(name: string) -> string {
 }
 ```
 
-`fire_rpc_event` creates a `contract_event` daemon WebSocket notification when the entry runs on-chain.
+## How it works
+
+- `HelloRpcEvent` names the off-chain payload fields instead of sending a loose array.
+- `entry hello(name: string) -> string` is the single public function in this example.
+- `let message: string = "Hello, " + name` builds the value that is both returned and emitted.
+- `fire_rpc_event(1, HelloRpcEvent { name, message })` creates a daemon `contract_event` notification when the entry runs on-chain.

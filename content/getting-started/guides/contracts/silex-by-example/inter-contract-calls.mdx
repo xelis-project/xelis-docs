@@ -5,36 +5,15 @@ description: Call another deployed contract while respecting transaction permiss
 
 ## Inter-contract calls and permissions
 
-[Open in Playground](https://playground.xelis.io/?code=c3RydWN0IENvbnRyYWN0Q2FsbFJwY0V2ZW50IHsKICAgIHRhcmdldF9oYXNoOiBIYXNoLAogICAgZW50cnlfaWQ6IHUxNiwKICAgIGFyZ3M6IGFueVtdCn0KCnN0cnVjdCBDb250cmFjdERlcG9zaXRDYWxsUnBjRXZlbnQgewogICAgdGFyZ2V0X2hhc2g6IEhhc2gsCiAgICBlbnRyeV9pZDogdTE2LAogICAgYW1vdW50OiB1NjQKfQoKZW50cnkgY2FsbF9lbnRyeSh0YXJnZXRfaGFzaDogSGFzaCwgZW50cnlfaWQ6IHUxNiwgYXJnczogYW55W10pIC0%2BIHU2NCB7CiAgICByZXF1aXJlKGlzX2NvbnRyYWN0X2NhbGxhYmxlKHRhcmdldF9oYXNoLCBlbnRyeV9pZCksICJ0eCBwZXJtaXNzaW9uIGJsb2NrcyBjYWxsIikKCiAgICBsZXQgdGFyZ2V0OiBDb250cmFjdCA9IENvbnRyYWN0OjpuZXcodGFyZ2V0X2hhc2gpLmV4cGVjdCgidGFyZ2V0IGNvbnRyYWN0IG5vdCBmb3VuZCIpCiAgICBsZXQgZGVwb3NpdHM6IG1hcDxIYXNoLCB1NjQ%2BID0ge30KICAgIHRhcmdldC5jYWxsKGVudHJ5X2lkLCBhcmdzLCBkZXBvc2l0cykKCiAgICBmaXJlX3JwY19ldmVudCg4MCwgQ29udHJhY3RDYWxsUnBjRXZlbnQgewogICAgICAgIHRhcmdldF9oYXNoLAogICAgICAgIGVudHJ5X2lkLAogICAgICAgIGFyZ3MKICAgIH0pCiAgICByZXR1cm4gMAp9CgplbnRyeSBjYWxsX3dpdGhfeGVsKHRhcmdldF9oYXNoOiBIYXNoLCBlbnRyeV9pZDogdTE2LCBhcmdzOiBhbnlbXSwgYW1vdW50OiB1NjQpIC0%2BIHU2NCB7CiAgICBsZXQgYXNzZXQ6IEhhc2ggPSBnZXRfeGVsaXNfYXNzZXQoKQogICAgcmVxdWlyZShnZXRfYmFsYW5jZV9mb3JfYXNzZXQoYXNzZXQpLnVud3JhcF9vcigwKSA%2BPSBhbW91bnQsICJjb250cmFjdCBsYWNrcyBmdW5kcyIpCiAgICByZXF1aXJlKGlzX2NvbnRyYWN0X2NhbGxhYmxlKHRhcmdldF9oYXNoLCBlbnRyeV9pZCksICJ0eCBwZXJtaXNzaW9uIGJsb2NrcyBjYWxsIikKCiAgICBsZXQgdGFyZ2V0OiBDb250cmFjdCA9IENvbnRyYWN0OjpuZXcodGFyZ2V0X2hhc2gpLmV4cGVjdCgidGFyZ2V0IGNvbnRyYWN0IG5vdCBmb3VuZCIpCiAgICBsZXQgZGVwb3NpdHM6IG1hcDxIYXNoLCB1NjQ%2BID0ge30KICAgIGRlcG9zaXRzLmluc2VydChhc3NldCwgYW1vdW50KQogICAgdGFyZ2V0LmNhbGwoZW50cnlfaWQsIGFyZ3MsIGRlcG9zaXRzKQoKICAgIGZpcmVfcnBjX2V2ZW50KDgxLCBDb250cmFjdERlcG9zaXRDYWxsUnBjRXZlbnQgewogICAgICAgIHRhcmdldF9oYXNoLAogICAgICAgIGVudHJ5X2lkLAogICAgICAgIGFtb3VudAogICAgfSkKICAgIHJldHVybiAwCn0%3D)
+**Focus:** one proxy entry that calls another contract entry while attaching a XELIS deposit.
 
-Inter-contract calls are denied by default unless the transaction grants permission. Check the active permission before calling.
+[Open in Playground](https://playground.xelis.io/?code=c3RydWN0IENvbnRyYWN0RGVwb3NpdENhbGxScGNFdmVudCB7CiAgICB0YXJnZXRfaGFzaDogSGFzaCwKICAgIGVudHJ5X2lkOiB1MTYsCiAgICBhbW91bnQ6IHU2NAp9CgplbnRyeSBjYWxsX3dpdGhfeGVsKHRhcmdldF9oYXNoOiBIYXNoLCBlbnRyeV9pZDogdTE2LCBhcmdzOiBhbnlbXSwgYW1vdW50OiB1NjQpIC0%2BIHU2NCB7CiAgICBsZXQgYXNzZXQ6IEhhc2ggPSBnZXRfeGVsaXNfYXNzZXQoKQogICAgcmVxdWlyZShnZXRfYmFsYW5jZV9mb3JfYXNzZXQoYXNzZXQpLnVud3JhcF9vcigwKSA%2BPSBhbW91bnQsICJjb250cmFjdCBsYWNrcyBmdW5kcyIpCiAgICByZXF1aXJlKGlzX2NvbnRyYWN0X2NhbGxhYmxlKHRhcmdldF9oYXNoLCBlbnRyeV9pZCksICJ0eCBwZXJtaXNzaW9uIGJsb2NrcyBjYWxsIikKCiAgICBsZXQgdGFyZ2V0OiBDb250cmFjdCA9IENvbnRyYWN0OjpuZXcodGFyZ2V0X2hhc2gpLmV4cGVjdCgidGFyZ2V0IGNvbnRyYWN0IG5vdCBmb3VuZCIpCiAgICBsZXQgZGVwb3NpdHM6IG1hcDxIYXNoLCB1NjQ%2BID0ge30KICAgIGRlcG9zaXRzLmluc2VydChhc3NldCwgYW1vdW50KQogICAgdGFyZ2V0LmNhbGwoZW50cnlfaWQsIGFyZ3MsIGRlcG9zaXRzKQoKICAgIGZpcmVfcnBjX2V2ZW50KDgxLCBDb250cmFjdERlcG9zaXRDYWxsUnBjRXZlbnQgewogICAgICAgIHRhcmdldF9oYXNoLAogICAgICAgIGVudHJ5X2lkLAogICAgICAgIGFtb3VudAogICAgfSkKICAgIHJldHVybiAwCn0%3D)
 
 ```rust filename="contract_caller.slx" copy
-struct ContractCallRpcEvent {
-    target_hash: Hash,
-    entry_id: u16,
-    args: any[]
-}
-
 struct ContractDepositCallRpcEvent {
     target_hash: Hash,
     entry_id: u16,
     amount: u64
-}
-
-entry call_entry(target_hash: Hash, entry_id: u16, args: any[]) -> u64 {
-    require(is_contract_callable(target_hash, entry_id), "tx permission blocks call")
-
-    let target: Contract = Contract::new(target_hash).expect("target contract not found")
-    let deposits: map<Hash, u64> = {}
-    target.call(entry_id, args, deposits)
-
-    fire_rpc_event(80, ContractCallRpcEvent {
-        target_hash,
-        entry_id,
-        args
-    })
-    return 0
 }
 
 entry call_with_xel(target_hash: Hash, entry_id: u16, args: any[], amount: u64) -> u64 {
@@ -55,5 +34,14 @@ entry call_with_xel(target_hash: Hash, entry_id: u16, args: any[], amount: u64) 
     return 0
 }
 ```
+
+## How it works
+
+- `get_xelis_asset()` selects the native XELIS asset hash used in the deposit map.
+- `get_balance_for_asset(asset)` checks that this contract owns enough public balance before forwarding funds.
+- `is_contract_callable(target_hash, entry_id)` enforces the transaction's contract-call permission.
+- `Contract::new(target_hash).expect(...)` loads the deployed target contract.
+- `deposits.insert(asset, amount)` attaches XELIS to the downstream contract call.
+- `fire_rpc_event(81, ContractDepositCallRpcEvent { ... })` reports the proxy call to off-chain clients.
 
 Invoke this contract with a wallet RPC `permission` value such as `"all"` or a specific allowlist. See [Permissions](/features/smart-contracts/permissions) for the JSON shape.

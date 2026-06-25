@@ -5,9 +5,9 @@ description: Register a persistent listener for another contract's event.
 
 ## Contract events: listener
 
-[Open in Playground](https://playground.xelis.io/?code=Y29uc3QgUFJJQ0VfRVZFTlQ6IHU2NCA9IDEwMApjb25zdCBMQVNUX1BSSUNFX0tFWTogc3RyaW5nID0gImxhc3RfcHJpY2UiCgpzdHJ1Y3QgUHJpY2VPYnNlcnZlZFJwY0V2ZW50IHsKICAgIGFyZ3M6IGFueVtdCn0KCmZuIG9uX3ByaWNlKGFyZ3M6IGFueVtdKSAtPiB1NjQgewogICAgbGV0IHN0b3JhZ2U6IFN0b3JhZ2UgPSBTdG9yYWdlOjpuZXcoKQogICAgc3RvcmFnZS5zdG9yZShMQVNUX1BSSUNFX0tFWSwgYXJncykKICAgIGZpcmVfcnBjX2V2ZW50KDcxLCBQcmljZU9ic2VydmVkUnBjRXZlbnQgeyBhcmdzIH0pCiAgICByZXR1cm4gMAp9CgplbnRyeSBsaXN0ZW5fdG8ob3JhY2xlX2hhc2g6IEhhc2gpIC0%2BIHU2NCB7CiAgICBsZXQgb3JhY2xlOiBDb250cmFjdCA9IENvbnRyYWN0OjpuZXcob3JhY2xlX2hhc2gpLmV4cGVjdCgib3JhY2xlIGNvbnRyYWN0IG5vdCBmb3VuZCIpCiAgICByZXF1aXJlKG9yYWNsZS5saXN0ZW5fZXZlbnQoUFJJQ0VfRVZFTlQsIG9uX3ByaWNlLCAxMDAwMDApLCAibGlzdGVuIGZhaWxlZCIpCiAgICByZXR1cm4gMAp9CgplbnRyeSBsYXN0X3ByaWNlKCkgLT4gYW55W10gewogICAgbGV0IHN0b3JhZ2U6IFN0b3JhZ2UgPSBTdG9yYWdlOjpuZXcoKQogICAgcmV0dXJuIHN0b3JhZ2UubG9hZChMQVNUX1BSSUNFX0tFWSkudW53cmFwX29yKFtdKQp9)
+**Focus:** one listener contract that subscribes to a publisher event, stores the last payload, and reports it over RPC.
 
-The listener registers a callback against the publisher contract. The callback stores the last event payload and also emits an RPC event.
+[Open in Playground](https://playground.xelis.io/?code=Y29uc3QgUFJJQ0VfRVZFTlQ6IHU2NCA9IDEwMApjb25zdCBMQVNUX1BSSUNFX0tFWTogc3RyaW5nID0gImxhc3RfcHJpY2UiCgpzdHJ1Y3QgUHJpY2VPYnNlcnZlZFJwY0V2ZW50IHsKICAgIGFyZ3M6IGFueVtdCn0KCmZuIG9uX3ByaWNlKGFyZ3M6IGFueVtdKSAtPiB1NjQgewogICAgbGV0IHN0b3JhZ2U6IFN0b3JhZ2UgPSBTdG9yYWdlOjpuZXcoKQogICAgc3RvcmFnZS5zdG9yZShMQVNUX1BSSUNFX0tFWSwgYXJncykKICAgIGZpcmVfcnBjX2V2ZW50KDcxLCBQcmljZU9ic2VydmVkUnBjRXZlbnQgeyBhcmdzIH0pCiAgICByZXR1cm4gMAp9CgplbnRyeSBsaXN0ZW5fdG8ob3JhY2xlX2hhc2g6IEhhc2gpIC0%2BIHU2NCB7CiAgICBsZXQgb3JhY2xlOiBDb250cmFjdCA9IENvbnRyYWN0OjpuZXcob3JhY2xlX2hhc2gpLmV4cGVjdCgib3JhY2xlIGNvbnRyYWN0IG5vdCBmb3VuZCIpCiAgICByZXF1aXJlKG9yYWNsZS5saXN0ZW5fZXZlbnQoUFJJQ0VfRVZFTlQsIG9uX3ByaWNlLCAxMDAwMDApLCAibGlzdGVuIGZhaWxlZCIpCiAgICByZXR1cm4gMAp9CgplbnRyeSBsYXN0X3ByaWNlKCkgLT4gYW55W10gewogICAgbGV0IHN0b3JhZ2U6IFN0b3JhZ2UgPSBTdG9yYWdlOjpuZXcoKQogICAgcmV0dXJuIHN0b3JhZ2UubG9hZChMQVNUX1BSSUNFX0tFWSkudW53cmFwX29yKFtdKQp9)
 
 ```rust filename="price_listener.slx" copy
 const PRICE_EVENT: u64 = 100
@@ -35,5 +35,13 @@ entry last_price() -> any[] {
     return storage.load(LAST_PRICE_KEY).unwrap_or([])
 }
 ```
+
+## How it works
+
+- `PRICE_EVENT` must match the publisher's event id.
+- `on_price(args: any[])` is the callback signature for contract event payloads.
+- The callback stores the raw payload under `LAST_PRICE_KEY` and emits `PriceObservedRpcEvent`.
+- `listen_to(oracle_hash)` loads the publisher contract and registers the callback with a gas limit.
+- `last_price()` is a small read entry that returns the last observed payload or an empty array.
 
 Run `listen_to` once with the publisher hash, then invoke `publish_price` on the publisher.

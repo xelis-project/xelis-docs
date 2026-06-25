@@ -5,9 +5,9 @@ description: Use structs, methods, arrays, closures, and iterator helpers in Sil
 
 ## Structs, methods, arrays, and maps
 
-[Open in Playground](https://playground.xelis.io/?code=c3RydWN0IFRhc2sgewogICAgaWQ6IHU2NCwKICAgIHRpdGxlOiBzdHJpbmcsCiAgICBkb25lOiBib29sCn0KCnN0cnVjdCBUYXNrU3VtbWFyeVJwY0V2ZW50IHsKICAgIHRhc2s6IFRhc2ssCiAgICBub3JtYWxpemVkX3RhZ3M6IHN0cmluZ1tdCn0KCmZuICh0YXNrIFRhc2spIG1hcmtfZG9uZSgpIC0%2BIFRhc2sgewogICAgcmV0dXJuIFRhc2sgewogICAgICAgIGlkOiB0YXNrLmlkLAogICAgICAgIHRpdGxlOiB0YXNrLnRpdGxlLAogICAgICAgIGRvbmU6IHRydWUKICAgIH0KfQoKZW50cnkgc3VtbWFyaXplKHRpdGxlOiBzdHJpbmcsIHRhZ3M6IHN0cmluZ1tdKSAtPiBUYXNrIHsKICAgIGxldCBub3JtYWxpemVkOiBzdHJpbmdbXSA9IHRhZ3MKICAgICAgICAuaXRlcigpCiAgICAgICAgLm1hcCh8dGFnOiBzdHJpbmd8IHsgcmV0dXJuIHRhZy50cmltKCkudG9fbG93ZXJjYXNlKCkgfSkKICAgICAgICAuZmlsdGVyKHx0YWc6IHN0cmluZ3wgeyByZXR1cm4gIXRhZy5pc19lbXB0eSgpIH0pCiAgICAgICAgLmNvbGxlY3QoKQoKICAgIGxldCB0YXNrOiBUYXNrID0gVGFzayB7CiAgICAgICAgaWQ6IG5vcm1hbGl6ZWQubGVuKCkgYXMgdTY0LAogICAgICAgIHRpdGxlLAogICAgICAgIGRvbmU6IGZhbHNlCiAgICB9CgogICAgZmlyZV9ycGNfZXZlbnQoMiwgVGFza1N1bW1hcnlScGNFdmVudCB7CiAgICAgICAgdGFzaywKICAgICAgICBub3JtYWxpemVkX3RhZ3M6IG5vcm1hbGl6ZWQKICAgIH0pCiAgICByZXR1cm4gdGFzay5tYXJrX2RvbmUoKQp9)
+**Focus:** one task-summary entry that normalizes tags, emits typed data, and returns a completed `Task`.
 
-Structs are useful for typed return data and event payloads. Methods are declared with the receiver before the function name.
+[Open in Playground](https://playground.xelis.io/?code=c3RydWN0IFRhc2sgewogICAgaWQ6IHU2NCwKICAgIHRpdGxlOiBzdHJpbmcsCiAgICBkb25lOiBib29sCn0KCnN0cnVjdCBUYXNrU3VtbWFyeVJwY0V2ZW50IHsKICAgIHRhc2s6IFRhc2ssCiAgICBub3JtYWxpemVkX3RhZ3M6IHN0cmluZ1tdCn0KCmZuICh0YXNrIFRhc2spIG1hcmtfZG9uZSgpIC0%2BIFRhc2sgewogICAgcmV0dXJuIFRhc2sgewogICAgICAgIGlkOiB0YXNrLmlkLAogICAgICAgIHRpdGxlOiB0YXNrLnRpdGxlLAogICAgICAgIGRvbmU6IHRydWUKICAgIH0KfQoKZW50cnkgc3VtbWFyaXplKHRpdGxlOiBzdHJpbmcsIHRhZ3M6IHN0cmluZ1tdKSAtPiBUYXNrIHsKICAgIGxldCBub3JtYWxpemVkOiBzdHJpbmdbXSA9IHRhZ3MKICAgICAgICAuaXRlcigpCiAgICAgICAgLm1hcCh8dGFnOiBzdHJpbmd8IHsgcmV0dXJuIHRhZy50cmltKCkudG9fbG93ZXJjYXNlKCkgfSkKICAgICAgICAuZmlsdGVyKHx0YWc6IHN0cmluZ3wgeyByZXR1cm4gIXRhZy5pc19lbXB0eSgpIH0pCiAgICAgICAgLmNvbGxlY3QoKQoKICAgIGxldCB0YXNrOiBUYXNrID0gVGFzayB7CiAgICAgICAgaWQ6IG5vcm1hbGl6ZWQubGVuKCkgYXMgdTY0LAogICAgICAgIHRpdGxlLAogICAgICAgIGRvbmU6IGZhbHNlCiAgICB9CgogICAgZmlyZV9ycGNfZXZlbnQoMiwgVGFza1N1bW1hcnlScGNFdmVudCB7CiAgICAgICAgdGFzaywKICAgICAgICBub3JtYWxpemVkX3RhZ3M6IG5vcm1hbGl6ZWQKICAgIH0pCiAgICByZXR1cm4gdGFzay5tYXJrX2RvbmUoKQp9)
 
 ```rust filename="task_summary.slx" copy
 struct Task {
@@ -50,4 +50,10 @@ entry summarize(title: string, tags: string[]) -> Task {
 }
 ```
 
-This example also introduces array iteration, closures, string helpers, field shorthand, casts, and mixed event data.
+## How it works
+
+- `Task` is the contract's typed return value.
+- `TaskSummaryRpcEvent` wraps the returned task and the normalized tags for off-chain observers.
+- `fn (task Task) mark_done() -> Task` declares a method with `task` as the receiver.
+- The iterator chain uses `map`, `filter`, and `collect` to trim, lowercase, and drop empty tags.
+- `fire_rpc_event(2, ...)` emits the pre-completion summary, then `task.mark_done()` returns the final value.

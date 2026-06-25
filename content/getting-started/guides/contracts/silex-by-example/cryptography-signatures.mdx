@@ -1,42 +1,18 @@
 ---
-title: Cryptography and signatures
-description: Hash data, verify signatures, and work with ciphertext primitives.
+title: Signature verification
+description: Verify a caller signature against the transaction source.
 ---
 
-## Cryptography and signatures
+## Signature verification
 
-[Open in Playground](https://playground.xelis.io/?code=c3RydWN0IEhhc2hScGNFdmVudCB7CiAgICBibGFrZTM6IHN0cmluZywKICAgIHNoYTM6IHN0cmluZywKICAgIG1peGVkOiBzdHJpbmcKfQoKc3RydWN0IFNpZ25hdHVyZVJwY0V2ZW50IHsKICAgIHNlbmRlcjogQWRkcmVzcywKICAgIG1lc3NhZ2VfaGV4OiBzdHJpbmcKfQoKc3RydWN0IENpcGhlcnRleHRScGNFdmVudCB7CiAgICBjb21taXRtZW50OiBSaXN0cmV0dG9Qb2ludCwKICAgIGhhbmRsZTogUmlzdHJldHRvUG9pbnQKfQoKZW50cnkgaGFzaF9ub3RlKG5vdGU6IHN0cmluZykgLT4gSGFzaCB7CiAgICBsZXQgZGlnZXN0OiBIYXNoID0gSGFzaDo6Ymxha2UzKG5vdGUudG9fYnl0ZXMoKSkKICAgIGxldCBzaGE6IEhhc2ggPSBIYXNoOjpzaGEzKG5vdGUudG9fYnl0ZXMoKSkKICAgIGxldCBtaXhlZDogSGFzaCA9IHhvcl9oYXNoZXMoZGlnZXN0LCBzaGEpCgogICAgZmlyZV9ycGNfZXZlbnQoNjAsIEhhc2hScGNFdmVudCB7CiAgICAgICAgYmxha2UzOiBkaWdlc3QudG9faGV4KCksCiAgICAgICAgc2hhMzogc2hhLnRvX2hleCgpLAogICAgICAgIG1peGVkOiBtaXhlZC50b19oZXgoKQogICAgfSkKICAgIHJldHVybiBtaXhlZAp9CgplbnRyeSB2ZXJpZnlfZnJvbV9zZW5kZXIobWVzc2FnZTogYnl0ZXMsIHNpZ25hdHVyZTogU2lnbmF0dXJlKSAtPiB1NjQgewogICAgbGV0IHNlbmRlcjogQWRkcmVzcyA9IFRyYW5zYWN0aW9uOjpjdXJyZW50KCkudW53cmFwKCkuc291cmNlKCkKICAgIHJlcXVpcmUoc2lnbmF0dXJlLnZlcmlmeShtZXNzYWdlLCBzZW5kZXIudG9fcG9pbnQoKSksICJpbnZhbGlkIHNpZ25hdHVyZSIpCgogICAgZmlyZV9ycGNfZXZlbnQoNjEsIFNpZ25hdHVyZVJwY0V2ZW50IHsKICAgICAgICBzZW5kZXIsCiAgICAgICAgbWVzc2FnZV9oZXg6IG1lc3NhZ2UudG9faGV4KCkKICAgIH0pCiAgICByZXR1cm4gMAp9CgplbnRyeSBlbmNyeXB0X2Zvcl9zZW5kZXIoYW1vdW50OiB1NjQpIC0%2BIHU2NCB7CiAgICBsZXQgc2VuZGVyOiBBZGRyZXNzID0gVHJhbnNhY3Rpb246OmN1cnJlbnQoKS51bndyYXAoKS5zb3VyY2UoKQogICAgbGV0IGNpcGhlcnRleHQ6IENpcGhlcnRleHQgPSBDaXBoZXJ0ZXh0OjpnZW5lcmF0ZShzZW5kZXIsIGFtb3VudCkKICAgIGNpcGhlcnRleHQuYWRkKGFtb3VudCkKCiAgICBmaXJlX3JwY19ldmVudCg2MiwgQ2lwaGVydGV4dFJwY0V2ZW50IHsKICAgICAgICBjb21taXRtZW50OiBjaXBoZXJ0ZXh0LmNvbW1pdG1lbnQoKSwKICAgICAgICBoYW5kbGU6IGNpcGhlcnRleHQuaGFuZGxlKCkKICAgIH0pCiAgICByZXR1cm4gMAp9)
+**Focus:** one signature-checking entry that verifies a signed byte message from the transaction sender.
 
-The standard library exposes hashes, signatures, addresses as public keys, and confidential-balance primitives.
+[Open in Playground](https://playground.xelis.io/?code=c3RydWN0IFNpZ25hdHVyZVJwY0V2ZW50IHsKICAgIHNlbmRlcjogQWRkcmVzcywKICAgIG1lc3NhZ2VfaGV4OiBzdHJpbmcKfQoKZW50cnkgdmVyaWZ5X2Zyb21fc2VuZGVyKG1lc3NhZ2U6IGJ5dGVzLCBzaWduYXR1cmU6IFNpZ25hdHVyZSkgLT4gdTY0IHsKICAgIGxldCBzZW5kZXI6IEFkZHJlc3MgPSBUcmFuc2FjdGlvbjo6Y3VycmVudCgpLnVud3JhcCgpLnNvdXJjZSgpCiAgICByZXF1aXJlKHNpZ25hdHVyZS52ZXJpZnkobWVzc2FnZSwgc2VuZGVyLnRvX3BvaW50KCkpLCAiaW52YWxpZCBzaWduYXR1cmUiKQoKICAgIGZpcmVfcnBjX2V2ZW50KDYxLCBTaWduYXR1cmVScGNFdmVudCB7CiAgICAgICAgc2VuZGVyLAogICAgICAgIG1lc3NhZ2VfaGV4OiBtZXNzYWdlLnRvX2hleCgpCiAgICB9KQogICAgcmV0dXJuIDAKfQ%3D%3D)
 
 ```rust filename="crypto_tools.slx" copy
-struct HashRpcEvent {
-    blake3: string,
-    sha3: string,
-    mixed: string
-}
-
 struct SignatureRpcEvent {
     sender: Address,
     message_hex: string
-}
-
-struct CiphertextRpcEvent {
-    commitment: RistrettoPoint,
-    handle: RistrettoPoint
-}
-
-entry hash_note(note: string) -> Hash {
-    let digest: Hash = Hash::blake3(note.to_bytes())
-    let sha: Hash = Hash::sha3(note.to_bytes())
-    let mixed: Hash = xor_hashes(digest, sha)
-
-    fire_rpc_event(60, HashRpcEvent {
-        blake3: digest.to_hex(),
-        sha3: sha.to_hex(),
-        mixed: mixed.to_hex()
-    })
-    return mixed
 }
 
 entry verify_from_sender(message: bytes, signature: Signature) -> u64 {
@@ -49,18 +25,14 @@ entry verify_from_sender(message: bytes, signature: Signature) -> u64 {
     })
     return 0
 }
-
-entry encrypt_for_sender(amount: u64) -> u64 {
-    let sender: Address = Transaction::current().unwrap().source()
-    let ciphertext: Ciphertext = Ciphertext::generate(sender, amount)
-    ciphertext.add(amount)
-
-    fire_rpc_event(62, CiphertextRpcEvent {
-        commitment: ciphertext.commitment(),
-        handle: ciphertext.handle()
-    })
-    return 0
-}
 ```
+
+## How it works
+
+- `message: bytes` is the exact byte payload the wallet signed.
+- `signature: Signature` is verified inside the contract, so invalid callers fail before any state change.
+- `Transaction::current().unwrap().source()` gets the transaction sender address.
+- `sender.to_point()` converts the address into the public key point expected by `signature.verify`.
+- `SignatureRpcEvent` emits the sender and message hex after successful verification.
 
 Use wallet RPC `sign_data` to produce signatures for `verify_from_sender`.

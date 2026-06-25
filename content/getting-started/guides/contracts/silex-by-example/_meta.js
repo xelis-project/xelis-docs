@@ -8,7 +8,7 @@ export default {
     "btree-leaderboard": "BTree leaderboard",
     "deposits-transfers": "Deposits and transfers",
     "asset-creation-minting": "Asset creation and minting",
-    "cryptography-signatures": "Cryptography and signatures",
+    "cryptography-signatures": "Signature verification",
     "contract-events-publisher": "Contract events publisher",
     "contract-events-listener": "Contract events listener",
     "inter-contract-calls": "Inter-contract calls",
