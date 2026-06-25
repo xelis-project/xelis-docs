@@ -1,0 +1,30 @@
+### `get_estimated_fee_rates`
+
+Retrieve estimated fee rates for low, medium, and high priority transactions based on current mempool state.
+
+
+Parameters
+No parameters
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "get_estimated_fee_rates",
+    "id": 1
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "low": 10000,
+        "medium": 25000,
+        "high": 50000,
+        "default": 10000
+    }
+}
+```

@@ -1,15 +1,21 @@
 ### `contract_transfers`
 
-> When a contract has transfered any asset to the receiver address.
+When a contract has transfered any asset to the receiver address, it is aggregated.
+
+
+Subscribe with `{"contract_transfers":{"address":"<address>"}}`.
 
 On Event
-
 ```json
 {
     "id": 1,
     "jsonrpc": "2.0",
     "result": {
-        "event": "contract_transfers",
+        "event": {
+            "contract_transfers": {
+                "address": "xel:qcd39a5u8cscztamjuyr7hdj6hh2wh9nrmhp86ljx2sz6t99ndjqqm7wxj8"
+            }
+        },
         "executions": [
             {
                 "key": {
@@ -23,10 +29,9 @@ On Event
                 }
             }
         ],
-        "block_timestamp": 1723503200,
+        "block_timestamp": 1723503200000,
         "block_hash": "a1b2c3d4e5f60718273645566778899aabbccddeeff00112233445566778899",
-        "topoheight": 642000,
-        "contract_logs": [...]
+        "topoheight": 642000
     }
 }
 ```

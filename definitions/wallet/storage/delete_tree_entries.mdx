@@ -1,24 +1,30 @@
 ### `delete_tree_entries`
 
-> Delete all entries in the requested tree.
+Delete all entries in the requested tree.
+
+
+Parameters
+| Name | Type   | Required |              Note             |
+|:----:|:------:|:--------:|:-----------------------------:|
+| tree | String | Required | Tree name to clear all entries|
 
 Request
 ```json
 {
-  "jsonrpc": "2.0",
-  "method": "delete_tree_entries",
-  "id": 1,
-  "params": {
-    "tree": "test"
-  }
+    "jsonrpc": "2.0",
+    "method": "delete_tree_entries",
+    "id": 1,
+    "params": {
+        "tree": "test"
+    }
 }
 ```
 
 Response
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": true
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": true
 }
 ```

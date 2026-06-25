@@ -1,0 +1,35 @@
+### `get_asset_supply_at_topoheight`
+
+Retrieve the circulating supply for an asset at a specific topoheight.
+
+
+Parameters
+|    Name    |   Type  | Required |           Note            |
+|:----------:|:-------:|:--------:|:-------------------------:|
+|    asset   |   Hash  | Required | Asset hash to look up     |
+| topoheight | Integer | Required | Topoheight to retrieve at |
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "get_asset_supply_at_topoheight",
+    "id": 1,
+    "params": {
+        "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+        "topoheight": 22177
+    }
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "data": 3209375196561,
+        "previous_topoheight": 22176
+    }
+}
+```

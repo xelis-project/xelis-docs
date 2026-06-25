@@ -1,80 +1,87 @@
 ### `finalize_unsigned_transaction`
 
-> Finalize an unsigned transaction by signing it with the wallet key pair.
-
+Finalize an unsigned transaction by signing it with the wallet key pair.
 Once signed, the transaction can be broadcasted to the network.
+
 
 Parameters
 
-|      Name    |        Type        | Required |                             Note                              |
-|:------------:|:------------------:|:--------:|:-------------------------------------------------------------:|
-|   unsigned   | UnsignedTransaction| Required | Hexadecimal/JSON representation of the unsigned transaction   |
-|  signatures  |       Array        | Optional | List of signatures to use for the transaction multisig        |
-|  broadcast   |      Boolean       | Optional | Broadcast TX to daemon. By default set to true                |
-|  tx_as_hex   |      Boolean       | Optional | Serialize TX to hexadecimal. By default set to false          |
-
+|        Name       |        Type       | Required |                                    Note                                    |
+|:-----------------:|:-----------------:|:--------:|:--------------------------------------------------------------------------:|
+|      unsigned     |UnsignedTransaction| Required | Hexadecimal/JSON representation of the unsigned transaction to sign        |
+|     signatures    |        Array      | Optional | List of signatures to use for the transaction multisig.                    |
+|     broadcast     |       Boolean     | Optional | Broadcast TX to daemon. By default set to true                             |
+|     tx_as_hex     |       Boolean     | Optional | Serialize TX to hexadecimal. By default set to false                       |
 Request
 ```json
 {
-  "jsonrpc": "2.0",
-  "method": "finalize_unsigned_transaction",
-  "id": 1,
-  "params": {
-    "unsigned": "<hexadecimal transaction>",
-    "tx_as_hex": true
-  }
+    "jsonrpc": "2.0",
+    "method": "finalize_unsigned_transaction",
+    "id": 1,
+    "params": {
+        "unsigned": "<hexadecimal transaction>",
+        "tx_as_hex": true
+    }
 }
 ```
 
 Response
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": {
-    "data": {
-      "transfers": [
-        {
-          "asset": "0000000000000000000000000000000000000000000000000000000000000000",
-          "commitment": [...],
-          "ct_validity_proof": {
-            "Y_0": [...],
-            "Y_1": [...],
-            "z_r": [...],
-            "z_x": [...]
-          },
-          "destination": [...],
-          "extra_data": null,
-          "receiver_handle": [...],
-          "sender_handle": [...]
-        }
-      ]
-    },
-    "fee": 25000,
-    "hash": "f8bd7c15e3a94085f8130cc67e1fefd89192cdd208b68b10e1cc6e1a83afe5d6",
-    "nonce": 1463,
-    "reference": {
-      "hash": "000000000c1845717b0820bd32b57d1928af1b4ae80bdec71b73ab8d60f9eb74",
-      "topoheight": 25770
-    },
-    "source": [...],
-    "source_commitments": [
-      {
-        "asset": "0000000000000000000000000000000000000000000000000000000000000000",
-        "commitment": [...],
-        "proof": {
-          "Y_0": [...],
-          "Y_1": [...],
-          "Y_2": [...],
-          "z_r": [...],
-          "z_s": [...],
-          "z_x": [...]
-        }
-      }
-    ],
-    "multisig": null,
-    "tx_as_hex": "<hexadecimal transaction>",
-    "version": 0
-  }
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "data": {
+            "transfers": [
+                {
+                    "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "commitment": [...],
+                    "ct_validity_proof": {
+                        "Y_0": [...],
+                        "Y_1": [...],
+                        "z_r": [...],
+                        "z_x": [...]
+                    },
+                    "destination": "xet:t23w8pp90zsj04sp5r3r9sjpz3vq7rxcwhydf5ztlk6efhnusersqvf8sny",
+                    "extra_data": null,
+                    "receiver_handle": [...],
+                    "sender_handle": [...]
+                }
+            ]
+        },
+        "fee": 25000,
+        "fee_limit": 30000,
+        "hash": "f8bd7c15e3a94085f8130cc67e1fefd89192cdd208b68b10e1cc6e1a83afe5d6",
+        "multisig": null,
+        "nonce": 1463,
+        "range_proof": [...],
+        "reference": {
+            "hash": "000000000c1845717b0820bd32b57d1928af1b4ae80bdec71b73ab8d60f9eb74",
+            "topoheight": 25770
+        },
+        "signature": "6731b973cb5c06c7e4e6fa9135acf4ea7c1b2e2bd0a63e41110aad3b39174204067bf7de87f3c3e2042cbcf6899a307e480d80e7c7f96638eabbf1fe6cfded09",
+        "size": 1517,
+        "source": "xet:dn3x9yspqtuzhm874m267a3g9fkdztr3uztyx534wdx3p9rkdspqqhpss5d",
+        "source_commitments": [
+            {
+                "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+                "commitment": [...],
+                "proof": {
+                    "Y_0": [...],
+                    "Y_1": [...],
+                    "Y_2": [...],
+                    "z_r": [...],
+                    "z_s": [...],
+                    "z_x": [...]
+                }
+            }
+        ],
+        "tx_as_hex": "<hexadecimal transaction>",
+        "version": 0
+    }
 }
 ```
+
+**NOTE**:
+- The response is the same as `build_transaction` but without the signature.
+- `hash` field is not the real hash of the transaction because it's not signed yet. Its a hash used for multisig signing.

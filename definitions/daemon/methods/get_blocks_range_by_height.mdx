@@ -1,55 +1,105 @@
-
 ### `get_blocks_range_by_height`
 
-> Get blocks between range of height. Max of 20 blocks and if no params returns recent blocks.
+Retrieve a specific range of blocks (up to 20 maximum) based on height.
+
+NOTE: Bounds are inclusive.
+
 
 Parameters
-
-|       Name       |   Type  | Required |                      Note                     |
-|:----------------:|:-------:|:--------:|:---------------------------------------------:|
-| start_height     | Integer | Optional | 0 or under height                             |
-|  end_height      | Integer | Optional | Must be under current height                  |
+|     Name     |   Type  | Required |                   Note                   |
+|:------------:|:-------:|:--------:|:----------------------------------------:|
+| start_height | Integer | Optional | If not set, will retrieve last 20 blocks |
+|  end_height  | Integer | Optional |       Must be under current height       |
 
 Request
-
 ```json
 {
-  "jsonrpc": "2.0",
-  "id": 1,
-  "method": "get_blocks_range_by_height",
-  "params": {
-    "start_height": 0,
-    "end_height": 19
-  }
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "get_blocks_range_by_height",
+    "params": {
+        "start_height": 0,
+        "end_height": 2
+    }
 }
 ```
 
 Response
-
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": [{
-    "block_type": "Sync",
-    "cumulative_difficulty": 1,
-    "difficulty": 1,
-    "extra_nonce": "0000000000000000000000000000000000000000000000000000000000000000",
-    "hash": "55a162b8e0e137bb6a8de9f4c4b214fb60bcd2df15ec32fdd8f06759b863f06e",
-    "height": 0,
-    "miner": "xet:qqqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680gtl9ky3",
-    "nonce": 0,
-		"reward": 146229454,
-		"miner_reward": 131606509,
-		"dev_reward": 14622945,
-    "supply": 877380,
-    "timestamp": 1678215431432,
-    "tips": [],
-    "topoheight": 0,
-    "total_fees": null,
-    "total_size_in_bytes": 99,
-    "txs_hashes": [],
-    "version": 0
-  }]
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": [
+        {
+            "block_type": "Sync",
+            "cumulative_difficulty": "1",
+            "difficulty": "1",
+            "extra_nonce": "0000000000000000000000000000000000000000000000000000000000000000",
+            "hash": "b715cb0229d13f5f540ae48adf03bc31b094b040b0756a2454631b2ddd899c3a",
+            "height": 0,
+            "miner": "xet:3tr88r8vvx3qxvgr7gdja5kae784v8htc7ayaj4nxlzgflhchlmqqdmycjf",
+            "nonce": 0,
+            "reward": 146229454,
+            "miner_reward": 131606509,
+            "dev_reward": 14622945,
+            "supply": 146230061,
+            "timestamp": 1708339574098,
+            "tips": [],
+            "topoheight": 0,
+            "total_fees": 0,
+            "total_fees_burned": 0,
+            "total_size_in_bytes": 92,
+            "txs_hashes": [],
+            "version": 0
+        },
+        {
+            "block_type": "Sync",
+            "cumulative_difficulty": "15000001",
+            "difficulty": "15000000",
+            "extra_nonce": "fa001f6340fbe79e4263ef60610d4f4ce82e69771805772e69735ea9c1df2300",
+            "hash": "00000079f04345ac9e14116385dc845a77ad1d4f9f83d8b2b7a84ce3beaa4522",
+            "height": 1,
+            "miner": "xet:6eadzwf5xdacts6fs4y3csmnsmy4mcxewqt3xyygwfx0hm0tm32sqxdy9zk",
+            "nonce": 2969302,
+            "reward": 146229454,
+            "miner_reward": 131606509,
+            "dev_reward": 14622945,
+            "supply": 292460111,
+            "timestamp": 1711135309926,
+            "tips": [
+                "b715cb0229d13f5f540ae48adf03bc31b094b040b0756a2454631b2ddd899c3a"
+            ],
+            "topoheight": 1,
+            "total_fees": 0,
+            "total_fees_burned": 0,
+            "total_size_in_bytes": 124,
+            "txs_hashes": [],
+            "version": 0
+        },
+        {
+            "block_type": "Sync",
+            "cumulative_difficulty": "30000001",
+            "difficulty": "15000000",
+            "extra_nonce": "aa5c6ccea415e2c39704dedc582ac6ca6a1701a549f5199dffd37e30f93d5900",
+            "hash": "000000c09b5ccd8749feb3d27fe72203ddca2f6f44998ab9db977d2724eaf032",
+            "height": 2,
+            "miner": "xet:6eadzwf5xdacts6fs4y3csmnsmy4mcxewqt3xyygwfx0hm0tm32sqxdy9zk",
+            "nonce": 12047121,
+            "reward": 146229454,
+            "miner_reward": 131606509,
+            "dev_reward": 14622945,
+            "supply": 438690149,
+            "timestamp": 1711135311567,
+            "tips": [
+                "00000079f04345ac9e14116385dc845a77ad1d4f9f83d8b2b7a84ce3beaa4522"
+            ],
+            "topoheight": 2,
+            "total_fees": 0,
+            "total_fees_burned": 0,
+            "total_size_in_bytes": 124,
+            "txs_hashes": [],
+            "version": 0
+        }
+    ]
 }
 ```

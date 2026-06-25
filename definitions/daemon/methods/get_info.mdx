@@ -1,38 +1,46 @@
 ### `get_info`
 
-> Retrieve current info from chain.
+Retrieve current info from chain
+
+
+Parameters
+No parameters
 
 Request
-
 ```json
 {
-  "jsonrpc": "2.0",
-  "method": "get_info",
-  "id": 1
+    "jsonrpc": "2.0",
+    "method": "get_info",
+    "id": 1
 }
 ```
 
 Response
-
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": {
-    "average_block_time": 11812,
-    "block_reward": 865869,
-    "block_time_target": 15000,
-    "difficulty": 35533666,
-    "height": 27552,
-    "mempool_size": 0,
-    "circulating_supply": 24141030101,
-    "maximum_supply": 18400000000000,
-    "network": "Testnet",
-    "pruned_topoheight": null,
-    "stableheight": 27544,
-    "top_block_hash": "00000014adb905b46053363e264975dd32cd0020eaf474fe08c5f492110aa95c",
-    "topoheight": 28032,
-    "version": "1.4.0"
-  }
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "average_block_time": 16494,
+        "block_reward": 145979248,
+        "miner_reward": 1313813232,
+        "dev_reward": 14597924,
+        "block_time_target": 15000,
+        "block_version": 6,
+        "burned_supply": 0,
+        "circulating_supply": 3155962164200,
+        "difficulty": "62283705000",
+        "emitted_supply": 3155962164200,
+        "height": 21510,
+        "maximum_supply": 1840000000000000,
+        "mempool_size": 0,
+        "network": "Testnet",
+        "pruned_topoheight": null,
+        "stableheight": 21502,
+        "stable_topoheight": 21796,
+        "top_block_hash": "000000000b47de796f1c033a23ddeacd2321606b8f0b3e5b5e11ba23b1d59dbb",
+        "topoheight": 21809,
+        "version": "1.8.0-70169a8"
+    }
 }
 ```

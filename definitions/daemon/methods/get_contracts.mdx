@@ -1,0 +1,33 @@
+### `get_contracts`
+
+Retrieve all deployed contract hashes with optional pagination and topoheight filtering.
+
+
+Parameters
+|        Name        |   Type  | Required |                       Note                       |
+|:------------------:|:-------:|:--------:|:------------------------------------------------:|
+|        skip        | Integer | Optional | Number of contracts to skip                      |
+|      maximum       | Integer | Optional | Maximum number of contracts to return            |
+| minimum_topoheight | Integer | Optional | Only include contracts deployed at or after this |
+| maximum_topoheight | Integer | Optional | Only include contracts deployed at or before this|
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "get_contracts",
+    "id": 1,
+    "params": {}
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": [
+        "740e2f94ba264464551787ddd6fa5e3222da464c6c659848f6e9a9d0730ac288"
+    ]
+}
+```

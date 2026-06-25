@@ -1,30 +1,29 @@
 ### `has_balance`
 
-> Check if the wallet has a balance for a specific asset.
+Verify if wallet has the requested asset balance.
+When no parameter is set, default asset is XELIS.
+
 
 Parameters
-
-|   Name  |   Type  | Required |                Note               |
-|:-------:|:-------:|:--------:|:---------------------------------:|
-|  asset  |   Hash  | Optional |    Asset ID registered on chain   |
+|  Name | Type | Required |     Note     |
+|:-----:|:----:|:--------:|:------------:|
+| asset | Hash | Optional | Asset to use |
 
 Request
 ```json
 {
-  "jsonrpc": "2.0",
-  "method": "has_balance",
-  "id": 1,
-  "params": {
-    "asset": "0000000000000000000000000000000000000000000000000000000000000000"
-  }
+    "jsonrpc": "2.0",
+    "method": "has_balance",
+    "id": 1,
+    "params": {}
 }
 ```
 
 Response
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": true
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": true
 }
 ```

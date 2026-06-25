@@ -1,88 +1,94 @@
 ### `build_unsigned_transaction`
 
-> Build a transaction without signing it.
-
+Build a transaction without signing it.
 This is useful in case of a MultiSig setup where you need to sign the transaction with other signers.
+
 
 Parameters
 
-|         Name       |       Type      | Required |                         Note                         |
-|:------------------:|:---------------:|:--------:|:----------------------------------------------------:|
-|         fee        |    FeeBuilder   | Optional |        Set an exact fee value or a multiplier        |
-|        nonce       |     Integer     | Optional | Set the nonce to use by the transaction              |
-|      tx_version    |     Integer     | Optional | Set the transaction version to use                   |
-|      tx_as_hex     |     Boolean     | Optional | Serialize TX to hexadecimal. By default set to false |
-|`<transaction_type>`| TransactionType | Required |              Transaction Type parameter              |
+|        Name       |       Type      | Required |                                    Note                                    |
+|:-----------------:|:---------------:|:--------:|:--------------------------------------------------------------------------:|
+|        fee        |    FeeBuilder   | Optional |                   Set an exact fee value or a multiplier                   |
+|       nonce       |     Integer     | Optional | Set the nonce to use by the transaction. By default its provided by wallet |
+|     tx_version    |     Integer     | Optional | Set the transaction version to use. By default take the version from wallet|
+|     tx_as_hex     |     Boolean     | Optional |            Serialize TX to hexadecimal. By default set to false            |
+|      fee_limit    |     Integer     | Optional |  Set a maximum fee limit to pay. If fee estimation is higher, TX fails.    |
+|      base_fee     |   BaseFeeMode   | Optional |    Set base fee selection mode. By default, query the connected daemon.    |
+| `<transaction_type>` | TransactionType | Required |                     Transaction Type parameter, see above                  |
 
 Request
 ```json
 {
-  "jsonrpc": "2.0",
-  "method": "build_unsigned_transaction",
-  "id": 1,
-  "params": {
-    "transfers": [
-      {
-        "amount": 1000,
-        "asset": "0000000000000000000000000000000000000000000000000000000000000000",
-        "destination": "xet:t23w8pp90zsj04sp5r3r9sjpz3vq7rxcwhydf5ztlk6efhnusersqvf8sny"
-      }
-    ],
-    "tx_as_hex": true
-  }
+    "jsonrpc": "2.0",
+    "method": "build_unsigned_transaction",
+    "id": 1,
+    "params": {
+        "transfers": [
+            {
+                "amount": 1000,
+                "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+                "destination": "xet:t23w8pp90zsj04sp5r3r9sjpz3vq7rxcwhydf5ztlk6efhnusersqvf8sny"
+            }
+        ],
+        "tx_as_hex": true,
+    }
 }
 ```
 
 Response
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": {
-    "data": {
-      "transfers": [
-        {
-          "asset": "0000000000000000000000000000000000000000000000000000000000000000",
-          "commitment": [...],
-          "ct_validity_proof": {
-            "Y_0": [...],
-            "Y_1": [...],
-            "z_r": [...],
-            "z_x": [...]
-          },
-          "destination": [...],
-          "extra_data": null,
-          "receiver_handle": [...],
-          "sender_handle": [...]
-        }
-      ]
-    },
-    "fee": 25000,
-    "hash": "f8bd7c15e3a94085f8130cc67e1fefd89192cdd208b68b10e1cc6e1a83afe5d6",
-    "nonce": 1463,
-    "reference": {
-      "hash": "000000000c1845717b0820bd32b57d1928af1b4ae80bdec71b73ab8d60f9eb74",
-      "topoheight": 25770
-    },
-    "source": [...],
-    "source_commitments": [
-      {
-        "asset": "0000000000000000000000000000000000000000000000000000000000000000",
-        "commitment": [...],
-        "proof": {
-          "Y_0": [...],
-          "Y_1": [...],
-          "Y_2": [...],
-          "z_r": [...],
-          "z_s": [...],
-          "z_x": [...]
-        }
-      }
-    ],
-    "multisig": null,
-    "tx_as_hex": "<hexadecimal transaction>",
-    "version": 0,
-    "threshold": 0
-  }
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "data": {
+            "transfers": [
+                {
+                    "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+                    "commitment": [...],
+                    "ct_validity_proof": {
+                        "Y_0": [...],
+                        "Y_1": [...],
+                        "z_r": [...],
+                        "z_x": [...]
+                    },
+                    "destination": [...],
+                    "extra_data": null,
+                    "receiver_handle": [...],
+                    "sender_handle": [...]
+                }
+            ]
+        },
+        "fee": 25000,
+        "fee_limit": 30000,
+        "hash": "f8bd7c15e3a94085f8130cc67e1fefd89192cdd208b68b10e1cc6e1a83afe5d6",
+        "nonce": 1463,
+        "range_proof": [...],
+        "reference": {
+            "hash": "000000000c1845717b0820bd32b57d1928af1b4ae80bdec71b73ab8d60f9eb74",
+            "topoheight": 25770
+        },
+        "source": [...],
+        "source_commitments": [
+            {
+                "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+                "commitment": [...],
+                "proof": {
+                    "Y_0": [...],
+                    "Y_1": [...],
+                    "Y_2": [...],
+                    "z_r": [...],
+                    "z_s": [...],
+                    "z_x": [...]
+                }
+            }
+        ],
+        "multisig": null,
+        "tx_as_hex": "<hexadecimal transaction>",
+        "version": 0,
+        "threshold": null
+    }
 }
 ```
+
+**NOTE**: `threshold` is `null` when no multisig threshold is active.

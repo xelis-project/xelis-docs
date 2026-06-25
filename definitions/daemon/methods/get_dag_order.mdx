@@ -1,42 +1,41 @@
 ### `get_dag_order`
 
-> Retrieve the whole DAG order (all blocks hash ordered by topoheight).
-
-If no parameters are set, it will retrieve the last 64 blocks hash ordered descending.  
-Maximum of 64 blocks hash only per request.
+Retrieve the whole DAG order (all blocks hash ordered by topoheight).
+If no parameters are set, it will retrieve the last 64 blocks hash ordered descending.
+Maximum of 64 blocks hashes only per request.
 
 
 Parameters
-
 |       Name       |   Type  | Required |                      Note                     |
 |:----------------:|:-------:|:--------:|:---------------------------------------------:|
 | start_topoheight | Integer | Optional | If not set, will retrieve last 64 blocks hash |
 |  end_topoheight  | Integer | Optional |        Must be under current topoheight       |
 
 Request
-
 ```json
 {
-  "jsonrpc": "2.0",
-  "id": 1,
-  "method": "get_dag_order",
-  "params": {
-    "start_topoheight": 0,
-    "end_topoheight": 5
-  }
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "get_dag_order",
+    "params": {
+        "start_topoheight": 0,
+        "end_topoheight": 5
+    }
 }
 ```
 
 Response
-
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": [
-      "83f6a544d69ca4852e8e2b6bc98b3a1602509e8feea7d744f6a60deeef51c663",
-      "00005c58f5c2a506b2a24e79967db009d3b2be13f15e657d6352b1aa59cdfedc",
-      "00002d138fbab2bc14958061edbc4a0c272d1ac27d60ef4a72e2f5ac9d1a2b0a"
-  ]
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": [
+        "b715cb0229d13f5f540ae48adf03bc31b094b040b0756a2454631b2ddd899c3a",
+        "00000079f04345ac9e14116385dc845a77ad1d4f9f83d8b2b7a84ce3beaa4522",
+        "000000c09b5ccd8749feb3d27fe72203ddca2f6f44998ab9db977d2724eaf032",
+        "000000fca9a3e66a8f0cfba1138a740ed7ca74ee1b6c915c35717756baa80386",
+        "0000007c0d5744a003f0dbc09c08429297f677e7ed49d02bc4455f0ecaf315a4",
+        "00000063204b910d1cb486f1705efdaea8a42fbcaef8d3c308c1f3bd296601e9"
+    ]
 }
 ```

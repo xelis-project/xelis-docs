@@ -1,55 +1,56 @@
 ### `get_block_by_hash`
 
-> Retrieve a block by its hash.
+Retrieve a block by its hash
+
 
 Parameters
-
-| Name        | Type     | Required |                  Note                 |
-|:-----------:|:--------:|:--------:|:-------------------------------------:|
-| hash        | Hash     | Required | Valid block Hash present in the chain |
-| include_txs | Boolean  | Optional | Include serialized txs                |
+|     Name    |   Type  | Required |                  Note                 |
+|:-----------:|:-------:|:--------:|:-------------------------------------:|
+|     hash    |   Hash  | Required | Valid block Hash present in the chain |
+| include_txs | Boolean | Optional |         Include txs serialized        |
 
 Request
-
 ```json
 {
-  "jsonrpc": "2.0",
-  "method": "get_block_by_hash",
-  "id": 1,
-  "params": {
-    "hash": "000002144bb86d9fcbe223aff1f6c2526d0c47eef0b8f7433b3abec22685fb31"
-  }
+    "jsonrpc": "2.0",
+    "method": "get_block_by_hash",
+    "id": 1,
+    "params": {
+        "hash": "0000000242978129bc2f36b732afe2dca0da717c43efa2442eb76bb765ddbccd",
+        "include_txs": false
+    }
 }
 ```
 
 Response
-
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": {
-    "block_type": "Normal",
-    "cumulative_difficulty": 76173573,
-    "difficulty": 7902701,
-    "extra_nonce": "cac46116afea8a00d2d9f9ea10d20a3a5bc9c2ae7f47201f24450e3e3fe5ec09",
-    "hash": "0000019fab49717777dba2ee23f46f9f27706a9c5103a5550cf429f9c786b1e4",
-    "height": 23,
-    "miner": "xet:qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
-    "nonce": 183776,
-		"reward": 146229454,
-		"miner_reward": 131606509,
-		"dev_reward": 14622945,
-    "supply": 42113762,
-    "timestamp": 1674226439134,
-    "tips": [
-      "000001aa69c15167a192de809eeed112f50ec91e513cfbf7b1674523583acbf9"
-    ],
-    "topoheight": 23,
-    "total_fees": null,
-    "total_size_in_bytes": 131,
-    "txs_hashes": [],
-    "version": 0
-  }
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "block_type": "Sync",
+        "cumulative_difficulty": "13952430001",
+        "difficulty": "1100460000",
+        "extra_nonce": "21436825cfa7f4acb5be459e52fedd23523783f241f9744a3013b8fd178bf80a",
+        "hash": "0000000242978129bc2f36b732afe2dca0da717c43efa2442eb76bb765ddbccd",
+        "height": 69,
+        "miner": "xet:6eadzwf5xdacts6fs4y3csmnsmy4mcxewqt3xyygwfx0hm0tm32sqxdy9zk",
+        "nonce": 133614499,
+        "reward": 146229454,
+        "miner_reward": 131606509,
+        "dev_reward": 14622945,
+        "supply": 10279945002,
+        "timestamp": 1711310140627,
+        "tips": [
+            "00000003ca482c0b91e103c180f3ac675b4f4a1e061086d382ec8879b19f8d16"
+        ],
+        "topoheight": 70,
+        "total_fees": 0,
+        "total_fees_burned": 0,
+        "total_size_in_bytes": 124,
+        "txs_hashes": [],
+        "version": 0
+    }
 }
 ```
+NOTE: The `transactions` field is only included when `include_txs` is set to `true`.

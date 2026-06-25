@@ -1,33 +1,35 @@
 ### `create_balance_proof`
 
-> Create a cryptographic proof of your balance for a specific asset.
-
+Create a cryptographic proof of your balance for a specific asset.
 The proof is returned as a bech32-encoded string that can be shared with other parties for verification.
 
-Parameters
+If `topoheight` is not provided, the current wallet balance topoheight is used.
+If `topoheight` is provided, the balance at the requested topoheight will be fetched from the daemon and used for proof creation.
 
-|     Name    |   Type   | Required |                         Note                          |
-|:-----------:|:--------:|:--------:|:-----------------------------------------------------:|
-|    asset    |   Hash   | Required | Asset to create the proof for                         |
-| topoheight  | Integer  | Optional | Topoheight to use for the balance (defaults to current) |
+
+Parameters
+|     Name     |     Type    | Required |                           Note                            |
+|:------------:|:-----------:|:--------:|:---------------------------------------------------------:|
+|    asset     |    Hash     | Required |          Asset to create the proof for                    |
+| topoheight   |   Integer   | Optional | Topoheight to use for the balance (defaults to current)   |
 
 Request
 ```json
 {
-  "jsonrpc": "2.0",
-  "method": "create_balance_proof",
-  "id": 1,
-  "params": {
-    "asset": "0000000000000000000000000000000000000000000000000000000000000000"
-  }
+    "jsonrpc": "2.0",
+    "method": "create_balance_proof",
+    "id": 1,
+    "params": {
+        "asset": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
 }
 ```
 
 Response
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": "proof:..."
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": "proof:..."
 }
 ```

@@ -1,33 +1,34 @@
 ### `get_transaction_executor`
 
-> Get the block the the transaction was executed in.
+Fetch the block hash where the transaction was executed and its topoheight.
+
 
 Parameters
-
-|       Name          |   Type  | Required |                      Note                        |
-|:-------------------:|:-------:|:--------:|:------------------------------------------------:|
-|  hash               | Hash    | Required |                                                  |
+| Name | Type | Required |            Note           |
+|:----:|:----:|:--------:|:-------------------------:|
+| hash | Hash | Required | Transaction hash to fetch |
 
 Request
 ```json
 {
-  "jsonrpc": "2.0",
-  "method": "get_transaction_executor",
-  "id": 1,
-  "params": {
-    "hash": "e7137ea8fe3d39c1c525f3b4ef0045d3b755270a2f15bd702b5efbed2129c58e"
-  }
+    "jsonrpc": "2.0",
+    "method": "get_transaction_executor",
+    "id": 1,
+    "params": {
+        "hash": "dd693bad09cb03ba0bf9a6fa7b787f918748db869c1463b7fa16e20b498dea88"
+    }
 }
 ```
 
 Response
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": {
-    "block_topoheight":	472424,
-    "block_hash": "e118b2cad5e03a673e5f46df2f8eac759bbe65852e6495b0277a043cdc64171b"
-  }
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "block_topoheight": 22285,
+        "block_hash": "000000000bc1070fda6b86eb31fbf3f15e89be9c10928415b2254fcab96088a8",
+        "block_timestamp": 1711665284000
+    }
 }
 ```

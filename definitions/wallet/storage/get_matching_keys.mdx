@@ -1,27 +1,36 @@
 ### `get_matching_keys`
 
-> Retrieve all keys available in the selected tree, with optional query filter.
+Retrieve all keys available in the selected tree, with optional query filter.
+
+
+Parameters
+|  Name | Type    | Required |                   Note                      |
+|:-----:|:-------:|:--------:|:-------------------------------------------:|
+| tree  | String  | Required | Tree name to search in                      |
+| query | Query   | Optional | Optional query filter for key values        |
+| limit | Integer | Optional | Maximum number of keys to return            |
+| skip  | Integer | Optional | Number of keys to skip                      |
 
 Request
 ```json
 {
-  "jsonrpc": "2.0",
-  "method": "get_matching_keys",
-  "id": 1,
-  "params": {
-    "tree": "test"
-  }
+    "jsonrpc": "2.0",
+    "method": "get_matching_keys",
+    "id": 1,
+    "params": {
+        "tree": "test"
+    }
 }
 ```
 
 Response
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": [
-    "my_list",
-    "my_key"
-  ]
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": [
+        "my_list",
+        "my_key"
+    ]
 }
 ```

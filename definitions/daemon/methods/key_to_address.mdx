@@ -1,0 +1,33 @@
+### `key_to_address`
+
+Convert a public key to an address.
+
+
+Parameters
+| Name  |   Type   | Required |                    Note                    |
+|:-----:|:--------:|:--------:|:------------------------------------------:|
+|  hex  |  String  | One of   | Public key encoded as hexadecimal          |
+| bytes | Integer[]| One of   | Public key encoded as 32 raw byte integers |
+
+Parameter is either `{ "hex": "..." }` or `{ "bytes": [...] }`.
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "key_to_address",
+    "id": 1,
+    "params": {
+        "hex": "6423b4908e5bd32241e3443fccfb7bab86a899a8cca12b3fedf255634d156d66"
+    }
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": "xet:6eadzwf5xdacts6fs4y3csmnsmy4mcxewqt3xyygwfx0hm0tm32sqxdy9zk"
+}
+```

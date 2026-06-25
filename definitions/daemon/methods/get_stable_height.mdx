@@ -1,23 +1,26 @@
 ### `get_stable_height`
 
-> Retrieve current stable height of the chain.
+Retrieve current stable height of the chain.
+`get_stableheight` is kept as a backward-compatible alias.
+
+
+Parameters
+No parameters
 
 Request
-
 ```json
 {
-  "jsonrpc": "2.0",
-  "method": "get_stable_height",
-  "id": 1
+    "jsonrpc": "2.0",
+    "method": "get_stable_height",
+    "id": 1
 }
 ```
 
 Response
-
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": 15
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": 15
 }
 ```

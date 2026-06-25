@@ -1,9 +1,9 @@
 ### `transaction_added_in_mempool`
 
-> When a new valid transaction is added in mempool
+When a valid transaction is added in the daemon mempool.
 
-On Response
 
+On Event
 ```json
 {
     "id": 1,
@@ -11,11 +11,11 @@ On Response
     "result": {
         "event": "transaction_added_in_mempool",
         "fee": 25000,
+        "fee_per_kb": 16479,
         "first_seen": 1723502900,
         "hash": "4951a4d10b8921c8e08d3c380993305a1e4706cbba606e2e79ffdfc06c54eb5f",
         "size": 1517,
-        "source": "xel:ntpjg269f0efkvft8rckyqd0dwq480jphngy0fujxal7ng6qmfxqqnp3r5l",
-        "version": 0
+        "source": "xel:ntpjg269f0efkvft8rckyqd0dwq480jphngy0fujxal7ng6qmfxqqnp3r5l"
     }
 }
 ```

@@ -1,34 +1,36 @@
 ### `extract_key_from_address`
 
-Parameters
+Extract public key from a wallet address
 
+
+Parameters
 |    Name   |   Type  | Required |                                         Note                                         |
 |:---------:|:-------:|:--------:|:------------------------------------------------------------------------------------:|
 |  address  | Address | Required |                               wallet address to verify                               |
 |  as_hex   | Boolean | Optional | Returns Public Key as hexadecimal. By default set to false and returns a byte array. |
 
-Request
+NOTE: If `as_hex` is `false`, the response result will contains a field named `bytes` instead of `hex`.
 
+Request
 ```json
 {
-  "jsonrpc": "2.0",
-  "id": 1,
-  "method": "extract_key_from_address",
-  "params": {
-    "address": "xel:vs3mfyywt0fjys0rgslue7mm4wr23xdgejsjk0ld7f2kxng4d4nqqnkdufz",
-    "as_hex": true
-  }
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "extract_key_from_address",
+    "params": {
+        "address": "xel:vs3mfyywt0fjys0rgslue7mm4wr23xdgejsjk0ld7f2kxng4d4nqqnkdufz",
+        "as_hex": true
+    }
 }
 ```
 
 Response
-
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": {
-    "result": "6423b4908e5bd32241e3443fccfb7bab86a899a8cca12b3fedf255634d156d66"
-  }
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "hex": "6423b4908e5bd32241e3443fccfb7bab86a899a8cca12b3fedf255634d156d66"
+    }
 }
 ```

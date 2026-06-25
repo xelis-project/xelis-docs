@@ -1,18 +1,18 @@
 ### `transaction_executed`
 
-> When a transaction has been included in a valid block & executed on chain
+When a transaction has been executed by the DAG order.
 
-On Response
 
+On Event
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": {
-    "block_hash": "cdae731b35c7bef7bfa4678fb97618d13957e99009e1aa952b5b5598f717c49e",
-    "event": "transaction_executed",
-    "topoheight": 6472,
-    "tx_hash": "43e10cf783e6596efdfdd1fe9480be7221e5bfb36c817a299a9fc95b98624e80"
-  }
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "block_hash": "f51d9df594e8222a51d060469478bd8f0c73cf67dde47d8f22eb215f633692a6",
+        "event": "transaction_executed",
+        "topoheight": 641928,
+        "tx_hash": "591e28f8e03e234804fe51f6beef3553698f31015288f93a088f42430bbc0130"
+    }
 }
 ```

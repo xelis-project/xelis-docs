@@ -1,34 +1,34 @@
 ### `get_account_assets`
 
-> List of assets within a specific address.
+Retrieve all assets for an account
+
 
 Parameters
-
-|       Name          |   Type  | Required |                      Note                          |
-|:-------------------:|:-------:|:--------:|:--------------------------------------------------:|
-|  address            | Address | Required | Account address                                    |
+|   Name  |   Type  | Required |                Note               |
+|:-------:|:-------:|:--------:|:---------------------------------:|
+| address | Address | Required |     Valid address registered on chain      |
+|  skip   | Integer | Optional |          How many assets to skip           |
+| maximum | Integer | Optional | Maximum assets to fetch (limited to 64)    |
 
 Request
-
 ```json
 {
-  "jsonrpc": "2.0",
-  "id": 1,
-  "method": "get_account_assets",
-  "params": {
-    "address": "xet:qze954a6tjc2d36zdjuapgu75hpckvtlmfxsymevmqn9ewvpkfasqkrzdql"
-  }
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "get_account_assets",
+    "params": {
+        "address": "xet:6eadzwf5xdacts6fs4y3csmnsmy4mcxewqt3xyygwfx0hm0tm32sqxdy9zk"
+    }
 }
 ```
 
 Response
-
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": [
-    "0000000000000000000000000000000000000000000000000000000000000000",
-  ]
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": [
+        "0000000000000000000000000000000000000000000000000000000000000000"
+    ]
 }
 ```

@@ -1,0 +1,40 @@
+### `get_mempool_summary`
+
+Fetch transactions summary presents in the mempool
+
+
+Parameters
+|   Name  |   Type  | Required |                 Note                   |
+|:-------:|:-------:|:--------:|:--------------------------------------:|
+|  skip   | Integer | Optional |          How many TXs to skip          |
+| maximum | Integer | Optional | Maximum TXs to fetch (limited to 1024) |
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "get_mempool_summary"
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "transactions": [
+            {
+                "fee": 25000,
+                "fee_per_kb": 16479,
+                "first_seen": 1711665284,
+                "hash": "5c0c4a0d58cf678015af2e10f79119ed6d969dd3d1e98ca4ffefbb4439765658",
+                "source": "xet:6eadzwf5xdacts6fs4y3csmnsmy4mcxewqt3xyygwfx0hm0tm32sqxdy9zk",
+                "size": 1517
+            }
+        ],
+        "total": 1
+    }
+}
+```

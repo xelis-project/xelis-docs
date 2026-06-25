@@ -1,47 +1,57 @@
 ### `query_db`
 
-> Query the DB in the requested Tree with filters.
+Query the DB in the requested Tree with filters.
+
+
+Parameters
+| Name  |  Type   | Required |                  Note                  |
+|:-----:|:-------:|:--------:|:--------------------------------------:|
+| tree  | String  | Required | Tree name to query                    |
+| key   | Query   | Optional | Optional query filter on keys         |
+| value | Query   | Optional | Optional query filter on values       |
+| limit | Integer | Optional | Maximum number of entries to return   |
+| skip  | Integer | Optional | Number of entries to skip             |
 
 Request
 ```json
 {
-  "jsonrpc": "2.0",
-  "method": "query_db",
-  "id": 1,
-  "params": {
-    "tree": "test",
-    "value": {
-      "or": [
-        {
-          "equal": "welcome"
-        },
-        {
-          "equal": "test"
-        },
-        {
-          "equal": "!"
+    "jsonrpc": "2.0",
+    "method": "query_db",
+    "id": 1,
+    "params": {
+        "tree": "test",
+        "value": {
+            "or": [
+                {
+                    "equal": "welcome"
+                },
+                {
+                    "equal": "test"
+                },
+                {
+                    "equal": "!"
+                }
+            ]
         }
-      ]
     }
-  }
 }
 ```
 
 Response
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": {
-    "entries": {
-      "my_list": [
-        "hello",
-        " ",
-        "world",
-        "!"
-      ]
-    },
-    "next": null
-  }
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "entries": {
+            "my_list": [
+                "hello",
+                " ",
+                "world",
+                "!"
+            ]
+        },
+        "next": null
+    }
 }
 ```

@@ -1,34 +1,36 @@
 ### `get_nonce_at_topoheight`
 
-> Get topoheight nonce value of an address.
+Get nonce from address at exact topoheight
+
 
 Parameters
-
-|   Name     |   Type  | Required |                Note               |
-|:----------:|:-------:|:--------:|:---------------------------------:|
-| address    | Address | Required | Valid address registered on chain |
-| topoheight | Integer | Required | nonce at specified topoheight     |
+|    Name    |   Type  | Required |                           Note                          |
+|:----------:|:-------:|:--------:|:-------------------------------------------------------:|
+|   address  | Address | Required |            Valid address registered on chain            |
+| topoheight | Integer | Required | Topoheight to retrieve a version (if exists) of balance |
 
 Request
-
 ```json
 {
-  "jsonrpc": "2.0",
-  "id": 1,
-  "method": "get_nonce_at_topoheight",
-  "params": {
-    "address": "xet:qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
-    "topoheight": 0
-  }
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "get_nonce_at_topoheight",
+    "params": {
+        "address": "xet:6eadzwf5xdacts6fs4y3csmnsmy4mcxewqt3xyygwfx0hm0tm32sqxdy9zk",
+        "topoheight": 11269
+    }
 }
 ```
 
 Response
-
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": 0
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "nonce": 1458,
+        "previous_topoheight": 11266
+    }
 }
 ```
+NOTE: `topoheight` field isn't returned because you're requesting an exact topoheight already, so you know it.

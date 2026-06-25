@@ -1,0 +1,34 @@
+### `get_block_difficulty_by_hash`
+
+Retrieve the difficulty and hashrate for a specific block by its hash.
+
+
+Parameters
+|    Name    | Type | Required |           Note           |
+|:----------:|:----:|:--------:|:------------------------:|
+| block_hash | Hash | Required | Block hash to look up    |
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "get_block_difficulty_by_hash",
+    "id": 1,
+    "params": {
+        "block_hash": "000000000bc1070fda6b86eb31fbf3f15e89be9c10928415b2254fcab96088a8"
+    }
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "difficulty": "79746345000",
+        "hashrate": "5316423000",
+        "hashrate_formatted": "5.32 GH/s"
+    }
+}
+```

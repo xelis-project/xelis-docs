@@ -1,0 +1,36 @@
+### `get_contract_balance`
+
+Retrieve the contract balance
+
+
+Parameters
+|    Name    |     Type    | Required |                         Note                         |
+|:----------:|:-----------:|:--------:|:----------------------------------------------------:|
+|  contract  |    Hash     | Required |       Contract hash to search for the balance        |
+|    asset   |    Hash     | Required |   The asset ID to determine which balance to fetch   |
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "get_contract_balance",
+    "id": 1,
+    "params": {
+        "contract": "b756566452b2c7bfea785f1b87b90d7bf075cb45a0dc33fb524e5e25f7e85fb4",
+        "asset": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "topoheight": 70,
+        "data": 99900000,
+        "previous_topoheight": null
+    }
+}
+```

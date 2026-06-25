@@ -1,0 +1,67 @@
+### `list_transactions`
+
+Search transactions based on various parameters.
+By default it accepts every TXs.
+
+For `address` param, it is compared to the sender if it's an incoming TX, and to destination address for outgoing TX.
+
+Topoheight range if specified is inclusive.
+Meaning if you set max_topoheight at 10 and you have a TX at 10 its returned.
+
+
+Parameters
+|       Name      |   Type  | Required |                              Note                             |
+|:---------------:|:-------:|:--------:|:-------------------------------------------------------------:|
+|      asset      |   Hash  | Optional | Filter on a specific asset only. By default accept all assets |
+|  min_topoheight | Integer | Optional |                    Start from specific topo                   |
+|  max_topoheight | Integer | Optional |                      End at specific topo                     |
+|  min_timestamp  | Integer | Optional |             Start from specific timestamp (ms)                |
+|  max_timestamp  | Integer | Optional |              End at specific timestamp (ms)                   |
+|     address     |  String | Optional |                      Filter with address                      |
+| accept_incoming | Boolean | Optional |                        Filter incoming                        |
+| accept_outgoing | Boolean | Optional |                        Filter outgoing                        |
+| accept_coinbase | Boolean | Optional |                        Filter coinbase                        |
+|   accept_burn   | Boolean | Optional |                          Filter burn                          |
+|   accept_blob   | Boolean | Optional |                          Filter blob                          |
+|      query      |  Query  | Optional |                 Allow to filter on extra data                 |
+|      limit      | Integer | Optional |                 Maximum number of entries returned            |
+|      skip       | Integer | Optional |                 Skip the first N matching entries             |
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "list_transactions",
+    "id": 1,
+    "params": {
+        "accept_coinbase": false,
+        "accept_outgoing": false,
+        "accept_incoming": true
+    }
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": [
+        {
+            "hash": "dd693bad09cb03ba0bf9a6fa7b787f918748db869c1463b7fa16e20b498dea88",
+            "timestamp": 1711665303229,
+            "incoming": {
+                "from": "xet:dn3x9yspqtuzhm874m267a3g9fkdztr3uztyx534wdx3p9rkdspqqhpss5d",
+                "transfers": [
+                    {
+                        "amount": 100000000,
+                        "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+                        "extra_data": null
+                    }
+                ]
+            },
+            "topoheight": 10657
+        }
+    ]
+}
+```

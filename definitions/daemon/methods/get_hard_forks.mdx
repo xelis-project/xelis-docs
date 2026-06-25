@@ -1,0 +1,38 @@
+### `get_hard_forks`
+
+Retrieve the list of configured hard forks with their activation heights and changelogs.
+
+
+Parameters
+No parameters
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "get_hard_forks",
+    "id": 1
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": [
+        {
+            "height": 0,
+            "version": 0,
+            "changelog": "Genesis version",
+            "version_requirement": null
+        },
+        {
+            "height": 434514,
+            "version": 1,
+            "changelog": "...",
+            "version_requirement": ">=1.10.0"
+        }
+    ]
+}
+```

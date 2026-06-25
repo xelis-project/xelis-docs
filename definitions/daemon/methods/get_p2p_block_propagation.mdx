@@ -1,0 +1,42 @@
+### `get_p2p_block_propagation`
+
+Retrieve the P2P block propagation timing information, showing when each peer sent or received a specific block.
+
+
+Parameters
+|    Name  |   Type  | Required |                       Note                        |
+|:--------:|:-------:|:--------:|:-------------------------------------------------:|
+|   hash   |   Hash  | Required | Block hash to retrieve propagation data for       |
+| outgoing | Boolean | Optional | Include outgoing propagation data (default: true) |
+| incoming | Boolean | Optional | Include incoming propagation data (default: true) |
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "get_p2p_block_propagation",
+    "id": 1,
+    "params": {
+        "hash": "000000000bc1070fda6b86eb31fbf3f15e89be9c10928415b2254fcab96088a8"
+    }
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "peers": {
+            "7542674138406502028": {
+                "in": {
+                    "received_at": 1711663576873
+                }
+            }
+        },
+        "first_seen": 1711663576800,
+        "processing_at": 1711663576850
+    }
+}
+```

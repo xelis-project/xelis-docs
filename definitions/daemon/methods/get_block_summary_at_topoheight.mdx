@@ -1,0 +1,46 @@
+### `get_block_summary_at_topoheight`
+
+Retrieve a summarized version of a block at a specific topoheight, including transaction summaries.
+
+
+Parameters
+|    Name    |   Type  | Required |             Note              |
+|:----------:|:-------:|:--------:|:-----------------------------:|
+| topoheight | Integer | Required | Topoheight of block to fetch  |
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "get_block_summary_at_topoheight",
+    "id": 1,
+    "params": {
+        "topoheight": 22177
+    }
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "block_hash": "0000000001ef6ad0bcc58afd8ffdd458ce262132b88211dcc0b6fd0f8505b858",
+        "height": 22177,
+        "timestamp": 1711663576873,
+        "miner": "xet:6eadzwf5xdacts6fs4y3csmnsmy4mcxewqt3xyygwfx0hm0tm32sqxdy9zk",
+        "transactions": [],
+        "block_type": "Normal",
+        "difficulty": "79746345000",
+        "cumulative_difficulty": "1234567890000",
+        "topoheight": 22177,
+        "reward": 137924147,
+        "miner_reward": 124131733,
+        "dev_reward": 13792414,
+        "supply": 3209375196561,
+        "total_fees": 0,
+        "total_fees_burned": 0
+    }
+}
+```

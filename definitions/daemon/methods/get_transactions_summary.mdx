@@ -1,0 +1,40 @@
+### `get_transactions_summary`
+
+Fetch a summarized version of transactions by their hashes. Returns source, fee, size and hash for each transaction.
+If a transaction is not found, its position in the result array will be `null`.
+
+
+Parameters
+|    Name   |   Type   | Required |              Note              |
+|:---------:|:--------:|:--------:|:------------------------------:|
+| tx_hashes | Hash[]   | Required | Transaction hashes to fetch (max 64) |
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "get_transactions_summary",
+    "id": 1,
+    "params": {
+        "tx_hashes": [
+            "dd693bad09cb03ba0bf9a6fa7b787f918748db869c1463b7fa16e20b498dea88"
+        ]
+    }
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": [
+        {
+            "hash": "dd693bad09cb03ba0bf9a6fa7b787f918748db869c1463b7fa16e20b498dea88",
+            "source": "xet:6eadzwf5xdacts6fs4y3csmnsmy4mcxewqt3xyygwfx0hm0tm32sqxdy9zk",
+            "fee": 25000,
+            "size": 1517
+        }
+    ]
+}
+```

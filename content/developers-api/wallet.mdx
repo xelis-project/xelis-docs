@@ -1,5 +1,4 @@
 import { Tabs, Callout } from 'nextra/components'
-
 import GetVersion from '../../definitions/wallet/methods/get_version.mdx'
 import GetNetwork from '../../definitions/wallet/methods/get_network.mdx'
 import GetNonce from '../../definitions/wallet/methods/get_nonce.mdx'
@@ -24,38 +23,42 @@ import BuildTransactionOffline from '../../definitions/wallet/methods/build_tran
 import BuildUnsignedTransaction from '../../definitions/wallet/methods/build_unsigned_transaction.mdx'
 import FinalizeUnsignedTransaction from '../../definitions/wallet/methods/finalize_unsigned_transaction.mdx'
 import SignUnsignedTransaction from '../../definitions/wallet/methods/sign_unsigned_transaction.mdx'
-import ListTransaction from '../../definitions/wallet/methods/list_transaction.mdx'
+import GetPendingTransactions from '../../definitions/wallet/methods/get_pending_transactions.mdx'
 import ClearTxCache from '../../definitions/wallet/methods/clear_tx_cache.mdx'
+import ListTransactions from '../../definitions/wallet/methods/list_transactions.mdx'
+import SignData from '../../definitions/wallet/methods/sign_data.mdx'
+import VerifySignedData from '../../definitions/wallet/methods/verify_signed_data.mdx'
+import EstimateFees from '../../definitions/wallet/methods/estimate_fees.mdx'
+import EstimateExtraDataSize from '../../definitions/wallet/methods/estimate_extra_data_size.mdx'
 import IsOnline from '../../definitions/wallet/methods/is_online.mdx'
 import SetOnlineMode from '../../definitions/wallet/methods/set_online_mode.mdx'
 import SetOfflineMode from '../../definitions/wallet/methods/set_offline_mode.mdx'
 import NetworkInfo from '../../definitions/wallet/methods/network_info.mdx'
-import EstimateFee from '../../definitions/wallet/methods/estimate_fee.mdx'
-import EstimateExtraDataSize from '../../definitions/wallet/methods/estimate_extra_data_size.mdx'
-import SignData from '../../definitions/wallet/methods/sign_data.mdx'
-import VerifySignedData from '../../definitions/wallet/methods/verify_signed_data.mdx'
 import DecryptExtraData from '../../definitions/wallet/methods/decrypt_extra_data.mdx'
 import DecryptCiphertext from '../../definitions/wallet/methods/decrypt_ciphertext.mdx'
 import CreateOwnershipProof from '../../definitions/wallet/methods/create_ownership_proof.mdx'
 import CreateBalanceProof from '../../definitions/wallet/methods/create_balance_proof.mdx'
 import VerifyHumanReadableProof from '../../definitions/wallet/methods/verify_human_readable_proof.mdx'
-
-import BalanceChanged from '../../definitions/wallet/events/balance_changed.mdx'
-import NewAsset from '../../definitions/wallet/events/new_asset.mdx'
-import NewTopoHeight from '../../definitions/wallet/events/new_topo_height.mdx'
-import NewTransaction from '../../definitions/wallet/events/new_transaction.mdx'
-import Offline from '../../definitions/wallet/events/offline.mdx'
-import Online from '../../definitions/wallet/events/online.mdx'
-import RescanEvent from '../../definitions/wallet/events/rescan.mdx'
-
-import Store from '../../definitions/wallet/storage/store.mdx'
-import Delete from '../../definitions/wallet/storage/delete.mdx'
-import HasKey from '../../definitions/wallet/storage/has_key.mdx'
-import QueryDB from '../../definitions/wallet/storage/query_db.mdx'
-import GetValueFromKey from '../../definitions/wallet/storage/get_value_from_key.mdx'
+import EventNewTopoHeight from '../../definitions/wallet/events/new_topo_height.mdx'
+import EventNewAsset from '../../definitions/wallet/events/new_asset.mdx'
+import EventNewTransaction from '../../definitions/wallet/events/new_transaction.mdx'
+import EventNewPendingTransaction from '../../definitions/wallet/events/new_pending_transaction.mdx'
+import EventBalanceChanged from '../../definitions/wallet/events/balance_changed.mdx'
+import EventRescan from '../../definitions/wallet/events/rescan.mdx'
+import EventHistorySynced from '../../definitions/wallet/events/history_synced.mdx'
+import EventOnline from '../../definitions/wallet/events/online.mdx'
+import EventOffline from '../../definitions/wallet/events/offline.mdx'
+import EventSyncError from '../../definitions/wallet/events/sync_error.mdx'
+import EventTrackAsset from '../../definitions/wallet/events/track_asset.mdx'
+import EventUntrackAsset from '../../definitions/wallet/events/untrack_asset.mdx'
 import GetMatchingKeys from '../../definitions/wallet/storage/get_matching_keys.mdx'
 import CountMatchingEntries from '../../definitions/wallet/storage/count_matching_entries.mdx'
 import DeleteTreeEntries from '../../definitions/wallet/storage/delete_tree_entries.mdx'
+import Store from '../../definitions/wallet/storage/store.mdx'
+import Delete from '../../definitions/wallet/storage/delete.mdx'
+import HasKey from '../../definitions/wallet/storage/has_key.mdx'
+import GetValueFromKey from '../../definitions/wallet/storage/get_value_from_key.mdx'
+import QueryDb from '../../definitions/wallet/storage/query_db.mdx'
 
 # Wallet API
 
@@ -149,16 +152,17 @@ Concatenating both username and password with `:` gives `QWxhZGRpbjpvcGVuIHNlc2F
 <BuildUnsignedTransaction />
 <FinalizeUnsignedTransaction />
 <SignUnsignedTransaction />
-<ListTransaction />
+<GetPendingTransactions />
 <ClearTxCache />
+<ListTransactions />
+<SignData />
+<VerifySignedData />
+<EstimateFees />
+<EstimateExtraDataSize />
 <IsOnline />
 <SetOnlineMode />
 <SetOfflineMode />
 <NetworkInfo />
-<EstimateFee />
-<EstimateExtraDataSize />
-<SignData />
-<VerifySignedData />
 <DecryptExtraData />
 <DecryptCiphertext />
 <CreateOwnershipProof />
@@ -191,13 +195,18 @@ ws.onmessage = (message) => {
 ws.send(JSON.stringify(message))
 ```
 
-<BalanceChanged />
-<NewAsset />
-<NewTopoHeight />
-<NewTransaction />
-<Offline />
-<Online />
-<RescanEvent />
+<EventNewTopoHeight />
+<EventNewAsset />
+<EventNewTransaction />
+<EventNewPendingTransaction />
+<EventBalanceChanged />
+<EventRescan />
+<EventHistorySynced />
+<EventOnline />
+<EventOffline />
+<EventSyncError />
+<EventTrackAsset />
+<EventUntrackAsset />
 
 ## Storage
 
@@ -234,11 +243,11 @@ Please note that these functionalities are also available from XSWD calls, which
 
 This query system will also be used in daemon once Smart Contracts are deployed to easily search entries in the Smart Contract database.
 
+<GetMatchingKeys />
+<CountMatchingEntries />
+<DeleteTreeEntries />
 <Store />
 <Delete />
 <HasKey />
 <GetValueFromKey />
-<GetMatchingKeys />
-<CountMatchingEntries />
-<DeleteTreeEntries />
-<QueryDB />
+<QueryDb />

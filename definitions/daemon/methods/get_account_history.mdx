@@ -1,39 +1,63 @@
 ### `get_account_history`
 
-> List mined blocks, incoming and outgoing transactions.
+Fetch up to 20 history events for an account on a specific asset.
+
+NOTE: If no asset is provided, default is set to XELIS.
+
 
 Parameters
-
-|       Name          |   Type  | Required |                      Note                          |
-|:-------------------:|:-------:|:--------:|:--------------------------------------------------:|
-|  address            | Address | Required | Account address                                    |
+|        Name        |   Type  | Required |                               Note                              |
+|:------------------:|:-------:|:--------:|:---------------------------------------------------------------:|
+|       address      | Address | Required |                Valid address registered on chain                |
+|        asset       |   Hash  | Optional |                          Asset to track                         |
+| minimum_topoheight | Integer | Optional |                  minimum topoheight for history                 |
+| maximum_topoheight | Integer | Optional |                  Maximum topoheight for history                 |
+|    outgoing_flow   | Boolean | Optional |       Set to true by default, filter outgoing transactions      |
+|    incoming_flow   | Boolean | Optional | Set to true by default, filter incoming transactions / coinbase |
 
 Request
-
 ```json
 {
-  "jsonrpc": "2.0",
-  "id": 1,
-  "method": "get_account_history",
-  "params": {
-    "address": "xet:qze954a6tjc2d36zdjuapgu75hpckvtlmfxsymevmqn9ewvpkfasqkrzdql"
-  }
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "get_account_history",
+    "params": {
+        "address": "xet:6eadzwf5xdacts6fs4y3csmnsmy4mcxewqt3xyygwfx0hm0tm32sqxdy9zk",
+        "asset": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
 }
 ```
 
 Response
-
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": [{
-    "block_timestamp": 1697749965331,
-    "hash": "00000030bd46c7d790693fad42c9096744c343c75b9d45704ae182611e51dc82",
-    "mining": {
-        "reward": 116937
-    },
-    "topoheight": 499058
-  }]
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": [
+        {
+            "block_timestamp": 1711665303229,
+            "hash": "5c0c4a0d58cf678015af2e10f79119ed6d969dd3d1e98ca4ffefbb4439765658",
+            "outgoing": {
+                "to": "xet:q622pz5exf5hmw98d73dlqhwjvfwd5g9k0tpuay90ga634c64cgsqczfmvx"
+            },
+            "topoheight": 22286
+        },
+        {
+            "block_timestamp": 1711487499112,
+            "hash": "0000000001088c329a08fce87b8ce49734d1508d91708aa4234ba1548190c75b",
+            "mining": {
+                "reward": 131491368
+            },
+            "topoheight": 11203
+        },
+        {
+            "block_timestamp": 1711478790950,
+            "hash": "1a16381b252405636b72756a5b4c664a043a8a7ed659f5724085286250fd1f07",
+            "outgoing": {
+                "to": "xet:t23w8pp90zsj04sp5r3r9sjpz3vq7rxcwhydf5ztlk6efhnusersqvf8sny"
+            },
+            "topoheight": 10659
+        }
+    ]
 }
 ```

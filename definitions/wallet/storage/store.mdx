@@ -1,26 +1,34 @@
 ### `store`
 
-> Store a new key / value entry in the requested Tree.
+Store a new key / value entry in the requested Tree.
+
+
+Parameters
+|  Name |    Type     | Required |              Note              |
+|:-----:|:-----------:|:--------:|:------------------------------:|
+| tree  | String      | Required | Tree name to store in          |
+| key   | DataValue   | Required | Entry key                      |
+| value | DataElement | Required | Entry value                    |
 
 Request
 ```json
 {
-  "jsonrpc": "2.0",
-  "method": "store",
-  "id": 1,
-  "params": {
-    "tree": "test",
-    "key": "my_list",
-    "value": ["hello", " ", "world", "!"]
-  }
+    "jsonrpc": "2.0",
+    "method": "store",
+    "id": 1,
+    "params": {
+        "tree": "test",
+        "key": "my_list",
+        "value": ["hello", " ", "world", "!"]
+    }
 }
 ```
 
 Response
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": true
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": true
 }
 ```

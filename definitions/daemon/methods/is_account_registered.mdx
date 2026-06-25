@@ -1,34 +1,35 @@
 ### `is_account_registered`
 
-> Check if the account is registered on chain or not.
+Verify if the account on chain is registered.
+This is useful to determine if we should pay additionnal fee or not.
+
+For transactions, it is recommended to verify that the account is already registered in stable height.
+
 
 Parameters
-
-|       Name          |   Type  | Required |                      Note                        |
-|:-------------------:|:-------:|:--------:|:------------------------------------------------:|
-|  address            | String  | Required |                                                  |
-|  in_stable_height   | Boolean | Required |                                                  |
+|       Name       |   Type  | Required |                            Note                           |
+|:----------------:|:-------:|:--------:|:---------------------------------------------------------:|
+|      address     | Address | Required |               Account address to search for               |
+| in_stable_height | Boolean | Required | If registration must be done only in stable height or not |
 
 Request
-
 ```json
 {
-  "jsonrpc": "2.0",
-  "method": "is_account_registered",
-  "id": 1,
-  "params": {
-    "address": "xel:ee48xuktxn0kxh3r6p0hw9x68adcm0dqf4c04hptu0qhegcnldusqr62y47",
-    "in_stable_height": true
-  }
+    "jsonrpc": "2.0",
+    "method": "is_account_registered",
+    "id": 1,
+    "params": {
+        "address": "xet:6eadzwf5xdacts6fs4y3csmnsmy4mcxewqt3xyygwfx0hm0tm32sqxdy9zk",
+        "in_stable_height": true
+    }
 }
 ```
 
 Response
-
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": true
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": true
 }
 ```

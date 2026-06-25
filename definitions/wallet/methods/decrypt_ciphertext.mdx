@@ -1,33 +1,40 @@
 ### `decrypt_ciphertext`
 
-> Decrypt a ciphertext from its compressed format.
+Decrypt a ciphertext from its compressed format.
+
+If you want to decrypt the ciphertext of a Transaction, you need to take the Transfer `commitment` field.
+For the `handle` field, you need to select either `receiver_handle` or `sender_handle` based on the flow of the transaction.
+
+Please note that the value returned is in atomic units.
+
 
 Parameters
-
-|    Name    |     Type    | Required |              Note               |
-|:----------:|:-----------:|:--------:|:-------------------------------:|
-| ciphertext | Compressed  | Required | Ciphertext compressed format    |
+|    Name    |     Type    | Required |               Note                 |
+|:----------:|:-----------:|:--------:|:----------------------------------:|
+| ciphertext | Compressed  | Required |    Ciphertext compressed format    |
+| max_supply | Integer     | Optional |    Maximum amount to search while decrypting |
 
 Request
 ```json
 {
-  "jsonrpc": "2.0",
-  "method": "decrypt_ciphertext",
-  "id": 1,
-  "params": {
-    "ciphertext": {
-      "handle": [1, 2, 3],
-      "commitment": [4, 5, 6]
+    "jsonrpc": "2.0",
+    "method": "decrypt_ciphertext",
+    "id": 1,
+    "params": {
+        "ciphertext": {
+            "handle": [ ... ],
+            "commitment": [ ... ]
+        },
+        "max_supply": null
     }
-  }
 }
 ```
 
 Response
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": 5700000000
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": 5700000000
 }
 ```

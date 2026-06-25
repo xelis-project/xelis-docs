@@ -1,33 +1,36 @@
 ### `new_block`
 
-> When a new block is accepted by chain
+When a new block has been accepted and included in the chain by the daemon.
+
 
 On Event
-
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": {
-    "block_type": "Normal",
-    "cumulative_difficulty": 95411226796,
-    "difficulty": 3291268,
-    "event": "new_block",
-    "extra_nonce": "2365cfaac7652364a8fc9cfeadcbb16a0e29ae8c3aa48f099449ac92d161f91e",
-    "hash": "ad4c28c060f8bcc6fd7ccf955eeaebcd5611d69fc22a17b8ec6961a995b2c6be",
-    "height": 20698,
-    "miner": "xet:qyqxcfxdc8ywarcz3wx2leahnfn2pyp0ymvfm42waluq408j2x5680g05xfx5",
-    "nonce": 0,
-    "reward": 146229454,
-    "miner_reward": 131606509,
-    "dev_reward": 14622945,
-    "supply": 18071559927,
-    "timestamp": 1677081254817,
-    "tips": ["1faac9784c07b41d6e8740f15b23c163966aecebc1b7cac77aca74946a25625d"],
-    "topoheight": 20698,
-    "total_fees": 0,
-    "total_size_in_bytes": 131,
-    "txs_hashes": []
-  }
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "block_type": "Normal",
+        "cumulative_difficulty": "9909351292695001",
+        "difficulty": "85713090000",
+        "event": "new_block",
+        "extra_nonce": "cb4a04b8cd2913f0947c323c8a2fe4d3623047f1e8a9f4e5f717aaf6ec5da70e",
+        "hash": "0000000008ef82aeb890b919803e19985c430311ddd34aa9b0cb2d40a6dffb87",
+        "height": 106173,
+        "miner": "xet:4fcjmjxs6dyq7d3xl95m26wzfwrluz2tcqdtfp6fpc7rah2kmqusqdr3c66",
+        "nonce": 121282154,
+        "reward": 144997766,
+        "supply": 15506012755620,
+        "timestamp": 1713028338116,
+        "tips": [
+            "0000000000beaccfbb05ffc3b33536daffa85a90cbbf4761287376a65dcac859"
+        ],
+        "topoheight": 107219,
+        "total_fees": 0,
+        "total_fees_burned": 0,
+        "total_size_in_bytes": 124,
+        "transactions": [],
+        "txs_hashes": [],
+        "version": 0
+    }
 }
 ```

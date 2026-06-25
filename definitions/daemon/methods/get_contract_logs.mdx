@@ -1,0 +1,43 @@
+### `get_contract_logs`
+
+Retrieve all contract logs for a specific caller (transaction hash).
+
+Logs include information about gas refunds, transfers, asset minting/burning, scheduled executions, events, and more.
+
+
+Parameters
+|  Name  | Type | Required |                   Note                    |
+|:------:|:----:|:--------:|:-----------------------------------------:|
+| caller | Hash | Required | Transaction hash that called the contract |
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "get_contract_logs",
+    "id": 1,
+    "params": {
+        "caller": "8a354baac1d53d02249aadee92c5a3e0585b126439947cb4a3c3aa9baaea5f17"
+    }
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": [
+        {
+            "type": "exit_code",
+            "value": 0
+        },
+        {
+            "type": "refund_gas",
+            "value": {
+                "amount": 99593
+            }
+        }
+    ]
+}
+```

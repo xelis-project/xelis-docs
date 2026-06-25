@@ -1,0 +1,51 @@
+### `get_contract_data_entries`
+
+Retrieve multiple data entries from a contract's storage with optional pagination and topoheight filtering.
+
+
+Parameters
+|        Name        |   Type  | Required |                        Note                         |
+|:------------------:|:-------:|:--------:|:---------------------------------------------------:|
+|      contract      |   Hash  | Required | Contract hash to fetch data entries for             |
+| minimum_topoheight | Integer | Optional | Only include entries modified at or after this       |
+| maximum_topoheight | Integer | Optional | Only include entries modified at or before this      |
+|        skip        | Integer | Optional | Number of entries to skip                           |
+|      maximum       | Integer | Optional | Maximum number of entries to return (max 20)        |
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "get_contract_data_entries",
+    "id": 1,
+    "params": {
+        "contract": "740e2f94ba264464551787ddd6fa5e3222da464c6c659848f6e9a9d0730ac288"
+    }
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": [
+        {
+            "key": {
+                "type": "default",
+                "value": {
+                    "type": "string",
+                    "value": "my beautiful key"
+                }
+            },
+            "value": {
+                "type": "default",
+                "value": {
+                    "type": "string",
+                    "value": "my beautiful value"
+                }
+            }
+        }
+    ]
+}
+```

@@ -1,25 +1,26 @@
 ### `set_offline_mode`
 
-> Disconnect the wallet from the daemon if connected.
+Disconnect the wallet from the daemon and switch to offline mode.
+The wallet must be in online mode.
+
 
 Parameters
-
 No parameters
 
 Request
 ```json
 {
-  "jsonrpc": "2.0",
-  "method": "set_offline_mode",
-  "id": 1
+    "jsonrpc": "2.0",
+    "method": "set_offline_mode",
+    "id": 1
 }
 ```
 
 Response
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": true
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": true
 }
 ```

@@ -1,0 +1,95 @@
+### `simulate_contract_invoke`
+
+Simulate a contract invocation without writing chain state.
+
+This method is only registered when the daemon is started with `--rpc-allow-contract-vm-executions`.
+
+
+Parameters
+|     Name     |          Type           | Required |                         Note                         |
+|:------------:|:-----------------------:|:--------:|:----------------------------------------------------:|
+|    source    |         Address         | Required | Caller address used for simulation                   |
+|   contract   |          Hash           | Required | Contract hash to invoke                              |
+|   deposits   |        Deposits         | Required | Assets deposited with the simulated call             |
+|   entry_id   |         Integer         | Required | Contract entry id to call                            |
+|  parameters  |       ValueCell[]       | Required | Parameters passed to the contract                    |
+|  permission  | InterContractPermission | Optional | Inter-contract permission, defaults to `none`        |
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "simulate_contract_invoke",
+    "id": 1,
+    "params": {
+        "source": "xel:qcd39a5u8cscztamjuyr7hdj6hh2wh9nrmhp86ljx2sz6t99ndjqqm7wxj8",
+        "contract": "740e2f94ba264464551787ddd6fa5e3222da464c6c659848f6e9a9d0730ac288",
+        "deposits": {},
+        "entry_id": 0,
+        "parameters": [],
+        "permission": "none"
+    }
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "base_fee": 25000,
+        "result": {
+            "used_gas": 1200,
+            "burned_gas": 600,
+            "fee_gas": 600,
+            "vm_max_gas": 1200,
+            "exit_value": {
+                "type": "ExitCode",
+                "value": 0
+            }
+        },
+        "block_hash": "1914802b64b28386adc37927081beb6ac4677b6f85ee2149f7a143339c99d309",
+        "topoheight": 761761
+    }
+}
+```
+
+## Wallet
+
+### Events
+
+This require to use the WebSocket connection.
+
+All events sent by the wallet to be notified in real-time through the WebSocket.
+
+Every events are registered using the following RPC request (example for `new_topo_height` event)
+
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "subscribe",
+    "id": 1,
+    "params": {
+        "notify": "new_topo_height"
+    }
+}
+```
+
+This returns the following response:
+
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": true
+}
+```
+
+If its true, that means the wallet accepted the subscription to the requested event.
+If its returning false, that may means you are already subscribed to this event.
+
+To unsubscribe from an event, replace the method name `subscribe` by `unsubscribe`.
+
+**NOTE**: The field `id` used during the request `subscribe` of the event is reused for each event fired by the wallet.
+This is useful to determine which kind of event it is. You must set a unique `id` value to each event.

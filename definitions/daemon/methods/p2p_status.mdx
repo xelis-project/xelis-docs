@@ -1,31 +1,33 @@
 ### `p2p_status`
 
-> Retrieve some informations about P2p.
+Retrieve some informations about P2p
+
+
+Parameters
+No parameters
 
 Request
-
 ```json
 {
-  "jsonrpc": "2.0",
-  "id": 1,
-  "method": "p2p_status"
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "p2p_status"
 }
 ```
 
 Response
-
 ```json
-{ 
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": {
-    "best_topoheight": 23,
-    "median_topoheight": 23,
-    "max_peers": 32,
-    "our_topoheight": 23,
-    "peer_count": 1,
-    "peer_id": 17384099500704996810,
-    "tag": null
-  }
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "best_topoheight": 23,
+        "median_topoheight": 23,
+        "max_peers": 32,
+        "our_topoheight": 23,
+        "peer_count": 1,
+        "peer_id": 17384099500704996810,
+        "tag": null
+    }
 }
 ```

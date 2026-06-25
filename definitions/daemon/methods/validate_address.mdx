@@ -1,37 +1,37 @@
 ### `validate_address`
 
-> Validate a wallet address by accepting or not integrated address.
+Validate a wallet address by accepting or not integrated address.
+
 
 Parameters
-
 |       Name       |   Type  | Required |                         Note                        |
 |:----------------:|:-------:|:--------:|:---------------------------------------------------:|
 |      address     | Address | Required |               wallet address to verify              |
 | allow_integrated | Boolean | Optional | Allow integrated addresses. By default set to false |
+| max_integrated_data_size | Integer | Optional | Maximum accepted integrated data size |
 
 Request
-
 ```json
 {
-  "jsonrpc": "2.0",
-  "id": 0,
-  "method": "validate_address",
-  "params": {
-    "address": "xel:vs3mfyywt0fjys0rgslue7mm4wr23xdgejsjk0ld7f2kxng4d4nqqnkdufz",
-    "allow_integrated": false
-  }
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "validate_address",
+    "params": {
+        "address": "xel:vs3mfyywt0fjys0rgslue7mm4wr23xdgejsjk0ld7f2kxng4d4nqqnkdufz",
+        "allow_integrated": false,
+        "max_integrated_data_size": 1024
+    }
 }
 ```
 
 Response
-
 ```json
 {
-  "id": 0,
-  "jsonrpc": "2.0",
-  "result": {
-    "is_integrated": false,
-    "is_valid": true
-  }
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "is_integrated": false,
+        "is_valid": true
+    }
 }
 ```

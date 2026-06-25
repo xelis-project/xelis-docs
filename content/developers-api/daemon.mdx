@@ -1,76 +1,113 @@
 import { Tabs, Callout } from 'nextra/components'
-
 import GetVersion from '../../definitions/daemon/methods/get_version.mdx'
 import GetInfo from '../../definitions/daemon/methods/get_info.mdx'
+import GetDevFeeThresholds from '../../definitions/daemon/methods/get_dev_fee_thresholds.mdx'
+import GetSizeOnDisk from '../../definitions/daemon/methods/get_size_on_disk.mdx'
 import GetHeight from '../../definitions/daemon/methods/get_height.mdx'
 import GetTopoheight from '../../definitions/daemon/methods/get_topoheight.mdx'
+import GetPrunedTopoheight from '../../definitions/daemon/methods/get_pruned_topoheight.mdx'
 import GetStableHeight from '../../definitions/daemon/methods/get_stable_height.mdx'
+import GetStableheight from '../../definitions/daemon/methods/get_stableheight.mdx'
 import GetStableTopoheight from '../../definitions/daemon/methods/get_stable_topoheight.mdx'
+import GetDifficulty from '../../definitions/daemon/methods/get_difficulty.mdx'
+import GetHardForks from '../../definitions/daemon/methods/get_hard_forks.mdx'
+import ValidateAddress from '../../definitions/daemon/methods/validate_address.mdx'
+import SplitAddress from '../../definitions/daemon/methods/split_address.mdx'
+import ExtractKeyFromAddress from '../../definitions/daemon/methods/extract_key_from_address.mdx'
+import MakeIntegratedAddress from '../../definitions/daemon/methods/make_integrated_address.mdx'
+import GetBlockDifficultyByHash from '../../definitions/daemon/methods/get_block_difficulty_by_hash.mdx'
+import GetBlockBaseFeeByHash from '../../definitions/daemon/methods/get_block_base_fee_by_hash.mdx'
+import KeyToAddress from '../../definitions/daemon/methods/key_to_address.mdx'
 import GetBlockTemplate from '../../definitions/daemon/methods/get_block_template.mdx'
+import GetMinerWork from '../../definitions/daemon/methods/get_miner_work.mdx'
+import SubmitBlock from '../../definitions/daemon/methods/submit_block.mdx'
 import GetBlockAtTopoheight from '../../definitions/daemon/methods/get_block_at_topoheight.mdx'
 import GetBlocksAtHeight from '../../definitions/daemon/methods/get_blocks_at_height.mdx'
 import GetBlockByHash from '../../definitions/daemon/methods/get_block_by_hash.mdx'
 import GetTopBlock from '../../definitions/daemon/methods/get_top_block.mdx'
+import GetBlockSummaryAtTopoheight from '../../definitions/daemon/methods/get_block_summary_at_topoheight.mdx'
+import GetBlockSummaryByHash from '../../definitions/daemon/methods/get_block_summary_by_hash.mdx'
 import GetNonce from '../../definitions/daemon/methods/get_nonce.mdx'
 import HasNonce from '../../definitions/daemon/methods/has_nonce.mdx'
 import GetNonceAtTopoheight from '../../definitions/daemon/methods/get_nonce_at_topoheight.mdx'
 import GetBalance from '../../definitions/daemon/methods/get_balance.mdx'
+import GetStableBalance from '../../definitions/daemon/methods/get_stable_balance.mdx'
 import HasBalance from '../../definitions/daemon/methods/has_balance.mdx'
 import GetBalanceAtTopoheight from '../../definitions/daemon/methods/get_balance_at_topoheight.mdx'
-import GetAsset from '../../definitions/daemon/methods/get_asset.mdx'
+import GetBalancesAtMaximumTopoheight from '../../definitions/daemon/methods/get_balances_at_maximum_topoheight.mdx'
 import GetAssets from '../../definitions/daemon/methods/get_assets.mdx'
+import GetAsset from '../../definitions/daemon/methods/get_asset.mdx'
+import GetAssetSupply from '../../definitions/daemon/methods/get_asset_supply.mdx'
+import GetAssetSupplyAtTopoheight from '../../definitions/daemon/methods/get_asset_supply_at_topoheight.mdx'
 import CountAssets from '../../definitions/daemon/methods/count_assets.mdx'
-import CountTransactions from '../../definitions/daemon/methods/count_transactions.mdx'
 import CountAccounts from '../../definitions/daemon/methods/count_accounts.mdx'
+import CountTransactions from '../../definitions/daemon/methods/count_transactions.mdx'
+import CountContracts from '../../definitions/daemon/methods/count_contracts.mdx'
 import GetTips from '../../definitions/daemon/methods/get_tips.mdx'
-import P2PStatus from '../../definitions/daemon/methods/p2p_status.mdx'
-import GetDAGOrder from '../../definitions/daemon/methods/get_dag_order.mdx'
-import SubmitBlock from '../../definitions/daemon/methods/submit_block.mdx'
+import P2pStatus from '../../definitions/daemon/methods/p2p_status.mdx'
+import GetPeers from '../../definitions/daemon/methods/get_peers.mdx'
+import GetP2pBlockPropagation from '../../definitions/daemon/methods/get_p2p_block_propagation.mdx'
+import GetDagOrder from '../../definitions/daemon/methods/get_dag_order.mdx'
 import SubmitTransaction from '../../definitions/daemon/methods/submit_transaction.mdx'
-import GetMempool from '../../definitions/daemon/methods/get_mempool.mdx'
 import GetTransaction from '../../definitions/daemon/methods/get_transaction.mdx'
+import GetMempool from '../../definitions/daemon/methods/get_mempool.mdx'
+import GetMempoolSummary from '../../definitions/daemon/methods/get_mempool_summary.mdx'
+import GetTransactionExecutor from '../../definitions/daemon/methods/get_transaction_executor.mdx'
 import GetTransactions from '../../definitions/daemon/methods/get_transactions.mdx'
-import GetBlocksRangeByTopoheight from '../../definitions/daemon/methods/get_blocks_range_by_topoheight.mdx'
-import GetBlocksRangeByHeight from '../../definitions/daemon/methods/get_blocks_range_by_height.mdx'
-import GetAccounts from '../../definitions/daemon/methods/get_accounts.mdx'
+import GetTransactionsSummary from '../../definitions/daemon/methods/get_transactions_summary.mdx'
 import GetAccountHistory from '../../definitions/daemon/methods/get_account_history.mdx'
 import GetAccountAssets from '../../definitions/daemon/methods/get_account_assets.mdx'
-import GetPeers from '../../definitions/daemon/methods/get_peers.mdx'
-import GetDevFeeThresholds from '../../definitions/daemon/methods/get_dev_fee_thresholds.mdx'
-import GetSizeOnDisk from '../../definitions/daemon/methods/get_size_on_disk.mdx'
+import GetAccounts from '../../definitions/daemon/methods/get_accounts.mdx'
+import IsAccountRegistered from '../../definitions/daemon/methods/is_account_registered.mdx'
+import GetAccountRegistrationTopoheight from '../../definitions/daemon/methods/get_account_registration_topoheight.mdx'
+import GetBlocksRangeByTopoheight from '../../definitions/daemon/methods/get_blocks_range_by_topoheight.mdx'
+import GetBlocksRangeByHeight from '../../definitions/daemon/methods/get_blocks_range_by_height.mdx'
 import IsTxExecutedInBlock from '../../definitions/daemon/methods/is_tx_executed_in_block.mdx'
 import GetMempoolCache from '../../definitions/daemon/methods/get_mempool_cache.mdx'
-import GetAccountRegistrationTopoheight from '../../definitions/daemon/methods/get_account_registration_topoheight.mdx'
-import GetMinerWork from '../../definitions/daemon/methods/get_miner_work.mdx'
-import ValidateAddress from '../../definitions/daemon/methods/validate_address.mdx'
-import ExtractKeyFromAddress from '../../definitions/daemon/methods/extract_key_from_address.mdx'
-import GetDifficulty from '../../definitions/daemon/methods/get_difficulty.mdx'
-import GetStableBalance from '../../definitions/daemon/methods/get_stable_balance.mdx'
-import SplitAddress from '../../definitions/daemon/methods/split_address.mdx'
-import IsAccountRegistered from '../../definitions/daemon/methods/is_account_registered.mdx'
-import GetTransactionExecutor from '../../definitions/daemon/methods/get_transaction_executor.mdx'
+import GetEstimatedFeeRates from '../../definitions/daemon/methods/get_estimated_fee_rates.mdx'
+import GetEstimatedFeePerKb from '../../definitions/daemon/methods/get_estimated_fee_per_kb.mdx'
+import GetMultisig from '../../definitions/daemon/methods/get_multisig.mdx'
+import GetMultisigAtTopoheight from '../../definitions/daemon/methods/get_multisig_at_topoheight.mdx'
+import HasMultisig from '../../definitions/daemon/methods/has_multisig.mdx'
+import HasMultisigAtTopoheight from '../../definitions/daemon/methods/has_multisig_at_topoheight.mdx'
+import DecryptExtraData from '../../definitions/daemon/methods/decrypt_extra_data.mdx'
+import GetContractsOutputs from '../../definitions/daemon/methods/get_contracts_outputs.mdx'
+import GetContractTransactions from '../../definitions/daemon/methods/get_contract_transactions.mdx'
+import GetContractData from '../../definitions/daemon/methods/get_contract_data.mdx'
+import GetContractDataAtTopoheight from '../../definitions/daemon/methods/get_contract_data_at_topoheight.mdx'
+import GetContractBalance from '../../definitions/daemon/methods/get_contract_balance.mdx'
+import GetContractBalanceAtTopoheight from '../../definitions/daemon/methods/get_contract_balance_at_topoheight.mdx'
+import GetContractLogs from '../../definitions/daemon/methods/get_contract_logs.mdx'
+import GetContractScheduledExecutionsAtTopoheight from '../../definitions/daemon/methods/get_contract_scheduled_executions_at_topoheight.mdx'
+import GetContractRegisteredExecutionsAtTopoheight from '../../definitions/daemon/methods/get_contract_registered_executions_at_topoheight.mdx'
+import GetContractModule from '../../definitions/daemon/methods/get_contract_module.mdx'
+import GetContractAssets from '../../definitions/daemon/methods/get_contract_assets.mdx'
+import GetContracts from '../../definitions/daemon/methods/get_contracts.mdx'
+import GetContractDataEntries from '../../definitions/daemon/methods/get_contract_data_entries.mdx'
+import SimulateContractInvoke from '../../definitions/daemon/methods/simulate_contract_invoke.mdx'
 import RewindChain from '../../definitions/daemon/methods/rewind_chain.mdx'
 import ClearCaches from '../../definitions/daemon/methods/clear_caches.mdx'
 import PruneChain from '../../definitions/daemon/methods/prune_chain.mdx'
-
-import NewBlock from '../../definitions/daemon/events/new_block.mdx'
-import BlockOrdered from '../../definitions/daemon/events/block_ordered.mdx'
-import BlockOrphaned from '../../definitions/daemon/events/block_orphaned.mdx'
-import StableHeightChanged from '../../definitions/daemon/events/stable_height_changed.mdx'
-import StableTopoheightChanged from '../../definitions/daemon/events/stable_topoheight_changed.mdx'
-import TransactionOrphaned from '../../definitions/daemon/events/transaction_orphaned.mdx'
-import TransactionAddedInMempool from '../../definitions/daemon/events/transaction_added_in_mempool.mdx'
-import TransactionExecuted from '../../definitions/daemon/events/transaction_executed.mdx'
-import ContractInvoke from '../../definitions/daemon/events/contract_invoke.mdx'
-import ContractTransfers from '../../definitions/daemon/events/contract_transfers.mdx'
-import ContractEvent from '../../definitions/daemon/events/contract_event.mdx'
-import ContractDeploy from '../../definitions/daemon/events/contract_deploy.mdx'
-import NewAsset from '../../definitions/daemon/events/new_asset.mdx'
-import PeerConnected from '../../definitions/daemon/events/peer_connected.mdx'
-import PeerDisconnected from '../../definitions/daemon/events/peer_disconnected.mdx'
-import PeerStateUpdated from '../../definitions/daemon/events/peer_state_updated.mdx'
-import PeerPeerListUpdated from '../../definitions/daemon/events/peer_peer_list_updated.mdx'
-import PeerPeerDisconnected from '../../definitions/daemon/events/peer_peer_disconnected.mdx'
+import EventNewBlock from '../../definitions/daemon/events/new_block.mdx'
+import EventNewBlockTemplate from '../../definitions/daemon/events/new_block_template.mdx'
+import EventNewTopoHeight from '../../definitions/daemon/events/new_topo_height.mdx'
+import EventBlockOrdered from '../../definitions/daemon/events/block_ordered.mdx'
+import EventBlockOrphaned from '../../definitions/daemon/events/block_orphaned.mdx'
+import EventStableHeightChanged from '../../definitions/daemon/events/stable_height_changed.mdx'
+import EventStableTopoheightChanged from '../../definitions/daemon/events/stable_topoheight_changed.mdx'
+import EventTransactionOrphaned from '../../definitions/daemon/events/transaction_orphaned.mdx'
+import EventTransactionAddedInMempool from '../../definitions/daemon/events/transaction_added_in_mempool.mdx'
+import EventTransactionExecuted from '../../definitions/daemon/events/transaction_executed.mdx'
+import EventContractInvoke from '../../definitions/daemon/events/contract_invoke.mdx'
+import EventContractTransfers from '../../definitions/daemon/events/contract_transfers.mdx'
+import EventContractEvent from '../../definitions/daemon/events/contract_event.mdx'
+import EventContractDeploy from '../../definitions/daemon/events/contract_deploy.mdx'
+import EventNewAsset from '../../definitions/daemon/events/new_asset.mdx'
+import EventPeerConnected from '../../definitions/daemon/events/peer_connected.mdx'
+import EventPeerDisconnected from '../../definitions/daemon/events/peer_disconnected.mdx'
+import EventPeerPeerListUpdated from '../../definitions/daemon/events/peer_peer_list_updated.mdx'
+import EventPeerStateUpdated from '../../definitions/daemon/events/peer_state_updated.mdx'
+import EventPeerPeerDisconnected from '../../definitions/daemon/events/peer_peer_disconnected.mdx'
 
 # Daemon API
 
@@ -122,53 +159,90 @@ It includes a lof of methods to manage transactions, query details and monitor t
 
 <GetVersion />
 <GetInfo />
+<GetDevFeeThresholds />
+<GetSizeOnDisk />
 <GetHeight />
 <GetTopoheight />
+<GetPrunedTopoheight />
 <GetStableHeight />
+<GetStableheight />
 <GetStableTopoheight />
-<GetStableBalance />
+<GetDifficulty />
+<GetHardForks />
+<ValidateAddress />
+<SplitAddress />
+<ExtractKeyFromAddress />
+<MakeIntegratedAddress />
+<GetBlockDifficultyByHash />
+<GetBlockBaseFeeByHash />
+<KeyToAddress />
 <GetBlockTemplate />
+<GetMinerWork />
+<SubmitBlock />
 <GetBlockAtTopoheight />
 <GetBlocksAtHeight />
 <GetBlockByHash />
 <GetTopBlock />
+<GetBlockSummaryAtTopoheight />
+<GetBlockSummaryByHash />
 <GetNonce />
 <HasNonce />
 <GetNonceAtTopoheight />
 <GetBalance />
+<GetStableBalance />
 <HasBalance />
 <GetBalanceAtTopoheight />
-<GetAsset />
+<GetBalancesAtMaximumTopoheight />
 <GetAssets />
+<GetAsset />
+<GetAssetSupply />
+<GetAssetSupplyAtTopoheight />
 <CountAssets />
-<CountTransactions />
 <CountAccounts />
+<CountTransactions />
+<CountContracts />
 <GetTips />
-<P2PStatus />
-<GetDAGOrder />
-<SubmitBlock />
+<P2pStatus />
+<GetPeers />
+<GetP2pBlockPropagation />
+<GetDagOrder />
 <SubmitTransaction />
-<GetMempool />
 <GetTransaction />
+<GetMempool />
+<GetMempoolSummary />
 <GetTransactionExecutor />
 <GetTransactions />
-<GetBlocksRangeByTopoheight />
-<GetBlocksRangeByHeight />
-<GetAccounts />
+<GetTransactionsSummary />
 <GetAccountHistory />
 <GetAccountAssets />
-<GetPeers />
-<GetDevFeeThresholds />
-<GetSizeOnDisk />
-<IsTxExecutedInBlock />
-<GetMempoolCache />
+<GetAccounts />
 <IsAccountRegistered />
 <GetAccountRegistrationTopoheight />
-<GetMinerWork />
-<GetDifficulty />
-<ValidateAddress />
-<SplitAddress />
-<ExtractKeyFromAddress />
+<GetBlocksRangeByTopoheight />
+<GetBlocksRangeByHeight />
+<IsTxExecutedInBlock />
+<GetMempoolCache />
+<GetEstimatedFeeRates />
+<GetEstimatedFeePerKb />
+<GetMultisig />
+<GetMultisigAtTopoheight />
+<HasMultisig />
+<HasMultisigAtTopoheight />
+<DecryptExtraData />
+<GetContractsOutputs />
+<GetContractTransactions />
+<GetContractData />
+<GetContractDataAtTopoheight />
+<GetContractBalance />
+<GetContractBalanceAtTopoheight />
+<GetContractLogs />
+<GetContractScheduledExecutionsAtTopoheight />
+<GetContractRegisteredExecutionsAtTopoheight />
+<GetContractModule />
+<GetContractAssets />
+<GetContracts />
+<GetContractDataEntries />
+<SimulateContractInvoke />
 
 ## (Private) Methods
 
@@ -204,21 +278,23 @@ ws.onmessage = (message) => {
 ws.send(JSON.stringify(message))
 ```
 
-<NewBlock />
-<BlockOrdered />
-<BlockOrphaned />
-<StableHeightChanged />
-<StableTopoheightChanged />
-<TransactionOrphaned />
-<TransactionAddedInMempool />
-<TransactionExecuted />
-<ContractInvoke />
-<ContractTransfers />
-<ContractEvent />
-<ContractDeploy />
-<NewAsset />
-<PeerConnected />
-<PeerDisconnected />
-<PeerStateUpdated />
-<PeerPeerListUpdated />
-<PeerPeerDisconnected />
+<EventNewBlock />
+<EventNewBlockTemplate />
+<EventNewTopoHeight />
+<EventBlockOrdered />
+<EventBlockOrphaned />
+<EventStableHeightChanged />
+<EventStableTopoheightChanged />
+<EventTransactionOrphaned />
+<EventTransactionAddedInMempool />
+<EventTransactionExecuted />
+<EventContractInvoke />
+<EventContractTransfers />
+<EventContractEvent />
+<EventContractDeploy />
+<EventNewAsset />
+<EventPeerConnected />
+<EventPeerDisconnected />
+<EventPeerPeerListUpdated />
+<EventPeerStateUpdated />
+<EventPeerPeerDisconnected />

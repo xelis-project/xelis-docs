@@ -1,0 +1,37 @@
+### `decrypt_extra_data`
+
+Decrypt the extra data from a transaction.
+
+
+Parameters
+
+|    Name    |     Type    | Required |                         Note                         |
+|:----------:|:-----------:|:--------:|:----------------------------------------------------:|
+| shared_key | Hexadecimal | Required | Shared Key in hexadecimal format used for decryption |
+| extra_data |  Byte Array | Required |    Byte array containing the encrypted extra data    |
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "decrypt_extra_data",
+    "id": 1,
+    "params": {
+        "shared_key": "<hexadecimal shared key>",
+        "extra_data": [
+            ...
+        ]
+    }
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "hello": "world!"
+    }
+}
+```

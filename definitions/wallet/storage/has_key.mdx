@@ -1,6 +1,13 @@
 ### `has_key`
 
-> Verify if the key is present in the requested Tree.
+Verify if the key is present in the requested Tree.
+
+
+Parameters
+| Name |   Type    | Required |              Note             |
+|:----:|:---------:|:--------:|:-----------------------------:|
+| tree | String    | Required | Tree name to search in        |
+| key  | DataValue | Required | Entry key to check            |
 
 Request
 ```json
@@ -9,8 +16,8 @@ Request
     "method": "has_key",
     "id": 1,
     "params": {
-      "tree": "test",
-      "key": "my_list"
+        "tree": "test",
+        "key": "my_list"
     }
 }
 ```
@@ -18,8 +25,8 @@ Request
 Response
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": true
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": true
 }
 ```

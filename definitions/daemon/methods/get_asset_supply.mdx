@@ -1,0 +1,34 @@
+### `get_asset_supply`
+
+Retrieve the current circulating supply for an asset.
+
+
+Parameters
+| Name  | Type | Required |           Note           |
+|:-----:|:----:|:--------:|:------------------------:|
+| asset | Hash | Required | Asset hash to look up    |
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "get_asset_supply",
+    "id": 1,
+    "params": {
+        "asset": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "topoheight": 22177,
+        "data": 3209375196561,
+        "previous_topoheight": 22176
+    }
+}
+```

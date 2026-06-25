@@ -1,0 +1,37 @@
+### `get_contract_registered_executions_at_topoheight`
+
+Retrieve the registered scheduled contract executions at a specific topoheight.
+
+
+Parameters
+|    Name    |   Type  | Required |                     Note                          |
+|:----------:|:-------:|:--------:|:-------------------------------------------------:|
+| topoheight | Integer | Required | Topoheight to retrieve registered executions      |
+|    max     | Integer | Optional | Maximum number of results to return (max 64)      |
+|    skip    | Integer | Optional | Number of results to skip                         |
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "get_contract_registered_executions_at_topoheight",
+    "id": 1,
+    "params": {
+        "topoheight": 22177
+    }
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": [
+        {
+            "execution_hash": "740e2f94ba264464551787ddd6fa5e3222da464c6c659848f6e9a9d0730ac288",
+            "execution_topoheight": 22200
+        }
+    ]
+}
+```

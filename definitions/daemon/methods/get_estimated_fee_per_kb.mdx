@@ -1,0 +1,28 @@
+### `get_estimated_fee_per_kb`
+
+Retrieve the current base fee per KB and the predicted fee per KB.
+
+
+Parameters
+No parameters
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "get_estimated_fee_per_kb",
+    "id": 1
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "fee_per_kb": 10000,
+        "predicated_fee_per_kb": 10000
+    }
+}
+```

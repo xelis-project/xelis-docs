@@ -1,0 +1,34 @@
+### `get_contract_assets`
+
+Retrieve all asset hashes that a contract has balances for.
+
+
+Parameters
+|   Name   |   Type  | Required |                 Note                  |
+|:--------:|:-------:|:--------:|:-------------------------------------:|
+| contract |   Hash  | Required | Contract hash to fetch assets for     |
+|   skip   | Integer | Optional | Number of assets to skip              |
+| maximum  | Integer | Optional | Maximum number of assets to return (max 64) |
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "get_contract_assets",
+    "id": 1,
+    "params": {
+        "contract": "740e2f94ba264464551787ddd6fa5e3222da464c6c659848f6e9a9d0730ac288"
+    }
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": [
+        "0000000000000000000000000000000000000000000000000000000000000000"
+    ]
+}
+```

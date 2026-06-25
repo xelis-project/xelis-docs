@@ -1,26 +1,32 @@
 ### `get_account_registration_topoheight`
 
-> Retrieve the account's registration topoheight, which is the first time it performed an on-chain action, such as mining a new block.
+Retrieve the account registration topoheight.
+
+This is like its "first time" doing an action on the chain.
+
+
+Parameters
+|   Name  |   Type  | Required |              Note             |
+|:-------:|:-------:|:--------:|:-----------------------------:|
+| address | Address | Required | Account address to search for |
 
 Request
-
 ```json
 {
-  "jsonrpc": "2.0",
-  "id": 1,
-  "method": "get_account_registration_topoheight",
-  "param": { 
-    "address": "xel:vfnv4zqkxlzv3n0usky0l6dl55arur3lmaskux5ksqa6ueuhcasqqa0av7z" 
-  }
+    "jsonrpc": "2.0",
+    "method": "get_account_registration_topoheight",
+    "id": 1,
+    "params": {
+        "address": "xet:6eadzwf5xdacts6fs4y3csmnsmy4mcxewqt3xyygwfx0hm0tm32sqxdy9zk"
+    }
 }
 ```
 
 Response
-
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": 172
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": 57
 }
 ```

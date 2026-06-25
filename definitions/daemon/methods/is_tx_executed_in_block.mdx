@@ -1,34 +1,32 @@
 ### `is_tx_executed_in_block`
 
-> Check if a transaction was executed in a specific block.
+Verify if a transaction hash is executed in requested block hash.
+
 
 Parameters
-
-|       Name          |   Type  | Required |                      Note                        |
-|:-------------------:|:-------:|:--------:|:------------------------------------------------:|
-|  tx_hash            | Hash    | Required |                                                  |
-|  block_hash         | Hash    | Required |                                                  |
+|     Name    |   Type  | Required |                  Note                 |
+|:-----------:|:-------:|:--------:|:-------------------------------------:|
+|   tx_hash   |   Hash  | Required |      Transaction hash to verify       |
+|  block_hash |   Hash  | Required |          Expected Block hash          |
 
 Request
-
 ```json
 {
-  "jsonrpc": "2.0",
-  "method": "is_tx_executed_in_block",
-  "id": 1,
-  "params": {
-    "tx_hash": "",
-    "block_hash": ""
-  }
+    "jsonrpc": "2.0",
+    "method": "is_tx_executed_in_block",
+    "id": 1,
+    "params": {
+        "tx_hash": "dd693bad09cb03ba0bf9a6fa7b787f918748db869c1463b7fa16e20b498dea88",
+        "block_hash": "000000000e4547de9f088734d54d0199605338896a58b7d2d7dea06c1ef35cfc"
+    }
 }
 ```
 
 Response
-
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": false
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": true
 }
 ```

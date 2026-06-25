@@ -1,15 +1,23 @@
 ### `contract_event`
 
-> When a contract fire an event during its execution.
+When a contract fire an event.
+
+
+Subscribe with `{"contract_event":{"contract":"<contract hash>","id":42}}`.
+Set `id` to `null` to receive all events from this contract.
 
 On Event
-
 ```json
 {
     "id": 1,
     "jsonrpc": "2.0",
     "result": {
-        "event": "contract_event",
+        "event": {
+            "contract_event": {
+                "contract": "d4f7e8c3b2a1e6f5c4b3a2d1e0f9f8e7d6c5b4a3a2b1c0d9e8f7e6d5c4b3a2b1",
+                "id": 42
+            }
+        },
         "event_id": 42,
         "data": {
             "type": "primitive",
@@ -19,7 +27,7 @@ On Event
             }
         },
         "block_hash": "a1b2c3d4e5f60718273645566778899aabbccddeeff00112233445566778899",
-        "topoheight": 642000,
+        "topoheight": 642000
     }
 }
 ```

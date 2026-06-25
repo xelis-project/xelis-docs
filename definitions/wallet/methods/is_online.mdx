@@ -1,25 +1,25 @@
 ### `is_online`
 
-> Check if the wallet is currently connected to a daemon.
+Determine if the wallet is connected to a node or not (offline / online mode).
+
 
 Parameters
-
-No parameters
+No parameter
 
 Request
 ```json
 {
-  "jsonrpc": "2.0",
-  "method": "is_online",
-  "id": 1
+    "jsonrpc": "2.0",
+    "method": "is_online",
+    "id": 1
 }
 ```
 
 Response
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": true
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": true
 }
 ```

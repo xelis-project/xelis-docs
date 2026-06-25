@@ -1,0 +1,42 @@
+### `get_pending_transactions`
+
+Retrieve locally-created transactions that are not confirmed yet.
+
+
+Parameters
+No parameters
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "get_pending_transactions",
+    "id": 1
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": [
+        {
+            "hash": "b84adead7fe1c0499f92826c08f4f67f8e5133981465b7b9cf0b34649e11f1e0",
+            "timestamp": 1723503200000,
+            "outgoing": {
+                "fee": 125000,
+                "nonce": 3530,
+                "transfers": [
+                    {
+                        "amount": 100000000,
+                        "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+                        "destination": "xet:6elhr5zvx5wl2ljjl82l6yxxxqkxjvcr38kcq9qef3nurm2r2arsq89z4ll",
+                        "extra_data": null
+                    }
+                ]
+            }
+        }
+    ]
+}
+```

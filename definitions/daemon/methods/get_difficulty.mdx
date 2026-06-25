@@ -1,27 +1,29 @@
 ### `get_difficulty`
 
-> Retrieve current difficulty and associated network hashrate.
+Retrieve current difficulty and associated network hashrate.
+
+
+Parameters
+No parameters
 
 Request
-
 ```json
 {
-  "jsonrpc": "2.0",
-  "method": "get_difficulty",
-  "id": 1
+    "jsonrpc": "2.0",
+    "method": "get_difficulty",
+    "id": 1
 }
 ```
 
 Response
-
 ```json
 {
-  "id": 1,
-  "jsonrpc": "2.0",
-  "result": {
-    "difficulty": "79746345000",
-    "hashrate": "5316423000",
-    "hashrate_formatted": "5.32 GH/s"
-  }
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "difficulty": "79746345000",
+        "hashrate": "5316423000",
+        "hashrate_formatted": "5.32 GH/s"
+    }
 }
 ```

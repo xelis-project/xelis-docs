@@ -1,0 +1,48 @@
+### `make_integrated_address`
+
+Create an integrated address using a wallet address and data to include.
+
+NOTE: Integrated data can be useful for services like Exchanges to identify a user transaction
+by integrating an ID (or anything else) in the address (like PaymentID for Monero).
+
+It is not mandatory and support any data formatted in JSON up to 1 KB in serialized format.
+
+
+Parameters
+|       Name      |   Type  | Required |                       Note                       |
+|:---------------:|:-------:|:--------:|:------------------------------------------------:|
+|     address     | Address | Required | Wallet address to use for the integrated address |
+| integrated_data |   JSON  | Required |           Any data type in JSON format           |
+
+Request
+```json
+{
+    "jsonrpc": "2.0",
+    "method": "make_integrated_address",
+    "id": 1,
+    "params": {
+        "address": "xet:6eadzwf5xdacts6fs4y3csmnsmy4mcxewqt3xyygwfx0hm0tm32sqxdy9zk",
+        "integrated_data": {
+            "hello": "world",
+            "items": {
+                "sword": 5
+            },
+            "words": [
+                "Hello",
+                "World",
+                "from",
+                "XELIS"
+            ]
+        }
+    }
+}
+```
+
+Response
+```json
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": "xel:6eadzwf5xdacts6fs4y3csmnsmy4mcxewqt3xyygwfx0hm0tm32szqsrqyzkjar9d4esyqgpq4ehwmmjvsqqypgpq45x2mrvduqqzpthdaexceqpq4mk7unywvqsgqqpq4yx2mrvduqqzp2hdaexceqqqyzxvun0d5qqzp2cg4xyj5ct5udlg"
+}
+```
