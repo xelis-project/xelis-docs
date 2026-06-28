@@ -10,7 +10,11 @@ import { Callout } from 'nextra/components';
 This guide is a hands-on Silex tour inspired by the "by example" style. Each page introduces one idea, gives you a complete contract snippet, and links directly to Playground with the code preloaded.
 
 <Callout type="info">
-Examples that only use pure language features can be compiled and run directly in Playground. Examples that use constructors, deposits, transfers, asset creation, scheduled executions, contract events, or inter-contract calls need wallet/daemon RPC and an on-chain deployment on `devnet`.
+Examples that only use pure language features can be compiled and run directly in Playground. Examples that use constructors, deposits, transfers, asset creation, scheduled executions, contract events, inter-contract calls, or RPC events need wallet/daemon RPC and an on-chain deployment on `devnet`.
+</Callout>
+
+<Callout type="info">
+Entries without an explicit return type use the default `u64` exit code: `0` for success, or `> 0` for a contract-defined error code. Examples with explicit return types demonstrate typed exit values; on-chain, those values are stored in contract logs and are limited to 256 encoded bytes.
 </Callout>
 
 ## Tour
@@ -24,6 +28,7 @@ Examples that only use pure language features can be compiled and run directly i
 - [Deposits, balances, and transfers](/getting-started/guides/contracts/silex-by-example/deposits-transfers)
 - [Asset creation and minting](/getting-started/guides/contracts/silex-by-example/asset-creation-minting)
 - [Signature verification](/getting-started/guides/contracts/silex-by-example/cryptography-signatures)
+- [Homomorphic ciphertexts](/getting-started/guides/contracts/silex-by-example/homomorphic-ciphertexts)
 - [Contract events: publisher](/getting-started/guides/contracts/silex-by-example/contract-events-publisher)
 - [Contract events: listener](/getting-started/guides/contracts/silex-by-example/contract-events-listener)
 - [Inter-contract calls and permissions](/getting-started/guides/contracts/silex-by-example/inter-contract-calls)
@@ -34,6 +39,7 @@ Examples that only use pure language features can be compiled and run directly i
 - [Create your first contract](/getting-started/guides/contracts/create-your-first-contract)
 - [Silex language reference](/features/smart-contracts/silex)
 - [Standard Library](/features/smart-contracts/standard-library)
+- [Homomorphic Encryption](/features/privacy/homomorphic-encryption)
 - [Wallet `build_transaction`](/developers-api/wallet#build_transaction)
 - [Daemon events](/developers-api/daemon#events)
 
@@ -43,4 +49,5 @@ Examples that only use pure language features can be compiled and run directly i
 - Extend the vault to support any deposited asset with `get_deposits()`.
 - Combine the publisher/listener examples with scheduled executions to batch oracle updates.
 - Add signature checks to owner-only admin entries.
-- Create an asset, mint it to users, then accept it as a deposit in another contract.
+- Return the `commitment()` and `handle()` points from the ciphertext example to inspect its curve data.
+- Create an asset, mint it to the contract balance, transfer it to users, then accept it as a deposit in another contract.

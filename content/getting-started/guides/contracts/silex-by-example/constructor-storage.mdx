@@ -5,30 +5,17 @@ description: Initialize contract state and persist values with Storage.
 
 ## Constructor and persistent storage
 
-**Focus:** one persistent counter contract initialized by a constructor and protected by an owner check.
+**Focus:** one persistent counter initialized by a constructor and updated through entries.
 
-[Open in Playground](https://playground.xelis.io/?code=Y29uc3QgT1dORVJfS0VZOiBzdHJpbmcgPSAib3duZXIiCmNvbnN0IENPVU5UX0tFWTogc3RyaW5nID0gImNvdW50IgoKc3RydWN0IENvdW50ZXJScGNFdmVudCB7CiAgICBhY3Rpb246IHN0cmluZywKICAgIGNvdW50OiB1NjQKfQoKaG9vayBjb25zdHJ1Y3RvcigpIC0%2BIHU2NCB7CiAgICBsZXQgc3RvcmFnZTogU3RvcmFnZSA9IFN0b3JhZ2U6Om5ldygpCiAgICBzdG9yYWdlLnN0b3JlKE9XTkVSX0tFWSwgVHJhbnNhY3Rpb246OmN1cnJlbnQoKS51bndyYXAoKS5zb3VyY2UoKSkKICAgIHN0b3JhZ2Uuc3RvcmUoQ09VTlRfS0VZLCAwKQogICAgcmV0dXJuIDAKfQoKZm4gcmVxdWlyZV9vd25lcigpIHsKICAgIGxldCBzdG9yYWdlOiBTdG9yYWdlID0gU3RvcmFnZTo6bmV3KCkKICAgIGxldCBvd25lcjogQWRkcmVzcyA9IHN0b3JhZ2UubG9hZChPV05FUl9LRVkpLmV4cGVjdCgib3duZXIgbWlzc2luZyIpCiAgICByZXF1aXJlKFRyYW5zYWN0aW9uOjpjdXJyZW50KCkudW53cmFwKCkuc291cmNlKCkgPT0gb3duZXIsICJvd25lciBvbmx5IikKfQoKZW50cnkgaW5jcmVtZW50KGJ5OiB1NjQpIC0%2BIHU2NCB7CiAgICByZXF1aXJlKGJ5ID4gMCwgInplcm8gaW5jcmVtZW50IikKCiAgICBsZXQgc3RvcmFnZTogU3RvcmFnZSA9IFN0b3JhZ2U6Om5ldygpCiAgICBsZXQgY291bnQ6IHU2NCA9IHN0b3JhZ2UubG9hZChDT1VOVF9LRVkpLnVud3JhcF9vcigwKQogICAgbGV0IG5leHQ6IHU2NCA9IGNvdW50ICsgYnkKCiAgICBzdG9yYWdlLnN0b3JlKENPVU5UX0tFWSwgbmV4dCkKICAgIGZpcmVfcnBjX2V2ZW50KDMsIENvdW50ZXJScGNFdmVudCB7IGFjdGlvbjogImluY3JlbWVudCIsIGNvdW50OiBuZXh0IH0pCiAgICByZXR1cm4gbmV4dAp9CgplbnRyeSByZXNldCgpIC0%2BIHU2NCB7CiAgICByZXF1aXJlX293bmVyKCkKCiAgICBsZXQgc3RvcmFnZTogU3RvcmFnZSA9IFN0b3JhZ2U6Om5ldygpCiAgICBzdG9yYWdlLnN0b3JlKENPVU5UX0tFWSwgMCkKICAgIGZpcmVfcnBjX2V2ZW50KDQsIENvdW50ZXJScGNFdmVudCB7IGFjdGlvbjogInJlc2V0IiwgY291bnQ6IDAgfSkKICAgIHJldHVybiAwCn0%3D)
+[Open in Playground](https://playground.xelis.io/?code=Y29uc3QgQ09VTlRfS0VZOiBzdHJpbmcgPSAiY291bnQiCgpob29rIGNvbnN0cnVjdG9yKCkgLT4gdTY0IHsKICAgIGxldCBzdG9yYWdlOiBTdG9yYWdlID0gU3RvcmFnZTo6bmV3KCkKICAgIHN0b3JhZ2Uuc3RvcmUoQ09VTlRfS0VZLCAwKQogICAgcmV0dXJuIDAKfQoKZW50cnkgaW5jcmVtZW50KGJ5OiB1NjQpIC0%2BIHU2NCB7CiAgICByZXF1aXJlKGJ5ID4gMCwgInplcm8gaW5jcmVtZW50IikKCiAgICBsZXQgc3RvcmFnZTogU3RvcmFnZSA9IFN0b3JhZ2U6Om5ldygpCiAgICBsZXQgY291bnQ6IHU2NCA9IHN0b3JhZ2UubG9hZChDT1VOVF9LRVkpLnVud3JhcF9vcigwKQogICAgbGV0IG5leHQ6IHU2NCA9IGNvdW50ICsgYnkKCiAgICBzdG9yYWdlLnN0b3JlKENPVU5UX0tFWSwgbmV4dCkKICAgIHJldHVybiBuZXh0Cn0KCmVudHJ5IHJlYWRfY291bnQoKSAtPiB1NjQgewogICAgbGV0IHN0b3JhZ2U6IFN0b3JhZ2UgPSBTdG9yYWdlOjpuZXcoKQogICAgcmV0dXJuIHN0b3JhZ2UubG9hZChDT1VOVF9LRVkpLnVud3JhcF9vcigwKQp9CgplbnRyeSByZXNldCgpIHsKICAgIGxldCBzdG9yYWdlOiBTdG9yYWdlID0gU3RvcmFnZTo6bmV3KCkKICAgIHN0b3JhZ2Uuc3RvcmUoQ09VTlRfS0VZLCAwKQogICAgcmV0dXJuIDAKfQ%3D%3D)
 
 ```rust filename="counter_storage.slx" copy
-const OWNER_KEY: string = "owner"
 const COUNT_KEY: string = "count"
-
-struct CounterRpcEvent {
-    action: string,
-    count: u64
-}
 
 hook constructor() -> u64 {
     let storage: Storage = Storage::new()
-    storage.store(OWNER_KEY, Transaction::current().unwrap().source())
     storage.store(COUNT_KEY, 0)
     return 0
-}
-
-fn require_owner() {
-    let storage: Storage = Storage::new()
-    let owner: Address = storage.load(OWNER_KEY).expect("owner missing")
-    require(Transaction::current().unwrap().source() == owner, "owner only")
 }
 
 entry increment(by: u64) -> u64 {
@@ -39,26 +26,27 @@ entry increment(by: u64) -> u64 {
     let next: u64 = count + by
 
     storage.store(COUNT_KEY, next)
-    fire_rpc_event(3, CounterRpcEvent { action: "increment", count: next })
     return next
 }
 
-entry reset() -> u64 {
-    require_owner()
+entry read_count() -> u64 {
+    let storage: Storage = Storage::new()
+    return storage.load(COUNT_KEY).unwrap_or(0)
+}
 
+entry reset() {
     let storage: Storage = Storage::new()
     storage.store(COUNT_KEY, 0)
-    fire_rpc_event(4, CounterRpcEvent { action: "reset", count: 0 })
     return 0
 }
 ```
 
 ## How it works
 
-- `OWNER_KEY` and `COUNT_KEY` are the stable storage keys used by every entry.
-- `hook constructor()` runs once at deployment and stores the deployer plus an initial count.
-- `require_owner()` loads the stored owner and rejects calls from any other address.
-- `increment(by)` reads the count, validates the input, stores the new value, and emits event id `3`.
-- `reset()` reuses the owner guard, stores zero, and emits event id `4`.
+- `COUNT_KEY` is the stable storage key used by every entry.
+- `hook constructor()` runs once at deployment and stores the initial count.
+- `increment(by)` reads the count, validates the input, stores the new value, and returns it as a typed exit value.
+- `read_count()` loads the current value without changing it and returns it as a typed exit value.
+- `reset()` stores zero and returns the default success exit code.
 
 Read the stored count with daemon RPC `get_contract_data` using key `"count"`.

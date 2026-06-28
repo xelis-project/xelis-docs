@@ -1,27 +1,16 @@
 ---
 title: Asset creation and minting
-description: Create a contract-owned asset and mint units to callers.
+description: Create a contract-owned asset and mint supply.
 ---
 
 ## Asset creation and minting
 
-**Focus:** one reward-token contract that creates a mintable asset once, then mints that same asset to callers.
+**Focus:** one reward-token contract that creates a mintable asset once, then mints supply into the current contract balance.
 
-[Open in Playground](https://playground.xelis.io/?code=Y29uc3QgQVNTRVRfSEFTSF9LRVk6IHN0cmluZyA9ICJyZXdhcmRfYXNzZXQiCgpzdHJ1Y3QgQXNzZXRDcmVhdGVkUnBjRXZlbnQgewogICAgaGFzaDogSGFzaCwKICAgIGNvc3Q6IHU2NAp9CgpzdHJ1Y3QgQXNzZXRNaW50ZWRScGNFdmVudCB7CiAgICBoYXNoOiBIYXNoLAogICAgYW1vdW50OiB1NjQsCiAgICBzdXBwbHk6IHU2NAp9CgplbnRyeSBjcmVhdGVfcmV3YXJkX2Fzc2V0KGlkOiB1NjQsIG1heF9zdXBwbHk6IHU2NCkgLT4gSGFzaCB7CiAgICBsZXQgc3RvcmFnZTogU3RvcmFnZSA9IFN0b3JhZ2U6Om5ldygpCiAgICByZXF1aXJlKCFzdG9yYWdlLmhhcyhBU1NFVF9IQVNIX0tFWSksICJhc3NldCBhbHJlYWR5IGNyZWF0ZWQiKQoKICAgIGxldCBhc3NldDogQXNzZXQgPSBBc3NldDo6Y3JlYXRlKAogICAgICAgIGlkLAogICAgICAgICJFeGFtcGxlIFJld2FyZCIsCiAgICAgICAgIlhSRVdBUkQiLAogICAgICAgIDgsCiAgICAgICAgTWF4U3VwcGx5TW9kZTo6TWludGFibGUgeyBtYXhfc3VwcGx5IH0KICAgICkuZXhwZWN0KCJhc3NldCBjcmVhdGlvbiBmYWlsZWQiKQoKICAgIGxldCBoYXNoOiBIYXNoID0gYXNzZXQuZ2V0X2hhc2goKQogICAgc3RvcmFnZS5zdG9yZShBU1NFVF9IQVNIX0tFWSwgaGFzaCkKICAgIGZpcmVfcnBjX2V2ZW50KDUwLCBBc3NldENyZWF0ZWRScGNFdmVudCB7CiAgICAgICAgaGFzaCwKICAgICAgICBjb3N0OiBnZXRfY29zdF9wZXJfYXNzZXQoKQogICAgfSkKICAgIHJldHVybiBoYXNoCn0KCmVudHJ5IG1pbnRfdG9fY2FsbGVyKGFtb3VudDogdTY0KSAtPiB1NjQgewogICAgbGV0IHN0b3JhZ2U6IFN0b3JhZ2UgPSBTdG9yYWdlOjpuZXcoKQogICAgbGV0IGhhc2g6IEhhc2ggPSBzdG9yYWdlLmxvYWQoQVNTRVRfSEFTSF9LRVkpLmV4cGVjdCgiY3JlYXRlIGFzc2V0IGZpcnN0IikKICAgIGxldCBhc3NldDogQXNzZXQgPSBBc3NldDo6Z2V0X2J5X2hhc2goaGFzaCkuZXhwZWN0KCJhc3NldCBub3QgZm91bmQiKQoKICAgIHJlcXVpcmUoYXNzZXQubWludChhbW91bnQpLCAibWludCBmYWlsZWQiKQogICAgcmVxdWlyZSh0cmFuc2ZlcihUcmFuc2FjdGlvbjo6Y3VycmVudCgpLnVud3JhcCgpLnNvdXJjZSgpLCBhbW91bnQsIGhhc2gpLCAidHJhbnNmZXIgZmFpbGVkIikKCiAgICBmaXJlX3JwY19ldmVudCg1MSwgQXNzZXRNaW50ZWRScGNFdmVudCB7CiAgICAgICAgaGFzaCwKICAgICAgICBhbW91bnQsCiAgICAgICAgc3VwcGx5OiBhc3NldC5nZXRfc3VwcGx5KCkKICAgIH0pCiAgICByZXR1cm4gYXNzZXQuZ2V0X3N1cHBseSgpCn0%3D)
+[Open in Playground](https://playground.xelis.io/?code=Y29uc3QgQVNTRVRfSEFTSF9LRVk6IHN0cmluZyA9ICJyZXdhcmRfYXNzZXQiCgplbnRyeSBjcmVhdGVfcmV3YXJkX2Fzc2V0KGlkOiB1NjQsIG1heF9zdXBwbHk6IHU2NCkgLT4gSGFzaCB7CiAgICBsZXQgc3RvcmFnZTogU3RvcmFnZSA9IFN0b3JhZ2U6Om5ldygpCiAgICByZXF1aXJlKCFzdG9yYWdlLmhhcyhBU1NFVF9IQVNIX0tFWSksICJhc3NldCBhbHJlYWR5IGNyZWF0ZWQiKQoKICAgIGxldCBhc3NldDogQXNzZXQgPSBBc3NldDo6Y3JlYXRlKAogICAgICAgIGlkLAogICAgICAgICJFeGFtcGxlIFJld2FyZCIsCiAgICAgICAgIlhSRVdBUkQiLAogICAgICAgIDgsCiAgICAgICAgTWF4U3VwcGx5TW9kZTo6TWludGFibGUgeyBtYXhfc3VwcGx5IH0KICAgICkuZXhwZWN0KCJhc3NldCBjcmVhdGlvbiBmYWlsZWQiKQoKICAgIGxldCBoYXNoOiBIYXNoID0gYXNzZXQuZ2V0X2hhc2goKQogICAgc3RvcmFnZS5zdG9yZShBU1NFVF9IQVNIX0tFWSwgaGFzaCkKICAgIHJldHVybiBoYXNoCn0KCmVudHJ5IG1pbnRfdG9fY29udHJhY3QoYW1vdW50OiB1NjQpIC0%2BIHU2NCB7CiAgICBsZXQgc3RvcmFnZTogU3RvcmFnZSA9IFN0b3JhZ2U6Om5ldygpCiAgICBsZXQgaGFzaDogSGFzaCA9IHN0b3JhZ2UubG9hZChBU1NFVF9IQVNIX0tFWSkuZXhwZWN0KCJjcmVhdGUgYXNzZXQgZmlyc3QiKQogICAgbGV0IGFzc2V0OiBBc3NldCA9IEFzc2V0OjpnZXRfYnlfaGFzaChoYXNoKS5leHBlY3QoImFzc2V0IG5vdCBmb3VuZCIpCgogICAgcmVxdWlyZShhc3NldC5taW50KGFtb3VudCksICJtaW50IGZhaWxlZCIpCiAgICByZXR1cm4gZ2V0X2JhbGFuY2VfZm9yX2Fzc2V0KGhhc2gpLnVud3JhcF9vcigwKQp9)
 
 ```rust filename="reward_asset.slx" copy
 const ASSET_HASH_KEY: string = "reward_asset"
-
-struct AssetCreatedRpcEvent {
-    hash: Hash,
-    cost: u64
-}
-
-struct AssetMintedRpcEvent {
-    hash: Hash,
-    amount: u64,
-    supply: u64
-}
 
 entry create_reward_asset(id: u64, max_supply: u64) -> Hash {
     let storage: Storage = Storage::new()
@@ -37,34 +26,25 @@ entry create_reward_asset(id: u64, max_supply: u64) -> Hash {
 
     let hash: Hash = asset.get_hash()
     storage.store(ASSET_HASH_KEY, hash)
-    fire_rpc_event(50, AssetCreatedRpcEvent {
-        hash,
-        cost: get_cost_per_asset()
-    })
     return hash
 }
 
-entry mint_to_caller(amount: u64) -> u64 {
+entry mint_to_contract(amount: u64) -> u64 {
     let storage: Storage = Storage::new()
     let hash: Hash = storage.load(ASSET_HASH_KEY).expect("create asset first")
     let asset: Asset = Asset::get_by_hash(hash).expect("asset not found")
 
     require(asset.mint(amount), "mint failed")
-    require(transfer(Transaction::current().unwrap().source(), amount, hash), "transfer failed")
-
-    fire_rpc_event(51, AssetMintedRpcEvent {
-        hash,
-        amount,
-        supply: asset.get_supply()
-    })
-    return asset.get_supply()
+    return get_balance_for_asset(hash).unwrap_or(0)
 }
 ```
 
 ## How it works
 
 - `ASSET_HASH_KEY` stores the created asset hash so the contract mints the same asset later.
-- `create_reward_asset(id, max_supply)` rejects duplicate creation, calls `Asset::create`, stores the hash, and emits `AssetCreatedRpcEvent`.
+- `create_reward_asset(id, max_supply)` rejects duplicate creation, calls `Asset::create`, stores the hash, and returns it.
 - `MaxSupplyMode::Mintable { max_supply }` makes the asset mintable up to a capped supply.
-- `mint_to_caller(amount)` loads the stored hash, gets the `Asset`, mints new supply, transfers it to the transaction source, and emits `AssetMintedRpcEvent`.
+- `mint_to_contract(amount)` loads the stored hash, gets the `Asset`, and calls `asset.mint(amount)`.
+- If minting succeeds, the new units are credited to the balance of the contract that called `mint`.
+- From that contract balance, another entry can call `transfer(...)` if the contract should distribute minted units to a user or another destination.
 - Asset creation has a protocol cost, so the contract needs enough XELIS balance before `Asset::create`.

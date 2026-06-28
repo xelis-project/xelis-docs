@@ -1,0 +1,30 @@
+---
+title: Homomorphic ciphertexts
+description: Apply homomorphic arithmetic to encrypted amounts with Ciphertext.
+---
+
+## Homomorphic ciphertext operations
+
+**Focus:** one entry that creates a `Ciphertext` and adjusts it without decrypting it.
+
+[Open in Playground](https://playground.xelis.io/?code=ZW50cnkgYnVpbGRfYWRqdXN0ZWRfY2lwaGVydGV4dChyZWNpcGllbnQ6IEFkZHJlc3MsIGFtb3VudDogdTY0LCBmZWU6IHU2NCwgYm9udXM6IHU2NCwgbXVsdGlwbGllcjogdTY0KSAtPiBDaXBoZXJ0ZXh0IHsKICAgIHJlcXVpcmUoYW1vdW50ID49IGZlZSwgImZlZSBleGNlZWRzIGFtb3VudCIpCgogICAgbGV0IGVuY3J5cHRlZDogQ2lwaGVydGV4dCA9IENpcGhlcnRleHQ6Om5ldyhyZWNpcGllbnQsIGFtb3VudCkKICAgIGVuY3J5cHRlZC5zdWIoZmVlKQogICAgZW5jcnlwdGVkLmFkZChib251cykKICAgIGVuY3J5cHRlZC5tdWwobXVsdGlwbGllcikKICAgIHJldHVybiBlbmNyeXB0ZWQKfQ%3D%3D)
+
+```rust filename="ciphertext_ops.slx" copy
+entry build_adjusted_ciphertext(recipient: Address, amount: u64, fee: u64, bonus: u64, multiplier: u64) -> Ciphertext {
+    require(amount >= fee, "fee exceeds amount")
+
+    let encrypted: Ciphertext = Ciphertext::new(recipient, amount)
+    encrypted.sub(fee)
+    encrypted.add(bonus)
+    encrypted.mul(multiplier)
+    return encrypted
+}
+```
+
+## How it works
+
+- `Ciphertext::new(recipient, amount)` encrypts the starting amount for the recipient address.
+- `encrypted.sub(fee)` subtracts from the encrypted value in place.
+- `encrypted.add(bonus)` adds to the encrypted value in place.
+- `encrypted.mul(multiplier)` scales the encrypted value by a plaintext multiplier.
+- The returned ciphertext decrypts to `(amount - fee + bonus) * multiplier` for the recipient, without the contract decrypting it.

@@ -1,31 +1,19 @@
 ---
 title: Contract events publisher
-description: Emit contract-to-contract events and off-chain RPC events.
+description: Emit a contract-to-contract event.
 ---
 
 ## Contract events: publisher
 
-**Focus:** one price publisher entry that emits both a contract event and an RPC event.
+**Focus:** one price publisher entry that emits a contract event for listeners.
 
-[Open in Playground](https://playground.xelis.io/?code=Y29uc3QgUFJJQ0VfRVZFTlQ6IHU2NCA9IDEwMAoKc3RydWN0IFByaWNlUnBjRXZlbnQgewogICAgc3ltYm9sOiBzdHJpbmcsCiAgICBwcmljZTogdTY0LAogICAgaGVpZ2h0OiB1NjQKfQoKZW50cnkgcHVibGlzaF9wcmljZShzeW1ib2w6IHN0cmluZywgcHJpY2U6IHU2NCkgLT4gdTY0IHsKICAgIGxldCBibG9jazogQmxvY2sgPSBCbG9jazo6Y3VycmVudCgpCiAgICBlbWl0X2V2ZW50KFBSSUNFX0VWRU5ULCBbc3ltYm9sLCBwcmljZSwgYmxvY2sudGltZXN0YW1wKCldKQogICAgZmlyZV9ycGNfZXZlbnQoNzAsIFByaWNlUnBjRXZlbnQgewogICAgICAgIHN5bWJvbCwKICAgICAgICBwcmljZSwKICAgICAgICBoZWlnaHQ6IGJsb2NrLmhlaWdodCgpCiAgICB9KQogICAgcmV0dXJuIDAKfQ%3D%3D)
+[Open in Playground](https://playground.xelis.io/?code=Y29uc3QgUFJJQ0VfRVZFTlQ6IHU2NCA9IDEwMAoKZW50cnkgcHVibGlzaF9wcmljZShzeW1ib2w6IHN0cmluZywgcHJpY2U6IHU2NCkgewogICAgZW1pdF9ldmVudChQUklDRV9FVkVOVCwgW3N5bWJvbCwgcHJpY2VdKQogICAgcmV0dXJuIDAKfQ%3D%3D)
 
 ```rust filename="price_publisher.slx" copy
 const PRICE_EVENT: u64 = 100
 
-struct PriceRpcEvent {
-    symbol: string,
-    price: u64,
-    height: u64
-}
-
-entry publish_price(symbol: string, price: u64) -> u64 {
-    let block: Block = Block::current()
-    emit_event(PRICE_EVENT, [symbol, price, block.timestamp()])
-    fire_rpc_event(70, PriceRpcEvent {
-        symbol,
-        price,
-        height: block.height()
-    })
+entry publish_price(symbol: string, price: u64) {
+    emit_event(PRICE_EVENT, [symbol, price])
     return 0
 }
 ```
@@ -33,9 +21,8 @@ entry publish_price(symbol: string, price: u64) -> u64 {
 ## How it works
 
 - `PRICE_EVENT` is the event id that other contracts will subscribe to.
-- `Block::current()` provides the current height and timestamp.
 - `emit_event(PRICE_EVENT, [...])` sends positional event data to contract listeners.
-- `fire_rpc_event(70, PriceRpcEvent { ... })` sends named fields to off-chain daemon subscribers.
-- The same entry returns `0` after publishing both channels.
+- The same event id and payload shape are used by the listener in the next example.
+- The entry returns the default success exit code after publishing the event.
 
 Deploy this first, then pass its contract hash to the listener in the next example.

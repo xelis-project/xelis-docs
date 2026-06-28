@@ -7,33 +7,24 @@ description: Aggregate values with shared MemoryStorage and flush them at block 
 
 **Focus:** one in-block batching contract that queues values in memory and flushes them once at block end.
 
-[Open in Playground](https://playground.xelis.io/?code=Y29uc3QgUVVFVUVfS0VZOiBzdHJpbmcgPSAicXVldWVkX3ZhbHVlcyIKY29uc3QgTUFYX0dBUzogdTY0ID0gMjAwMDAwCgpzdHJ1Y3QgRmx1c2hScGNFdmVudCB7CiAgICBjb3VudDogdTMyLAogICAgdG90YWw6IHU2NCwKICAgIHZhbHVlczogdTY0W10KfQoKZm4gZmx1c2hfcXVldWUoYXJnczogYW55W10pIC0%2BIHU2NCB7CiAgICBsZXQgbWVtb3J5OiBNZW1vcnlTdG9yYWdlID0gTWVtb3J5U3RvcmFnZTo6bmV3KHRydWUpCiAgICBsZXQgdmFsdWVzOiB1NjRbXSA9IG1lbW9yeS5sb2FkKFFVRVVFX0tFWSkudW53cmFwX29yKFtdKQogICAgbGV0IHRvdGFsOiB1NjQgPSB2YWx1ZXMuaXRlcigpLnN1bSgpCgogICAgZmlyZV9ycGNfZXZlbnQoMjAsIEZsdXNoUnBjRXZlbnQgewogICAgICAgIGNvdW50OiB2YWx1ZXMubGVuKCksCiAgICAgICAgdG90YWwsCiAgICAgICAgdmFsdWVzCiAgICB9KQogICAgbWVtb3J5LmRlbGV0ZShRVUVVRV9LRVkpCiAgICByZXR1cm4gMAp9CgplbnRyeSBxdWV1ZSh2YWx1ZTogdTY0KSAtPiB1NjQgewogICAgbGV0IG1lbW9yeTogTWVtb3J5U3RvcmFnZSA9IE1lbW9yeVN0b3JhZ2U6Om5ldyh0cnVlKQogICAgbGV0IHZhbHVlczogdTY0W10gPSBtZW1vcnkubG9hZChRVUVVRV9LRVkpLnVud3JhcF9vcihbXSkKICAgIHZhbHVlcy5wdXNoKHZhbHVlKQogICAgbWVtb3J5LnN0b3JlKFFVRVVFX0tFWSwgdmFsdWVzKQoKICAgIGxldCBwZW5kaW5nOiBvcHRpb25hbDxTY2hlZHVsZWRFeGVjdXRpb24%2BID0gU2NoZWR1bGVkRXhlY3V0aW9uOjpnZXRfcGVuZGluZyhudWxsKQogICAgaWYgcGVuZGluZyA9PSBudWxsIHsKICAgICAgICBsZXQgc2NoZWR1bGVkOiBvcHRpb25hbDxTY2hlZHVsZWRFeGVjdXRpb24%2BID0gU2NoZWR1bGVkRXhlY3V0aW9uOjpuZXdfYXRfYmxvY2tfZW5kKAogICAgICAgICAgICBmbHVzaF9xdWV1ZSwKICAgICAgICAgICAgW10sCiAgICAgICAgICAgIE1BWF9HQVMsCiAgICAgICAgICAgIHRydWUKICAgICAgICApCiAgICAgICAgcmVxdWlyZShzY2hlZHVsZWQgIT0gbnVsbCwgInNjaGVkdWxlIGZhaWxlZCIpCiAgICB9CgogICAgcmV0dXJuIDAKfQ%3D%3D)
+[Open in Playground](https://playground.xelis.io/?code=Y29uc3QgUVVFVUVfS0VZOiBzdHJpbmcgPSAicXVldWVkX3ZhbHVlcyIKY29uc3QgTUFYX0dBUzogdTY0ID0gMjAwMDAwCgpmbiBmbHVzaF9xdWV1ZShhcmdzOiBhbnlbXSkgLT4gdTY0IHsKICAgIGxldCBtZW1vcnk6IE1lbW9yeVN0b3JhZ2UgPSBNZW1vcnlTdG9yYWdlOjpuZXcodHJ1ZSkKICAgIGxldCB2YWx1ZXM6IHU2NFtdID0gbWVtb3J5LmxvYWQoUVVFVUVfS0VZKS51bndyYXBfb3IoW10pCiAgICBsZXQgdG90YWw6IHU2NCA9IHZhbHVlcy5pdGVyKCkuc3VtKCkKCiAgICAvLyBEZWJ1ZyBwcmludDogYnkgZGVmYXVsdCwgbm9kZXMgZG8gbm90IHNob3cgcHJpbnRsbiBvdXRwdXQuCiAgICBwcmludGxuKCJmbHVzaGluZyBxdWV1ZWQgdmFsdWVzIikKICAgIG1lbW9yeS5kZWxldGUoUVVFVUVfS0VZKQogICAgcmV0dXJuIHRvdGFsCn0KCmVudHJ5IHF1ZXVlKHZhbHVlOiB1NjQpIHsKICAgIGxldCBtZW1vcnk6IE1lbW9yeVN0b3JhZ2UgPSBNZW1vcnlTdG9yYWdlOjpuZXcodHJ1ZSkKICAgIGxldCB2YWx1ZXM6IHU2NFtdID0gbWVtb3J5LmxvYWQoUVVFVUVfS0VZKS51bndyYXBfb3IoW10pCiAgICB2YWx1ZXMucHVzaCh2YWx1ZSkKICAgIG1lbW9yeS5zdG9yZShRVUVVRV9LRVksIHZhbHVlcykKCiAgICBsZXQgcGVuZGluZzogb3B0aW9uYWw8U2NoZWR1bGVkRXhlY3V0aW9uPiA9IFNjaGVkdWxlZEV4ZWN1dGlvbjo6Z2V0X3BlbmRpbmcobnVsbCkKICAgIGlmIHBlbmRpbmcgPT0gbnVsbCB7CiAgICAgICAgbGV0IHNjaGVkdWxlZDogb3B0aW9uYWw8U2NoZWR1bGVkRXhlY3V0aW9uPiA9IFNjaGVkdWxlZEV4ZWN1dGlvbjo6bmV3X2F0X2Jsb2NrX2VuZCgKICAgICAgICAgICAgZmx1c2hfcXVldWUsCiAgICAgICAgICAgIFtdLAogICAgICAgICAgICBNQVhfR0FTLAogICAgICAgICAgICB0cnVlCiAgICAgICAgKQogICAgICAgIHJlcXVpcmUoc2NoZWR1bGVkICE9IG51bGwsICJzY2hlZHVsZSBmYWlsZWQiKQogICAgfQoKICAgIHJldHVybiAwCn0%3D)
 
 ```rust filename="memory_batch.slx" copy
 const QUEUE_KEY: string = "queued_values"
 const MAX_GAS: u64 = 200000
-
-struct FlushRpcEvent {
-    count: u32,
-    total: u64,
-    values: u64[]
-}
 
 fn flush_queue(args: any[]) -> u64 {
     let memory: MemoryStorage = MemoryStorage::new(true)
     let values: u64[] = memory.load(QUEUE_KEY).unwrap_or([])
     let total: u64 = values.iter().sum()
 
-    fire_rpc_event(20, FlushRpcEvent {
-        count: values.len(),
-        total,
-        values
-    })
+    // Debug print: by default, nodes do not show println output.
+    println("flushing queued values")
     memory.delete(QUEUE_KEY)
-    return 0
+    return total
 }
 
-entry queue(value: u64) -> u64 {
+entry queue(value: u64) {
     let memory: MemoryStorage = MemoryStorage::new(true)
     let values: u64[] = memory.load(QUEUE_KEY).unwrap_or([])
     values.push(value)
@@ -60,4 +51,4 @@ entry queue(value: u64) -> u64 {
 - `queue(value)` appends one value to the in-memory array under `QUEUE_KEY`.
 - `ScheduledExecution::get_pending(null)` prevents scheduling duplicate flush callbacks.
 - `ScheduledExecution::new_at_block_end(...)` registers `flush_queue` to run at block end with a gas limit.
-- `flush_queue(args)` sums the queued values, emits one `FlushRpcEvent`, then deletes the temporary key.
+- `flush_queue(args)` sums the queued values, prints a local debug message, then deletes the temporary key.

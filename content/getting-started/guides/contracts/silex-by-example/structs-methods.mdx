@@ -1,24 +1,19 @@
 ---
 title: Structs and methods
-description: Use structs, methods, arrays, closures, and iterator helpers in Silex.
+description: Use a struct and a method in Silex.
 ---
 
-## Structs, methods, arrays, and maps
+## Structs and methods
 
-**Focus:** one task-summary entry that normalizes tags, emits typed data, and returns a completed `Task`.
+**Focus:** one `Task` struct and one method that returns an updated copy.
 
-[Open in Playground](https://playground.xelis.io/?code=c3RydWN0IFRhc2sgewogICAgaWQ6IHU2NCwKICAgIHRpdGxlOiBzdHJpbmcsCiAgICBkb25lOiBib29sCn0KCnN0cnVjdCBUYXNrU3VtbWFyeVJwY0V2ZW50IHsKICAgIHRhc2s6IFRhc2ssCiAgICBub3JtYWxpemVkX3RhZ3M6IHN0cmluZ1tdCn0KCmZuICh0YXNrIFRhc2spIG1hcmtfZG9uZSgpIC0%2BIFRhc2sgewogICAgcmV0dXJuIFRhc2sgewogICAgICAgIGlkOiB0YXNrLmlkLAogICAgICAgIHRpdGxlOiB0YXNrLnRpdGxlLAogICAgICAgIGRvbmU6IHRydWUKICAgIH0KfQoKZW50cnkgc3VtbWFyaXplKHRpdGxlOiBzdHJpbmcsIHRhZ3M6IHN0cmluZ1tdKSAtPiBUYXNrIHsKICAgIGxldCBub3JtYWxpemVkOiBzdHJpbmdbXSA9IHRhZ3MKICAgICAgICAuaXRlcigpCiAgICAgICAgLm1hcCh8dGFnOiBzdHJpbmd8IHsgcmV0dXJuIHRhZy50cmltKCkudG9fbG93ZXJjYXNlKCkgfSkKICAgICAgICAuZmlsdGVyKHx0YWc6IHN0cmluZ3wgeyByZXR1cm4gIXRhZy5pc19lbXB0eSgpIH0pCiAgICAgICAgLmNvbGxlY3QoKQoKICAgIGxldCB0YXNrOiBUYXNrID0gVGFzayB7CiAgICAgICAgaWQ6IG5vcm1hbGl6ZWQubGVuKCkgYXMgdTY0LAogICAgICAgIHRpdGxlLAogICAgICAgIGRvbmU6IGZhbHNlCiAgICB9CgogICAgZmlyZV9ycGNfZXZlbnQoMiwgVGFza1N1bW1hcnlScGNFdmVudCB7CiAgICAgICAgdGFzaywKICAgICAgICBub3JtYWxpemVkX3RhZ3M6IG5vcm1hbGl6ZWQKICAgIH0pCiAgICByZXR1cm4gdGFzay5tYXJrX2RvbmUoKQp9)
+[Open in Playground](https://playground.xelis.io/?code=c3RydWN0IFRhc2sgewogICAgaWQ6IHU2NCwKICAgIHRpdGxlOiBzdHJpbmcsCiAgICBkb25lOiBib29sCn0KCmZuICh0YXNrIFRhc2spIG1hcmtfZG9uZSgpIC0%2BIFRhc2sgewogICAgcmV0dXJuIFRhc2sgewogICAgICAgIGlkOiB0YXNrLmlkLAogICAgICAgIHRpdGxlOiB0YXNrLnRpdGxlLAogICAgICAgIGRvbmU6IHRydWUKICAgIH0KfQoKZW50cnkgY29tcGxldGVfdGFzayhpZDogdTY0LCB0aXRsZTogc3RyaW5nKSAtPiBUYXNrIHsKICAgIGxldCB0YXNrOiBUYXNrID0gVGFzayB7CiAgICAgICAgaWQsCiAgICAgICAgdGl0bGUsCiAgICAgICAgZG9uZTogZmFsc2UKICAgIH0KICAgIHJldHVybiB0YXNrLm1hcmtfZG9uZSgpCn0%3D)
 
-```rust filename="task_summary.slx" copy
+```rust filename="task_methods.slx" copy
 struct Task {
     id: u64,
     title: string,
     done: bool
-}
-
-struct TaskSummaryRpcEvent {
-    task: Task,
-    normalized_tags: string[]
 }
 
 fn (task Task) mark_done() -> Task {
@@ -29,23 +24,12 @@ fn (task Task) mark_done() -> Task {
     }
 }
 
-entry summarize(title: string, tags: string[]) -> Task {
-    let normalized: string[] = tags
-        .iter()
-        .map(|tag: string| { return tag.trim().to_lowercase() })
-        .filter(|tag: string| { return !tag.is_empty() })
-        .collect()
-
+entry complete_task(id: u64, title: string) -> Task {
     let task: Task = Task {
-        id: normalized.len() as u64,
+        id,
         title,
         done: false
     }
-
-    fire_rpc_event(2, TaskSummaryRpcEvent {
-        task,
-        normalized_tags: normalized
-    })
     return task.mark_done()
 }
 ```
@@ -53,7 +37,6 @@ entry summarize(title: string, tags: string[]) -> Task {
 ## How it works
 
 - `Task` is the contract's typed return value.
-- `TaskSummaryRpcEvent` wraps the returned task and the normalized tags for off-chain observers.
 - `fn (task Task) mark_done() -> Task` declares a method with `task` as the receiver.
-- The iterator chain uses `map`, `filter`, and `collect` to trim, lowercase, and drop empty tags.
-- `fire_rpc_event(2, ...)` emits the pre-completion summary, then `task.mark_done()` returns the final value.
+- `complete_task(id, title)` creates a new task with `done: false`.
+- `task.mark_done()` returns a new `Task` with the same id and title and `done: true`.

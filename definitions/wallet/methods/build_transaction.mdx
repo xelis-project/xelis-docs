@@ -299,7 +299,7 @@ Payload to deploy a contract on the network.
 
 Where `module` is the compiled contract bytecode in hexadecimal format. `contract_version` is optional and defaults to the current default contract environment version.
 
-In case your contract have a constructor hook, you can provide parameters to it during the deployment.
+In case your contract has a constructor hook, you can provide an `invoke` payload to run it during deployment.
 ```json
 {
     "invoke": {
@@ -313,7 +313,7 @@ In case your contract have a constructor hook, you can provide parameters to it 
 }
 ```
 
-Where `invoke` is the invocation payload to call the constructor during deployment.
+Where `invoke` is the invocation payload used to execute the constructor during deployment. The constructor hook is currently the only hook. It runs once at deployment time and cannot be called again later.
 
 #### Blob
 Payload to store encrypted or public data for one or more destinations.
