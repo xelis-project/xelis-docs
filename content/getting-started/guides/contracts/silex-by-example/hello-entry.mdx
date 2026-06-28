@@ -1,30 +1,26 @@
 ---
 title: Hello entry
-description: Write a minimal Silex entry function and emit an RPC event.
+description: Write a minimal Silex entry function and return a value.
 ---
 
-## Hello entry and RPC event
+## Hello entry
 
-**Focus:** one callable `hello` entry that returns a greeting and emits one typed RPC event.
+**Focus:** one callable `hello` entry that builds and returns a greeting.
 
-[Open in Playground](https://playground.xelis.io/?code=c3RydWN0IEhlbGxvUnBjRXZlbnQgewogICAgbmFtZTogc3RyaW5nLAogICAgbWVzc2FnZTogc3RyaW5nCn0KCmVudHJ5IGhlbGxvKG5hbWU6IHN0cmluZykgLT4gc3RyaW5nIHsKICAgIGxldCBtZXNzYWdlOiBzdHJpbmcgPSAiSGVsbG8sICIgKyBuYW1lCiAgICBmaXJlX3JwY19ldmVudCgxLCBIZWxsb1JwY0V2ZW50IHsgbmFtZSwgbWVzc2FnZSB9KQogICAgcmV0dXJuIG1lc3NhZ2UKfQ%3D%3D)
+[Open in Playground](https://playground.xelis.io/?code=ZW50cnkgaGVsbG8obmFtZTogc3RyaW5nKSAtPiBzdHJpbmcgewogICAgbGV0IG1lc3NhZ2U6IHN0cmluZyA9ICJIZWxsbywgIiArIG5hbWUKICAgIC8vIERlYnVnIHByaW50OiBieSBkZWZhdWx0LCBub2RlcyBkbyBub3Qgc2hvdyBwcmludGxuIG91dHB1dC4KICAgIHByaW50bG4obWVzc2FnZSkKICAgIHJldHVybiBtZXNzYWdlCn0%3D)
 
 ```rust filename="hello.slx" copy
-struct HelloRpcEvent {
-    name: string,
-    message: string
-}
-
 entry hello(name: string) -> string {
     let message: string = "Hello, " + name
-    fire_rpc_event(1, HelloRpcEvent { name, message })
+    // Debug print: by default, nodes do not show println output.
+    println(message)
     return message
 }
 ```
 
 ## How it works
 
-- `HelloRpcEvent` names the off-chain payload fields instead of sending a loose array.
 - `entry hello(name: string) -> string` is the single public function in this example.
-- `let message: string = "Hello, " + name` builds the value that is both returned and emitted.
-- `fire_rpc_event(1, HelloRpcEvent { name, message })` creates a daemon `contract_event` notification when the entry runs on-chain.
+- `let message: string = "Hello, " + name` builds the returned value.
+- `println(message)` is useful while debugging locally, but default node configuration does not display its output.
+- `return message` produces a typed exit value. On-chain, it is stored in the contract logs.

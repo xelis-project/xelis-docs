@@ -4,6 +4,8 @@ Simulate a contract invocation without writing chain state.
 
 This method is only registered when the daemon is started with `--rpc-allow-contract-vm-executions`.
 
+The simulation result includes the same exit information a real execution would write to contract logs. Entries without an explicit return type report a `u64` exit code, while entries with an explicit return type report an encoded `exit_value` of up to 256 bytes. Raised errors, including failed `require(...)` checks, are returned as execution errors.
+
 
 Parameters
 |     Name     |          Type           | Required |                         Note                         |

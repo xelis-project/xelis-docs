@@ -4347,28 +4347,6 @@ Syscall: `342`
 
 ### Ciphertext
 
-#### `Ciphertext::add_ct`
-
-Adds another ciphertext to this ciphertext in place.
-
-```rust
-Ciphertext::add_ct(other: Ciphertext)
-```
-
-Gas: `9000`
-Syscall: `508`
-
-#### `Ciphertext::add_scalar`
-
-Adds a scalar to this ciphertext in place.
-
-```rust
-Ciphertext::add_scalar(scalar: Scalar)
-```
-
-Gas: `14000`
-Syscall: `510`
-
 #### `Ciphertext::generate`
 
 Generates a ciphertext for an address and plaintext amount.
@@ -4391,28 +4369,6 @@ Ciphertext::new(commitment: RistrettoPoint, handle: RistrettoPoint) ⟶ Cipherte
 Gas: `50`
 Syscall: `507`
 
-#### `Ciphertext::sub_ct`
-
-Subtracts another ciphertext from this ciphertext in place.
-
-```rust
-Ciphertext::sub_ct(other: Ciphertext)
-```
-
-Gas: `9000`
-Syscall: `509`
-
-#### `Ciphertext::sub_scalar`
-
-Subtracts a scalar from this ciphertext in place.
-
-```rust
-Ciphertext::sub_scalar(scalar: Scalar)
-```
-
-Gas: `14000`
-Syscall: `511`
-
 #### `Ciphertext::zero`
 
 Returns a zero ciphertext.
@@ -4434,6 +4390,28 @@ add(value: u64)
 
 Gas: `1500`
 Syscall: `407`
+
+#### `add_ct`
+
+Adds another ciphertext to this ciphertext in place.
+
+```rust
+add_ct(other: Ciphertext)
+```
+
+Gas: `9000`
+Syscall: `508`
+
+#### `add_scalar`
+
+Adds a scalar to this ciphertext in place.
+
+```rust
+add_scalar(scalar: Scalar)
+```
+
+Gas: `14000`
+Syscall: `510`
 
 #### `commitment`
 
@@ -4489,6 +4467,28 @@ sub(value: u64)
 
 Gas: `1500`
 Syscall: `408`
+
+#### `sub_ct`
+
+Subtracts another ciphertext from this ciphertext in place.
+
+```rust
+sub_ct(other: Ciphertext)
+```
+
+Gas: `9000`
+Syscall: `509`
+
+#### `sub_scalar`
+
+Subtracts a scalar from this ciphertext in place.
+
+```rust
+sub_scalar(scalar: Scalar)
+```
+
+Gas: `14000`
+Syscall: `511`
 
 ### CiphertextValidityProof
 

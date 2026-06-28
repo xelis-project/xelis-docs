@@ -1,0 +1,40 @@
+---
+title: Homomorphic ciphertexts
+description: Apply homomorphic arithmetic to encrypted amounts with Ciphertext.
+---
+
+## Homomorphic ciphertext operations
+
+**Focus:** a concrete balance update that subtracts a fee, adds a reward, and scales the encrypted amount.
+
+[Open in Playground](https://playground.xelis.io/?code=ZW50cnkgaW5pdCgpIHsKICAgIGxldCBiYWxhbmNlID0gQ2lwaGVydGV4dDo6emVybygpOwogICAgYmFsYW5jZS5hZGQoMTAwKTsKICAgIGJhbGFuY2Uuc3ViKDI1KTsKICAgIGJhbGFuY2UuYWRkKDEyKTsKICAgIGJhbGFuY2UubXVsKDIpOwogICAgcHJpbnRsbihiYWxhbmNlKQoKICAgIHJlcXVpcmUoCiAgICAgICAgYmFsYW5jZS5jb21taXRtZW50KCkgPT0gU2NhbGFyOjpmcm9tX3U2NCgxNzQpLm11bF9iYXNlKCksCiAgICAgICAgInNob3VsZCBiZSBlcXVhbCB0byAxNjgiCiAgICApCiAgICByZXR1cm4gMAp9CgplbnRyeSBjb21iaW5lKGxlZnQ6IENpcGhlcnRleHQsIHJpZ2h0OiBDaXBoZXJ0ZXh0KSAtPiBDaXBoZXJ0ZXh0IHsKICAgIGxlZnQuYWRkX2N0KHJpZ2h0KTsKICAgIHJldHVybiBsZWZ0Cn0)
+
+```rust filename="ciphertext_ops.slx" copy
+entry init() {
+    let balance = Ciphertext::zero();
+    balance.add(100);
+    balance.sub(25);
+    balance.add(12);
+    balance.mul(2);
+    println(balance)
+
+    require(
+        balance.commitment() == Scalar::from_u64(174).mul_base(),
+        "should be equal to 168"
+    )
+    return 0
+}
+
+entry combine(left: Ciphertext, right: Ciphertext) -> Ciphertext {
+    left.add_ct(right);
+    return left
+}
+```
+
+## How it works
+
+- `Ciphertext::generate(recipient, amount)` creates an encrypted amount for the recipient address, while `Ciphertext::zero()` creates an encrypted zero value to build up from.
+- `encrypted.add(value)` adds a plaintext amount to the ciphertext in place.
+- `encrypted.sub(value)` subtracts a plaintext amount from the ciphertext in place.
+- `encrypted.mul(value)` scales the ciphertext by a plaintext multiplier.
+- The resulting ciphertext is equal to `((100 - 25 + 12) * 2)` and can be applied to others ciphertexts.

@@ -7,20 +7,10 @@ description: Store ordered entries with BTreeStore and read a leaderboard page.
 
 **Focus:** one persistent leaderboard contract that stores score keys in order and reads the highest scores.
 
-[Open in Playground](https://playground.xelis.io/?code=Y29uc3QgQk9BUkRfTlM6IGJ5dGVzID0gImxlYWRlcmJvYXJkIi50b19ieXRlcygpCgpzdHJ1Y3QgU2NvcmVTdWJtaXR0ZWRScGNFdmVudCB7CiAgICBwbGF5ZXI6IEFkZHJlc3MsCiAgICBzY29yZTogdTY0Cn0KCnN0cnVjdCBMZWFkZXJib2FyZFBhZ2VScGNFdmVudCB7CiAgICBlbnRyaWVzOiBhbnlbXSwKICAgIHRvdGFsOiB1NjQKfQoKZm4gc2NvcmVfa2V5KHNjb3JlOiB1NjQsIHBsYXllcjogQWRkcmVzcykgLT4gYnl0ZXMgewogICAgbGV0IGtleTogYnl0ZXMgPSBzY29yZS50b19iZV9ieXRlcygpCiAgICBrZXkuZXh0ZW5kKHBsYXllci50b19ieXRlcygpKQogICAgcmV0dXJuIGtleQp9CgplbnRyeSBzdWJtaXRfc2NvcmUoc2NvcmU6IHU2NCkgLT4gdTY0IHsKICAgIGxldCBwbGF5ZXI6IEFkZHJlc3MgPSBUcmFuc2FjdGlvbjo6Y3VycmVudCgpLnVud3JhcCgpLnNvdXJjZSgpCiAgICBsZXQgYm9hcmQ6IEJUcmVlU3RvcmUgPSBCVHJlZVN0b3JlOjpuZXcoQk9BUkRfTlMpCgogICAgYm9hcmQuaW5zZXJ0KHNjb3JlX2tleShzY29yZSwgcGxheWVyKSwgW3BsYXllciwgc2NvcmVdKQogICAgZmlyZV9ycGNfZXZlbnQoMzAsIFNjb3JlU3VibWl0dGVkUnBjRXZlbnQgeyBwbGF5ZXIsIHNjb3JlIH0pCiAgICByZXR1cm4gMAp9CgplbnRyeSB0b3AobGltaXQ6IHUzMikgLT4gdTY0IHsKICAgIGxldCBib2FyZDogQlRyZWVTdG9yZSA9IEJUcmVlU3RvcmU6Om5ldyhCT0FSRF9OUykKICAgIGxldCAoY3Vyc29yLCBmaXJzdCk6IChCVHJlZUN1cnNvciwgb3B0aW9uYWw8RW50cnk%2BKSA9IGJvYXJkLnNlZWsoCiAgICAgICAgdTY0OjpNQVgudG9fYmVfYnl0ZXMoKSwKICAgICAgICBCVHJlZVNlZWtCaWFzOjpMZXNzT3JFcXVhbCwKICAgICAgICBmYWxzZQogICAgKQoKICAgIGxldCByZXN1bHRzOiBhbnlbXSA9IFtdCiAgICBsZXQgZW50cnk6IG9wdGlvbmFsPEVudHJ5PiA9IGZpcnN0CiAgICBsZXQgY291bnQ6IHUzMiA9IDAKCiAgICB3aGlsZSBjb3VudCA8IGxpbWl0ICYmIGVudHJ5ICE9IG51bGwgewogICAgICAgIGxldCBpdGVtOiBFbnRyeSA9IGVudHJ5LnVud3JhcCgpCiAgICAgICAgcmVzdWx0cy5wdXNoKGl0ZW0udmFsdWUpCiAgICAgICAgZW50cnkgPSBjdXJzb3IubmV4dCgpCiAgICAgICAgY291bnQgKz0gMQogICAgfQoKICAgIGZpcmVfcnBjX2V2ZW50KDMxLCBMZWFkZXJib2FyZFBhZ2VScGNFdmVudCB7CiAgICAgICAgZW50cmllczogcmVzdWx0cywKICAgICAgICB0b3RhbDogYm9hcmQubGVuKCkKICAgIH0pCiAgICByZXR1cm4gYm9hcmQubGVuKCkKfQ%3D%3D)
+[Open in Playground](https://playground.xelis.io/?code=Y29uc3QgQk9BUkRfTlM6IGJ5dGVzID0gImxlYWRlcmJvYXJkIi50b19ieXRlcygpCgpmbiBzY29yZV9rZXkoc2NvcmU6IHU2NCwgcGxheWVyOiBBZGRyZXNzKSAtPiBieXRlcyB7CiAgICBsZXQga2V5OiBieXRlcyA9IHNjb3JlLnRvX2JlX2J5dGVzKCkKICAgIGtleS5leHRlbmQocGxheWVyLnRvX2J5dGVzKCkpCiAgICByZXR1cm4ga2V5Cn0KCmVudHJ5IHN1Ym1pdF9zY29yZShwbGF5ZXI6IEFkZHJlc3MsIHNjb3JlOiB1NjQpIHsKICAgIGxldCBib2FyZDogQlRyZWVTdG9yZSA9IEJUcmVlU3RvcmU6Om5ldyhCT0FSRF9OUykKCiAgICBib2FyZC5pbnNlcnQoc2NvcmVfa2V5KHNjb3JlLCBwbGF5ZXIpLCBbcGxheWVyLCBzY29yZV0pCiAgICByZXR1cm4gMAp9CgplbnRyeSB0b3AobGltaXQ6IHUzMikgLT4gYW55W10gewogICAgbGV0IGJvYXJkOiBCVHJlZVN0b3JlID0gQlRyZWVTdG9yZTo6bmV3KEJPQVJEX05TKQogICAgbGV0IChjdXJzb3IsIGZpcnN0KTogKEJUcmVlQ3Vyc29yLCBvcHRpb25hbDxFbnRyeT4pID0gYm9hcmQuc2VlaygKICAgICAgICB1NjQ6Ok1BWC50b19iZV9ieXRlcygpLAogICAgICAgIEJUcmVlU2Vla0JpYXM6Okxlc3NPckVxdWFsLAogICAgICAgIGZhbHNlCiAgICApCgogICAgbGV0IHJlc3VsdHM6IGFueVtdID0gW10KICAgIGxldCBlbnRyeTogb3B0aW9uYWw8RW50cnk%2BID0gZmlyc3QKICAgIGxldCBjb3VudDogdTMyID0gMAoKICAgIHdoaWxlIGNvdW50IDwgbGltaXQgJiYgZW50cnkgIT0gbnVsbCB7CiAgICAgICAgbGV0IGl0ZW06IEVudHJ5ID0gZW50cnkudW53cmFwKCkKICAgICAgICByZXN1bHRzLnB1c2goaXRlbS52YWx1ZSkKICAgICAgICBlbnRyeSA9IGN1cnNvci5uZXh0KCkKICAgICAgICBjb3VudCArPSAxCiAgICB9CgogICAgcmV0dXJuIHJlc3VsdHMKfQ%3D%3D)
 
 ```rust filename="leaderboard.slx" copy
 const BOARD_NS: bytes = "leaderboard".to_bytes()
-
-struct ScoreSubmittedRpcEvent {
-    player: Address,
-    score: u64
-}
-
-struct LeaderboardPageRpcEvent {
-    entries: any[],
-    total: u64
-}
 
 fn score_key(score: u64, player: Address) -> bytes {
     let key: bytes = score.to_be_bytes()
@@ -28,16 +18,14 @@ fn score_key(score: u64, player: Address) -> bytes {
     return key
 }
 
-entry submit_score(score: u64) -> u64 {
-    let player: Address = Transaction::current().unwrap().source()
+entry submit_score(player: Address, score: u64) {
     let board: BTreeStore = BTreeStore::new(BOARD_NS)
 
     board.insert(score_key(score, player), [player, score])
-    fire_rpc_event(30, ScoreSubmittedRpcEvent { player, score })
     return 0
 }
 
-entry top(limit: u32) -> u64 {
+entry top(limit: u32) -> any[] {
     let board: BTreeStore = BTreeStore::new(BOARD_NS)
     let (cursor, first): (BTreeCursor, optional<Entry>) = board.seek(
         u64::MAX.to_be_bytes(),
@@ -56,11 +44,7 @@ entry top(limit: u32) -> u64 {
         count += 1
     }
 
-    fire_rpc_event(31, LeaderboardPageRpcEvent {
-        entries: results,
-        total: board.len()
-    })
-    return board.len()
+    return results
 }
 ```
 
@@ -68,6 +52,6 @@ entry top(limit: u32) -> u64 {
 
 - `BOARD_NS` gives this contract a dedicated persistent tree namespace.
 - `score_key(score, player)` encodes the score first, then the player address, so keys sort by score.
-- `submit_score(score)` stores one `[player, score]` value and emits `ScoreSubmittedRpcEvent`.
+- `submit_score(player, score)` stores one `[player, score]` value and returns the default success exit code.
 - `top(limit)` seeks near the maximum possible score and walks backward by passing `false` for ascending order.
-- `LeaderboardPageRpcEvent` returns the selected entries plus `board.len()` so clients can page the leaderboard.
+- `top(limit)` returns the selected leaderboard entries directly.

@@ -9,6 +9,7 @@ export default {
     "deposits-transfers": "Deposits and transfers",
     "asset-creation-minting": "Asset creation and minting",
     "cryptography-signatures": "Signature verification",
+    "homomorphic-ciphertexts": "Homomorphic ciphertexts",
     "contract-events-publisher": "Contract events publisher",
     "contract-events-listener": "Contract events listener",
     "inter-contract-calls": "Inter-contract calls",

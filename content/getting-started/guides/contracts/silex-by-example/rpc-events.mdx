@@ -1,42 +1,32 @@
 ---
 title: RPC events
-description: Watch contract deployments, invocations, transfers, and RPC events over daemon WebSocket.
+description: Watch contract RPC events over daemon WebSocket.
 ---
 
 ## Watching contract activity over RPC
 
 **Focus:** one typed `fire_rpc_event` payload that off-chain clients can watch through daemon WebSocket `contract_event` notifications.
 
-[Open in Playground](https://playground.xelis.io/?code=c3RydWN0IFJwY1RyYW5zZmVyTm90aWNlIHsKICAgIGNhbGxlcjogQWRkcmVzcywKICAgIGFtb3VudDogdTY0LAogICAgYXNzZXQ6IEhhc2gsCiAgICBoZWlnaHQ6IHU2NAp9CgplbnRyeSBub3RpZnlfdHJhbnNmZXIoYW1vdW50OiB1NjQsIGFzc2V0OiBIYXNoKSAtPiB1NjQgewogICAgZmlyZV9ycGNfZXZlbnQoOTAsIFJwY1RyYW5zZmVyTm90aWNlIHsKICAgICAgICBjYWxsZXI6IFRyYW5zYWN0aW9uOjpjdXJyZW50KCkudW53cmFwKCkuc291cmNlKCksCiAgICAgICAgYW1vdW50LAogICAgICAgIGFzc2V0LAogICAgICAgIGhlaWdodDogQmxvY2s6OmN1cnJlbnQoKS5oZWlnaHQoKQogICAgfSkKICAgIHJldHVybiAwCn0%3D)
+[Open in Playground](https://playground.xelis.io/?code=c3RydWN0IFJwY05vdGljZSB7CiAgICBtZXNzYWdlOiBzdHJpbmcKfQoKZW50cnkgbm90aWZ5KG1lc3NhZ2U6IHN0cmluZykgewogICAgZmlyZV9ycGNfZXZlbnQoOTAsIFJwY05vdGljZSB7IG1lc3NhZ2UgfSkKICAgIHJldHVybiAwCn0%3D)
 
 ```rust filename="rpc_notice.slx" copy
-struct RpcTransferNotice {
-    caller: Address,
-    amount: u64,
-    asset: Hash,
-    height: u64
+struct RpcNotice {
+    message: string
 }
 
-entry notify_transfer(amount: u64, asset: Hash) -> u64 {
-    fire_rpc_event(90, RpcTransferNotice {
-        caller: Transaction::current().unwrap().source(),
-        amount,
-        asset,
-        height: Block::current().height()
-    })
+entry notify(message: string) {
+    fire_rpc_event(90, RpcNotice { message })
     return 0
 }
 ```
 
 ## How it works
 
-- `RpcTransferNotice` is a dedicated RPC struct, so clients receive named fields instead of a positional `any[]`.
-- `notify_transfer(amount, asset)` is the only contract entry in this example.
-- `Transaction::current().unwrap().source()` records who invoked the entry.
-- `Block::current().height()` adds chain context to the emitted payload.
-- `fire_rpc_event(90, RpcTransferNotice { ... })` produces a daemon WebSocket `contract_event` notification.
+- `RpcNotice` is a dedicated RPC struct, so clients receive named fields instead of a positional `any[]`.
+- `notify(message)` is the only contract entry in this example.
+- `fire_rpc_event(90, RpcNotice { message })` produces a daemon WebSocket `contract_event` notification.
 
-Subscribe once to daemon RPC method `subscribe` with `notify` set to `contract_event`. The notification contains the contract hash, the event id `90`, and the encoded `RpcTransferNotice` data.
+Subscribe once to daemon RPC method `subscribe` with `notify` set to `contract_event`. The notification contains the contract hash, the event id `90`, and the encoded `RpcNotice` data.
 
 Useful event names for contract development:
 

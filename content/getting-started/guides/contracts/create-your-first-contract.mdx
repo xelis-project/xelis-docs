@@ -139,7 +139,7 @@ hook constructor() -> u64 {
     return 0
 }
 
-entry add_artist(name: string, num_one_songs: u8) -> u64 {
+entry add_artist(name: string, num_one_songs: u8) {
     let storage: Storage = Storage::new();
     require(Transaction::current().source() == storage.load("owner").unwrap(), "OnlyOwnerCanAddArtist");
 
@@ -149,7 +149,7 @@ entry add_artist(name: string, num_one_songs: u8) -> u64 {
     return 0
 }
 
-entry remove_artist(name: string) -> u64 {
+entry remove_artist(name: string) {
     let storage: Storage = Storage::new();
     require(Transaction::current().source() == storage.load("owner").unwrap(), "OnlyOwnerCanRemoveArtist");
     let artists: map<string, u8> = storage.load("artists").expect("ErrorLoading artists");
@@ -166,8 +166,12 @@ What each part does:
 - `remove_artist`: deletes an artist entry.
 - `require(...)`: enforces access control so only the owner can mutate storage.
 
+<Callout type="info">
+Entries without an explicit return type return the default `u64` exit code: `0` for success, or any value greater than `0` for a contract-defined error code. If an entry declares a return type, the returned value is stored as an `exit_value` in the contract logs and can contain up to 256 bytes of encoded data. Errors raised during execution, including failed `require(...)` checks, are stored in the logs too.
+</Callout>
+
 <Callout type="important">
-The `constructor` hook is executed automatically by the network at deployment time. Once the contract is deployed, it can never be invoked again, not by users, not by other entry functions, and not by the contract itself. All one-time setup logic (initial storage values, ownership, configuration) must go here.
+The `constructor` hook is executed automatically by the network at deployment time. Once the contract is deployed, it can never be invoked again, not by users, not by other entry functions, and not by the contract itself. All one-time setup logic (initial storage values, ownership, configuration) must go here, and `return 0` indicates the constructor completed successfully.
 </Callout>
 
 Compile and test locally:
@@ -291,6 +295,8 @@ After sending, save the returned transaction/contract hash. You will need it to 
 
 Now that the contract is deployed to the blockchain, we can interact with it.
 The way we do that is to call (or invoke) the entry function of the contract.
+
+After an invocation is executed, use daemon RPC `get_contract_logs` with the transaction hash to inspect the entry exit code, typed exit value, or execution error.
 
 To add an artist, call `add_artist` via `invoke_contract`:
 

@@ -34,7 +34,7 @@ Silex code typically consists of:
 - **Imports** for referencing other files  
 - **Statements** (control flow, variable assignments, loops, etc.)
 
-Every Silex contract can define several *entry* function—this serves as the main entry point for external invocations.
+Every Silex contract can define several *entry* functions. These are the callable entry points used by external invocations.
 
 ## Lexical Elements
 
@@ -191,26 +191,38 @@ fn add(a: u64, b: u64) -> u64 {
 
 Marked by `entry`; they are the main entry points for external calls to the contract.
 
-The return type is optional but is set by default to `u64` to indicate success (0) or failure (non-zero).
-It can be set to any type, this will lead to the return value being stored in the contract logs of the execution.
+When an entry has no explicit return type, it uses the default `u64` exit code. Return `0` for success, or any value greater than `0` to report a contract-defined error code. This is useful when a contract wants callers and indexers to distinguish exact failure reasons without parsing text.
 
 ```rust
-entry main() -> u64 {
+entry main() {
+    return 0
+}
+```
+
+If you add an explicit return type, the entry returns data instead of only the default exit code. The encoded return value can be up to 256 bytes and is stored as the execution `exit_value` in the contract logs.
+
+```rust
+entry greeting(name: string) -> string {
+    return "Hello, " + name
+}
+```
+
+If execution raises an error, for example because `require(condition, "message")` fails, the error is also stored in the contract logs.
+
+```rust
+entry checked(value: u64) {
+    require(value > 0, "value must be positive")
     return 0
 }
 ```
 
 ### Hook Functions
 
-Marked by `hook`; these are special callbacks or event handlers invoked by the system. The environment typically imposes constraints on their name, parameters, and return types:
+Marked by `hook`; these are system-invoked functions with special lifecycle behavior.
 
-```rust
-hook onDataReceived(data: u8[]) {
-    // handle data
-}
-```
+Currently, `constructor()` is the only hook. It is called once during contract deployment, before the contract is available for normal entry invocations. After deployment finishes, the constructor cannot be called again by users, other contracts, entries, or the contract itself.
 
-Currently `constructor()` is the only hook; it has no parameters and must return a u64 error code. `invoke: { max_gas: u64 }` needs to be added to the deploy_contract parameters. 
+Use `constructor()` for one-time setup such as initializing storage, recording the owner, or preparing configuration needed by later entries. It must explicitly return `u64`; `0` indicates success, and any value greater than `0` can be used as a deployment-time error code. If the contract defines a constructor, the deployment transaction must include an `invoke` payload with a `max_gas` limit so the constructor can execute.
 
 ```rust
 hook constructor() -> u64 {
@@ -328,4 +340,4 @@ entry main() -> u64 {
 - We define a `struct Accumulator` with a single field, `sum`.
 - We define an `enum Operation` with two variants: `Add` and `Reset`.
 - We create a method `doOperation` on `Accumulator` that takes an `Operation` and returns a new `Accumulator`.
-- The `entry main` function is the main entry point, returning a `u64`.
+- The `entry main` function is the main entry point and stores a typed `u64` exit value.

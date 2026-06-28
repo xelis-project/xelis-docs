@@ -7,22 +7,10 @@ description: Accept public deposits, account for balances, and transfer assets b
 
 **Focus:** one XELIS vault contract that credits deposits and lets users withdraw their own balance.
 
-[Open in Playground](https://playground.xelis.io/?code=Y29uc3QgQkFMQU5DRVNfS0VZOiBzdHJpbmcgPSAiYmFsYW5jZXMiCgpzdHJ1Y3QgRGVwb3NpdFJwY0V2ZW50IHsKICAgIHNlbmRlcjogQWRkcmVzcywKICAgIGFtb3VudDogdTY0LAogICAgYmFsYW5jZTogdTY0Cn0KCnN0cnVjdCBXaXRoZHJhd1JwY0V2ZW50IHsKICAgIHNlbmRlcjogQWRkcmVzcywKICAgIGFtb3VudDogdTY0LAogICAgcmVtYWluaW5nOiB1NjQKfQoKaG9vayBjb25zdHJ1Y3RvcigpIC0%2BIHU2NCB7CiAgICBsZXQgc3RvcmFnZTogU3RvcmFnZSA9IFN0b3JhZ2U6Om5ldygpCiAgICBsZXQgYmFsYW5jZXM6IG1hcDxBZGRyZXNzLCB1NjQ%2BID0ge30KICAgIHN0b3JhZ2Uuc3RvcmUoQkFMQU5DRVNfS0VZLCBiYWxhbmNlcykKICAgIHJldHVybiAwCn0KCmZuIGJhbGFuY2VzKCkgLT4gbWFwPEFkZHJlc3MsIHU2ND4gewogICAgbGV0IHN0b3JhZ2U6IFN0b3JhZ2UgPSBTdG9yYWdlOjpuZXcoKQogICAgcmV0dXJuIHN0b3JhZ2UubG9hZChCQUxBTkNFU19LRVkpLnVud3JhcF9vcih7fSkKfQoKZW50cnkgZGVwb3NpdF94ZWwoKSAtPiB1NjQgewogICAgbGV0IGFzc2V0OiBIYXNoID0gZ2V0X3hlbGlzX2Fzc2V0KCkKICAgIGxldCBhbW91bnQ6IHU2NCA9IGdldF9kZXBvc2l0X2Zvcl9hc3NldChhc3NldCkudW53cmFwX29yKDApCiAgICByZXF1aXJlKGFtb3VudCA%2BIDAsICJhdHRhY2ggYSBYRUxJUyBkZXBvc2l0IikKCiAgICBsZXQgc2VuZGVyOiBBZGRyZXNzID0gVHJhbnNhY3Rpb246OmN1cnJlbnQoKS51bndyYXAoKS5zb3VyY2UoKQogICAgbGV0IGxlZGdlcjogbWFwPEFkZHJlc3MsIHU2ND4gPSBiYWxhbmNlcygpCiAgICBsZXQgY3VycmVudDogdTY0ID0gbGVkZ2VyLmdldChzZW5kZXIpLnVud3JhcF9vcigwKQogICAgbGVkZ2VyLmluc2VydChzZW5kZXIsIGN1cnJlbnQgKyBhbW91bnQpCgogICAgbGV0IHN0b3JhZ2U6IFN0b3JhZ2UgPSBTdG9yYWdlOjpuZXcoKQogICAgc3RvcmFnZS5zdG9yZShCQUxBTkNFU19LRVksIGxlZGdlcikKICAgIGZpcmVfcnBjX2V2ZW50KDQwLCBEZXBvc2l0UnBjRXZlbnQgewogICAgICAgIHNlbmRlciwKICAgICAgICBhbW91bnQsCiAgICAgICAgYmFsYW5jZTogY3VycmVudCArIGFtb3VudAogICAgfSkKICAgIHJldHVybiBjdXJyZW50ICsgYW1vdW50Cn0KCmVudHJ5IHdpdGhkcmF3X3hlbChhbW91bnQ6IHU2NCkgLT4gdTY0IHsKICAgIGxldCBhc3NldDogSGFzaCA9IGdldF94ZWxpc19hc3NldCgpCiAgICBsZXQgc2VuZGVyOiBBZGRyZXNzID0gVHJhbnNhY3Rpb246OmN1cnJlbnQoKS51bndyYXAoKS5zb3VyY2UoKQogICAgbGV0IGxlZGdlcjogbWFwPEFkZHJlc3MsIHU2ND4gPSBiYWxhbmNlcygpCiAgICBsZXQgY3VycmVudDogdTY0ID0gbGVkZ2VyLmdldChzZW5kZXIpLnVud3JhcF9vcigwKQoKICAgIHJlcXVpcmUoYW1vdW50ID4gMCAmJiBjdXJyZW50ID49IGFtb3VudCwgImluc3VmZmljaWVudCBiYWxhbmNlIikKCiAgICBsZXQgcmVtYWluaW5nOiB1NjQgPSBjdXJyZW50IC0gYW1vdW50CiAgICBpZiByZW1haW5pbmcgPT0gMCB7CiAgICAgICAgbGVkZ2VyLnNoaWZ0X3JlbW92ZShzZW5kZXIpCiAgICB9IGVsc2UgewogICAgICAgIGxlZGdlci5pbnNlcnQoc2VuZGVyLCByZW1haW5pbmcpCiAgICB9CgogICAgbGV0IHN0b3JhZ2U6IFN0b3JhZ2UgPSBTdG9yYWdlOjpuZXcoKQogICAgc3RvcmFnZS5zdG9yZShCQUxBTkNFU19LRVksIGxlZGdlcikKICAgIHJlcXVpcmUodHJhbnNmZXIoc2VuZGVyLCBhbW91bnQsIGFzc2V0KSwgInRyYW5zZmVyIGZhaWxlZCIpCiAgICBmaXJlX3JwY19ldmVudCg0MSwgV2l0aGRyYXdScGNFdmVudCB7CiAgICAgICAgc2VuZGVyLAogICAgICAgIGFtb3VudCwKICAgICAgICByZW1haW5pbmcKICAgIH0pCiAgICByZXR1cm4gcmVtYWluaW5nCn0%3D)
+[Open in Playground](https://playground.xelis.io/?code=Y29uc3QgQkFMQU5DRVNfS0VZOiBzdHJpbmcgPSAiYmFsYW5jZXMiCgpob29rIGNvbnN0cnVjdG9yKCkgLT4gdTY0IHsKICAgIGxldCBzdG9yYWdlOiBTdG9yYWdlID0gU3RvcmFnZTo6bmV3KCkKICAgIGxldCBiYWxhbmNlczogbWFwPEFkZHJlc3MsIHU2ND4gPSB7fQogICAgc3RvcmFnZS5zdG9yZShCQUxBTkNFU19LRVksIGJhbGFuY2VzKQogICAgcmV0dXJuIDAKfQoKZm4gYmFsYW5jZXMoKSAtPiBtYXA8QWRkcmVzcywgdTY0PiB7CiAgICBsZXQgc3RvcmFnZTogU3RvcmFnZSA9IFN0b3JhZ2U6Om5ldygpCiAgICByZXR1cm4gc3RvcmFnZS5sb2FkKEJBTEFOQ0VTX0tFWSkudW53cmFwX29yKHt9KQp9CgplbnRyeSBkZXBvc2l0X3hlbCgpIC0%2BIHU2NCB7CiAgICBsZXQgYXNzZXQ6IEhhc2ggPSBnZXRfeGVsaXNfYXNzZXQoKQogICAgbGV0IGFtb3VudDogdTY0ID0gZ2V0X2RlcG9zaXRfZm9yX2Fzc2V0KGFzc2V0KS51bndyYXBfb3IoMCkKICAgIHJlcXVpcmUoYW1vdW50ID4gMCwgImF0dGFjaCBhIFhFTElTIGRlcG9zaXQiKQoKICAgIGxldCBzZW5kZXI6IEFkZHJlc3MgPSBUcmFuc2FjdGlvbjo6Y3VycmVudCgpLnVud3JhcCgpLnNvdXJjZSgpCiAgICBsZXQgbGVkZ2VyOiBtYXA8QWRkcmVzcywgdTY0PiA9IGJhbGFuY2VzKCkKICAgIGxldCBjdXJyZW50OiB1NjQgPSBsZWRnZXIuZ2V0KHNlbmRlcikudW53cmFwX29yKDApCiAgICBsZWRnZXIuaW5zZXJ0KHNlbmRlciwgY3VycmVudCArIGFtb3VudCkKCiAgICBsZXQgc3RvcmFnZTogU3RvcmFnZSA9IFN0b3JhZ2U6Om5ldygpCiAgICBzdG9yYWdlLnN0b3JlKEJBTEFOQ0VTX0tFWSwgbGVkZ2VyKQogICAgcmV0dXJuIGN1cnJlbnQgKyBhbW91bnQKfQoKZW50cnkgd2l0aGRyYXdfeGVsKGFtb3VudDogdTY0KSAtPiB1NjQgewogICAgbGV0IGFzc2V0OiBIYXNoID0gZ2V0X3hlbGlzX2Fzc2V0KCkKICAgIGxldCBzZW5kZXI6IEFkZHJlc3MgPSBUcmFuc2FjdGlvbjo6Y3VycmVudCgpLnVud3JhcCgpLnNvdXJjZSgpCiAgICBsZXQgbGVkZ2VyOiBtYXA8QWRkcmVzcywgdTY0PiA9IGJhbGFuY2VzKCkKICAgIGxldCBjdXJyZW50OiB1NjQgPSBsZWRnZXIuZ2V0KHNlbmRlcikudW53cmFwX29yKDApCgogICAgcmVxdWlyZShhbW91bnQgPiAwICYmIGN1cnJlbnQgPj0gYW1vdW50LCAiaW5zdWZmaWNpZW50IGJhbGFuY2UiKQoKICAgIGxldCByZW1haW5pbmc6IHU2NCA9IGN1cnJlbnQgLSBhbW91bnQKICAgIGlmIHJlbWFpbmluZyA9PSAwIHsKICAgICAgICBsZWRnZXIuc2hpZnRfcmVtb3ZlKHNlbmRlcikKICAgIH0gZWxzZSB7CiAgICAgICAgbGVkZ2VyLmluc2VydChzZW5kZXIsIHJlbWFpbmluZykKICAgIH0KCiAgICBsZXQgc3RvcmFnZTogU3RvcmFnZSA9IFN0b3JhZ2U6Om5ldygpCiAgICBzdG9yYWdlLnN0b3JlKEJBTEFOQ0VTX0tFWSwgbGVkZ2VyKQogICAgcmVxdWlyZSh0cmFuc2ZlcihzZW5kZXIsIGFtb3VudCwgYXNzZXQpLCAidHJhbnNmZXIgZmFpbGVkIikKICAgIHJldHVybiByZW1haW5pbmcKfQ%3D%3D)
 
 ```rust filename="deposit_vault.slx" copy
 const BALANCES_KEY: string = "balances"
-
-struct DepositRpcEvent {
-    sender: Address,
-    amount: u64,
-    balance: u64
-}
-
-struct WithdrawRpcEvent {
-    sender: Address,
-    amount: u64,
-    remaining: u64
-}
 
 hook constructor() -> u64 {
     let storage: Storage = Storage::new()
@@ -48,11 +36,6 @@ entry deposit_xel() -> u64 {
 
     let storage: Storage = Storage::new()
     storage.store(BALANCES_KEY, ledger)
-    fire_rpc_event(40, DepositRpcEvent {
-        sender,
-        amount,
-        balance: current + amount
-    })
     return current + amount
 }
 
@@ -74,11 +57,6 @@ entry withdraw_xel(amount: u64) -> u64 {
     let storage: Storage = Storage::new()
     storage.store(BALANCES_KEY, ledger)
     require(transfer(sender, amount, asset), "transfer failed")
-    fire_rpc_event(41, WithdrawRpcEvent {
-        sender,
-        amount,
-        remaining
-    })
     return remaining
 }
 ```
@@ -88,5 +66,5 @@ entry withdraw_xel(amount: u64) -> u64 {
 - `BALANCES_KEY` stores a `map<Address, u64>` ledger in persistent storage.
 - `constructor()` initializes the ledger so later entries can load the same shape.
 - `balances()` is a small helper that loads the ledger and falls back to an empty map.
-- `deposit_xel()` reads the attached XELIS deposit with `get_deposit_for_asset`, credits the sender, stores the ledger, and emits `DepositRpcEvent`.
-- `withdraw_xel(amount)` checks the sender's recorded balance, updates or removes the ledger entry, transfers XELIS back with `transfer`, and emits `WithdrawRpcEvent`.
+- `deposit_xel()` reads the attached XELIS deposit with `get_deposit_for_asset`, credits the sender, stores the ledger, and returns the new balance.
+- `withdraw_xel(amount)` checks the sender's recorded balance, updates or removes the ledger entry, transfers XELIS back with `transfer`, and returns the remaining balance.

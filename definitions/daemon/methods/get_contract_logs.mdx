@@ -2,7 +2,9 @@
 
 Retrieve all contract logs for a specific caller (transaction hash).
 
-Logs include information about gas refunds, transfers, asset minting/burning, scheduled executions, events, and more.
+Logs include information about entry exit codes, typed exit values, raised execution errors, gas refunds, transfers, asset minting/burning, scheduled executions, events, and more.
+
+An entry without an explicit return type records a `u64` exit code: `0` means success, while any value greater than `0` is a contract-defined error code. An entry with an explicit return type records its encoded return data as an `exit_value`, up to 256 bytes. If execution raises an error, for example because `require(...)` failed, the error is recorded in the logs.
 
 
 Parameters

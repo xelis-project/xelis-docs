@@ -7,32 +7,21 @@ description: Verify a caller signature against the transaction source.
 
 **Focus:** one signature-checking entry that verifies a signed byte message from the transaction sender.
 
-[Open in Playground](https://playground.xelis.io/?code=c3RydWN0IFNpZ25hdHVyZVJwY0V2ZW50IHsKICAgIHNlbmRlcjogQWRkcmVzcywKICAgIG1lc3NhZ2VfaGV4OiBzdHJpbmcKfQoKZW50cnkgdmVyaWZ5X2Zyb21fc2VuZGVyKG1lc3NhZ2U6IGJ5dGVzLCBzaWduYXR1cmU6IFNpZ25hdHVyZSkgLT4gdTY0IHsKICAgIGxldCBzZW5kZXI6IEFkZHJlc3MgPSBUcmFuc2FjdGlvbjo6Y3VycmVudCgpLnVud3JhcCgpLnNvdXJjZSgpCiAgICByZXF1aXJlKHNpZ25hdHVyZS52ZXJpZnkobWVzc2FnZSwgc2VuZGVyLnRvX3BvaW50KCkpLCAiaW52YWxpZCBzaWduYXR1cmUiKQoKICAgIGZpcmVfcnBjX2V2ZW50KDYxLCBTaWduYXR1cmVScGNFdmVudCB7CiAgICAgICAgc2VuZGVyLAogICAgICAgIG1lc3NhZ2VfaGV4OiBtZXNzYWdlLnRvX2hleCgpCiAgICB9KQogICAgcmV0dXJuIDAKfQ%3D%3D)
+[Open in Playground](https://playground.xelis.io/?code=ZW50cnkgdmVyaWZ5X2Zyb21fc2VuZGVyKG1lc3NhZ2U6IGJ5dGVzLCBzaWduYXR1cmU6IFNpZ25hdHVyZSkgLT4gYm9vbCB7CiAgICBsZXQgc2VuZGVyOiBBZGRyZXNzID0gVHJhbnNhY3Rpb246OmN1cnJlbnQoKS51bndyYXAoKS5zb3VyY2UoKQogICAgcmV0dXJuIHNpZ25hdHVyZS52ZXJpZnkobWVzc2FnZSwgc2VuZGVyLnRvX3BvaW50KCkpCn0%3D)
 
 ```rust filename="crypto_tools.slx" copy
-struct SignatureRpcEvent {
-    sender: Address,
-    message_hex: string
-}
-
-entry verify_from_sender(message: bytes, signature: Signature) -> u64 {
+entry verify_from_sender(message: bytes, signature: Signature) -> bool {
     let sender: Address = Transaction::current().unwrap().source()
-    require(signature.verify(message, sender.to_point()), "invalid signature")
-
-    fire_rpc_event(61, SignatureRpcEvent {
-        sender,
-        message_hex: message.to_hex()
-    })
-    return 0
+    return signature.verify(message, sender.to_point())
 }
 ```
 
 ## How it works
 
 - `message: bytes` is the exact byte payload the wallet signed.
-- `signature: Signature` is verified inside the contract, so invalid callers fail before any state change.
+- `signature: Signature` is verified inside the contract.
 - `Transaction::current().unwrap().source()` gets the transaction sender address.
 - `sender.to_point()` converts the address into the public key point expected by `signature.verify`.
-- `SignatureRpcEvent` emits the sender and message hex after successful verification.
+- The entry returns `true` only when the signature matches the sender and message.
 
 Use wallet RPC `sign_data` to produce signatures for `verify_from_sender`.
