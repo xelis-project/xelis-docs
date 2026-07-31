@@ -23,7 +23,6 @@ export default {
   },
   "links": "Links",
   "contributors": "Contributors",
-  "development-status": "Development Status",
   "tokenomics": "Tokenomics",
   "network-upgrades": "Network Upgrades",
   "faq": "FAQ"
