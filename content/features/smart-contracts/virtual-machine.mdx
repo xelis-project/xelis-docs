@@ -1,0 +1,81 @@
+---
+title: Virtual Machine
+---
+
+import { Callout } from 'nextra/components';
+
+## Introduction
+
+The XELIS Virtual Machine (XVM) executes smart contract code in a deterministic, sandboxed environment. It applies the same rules to every execution, so contract behavior can be validated consistently across the network.
+
+This page introduces the lifecycle of deploying and calling a contract, including how gas and deposits are handled and what happens when execution fails.
+
+<Callout type="info">
+The gas limit is a ceiling, not a fixed charge. The caller sets funds aside for that ceiling and receives unused gas back after execution.
+</Callout>
+
+## Execution at a glance
+
+| Stage | On success | On failure |
+|---|---|---|
+| Deployment constructor | Contract is deployed and its changes take effect | Contract is not deployed; constructor changes are discarded |
+| Contract invocation | Contract changes are committed | Contract changes are discarded and deposits are returned |
+| Gas settlement | Unused gas is returned to its funder | Gas already used is charged; unused gas is returned |
+
+## Deploying a contract
+
+Deployment records the contract on the network under the hash of the deployment transaction. It has a fixed network charge. A deployment can also request that the contract's constructor run, with a gas limit and optional deposits.
+
+If the constructor succeeds, the contract is deployed and its changes take effect. If it fails, the contract is not deployed and the constructor's contract changes are discarded. Gas used by the constructor is still charged, and unused gas is returned.
+
+## Calling a contract
+
+An invocation names the contract and entry point to run. It can include parameters, supported deposits, a gas limit, and rules that restrict which other contracts may be called during the invocation.
+
+The caller sets aside enough XEL for the gas limit. After execution, unused gas is returned. The normal transaction fee is separate from contract gas.
+
+Each invocation exposes its selected entry point and typed parameter values in the transaction. This makes calls easier to inspect and audit, even when the contract itself is only available as compiled code.
+
+### When the call succeeds
+
+The contract's changes are kept. These may include updates to contract storage and balances, transfers, newly created assets, events, or scheduled work. Any gas not used is returned to its source.
+
+### When the call fails
+
+The contract's attempted state changes are discarded, and its deposits are returned to the caller. The call still pays for gas it used before failing; it does not automatically pay the entire gas limit. A failure before substantial work may use very little gas, while running out of gas generally consumes the available limit.
+
+Used gas is split between a network burn and a miner fee: currently, 30% is burned and the remainder goes to the miner. The transaction's regular fee is also paid. A failed contract call can still be included as an executed transaction, consuming its nonce even though the contract's changes were discarded.
+
+<Callout type="warning">
+Contract state rollback does not undo gas already used or the transaction's regular fee. A failed invocation can therefore cost funds while leaving contract state unchanged.
+</Callout>
+
+## Who pays for gas?
+
+### Contract-funded gas
+
+Some contracts can provide extra gas for a call. When the call succeeds, unused extra gas is returned to the contracts that provided it. When the call fails after using extra gas, the consumed extra amount is still charged to those contracts. This prevents a failing call from using another contract's gas for free.
+
+Scheduled calls and event callbacks also need a source of gas. Their gas is reserved from a contract balance or from gas set aside by the transaction that arranged the call. The unused portion is returned to its source after execution. Future gas amounts must be backed by funds.
+
+## Scheduled calls and events
+
+A contract may arrange for another part of itself to run later, either at a future network height or at the end of a block. A scheduled call runs automatically when it is due and pays gas from the funds reserved for it. A failed scheduled call pays for the gas it used; other due work can continue.
+
+Contracts may also emit events that trigger registered callbacks. Callbacks run as contract executions and follow the same gas and success/failure rules. Calls scheduled for a block's end run after that block's transactions; calls due at the current height run before them.
+
+## Contract logs
+
+During execution, the virtual machine records contract logs: structured entries for key events that occurred while the contract ran. These logs provide an execution record that can help users and tools understand and audit a call, including calls to compiled contracts.
+
+Contract logs describe what happened during an execution. Contract events are a specific mechanism a contract can emit to trigger registered callbacks; they are not the same as the execution log itself.
+
+## Key points
+
+- The gas limit caps spending; it is not the amount automatically charged.
+- Successful execution keeps contract changes; failed execution discards them and returns deposits.
+- Gas already used is charged even when execution fails.
+- Unused gas is returned to its funder, including contract funders.
+- Transaction fees and contract gas are separate charges.
+- Scheduled calls and event callbacks require gas reserved in advance.
+- Typed entry points and parameter values make contract invocations easier to audit, even when the contract is compiled.

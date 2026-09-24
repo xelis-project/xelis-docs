@@ -1,9 +1,6 @@
 export default {
     "silex": "Silex Lang",
-    "silex-by-example": {
-        "title": "Silex by Example",
-        "display": "hidden",
-    },
+    "virtual-machine": "Virtual Machine",
     "standard-library": "Standard Library",
     "opcodes": "OpCodes",
     "scheduled-executions": "Scheduled Executions",
