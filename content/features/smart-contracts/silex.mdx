@@ -27,6 +27,18 @@ You can find the documentation of the [XVM](https://github.com/xelis-project/xel
 
 This guide aims to describe its major features, from syntax to data structures and control flow, so that you can effectively write contracts in Silex.
 
+## Silex CLI
+
+The [`silex` CLI](https://github.com/xelis-project/silex-cli) is the command-line toolset for working with Silex programs and compiled modules. It supports the development workflow from source code to bytecode and inspection:
+
+- **Compile** `.slx` source files into compiled `.slxc` modules.
+- **Run** source files or compiled modules to execute a program.
+- **Generate ABIs** from Silex source for tooling and integrations.
+- **Assemble** textual bytecode into a compiled module.
+- **Disassemble** a compiled module into readable assembly for inspection.
+
+Use it to compile and run contracts during development, or inspect the bytecode produced for deployment. See the [CLI repository](https://github.com/xelis-project/silex-cli) for installation instructions and command options.
+
 Silex code typically consists of:
 - **Constant declarations** (`const`)  
 - **Functions** (`fn`, `entry`, `hook`)  
