@@ -13,16 +13,74 @@ Consequently, a network that harnesses substantial hashing power from numerous s
 
 Having an efficient difficulty adjustment algorithm is paramount for the security and stability of the network.
 
-## Difficulty Adjustment Algorithm
+XELIS adjusts mining difficulty to maintain a target average block interval of **5 seconds** as network hashrate changes.
+Its difficulty adjustment algorithm combines a measurement of work across the BlockDAG with a statistical filter that smooths the randomness of block discovery.
 
-XELIS employs a streamlined version of the [Kalman Filter](https://en.wikipedia.org/wiki/Kalman_filter) to accurately estimate the network's hash rate based on the incoming block frequency.
-This refined estimate is crucial for adjusting the difficulty target for each new block.
+Since block version **V6**, XELIS uses a DAG-aware, adaptive **Gamma–Poisson** difficulty adjustment algorithm, replacing the earlier Kalman filter.
+It is implemented and used for block versions **V6** and later, while the Kalman filter remains in use for earlier block versions.
 
-The advantage of using the Kalman filter lies in its ability to rapidly converge on the actual network hash rate while effectively filtering out misleading fluctuations caused by temporary hash rate spikes.
+## Measuring Network Hashrate
 
-The algorithm adjusts the difficulty for every block, drawing on the heaviest block's tip as the basis for the parent difficulty.
-This selection hinges on the cumulative difficulty accrued in its DAG branch, informing the parent difficulty parameter for the algorithm.
+For each calculation, the algorithm finds a common base in the recent ancestry of the referenced tips.
+It sums the difficulty of every distinct block between that base and those tips, excluding the base itself.
+This includes work from parallel branches within the measured portion of the DAG, with each block counted once.
 
-To estimate the time taken to solve the block, the algorithm uses the timestamp from the tip of the youngest block available.
-The choice of the youngest block's tip is determined by the highest timestamp among all block tips, serving as the basis for the parent timestamp parameter in the algorithm.<br/>
-This value is then subtracted from the current block's timestamp to estimate the solve time.
+The observed hashrate is:
+
+```text
+H_observed = sum of block difficulties / elapsed time in seconds
+```
+
+Elapsed time runs from the common base's timestamp to the newest tip's timestamp.
+This measures the work produced across the DAG over a shared time interval.
+
+## Smoothing Random Block Arrivals
+
+Mining naturally produces uneven intervals: several blocks can arrive close together, followed by a longer gap.
+The algorithm uses a Gamma–Poisson rate filter to estimate the underlying hashrate without treating every short interval as a lasting increase in mining power.
+
+The filter maintains two quantities: a weighted event count and a weighted exposure to time.
+Their ratio gives the estimated hashrate.
+Older observations gradually lose weight as new observations are incorporated.
+
+The filter adapts its responsiveness:
+
+- Under normal conditions, it uses an effective history of **80 events**.
+- When observed hashrate exceeds **1.44 times** the prior estimate, or falls below approximately **69.4%** of it, the effective history shortens to **52 events**, allowing a faster response.
+
+These are smoothing parameters, rather than fixed windows containing exactly 80 or 52 blocks.
+
+## Setting the Next Difficulty
+
+The filtered hashrate determines the next difficulty:
+
+```text
+D_next = max(D_minimum, H_filtered × 5)
+```
+
+The implementation also applies several bounds:
+
+- At least **two observed blocks** are required to update the estimate.
+- Hashrate increases are capped at **3% per replayed event**, compounded across the measurement span. This is not a flat 3% cap on each difficulty calculation.
+- Each calculation replays at most **256 events**.
+- The measured time span has a lower bound of **one millisecond per observed block**, preventing zero or extremely small denominators.
+- Difficulty cannot fall below the network's configured minimum.
+
+The filter starts from the stored state used to mine the first observed block and processes the measurement span from there.
+This prevents overlapping measurement spans from repeatedly adding the same evidence to the latest state.
+
+The design aims to balance stable difficulty during ordinary mining variance with responsiveness when miners join or leave, while accounting for work produced across parallel DAG branches.
+
+## Historical Algorithm: Kalman Filter (Before V6)
+
+Before block version **V6**, XELIS used a streamlined version of the [Kalman Filter](https://en.wikipedia.org/wiki/Kalman_filter) to estimate the network's hashrate based on incoming block frequency.
+This estimate was used to adjust the difficulty target for each new block.
+The filter aimed to rapidly converge on the actual network hashrate while smoothing misleading fluctuations caused by temporary hashrate spikes.
+
+The algorithm adjusted the difficulty for every block, using the heaviest block's tip as the basis for the parent difficulty.
+This selection depended on the cumulative difficulty accrued in its DAG branch.
+
+To estimate the time taken to solve the block, the algorithm used the timestamp of the youngest available tip, identified by the highest timestamp among all block tips.
+It subtracted this parent timestamp from the current block's timestamp to estimate the solve time.
+
+This description is retained for historical reference and applies to block versions earlier than **V6**.
