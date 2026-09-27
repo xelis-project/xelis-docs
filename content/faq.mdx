@@ -4,187 +4,178 @@ title: FAQ
 
 # Frequently Asked Questions (FAQ)
 
-This page will be updated regularly as more important questions are asked by the community.
-
 ## What is XELIS?
 
-It's a layer-1 private cryptocurrency blockchain. You can launch your own token or decentralized application.
+XELIS is a layer-1, account-based cryptocurrency network built on a BlockDAG. It combines Proof of Work, confidential balances and transfers, and smart contracts for creating assets and decentralized applications.
 
 ## What is the ticker?
 
-Ticker for XELIS asset is **XEL**.
+The ticker of the native XELIS asset is **XEL**.
 
 ## What is the main usage of XELIS?
 
-It is used to pay fees, deploy Smart Contracts, create new assets, and store/transfer value.
+XEL is used to pay transaction fees, deploy and interact with smart contracts, create assets, and transfer value.
 
-## When is the Mainnet launch?
+## When did Mainnet launch?
 
-The official launch date is `20/04/2024 at 3PM UTC`.
+Mainnet launched on **April 20, 2024, at 3 PM UTC**.
 
 ## What is the estimated coin emission per year?
 
-Here is the estimated circulating supply for the next 5 years:
-- First year: ~2 831 221 XEL circulating supply
-- Second year: ~5 226 799 XEL circulating supply
-- Third year: ~7 253 766 XEL circulating supply
-- Fourth year: ~8 968 841 XEL circulating supply
-- Fifth year: ~10 420 016 XEL circulating supply
+XELIS has a maximum supply of **18.4 million XEL**. New coins are issued through block rewards, which decrease gradually as the emitted supply grows, using an emission speed factor of **20**.
 
-**NOTE**: Maximum supply is 18.4M XEL
+There is no fixed annual issuance or periodic halving of the base block reward. The reward calculation accounts for the target block interval, while actual issuance depends on the blocks ordered in the DAG and the rules active at their block versions. The target interval changed from 15 seconds to **5 seconds** in V3, and V6 removed the reduced reward for side blocks.
+
+For current network supply and block rewards, consult the [block explorer](https://explorer.xelis.io/). Historical annual projections should not be treated as current supply figures.
 
 ## Is there any real world application of this?
 
-Absolutely! There are a lot of tangible applications. One notable example is creating your own local currency foundation with peace of mind. 
-No counterfeiting, no scrutinizing eyes, 100% uptime, decentralized and secure transactions.
+XELIS supports payments with confidential amounts, custom assets such as community tokens, and decentralized applications. Smart contracts can implement applications such as token issuance, voting, and automated exchanges.
+
+See [Smart Contracts](/features/smart-contracts/silex) and [Confidential Assets](/features/privacy/confidential-assets).
 
 ## Where are my coins stored?
 
-Your balance is stored on chain, not on your computer or in your wallet.<br/>
-The wallet allows you to manage these funds as long as you have access to it.
+Your encrypted balances are recorded in the network ledger. Your wallet holds the keys needed to decrypt your balances and authorize spending.
 
-Always keep your seed or a backup of your wallet file. 
-This ensures you can access your funds if your device is lost or unusable.
+Keep a secure backup of your recovery seed. If you back up an encrypted wallet file, also retain the password needed to open it. Anyone with your spending key or recovery seed can control your funds.
 
 ## What does a "private" blockchain mean?
 
-The account balance are private. They are homomorphically encrypted.
-Others cannot see your wallet balance on the public ledger.
+XELIS is a public network with confidential account balances and transfer amounts. These values are encrypted, and zero-knowledge proofs allow nodes to validate transfers without learning the amounts.
+
+This does not hide every part of a transaction: account addresses and transaction relationships remain visible. Smart contract data is not automatically confidential; its visibility depends on the data and operations used by the contract.
+
+See [Homomorphic Encryption](/features/privacy/homomorphic-encryption) and [Zero-Knowledge Proofs](/features/privacy/zero-knowledge-proof).
 
 ## What is Homomorphic Encryption for dummies?
 
-Homomorphic Encryption allows computations on encrypted data without prior decryption; in this context,
-it provides nodes the ability to validate transactions without ever knowing the balance 
-of each participant.
+Homomorphic encryption allows calculations on encrypted values without decrypting them first. In XELIS, nodes can add to or subtract from encrypted balances, while zero-knowledge proofs establish that the transfers are valid without revealing the amounts.
 
 ## What is BlockDAG? Why is it used?
 
-A BlockDAG differs from a traditional blockchain by using a Directed Acyclic Graph data structure.
-In a BlockDAG, multiple blocks can coexist at the same height with various types, but each can be distinguished by a unique topological height.
+A BlockDAG uses a Directed Acyclic Graph instead of a single linear chain. Multiple blocks can coexist at the same block height, and blocks included in the ledger receive a position in its topological order, called a **topoheight**.
 
-The primary reason for using this structure is to achieve fast block time validation; XELIS block time is ~5s.<br/>
-The DAG significantly reduces the number of orphan blocks by merging them instead of creating split branches,
-inherently enhancing scalability while mitigating centralization and chain split.
+This allows the network to include work from parallel branches and reduces wasted mining work. XELIS targets an average block interval of **5 seconds**; individual intervals vary, and a block's topological position can change during a reorganization before it becomes stable.
 
-More info here: [BlockDAG](/features/scalability/blockdag).
+See [BlockDAG](/features/scalability/blockdag).
 
 ## Why is XELIS an account-based model?
 
-Account based blockchains offer way more advantages than drawbacks from our point of view.<br/>
-It's a more flexible system than traditional UTXO model, eliminating the need to follow inputs / outputs.<br/>
-It allows real fungibility of coins. 1 XEL = 1 XEL. No tainted coins.
+The account model records balances and account state directly, rather than tracking individual unspent transaction outputs. This fits encrypted balances, asset management, and smart contract state.
 
-Node pruning is possible, removing old blocks while maintaining the verifiability of blockchain state.
-Additionally, it enables a fast-sync feature - download the latest state of the chain and join the network instantly.
-
-No need to full scan the chain to know your wallet balance, request the latest state and you're ready to use it.
-
-More info here: [Features](/#main-features).
+It also supports pruning old history and fast synchronization from recent chain state. A wallet can retrieve its latest encrypted balances without downloading the entire blockchain; retrieving historical transactions is a separate operation.
 
 ## How are you encrypting the balance homomorphically?
 
-We use ElGamal with the Ristretto255 points on Curve25519 (which achieves ~128 bits of security).<br/>
-While homomorphic encryptions are generally computation-intensive, we need to use addition and subtraction for transactions.
+XELIS uses **Twisted ElGamal** encryption with the **Ristretto255** group, built on Curve25519 and targeting approximately 128-bit security. Its additive properties allow nodes to update encrypted balances. Zero-knowledge proofs provide the additional checks needed to validate transactions.
+
+See [Homomorphic Encryption](/features/privacy/homomorphic-encryption).
 
 ## Is this a fork of an existing crypto project?
 
-XELIS is **NOT** a fork. Everything is written in Rust from scratch using open source libraries.<br/>
-If you want to know how the protocol works in detail, start here: [Features](/#main-features).
+No. The core protocol is implemented in Rust and was built from scratch using open-source libraries.
 
-Github repository: https://github.com/xelis-project/xelis-blockchain
+Source code: [xelis-blockchain](https://github.com/xelis-project/xelis-blockchain).
 
 ## Why another crypto project?
 
-Not the same vision as other blockchains, different choices made and strong commitment to build a fast / robust / long lasting financial system.<br/>
-The cryptocurrency world is still young and the technology and continues to evolve each day. We want to be part of it by contributing to it.
+XELIS brings together confidential balances and transfers, a Proof-of-Work BlockDAG, and programmable smart contracts. The project focuses on privacy, scalability, decentralization, and tools that are accessible to users and developers.
+
+When we started the project, we wanted to create a cryptocurrency that was more secure, private, and scalable than existing options. We also wanted to provide a platform that was easy to use and accessible to developers, while also being scalable enough to handle a large number of transactions.
+No other project we found combined these features in a single protocol, so we decided to build our own.
+
+See [Objectives](/#objectives).
 
 ## Did you already launch a project before XELIS?
 
-No, none of us have created a project like this before; this is our first one.
-However, some of us may have participated or contributed to other projects as community developers.
+XELIS was the founding team's first project of this kind. Some members had previously participated in or contributed to other projects as community developers.
 
 ## Was there any premine?
 
-There is no premine or any allocation of coins whatsoever.
-We have set a dev fee within the protocol for every block.
+There was no premine. Development is funded through a protocol-defined share of block rewards.
 
-More info here: [Funding](/#funding).
+The development share was **10%** before block height **3,250,000**, and is **5%** from that height onward. This change in the development share is separate from the gradual decrease in the base block reward.
+
+See [Funding](/#funding).
 
 ## I saw Atomic Unit of 8 for the coin. What does that mean?
 
-We store the balance as an unsigned integer to facilitate computations with encryption,
-and the client shifts the balance by 8 decimals after decryption.
+XEL has **8 decimal places**. Its smallest unit is **0.00000001 XEL**, so **100,000,000 atomic units = 1 XEL**.
 
-Ex: 100000000 = 1.00000000 XEL
-
-Unsigned integers are used to have exact precision on addition / subtraction in financial systems.<br/>
-Try the following in Python to have an example of floating point issue: `3.33-3.13`
+Amounts are represented as integers in atomic units before encryption, and wallets display decrypted amounts with the appropriate decimal precision. Integer arithmetic avoids floating-point rounding errors when adding or subtracting amounts.
 
 ## Will Testnet coins be transferred to Mainnet?
 
-No. Coins will never be transferred or transferable from Testnet to Mainnet.<br/>
-Testnet can be reset at any time and its coins have no value.
-
-One network is for development, and the other is for the future of financial freedom.
+No. Mainnet, Testnet, and Devnet have separate ledgers. Testnet coins cannot be converted or transferred to Mainnet, and test networks can be reset.
 
 ## Is there any incentive toward mining or running a node in Testnet?
 
-No immediate incentive is offered, but potential gifts may be given later down the road.
-Being an early adopter, running a node, and participating in mining can help
-us find bugs and move faster toward our goal of a stable running blockchain.
-It benefits everyone involved in the project.
+Testnet is for testing software, mining, wallets, and applications without using mainnet funds. Running a node, mining test blocks, and reporting bugs help improve the network. Participation does not imply eligibility for mainnet coins or other rewards.
 
 ## What are your primary focuses for the project?
 
-  - Providing simple, functioning tools, up-to-date documentation, including easy-to-integrate APIs for devs.
-  - A POW CPU/GPU friendly mining algo.
-  - Decentralization, security and speed (no chain split, double spend, or any kind of network downtime).
-  - Optimization (blockchain size, bandwidth transfer, transaction execution and encryption speed).
-  - Community driven decisions.
+- Privacy for account balances and transfer amounts.
+- Accessible tools, documentation, and APIs for users and developers.
+- CPU/GPU mining with a memory-focused Proof-of-Work algorithm.
+- Decentralization, security, and fast block processing.
+- Efficient storage, synchronization, transaction execution, and cryptography.
+- Smart contracts, confidential assets, and community contributions.
 
-More info here: [Objectives](/#objectives).
+See [Objectives](/#objectives).
 
 ## What is the consensus algorithm that XELIS uses?
 
-XELIS is a Proof-Of-Work (PoW) network. We are currently working on a CPU/GPU friendly mining algorithm that is both
-ASIC and FPGA resistant.
+XELIS uses **Proof of Work** with **XELIS Hash** through different variants. The algorithm is designed for CPU/GPU mining and aims to limit the efficiency advantage of specialized hardware.
 
-The longest chain is the one selected by nodes, based on topoheight.<br/>
-During chain split at same height, the main chain is selected based on the cumulative difficulty of each branch tip.
+Nodes use cumulative difficulty and the BlockDAG ordering rules to select and order blocks. Topoheight records a block's position in that order; it is not a measure of accumulated mining work.
+
+See [XELIS Hash](/features/mining/xelis-hash) and [BlockDAG](/features/scalability/blockdag).
+
+## How does XELIS adjust mining difficulty?
+
+Since block version **V6**, XELIS uses a DAG-aware, adaptive **Gamma–Poisson** algorithm to target an average block interval of **5 seconds**. It measures work across parallel DAG branches and smooths random block arrivals while adapting to changes in hashrate. Earlier block versions use the historical Kalman filter algorithm.
+
+See [Difficulty Adjustment](/features/mining/difficulty-adjustment).
 
 ## Does XELIS support Smart Contracts?
 
-Yes, smart contracts are expressed using an interpreted language, known as XELIS-VM. 
-The language has various primitives and features, such as recursive functions.
-Functions are implemented with a configurable depth limitation to mitigate risk of network attacks and congestion.
+Yes. Smart contracts have been enabled since block version **V3**. They are written in **Silex**, a statically typed language compiled to bytecode and executed by **XVM**, the XELIS Virtual Machine.
 
-More info here: [Smart Contracts](/features/smart-contracts/silex).
-Github repository: https://github.com/xelis-project/xelis-vm  
+Contracts can maintain state, create and manage assets, and interact with other contracts. Execution is metered and subject to resource limits. V6 added contract events for applications and contracts to consume.
+
+See [Silex](/features/smart-contracts/silex), [Create Your First Contract](/getting-started/guides/contracts/create-your-first-contract), and the [XVM source code](https://github.com/xelis-project/xelis-vm).
 
 ## Can my wallet be offline when I mine or receive a transaction?
 
-Of course, it can be offline! Your wallet balance is stored in the network ledger, which is maintained by all the nodes. 
-An online wallet simply keeps a live connection to a remote node and displays your latest balance.
-Now, don't forget to assign your wallet address to your miner. If you find a solution that's accepted by the network, 
-you'll receive the reward regardless of your wallet's connectivity.
+Yes. Transfers and mining rewards are recorded in the network ledger even when your wallet is offline. The wallet retrieves its updated balance when it reconnects and synchronizes.
+
+Configure your miner or mining pool with the correct wallet address. The mining software still needs a connection to a node or pool, even though the wallet application can remain closed.
 
 ## What kind of reward can I expect from mining?
 
-It starts at around ~1.41 XEL per block and decreases for each subsequent block.
-This reduction isn't based on halving logic but rather on the supply and emission factor of 20.
-It's also possible to mine a side block on the BlockDAG and receive a smaller portion of the reward.  
-More info here: [Block Types](/features/scalability/blockdag#block-types)
+The base block reward decreases with the remaining unissued supply and is scaled to the target block interval. It is not a fixed 1.41 XEL per block, and the base reward does not follow a periodic halving schedule.
+
+Since **V6**, side blocks use the **same base reward calculation as normal blocks**, without the earlier side-block reduction. Orphaned blocks do not receive rewards. The protocol allocates **5%** of the block reward to development at heights from **3,250,000** onward.
+
+Your actual mining income also depends on your share of network hashrate, accepted work, applicable transaction fees, and any pool fees or payout rules. Consult the [block explorer](https://explorer.xelis.io/) for recent block rewards.
 
 ## I want to work with the team. How can I apply?
 
-Currently, we don't have any open positions. 
-We will announce job openings and create a dedicated page in the documentation when they become available. 
-However, if you want to stand out and improve your chances, you can contribute by submitting valuable PRs, actively engage with the community and developers, and more. 
-We always appreciate proactive involvement and contributions. 
-This is an initiative that carries significant weight if you want to work more closely with the team.
+You can contribute code, documentation, translations, testing, or bug reports through the project's [GitHub repositories](https://github.com/xelis-project). For collaboration opportunities, contact the team through the [community channels](/links/community).
+
+## Which database does the daemon use?
+
+**RocksDB is the default storage backend** when RocksDB support is enabled in the build. **Sled remains an optional alternative** when Sled support is compiled in.
+
+Use `--use-db-backend rocksdb` or `--use-db-backend sled` to select an available backend. Switching this option does **not** migrate an existing database; use the backend that matches your data directory.
+
+This setting applies to the daemon's blockchain storage, not the wallet's encrypted storage.
+
+See [Daemon Configuration](/getting-started/configuration/xelis_daemon#use_db_backend).
 
 ## Why does the blockchain size vary between nodes?
 
-XELIS uses Sled as the primary storage for the ledger, which includes block headers, transactions, encrypted account balances, etc... 
-However, Sled is still in beta and has pending issues with garbage collection overhead, such as write amplification. 
-This can result in different sizes across devices and nodes. For now, we continue to use Sled, but we might consider switching to an alternative like RocksDB.
+Disk usage depends on the storage backend, pruning settings, synchronization height, and database maintenance. An archival node retains more history than a pruned node.
+
+RocksDB and Sled organize data differently. Compaction, compression settings, and space awaiting reclamation can also cause nodes with the same logical ledger state to occupy different amounts of disk space. A larger database alone does not imply that the node has a different chain.
