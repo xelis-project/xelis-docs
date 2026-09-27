@@ -1,5 +1,5 @@
 export default {
-  "mining": "Mining",
+  "mining": "Proof of Work",
   "privacy": "Privacy",
   "scalability": "Scalability",
   "wallet": "Wallet",
