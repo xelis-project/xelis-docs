@@ -318,18 +318,18 @@ enum Operation {
 }
 
 fn (acc Accumulator) doOperation(op: Operation) -> Accumulator {
-    let acc: Accumulator = Accumulator { sum: 0 };
+    let ret_acc: Accumulator = Accumulator { sum: 0 };
 
     match op {
         Operation::Add { value } => {
             // If pattern matching is not directly supported yet,
             // we can parse the fields in future expansions.
-            acc = Accumulator { sum: acc.sum + value }
+            ret_acc = Accumulator { sum: acc.sum + value }
         },
-        Operation::Reset => acc = Accumulator { sum: 0 }
+        Operation::Reset => ret_acc = Accumulator { sum: 0 }
     }
     
-    return acc;
+    return ret_acc;
 }
 
 entry main() -> u64 {
